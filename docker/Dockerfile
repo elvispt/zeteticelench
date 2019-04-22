@@ -1,0 +1,47 @@
+FROM php:7.2-apache
+ADD vhost.conf /var/www/vhost.conf
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git \
+        ssh \
+        openssl \
+        vim \
+        libxml2-dev \
+        zlib1g-dev \
+        libpng-dev \
+        libicu-dev \
+        gnupg2 \
+        libzip-dev \
+        unzip \
+        # for mozjpeg: building from source
+        build-essential cmake libtool autoconf automake m4 nasm \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install opcache \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && docker-php-ext-install bcmath \
+    && pecl install xdebug-2.6.1 \
+    && docker-php-ext-enable xdebug \
+    && echo "### OPCACHE CONFIGURATION. YOU SHOULD DISABLE OPCACHE ON DEV ENV ###" \
+    && echo "opcache.max_accelerated_files=16229" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && echo "opcache.revalidate_freq=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && echo "opcache.save_comments=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && mv /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini.BAK \
+    && echo "### INSTALL COMPOSER (1.8.0) ###" \
+    && php -r "copy('https://raw.githubusercontent.com/composer/getcomposer.org/5eb0614d3fa7130b363698d3dca52c619b463615/web/installer', 'composer-setup.php');" \
+    && php composer-setup.php \
+    && php -r "unlink('composer-setup.php');" \
+    && mv composer.phar /usr/local/bin/composer \
+    && echo "### INSTALL nodejs ###" \
+    && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && apt-get install -y nodejs \
+    && echo "### ACTIVATE APACHE mod_rewrite ###" \
+    && a2enmod rewrite \
+    && echo "### ADD VHOST CONFIGURATION ###" \
+    && mv /var/www/vhost.conf /etc/apache2/sites-enabled/000-default.conf \
+    && echo "### CLEANUP ###" \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
