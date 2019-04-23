@@ -10,6 +10,8 @@
   </div>
 
   <br>
+  <a href="{{ route('notesCreate') }}">-- Create New --</a>
+  <br>
   <br>
 
   @if ($currentNote)

@@ -21,8 +21,14 @@ Route::namespace('Notes')
     ->prefix('notes')
     ->group(function () {
 
+        Route::get('/create', 'NotesController@create')
+             ->name('notesCreate');
+
+        Route::post('/create', 'NotesController@add')
+             ->name('notesAdd');
+
         Route::get('/{noteId?}', 'NotesController@index')
-            ->name('notes');
+             ->name('notes');
 
         Route::put('/{noteId}', 'NotesController@update')
             ->name('notesUpdate');

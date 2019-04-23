@@ -38,4 +38,25 @@ class NotesController extends Controller
 
         return redirect(route('notes', ['noteId' => $noteId]));
     }
+
+    public function create()
+    {
+        $notes = Note::all();
+
+        return view('notes/notes-new', [
+            'notes' => $notes,
+        ]);
+    }
+
+    public function add(NotesUpdate $request)
+    {
+        $note = new Note();
+
+        $note->title = $request->get('title', '');
+        $note->body = $request->get('body', '');
+
+        $note->save();
+
+        return redirect(route('notes', ['noteId' => $note->id]));
+    }
 }
