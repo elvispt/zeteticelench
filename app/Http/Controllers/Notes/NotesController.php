@@ -59,4 +59,18 @@ class NotesController extends Controller
 
         return redirect(route('notes', ['noteId' => $note->id]));
     }
+
+    public function destroy($noteId)
+    {
+        $note = Note::find($noteId);
+
+        if (!$note) {
+            return redirect(route('notes'));
+        }
+
+        $note->delete();
+
+        return redirect(route('notes'));
+    }
+
 }

@@ -33,4 +33,6 @@ Route::namespace('Notes')
         Route::put('/{noteId}', 'NotesController@update')
             ->name('notesUpdate');
 
+        Route::delete('/{noteId}', 'NotesController@destroy')
+             ->name('notesDestroy');
     });

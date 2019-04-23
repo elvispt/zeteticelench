@@ -41,6 +41,14 @@
           <button type="submit">Save</button>
         </div>
       </form>
+
+      <form action="{{ route('notesDestroy', ['noteId' => $currentNote->id]) }}" method="post">
+          <span>
+            @csrf
+            @method('delete')
+            <button type="submit">&times;&times;&times; DELETE &times;&times;&times;</button>
+          </span>
+      </form>
     </div>
   @endif
 @endsection
