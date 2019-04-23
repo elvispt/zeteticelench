@@ -14,15 +14,31 @@
 
   @if ($currentNote)
     <div>
-      <h1>
-        <label for="note">{{ $currentNote->title }}</label>
-      </h1>
-      <div>
-        <small>Updated {{ $currentNote->updated_at->diffForHumans() }}</small>
-        |
-        <small>Created {{ $currentNote->created_at->diffForHumans() }}</small>
-      </div>
-      <textarea name="note" id="note" cols="100" rows="30">{{ $currentNote->body }}</textarea>
+      <form action="{{ route('notesUpdate', ['noteId' => $note->id]) }}" method="post">
+        @csrf
+        @method('put')
+        <div>
+          <input
+            type="text"
+            name="title"
+            maxlength="50"
+            value="{{ $currentNote->title }}"
+          >
+        </div>
+        <div>
+          <small>Updated {{ $currentNote->updated_at->diffForHumans() }}</small>
+          |
+          <small>Created {{ $currentNote->created_at->diffForHumans() }}</small>
+        </div>
+        <textarea
+          name="body"
+          cols="100"
+          rows="30"
+        >{{ $currentNote->body }}</textarea>
+        <div>
+          <button type="submit">Save</button>
+        </div>
+      </form>
     </div>
   @endif
 @endsection

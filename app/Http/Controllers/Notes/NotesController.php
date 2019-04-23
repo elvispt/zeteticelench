@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Notes;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NotesUpdate;
 use App\Models\Note;
 use function view;
 
@@ -20,5 +21,21 @@ class NotesController extends Controller
             'notes' => $notes,
             'currentNote' => $currentNote,
         ]);
+    }
+
+    public function update(NotesUpdate $request, $noteId)
+    {
+        $note = Note::find($noteId);
+
+        if (!$note) {
+            return redirect(route('notes'));
+        }
+
+        $note->title = $request->get('title', '');
+        $note->body = $request->get('body', '');
+
+        $note->save();
+
+        return redirect(route('notes', ['noteId' => $noteId]));
     }
 }

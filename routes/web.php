@@ -20,6 +20,11 @@ Route::get('/', function () {
 Route::namespace('Notes')
     ->prefix('notes')
     ->group(function () {
+
         Route::get('/{noteId?}', 'NotesController@index')
             ->name('notes');
+
+        Route::put('/{noteId}', 'NotesController@update')
+            ->name('notesUpdate');
+
     });
