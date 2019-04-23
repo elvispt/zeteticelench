@@ -11,6 +11,15 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::namespace('Notes')
+    ->prefix('notes')
+    ->group(function () {
+        Route::get('/{noteId?}', 'NotesController@index')
+            ->name('notes');
+    });
