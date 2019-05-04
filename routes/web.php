@@ -11,6 +11,7 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,6 +20,7 @@ Route::get('/', function () {
 
 Route::namespace('Notes')
     ->prefix('notes')
+    ->middleware('auth')
     ->group(function () {
 
         Route::get('/create', 'NotesController@create')
@@ -36,3 +38,9 @@ Route::namespace('Notes')
         Route::delete('/{noteId}', 'NotesController@destroy')
              ->name('notesDestroy');
     });
+
+Auth::routes(['register' => false]);
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
