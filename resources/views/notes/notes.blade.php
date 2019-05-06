@@ -5,6 +5,7 @@
     @foreach($notes as $note)
       <p>
         <a href="{{ route('notes', ['noteId' => $note->id]) }}">{{ $note->title }}</a>
+        <span class="badge badge-secondary">{!! implode('</span> <span class="badge badge-secondary">', $note->tags) !!}</span>
       </p>
     @endforeach
   </div>
@@ -34,6 +35,12 @@
           <small>Updated {{ $currentNote->updated_at->diffForHumans() }}</small>
           |
           <small>Created {{ $currentNote->created_at->diffForHumans() }}</small>
+          @if ($currentNote->tags->isNotEmpty())
+            |
+            @foreach ($currentNote->tags as $tag)
+              <span class="badge badge-secondary">{{ $tag->tag }}</span>
+            @endforeach
+          @endif
         </div>
         <textarea
           name="body"
