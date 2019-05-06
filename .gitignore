@@ -127,3 +127,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/linux,windows,laravel,phpstorm,visualstudiocode
+.phpstorm.meta.php
+_ide_helper.php
