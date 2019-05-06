@@ -1,4 +1,4 @@
-@extends('layouts/master')
+@extends('layouts/app')
 
 @section('content')
   <div>
@@ -10,7 +10,9 @@
   </div>
 
   <br>
-  <a href="{{ route('notesCreate') }}">-- Create New --</a>
+  <a href="{{ route('notesCreate') }}"
+     class="btn btn-dark"
+  >-- Create New --</a>
   <br>
   <br>
 
@@ -23,15 +25,17 @@
           type="text"
           name="title"
           maxlength="50"
+          class="form-control form-text"
         >
       </div>
       <textarea
         name="body"
         cols="100"
         rows="30"
+        class="form-control form-text"
       ></textarea>
       <div>
-        <button type="submit">Save</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
     </form>
   </div>

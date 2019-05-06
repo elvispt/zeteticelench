@@ -1,4 +1,4 @@
-@extends('layouts/master')
+@extends('layouts/app')
 
 @section('content')
   <div>
@@ -10,7 +10,9 @@
   </div>
 
   <br>
-  <a href="{{ route('notesCreate') }}">-- Create New --</a>
+  <a href="{{ route('notesCreate') }}"
+     class="btn btn-dark"
+  >-- Create New --</a>
   <br>
   <br>
 
@@ -23,6 +25,7 @@
           <input
             type="text"
             name="title"
+            class="form-control form-text"
             maxlength="50"
             value="{{ $currentNote->title }}"
           >
@@ -34,11 +37,12 @@
         </div>
         <textarea
           name="body"
+          class="form-control form-text"
           cols="100"
           rows="30"
         >{{ $currentNote->body }}</textarea>
         <div>
-          <button type="submit">Save</button>
+          <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
 
@@ -46,7 +50,7 @@
           <span>
             @csrf
             @method('delete')
-            <button type="submit">&times;&times;&times; DELETE &times;&times;&times;</button>
+            <button type="submit" class="btn btn-danger">&times;&times;&times; DELETE &times;&times;&times;</button>
           </span>
       </form>
     </div>

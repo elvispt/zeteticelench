@@ -34,7 +34,9 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
-
+          @if (\Illuminate\Support\Facades\Auth::check())
+            <a href="{{ route('notes') }}">Notes</a>
+          @endif
         </ul>
 
         <!-- Right Side Of Navbar -->
