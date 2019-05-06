@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Note;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class NotesTableSeeder extends Seeder
@@ -12,6 +13,19 @@ class NotesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Note::class, 10)->create();
+        factory(Note::class, 10)->create()->each(function (Note $note) {
+            $limit = mt_rand(0, 5);
+            if ($limit) {
+                $tags = (new Tag())
+                    ->inRandomOrder()
+                    ->limit($limit)
+                    ->get()
+                    ->pluck('id')
+                    ->toArray();
+                if (!empty($tags)) {
+                    $note->tags()->sync($tags);
+                }
+            }
+        });
     }
 }

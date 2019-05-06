@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Notes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotesUpdate;
 use App\Models\Note;
+use App\Models\Tag;
+use Illuminate\Support\Collection;
 use function view;
 
 class NotesController extends Controller
@@ -16,7 +18,14 @@ class NotesController extends Controller
             ->where('id', $noteId)
             ->first()
         ;
-
+        $notes = $notes->map(function (Note $note) {
+            $note->tags;
+            $n = (Object) $note->toArray();
+            $n->tags = (new Collection($n->tags))
+                ->pluck('tag')
+                ->toArray();
+            return (Object) $n;
+        });
         return view('notes/notes', [
             'notes' => $notes,
             'currentNote' => $currentNote,
@@ -71,6 +80,21 @@ class NotesController extends Controller
         $note->delete();
 
         return redirect(route('notes'));
+    }
+
+    public function tags($tagId = null)
+    {
+        $tags = Tag::all();
+        $tagId = (int) $tagId;
+
+        $currentTag = $tags
+            ->where('id', $tagId)
+            ->first();
+
+        return view('notes/tags', [
+            'tags' => $tags,
+            'currentTag' => $currentTag,
+        ]);
     }
 
 }

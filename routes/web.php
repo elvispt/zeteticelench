@@ -14,9 +14,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Route::namespace('Notes')
     ->prefix('notes')
@@ -28,6 +26,12 @@ Route::namespace('Notes')
 
         Route::post('/create', 'NotesController@add')
              ->name('notesAdd');
+
+        Route::get('/tags', 'NotesController@tags')
+             ->name('notesTags');
+
+        Route::get('/tags/{tagId?}', 'NotesController@tags')
+             ->name('notesTags');
 
         Route::get('/{noteId?}', 'NotesController@index')
              ->name('notes');
@@ -42,5 +46,3 @@ Route::namespace('Notes')
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
