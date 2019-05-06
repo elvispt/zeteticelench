@@ -27,4 +27,17 @@ class Tag extends Model
     {
         return $this->belongsToMany(Note::class);
     }
+
+    public function clearStale(): int
+    {
+        $deleted = $this
+            ->get()
+            ->reduce(function (int $carry, Tag $tag) {
+                if ($tag->notes->isEmpty()) {
+                    return $tag->delete() ? $carry + 1 : $carry;
+                }
+                return $carry;
+            }, 0);
+        return $deleted;
+    }
 }
