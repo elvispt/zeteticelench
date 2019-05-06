@@ -36,6 +36,8 @@
         <ul class="navbar-nav mr-auto">
           @if (\Illuminate\Support\Facades\Auth::check())
             <a href="{{ route('notes') }}">Notes</a>
+            &nbsp;|&nbsp;
+            <a href="{{ route('notesTags') }}">Tags</a>
           @endif
         </ul>
 

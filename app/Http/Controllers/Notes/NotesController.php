@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Notes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotesUpdate;
 use App\Models\Note;
+use App\Models\Tag;
 use Illuminate\Support\Collection;
 use function view;
 
@@ -79,6 +80,21 @@ class NotesController extends Controller
         $note->delete();
 
         return redirect(route('notes'));
+    }
+
+    public function tags($tagId = null)
+    {
+        $tags = Tag::all();
+        $tagId = (int) $tagId;
+
+        $currentTag = $tags
+            ->where('id', $tagId)
+            ->first();
+
+        return view('notes/tags', [
+            'tags' => $tags,
+            'currentTag' => $currentTag,
+        ]);
     }
 
 }
