@@ -35,9 +35,19 @@
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
           @if (\Illuminate\Support\Facades\Auth::check())
-            <a href="{{ route('notes') }}">Notes</a>
-            &nbsp;|&nbsp;
-            <a href="{{ route('notesTags') }}">Tags</a>
+            <li class="nav-item dropdown">
+              <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false" v-pre>
+                Notes <span class="caret"></span>
+              </a>
+
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ route('notes') }}">List</a>
+                <a class="dropdown-item" href="{{ route('notesAdd') }}">Create Note</a>
+                <a class="dropdown-item" href="{{ route('notesTags') }}">Tags</a>
+                <a class="dropdown-item" href="#">Create Tag</a>
+              </div>
+            </li>
           @endif
         </ul>
 
