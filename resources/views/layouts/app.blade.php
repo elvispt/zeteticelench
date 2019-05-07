@@ -45,7 +45,7 @@
                 <a class="dropdown-item" href="{{ route('notes') }}">List</a>
                 <a class="dropdown-item" href="{{ route('notesAdd') }}">Create Note</a>
                 <a class="dropdown-item" href="{{ route('notesTags') }}">Tags</a>
-                <a class="dropdown-item" href="#">Create Tag</a>
+                <a class="dropdown-item" href="{{ route('notesTagsCreate') }}">Create Tag</a>
               </div>
             </li>
           @endif

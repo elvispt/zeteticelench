@@ -30,6 +30,12 @@ Route::namespace('Notes')
         Route::get('/tags', 'NotesController@tags')
              ->name('notesTags');
 
+        Route::get('/tags/create', 'NotesController@tagCreate')
+             ->name('notesTagsCreate');
+
+        Route::post('/tags/create', 'NotesController@tagAdd')
+             ->name('notesTagsAdd');
+
         Route::get('/tags/{tagId?}', 'NotesController@tags')
              ->name('notesTags');
 

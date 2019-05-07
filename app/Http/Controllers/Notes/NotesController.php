@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Notes;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotesUpdate;
+use App\Http\Requests\TagCreate;
 use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Support\Collection;
@@ -97,4 +98,20 @@ class NotesController extends Controller
         ]);
     }
 
+    public function tagCreate()
+    {
+        return view('notes/tag-create');
+    }
+
+    public function tagAdd(TagCreate $request)
+    {
+        $validated = new Collection($request->validated());
+        $tagName = $validated->get('tag');
+
+        $tag = new Tag();
+        $tag->tag = $tagName;
+        $tag->save();
+
+        return back();
+    }
 }
