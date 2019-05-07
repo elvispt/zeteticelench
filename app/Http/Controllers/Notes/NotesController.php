@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Notes;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotesUpdate;
+use App\Http\Requests\TagCreate;
 use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Support\Collection;
@@ -26,24 +27,30 @@ class NotesController extends Controller
                 ->toArray();
             return (Object) $n;
         });
+        $tags = Tag::all();
         return view('notes/notes', [
             'notes' => $notes,
             'currentNote' => $currentNote,
+            'tags' => $tags,
         ]);
     }
 
     public function update(NotesUpdate $request, $noteId)
     {
+        $validated = new Collection($request->validated());
         $note = Note::find($noteId);
 
         if (!$note) {
             return redirect(route('notes'));
         }
 
-        $note->title = $request->get('title', '');
-        $note->body = $request->get('body', '');
+        $note->title = $validated->get('title', '');
+        $note->body = $validated->get('body', '');
 
         $note->save();
+
+        $tags = $validated->get('tags', []);
+        $note->tags()->sync($tags);
 
         return redirect(route('notes', ['noteId' => $noteId]));
     }
@@ -51,20 +58,34 @@ class NotesController extends Controller
     public function create()
     {
         $notes = Note::all();
-
+        $notes = $notes->map(function (Note $note) {
+            $note->tags;
+            $n = (Object) $note->toArray();
+            $n->tags = (new Collection($n->tags))
+                ->pluck('tag')
+                ->toArray();
+            return (Object) $n;
+        });
+        $tags = Tag::all();
         return view('notes/notes-new', [
             'notes' => $notes,
+            'tags' => $tags,
         ]);
     }
 
     public function add(NotesUpdate $request)
     {
+        $validated = new Collection($request->validated());
+
         $note = new Note();
 
-        $note->title = $request->get('title', '');
-        $note->body = $request->get('body', '');
+        $note->title = $validated->get('title', '');
+        $note->body = $validated->get('body', '');
 
         $note->save();
+
+        $tags = $validated->get('tags', []);
+        $note->tags()->sync($tags);
 
         return redirect(route('notes', ['noteId' => $note->id]));
     }
@@ -97,4 +118,20 @@ class NotesController extends Controller
         ]);
     }
 
+    public function tagCreate()
+    {
+        return view('notes/tag-create');
+    }
+
+    public function tagAdd(TagCreate $request)
+    {
+        $validated = new Collection($request->validated());
+        $tagName = $validated->get('tag');
+
+        $tag = new Tag();
+        $tag->tag = $tagName;
+        $tag->save();
+
+        return back();
+    }
 }

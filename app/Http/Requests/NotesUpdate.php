@@ -23,6 +23,14 @@ class NotesUpdate extends BaseFormRequest
                 'string',
                 'max:10000',
             ],
+            'tags' => [
+                'sometimes',
+                'array',
+            ],
+            'tags.*' => [
+                'sometimes',
+                'exists:tags,id',
+            ],
         ];
     }
 }

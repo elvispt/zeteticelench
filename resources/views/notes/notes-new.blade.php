@@ -5,6 +5,7 @@
     @foreach($notes as $note)
       <p>
         <a href="{{ route('notes', ['noteId' => $note->id]) }}">{{ $note->title }}</a>
+        <span class="badge badge-secondary">{!! implode('</span> <span class="badge badge-secondary">', $note->tags) !!}</span>
       </p>
     @endforeach
   </div>
@@ -16,24 +17,29 @@
   <br>
   <br>
 
-
   <div>
     <form action="{{ route('notesAdd') }}" method="post">
       @csrf
-      <div>
+      <div class="form-group">
         <input
           type="text"
           name="title"
           maxlength="50"
-          class="form-control form-text"
+          class="form-control"
         >
       </div>
       <textarea
         name="body"
         cols="100"
-        rows="30"
-        class="form-control form-text"
+        rows="20"
+        class="form-control"
       ></textarea>
+      <br>
+      <select name="tags[]" id="tags" multiple class="form-control">
+        @foreach($tags as $tag)
+          <option value="{{ $tag->id }}">{{ $tag->tag }}</option>
+        @endforeach
+      </select>
       <div>
         <button type="submit" class="btn btn-primary">Save</button>
       </div>

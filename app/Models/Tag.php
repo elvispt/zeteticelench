@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Tag
@@ -28,12 +29,13 @@ class Tag extends Model
         return $this->belongsToMany(Note::class);
     }
 
-    public function clearStale(): int
+    public function clearStale($olderThan = '-2 Days'): int
     {
         $deleted = $this
             ->get()
-            ->reduce(function (int $carry, Tag $tag) {
-                if ($tag->notes->isEmpty()) {
+            ->reduce(function (int $carry, Tag $tag) use ($olderThan) {
+                if ($tag->notes->isEmpty()
+                    && $tag->created_at->lessThan(Carbon::make($olderThan))) {
                     return $tag->delete() ? $carry + 1 : $carry;
                 }
                 return $carry;
