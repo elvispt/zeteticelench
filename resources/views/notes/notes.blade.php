@@ -19,7 +19,7 @@
 
   @if ($currentNote)
     <div>
-      <form action="{{ route('notesUpdate', ['noteId' => $note->id]) }}" method="post">
+      <form action="{{ route('notesUpdate', ['noteId' => $currentNote->id]) }}" method="post">
         @csrf
         @method('put')
         <div>
@@ -46,8 +46,17 @@
           name="body"
           class="form-control form-text"
           cols="100"
-          rows="30"
+          rows="20"
         >{{ $currentNote->body }}</textarea>
+        <br>
+        <select name="tags[]" id="tags" multiple class="form-control">
+          @foreach($tags as $tag)
+            <option
+              value="{{ $tag->id }}"
+              {{ $currentNote->tags->contains('id', $tag->id) ? 'selected' : '' }}
+            >{{ $tag->tag }}</option>
+          @endforeach
+        </select>
         <div>
           <button type="submit" class="btn btn-primary">Save</button>
         </div>
