@@ -12,7 +12,7 @@ class StaleTags extends Command
      *
      * @var string
      */
-    protected $signature = 'tags:stale';
+    protected $signature = 'tags:stale {--f|force : Run without confirmation}';
 
     /**
      * The console command description.
@@ -39,10 +39,15 @@ class StaleTags extends Command
     public function handle()
     {
         $staleTags = 0;
-        if ($this->confirm("This is a destructive command. Continue?")) {
+        if ($this->shouldRun()) {
             $tag = new Tag();
             $staleTags = $tag->clearStale();
         }
         $this->info("Removed $staleTags stale tags.");
+    }
+
+    protected function shouldRun()
+    {
+        return $this->option('force') || $this->confirm("This is a destructive command. Continue?");
     }
 }
