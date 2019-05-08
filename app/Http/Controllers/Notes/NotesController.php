@@ -109,7 +109,9 @@ class NotesController extends Controller
 
     public function tags($tagId = null)
     {
-        $tags = Tag::all();
+        $tags = Tag::withCount('notes')
+            ->orderBy('notes_count', 'desc')
+            ->get();
         $tagId = (int) $tagId;
 
         $currentTag = $tags
