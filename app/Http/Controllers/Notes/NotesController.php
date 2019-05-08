@@ -14,7 +14,9 @@ class NotesController extends Controller
 {
     public function index($noteId = null)
     {
-        $notes = Note::all();
+        $notes = (new Note())
+            ->orderBy('updated_at', 'DESC')
+            ->get();
         $currentNote = $notes
             ->where('id', $noteId)
             ->first()
@@ -57,7 +59,9 @@ class NotesController extends Controller
 
     public function create()
     {
-        $notes = Note::all();
+        $notes = (new Note())
+            ->orderBy('updated_at', 'DESC')
+            ->get();
         $notes = $notes->map(function (Note $note) {
             $note->tags;
             $n = (Object) $note->toArray();
@@ -105,7 +109,9 @@ class NotesController extends Controller
 
     public function tags($tagId = null)
     {
-        $tags = Tag::all();
+        $tags = Tag::withCount('notes')
+            ->orderBy('notes_count', 'desc')
+            ->get();
         $tagId = (int) $tagId;
 
         $currentTag = $tags
