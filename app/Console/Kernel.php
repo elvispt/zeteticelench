@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
             ->command(StaleTags::class, ['--force'])
             ->everyMinute()
             ->sendOutputTo(storage_path("logs/scheduler-$logDate.log"));
+        $schedule->command('telescope:prune')->daily();
     }
 
     /**
