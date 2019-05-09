@@ -13,9 +13,10 @@
 
   @if ($currentTag)
     @foreach($currentTag->notes as $note)
-      <p>
+      <div>
         <a class="btn btn-link" href="{{ route('notes', ['noteId' => $note->id]) }}">{{ $note->title }}</a>
-      </p>
+        <small class="text-secondary">#{{ $note->id }}</small>
+      </div>
     @endforeach
   @endif
 

@@ -5,6 +5,7 @@
     @foreach($notes as $note)
       <p>
         <a href="{{ route('notes', ['noteId' => $note->id]) }}">{{ $note->title }}</a>
+        <small class="text-secondary">#{{ $note->id }}</small>
         <span class="badge badge-secondary">{!! implode('</span> <span class="badge badge-secondary">', $note->tags) !!}</span>
       </p>
     @endforeach
@@ -23,6 +24,9 @@
         @csrf
         @method('put')
         <div>
+          @error('title')
+            <div class="alert alert-danger">{{ $message }}</div>
+          @enderror
           <input
             type="text"
             name="title"
@@ -42,6 +46,9 @@
             @endforeach
           @endif
         </div>
+        @error('body')
+          <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         <textarea
           name="body"
           class="form-control form-text"
@@ -49,6 +56,11 @@
           rows="20"
         >{{ $currentNote->body }}</textarea>
         <br>
+        @if ($errors->has('tags.*'))
+          @foreach($errors->get('tags.*') as $msg)
+            <div class="alert alert-danger">{{ Arr::first($msg) }}</div>
+          @endforeach
+        @endif
         <select name="tags[]" id="tags" multiple class="form-control">
           @foreach($tags as $tag)
             <option

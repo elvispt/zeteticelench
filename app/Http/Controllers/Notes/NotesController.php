@@ -7,6 +7,7 @@ use App\Http\Requests\NotesUpdate;
 use App\Http\Requests\TagCreate;
 use App\Models\Note;
 use App\Models\Tag;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use function view;
 
@@ -52,7 +53,13 @@ class NotesController extends Controller
         $note->save();
 
         $tags = $validated->get('tags', []);
-        $note->tags()->sync($tags);
+        $result = $note->tags()->sync($tags);
+        if (!empty($result['attached'])
+            || !empty($result['detached'])
+            || !empty($result['updated'])
+        ) {
+            $note->touch();
+        }
 
         return redirect(route('notes', ['noteId' => $noteId]));
     }
