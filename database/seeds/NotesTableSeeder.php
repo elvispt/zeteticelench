@@ -17,6 +17,7 @@ class NotesTableSeeder extends Seeder
             $limit = mt_rand(0, 5);
             if ($limit) {
                 $tags = (new Tag())
+                    ->where('user_id', $note->user_id)
                     ->inRandomOrder()
                     ->limit($limit)
                     ->get()
