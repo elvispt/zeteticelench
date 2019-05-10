@@ -7,19 +7,23 @@ use App\Http\Requests\NotesUpdate;
 use App\Http\Requests\TagCreate;
 use App\Models\Note;
 use App\Models\Tag;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use function view;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class NotesController extends Controller
 {
     public function index($noteId = null)
     {
+        $userId = Auth::id();
         $notes = (new Note())
+            ->where('user_id', $userId)
             ->orderBy('updated_at', 'DESC')
             ->get();
+
         $currentNote = $notes
             ->where('id', $noteId)
+            ->where('user_id', $userId)
             ->first()
         ;
         $notes = $notes->map(function (Note $note) {
@@ -31,7 +35,7 @@ class NotesController extends Controller
             return (Object) $n;
         });
         $tags = Tag::all();
-        return view('notes/notes', [
+        return View::make('notes/notes', [
             'notes' => $notes,
             'currentNote' => $currentNote,
             'tags' => $tags,
@@ -41,7 +45,10 @@ class NotesController extends Controller
     public function update(NotesUpdate $request, $noteId)
     {
         $validated = new Collection($request->validated());
-        $note = Note::find($noteId);
+        $note = (new Note)
+            ->where('id', $noteId)
+            ->where('user_id', Auth::id())
+            ->first();
 
         if (!$note) {
             return redirect(route('notes'));
@@ -66,7 +73,9 @@ class NotesController extends Controller
 
     public function create()
     {
+        $userId = Auth::id();
         $notes = (new Note())
+            ->where('user_id', $userId)
             ->orderBy('updated_at', 'DESC')
             ->get();
         $notes = $notes->map(function (Note $note) {
@@ -78,7 +87,7 @@ class NotesController extends Controller
             return (Object) $n;
         });
         $tags = Tag::all();
-        return view('notes/notes-new', [
+        return View::make('notes/notes-new', [
             'notes' => $notes,
             'tags' => $tags,
         ]);
@@ -90,6 +99,7 @@ class NotesController extends Controller
 
         $note = new Note();
 
+        $note->user_id = Auth::id();
         $note->title = $validated->get('title', '');
         $note->body = $validated->get('body', '');
 
@@ -103,7 +113,10 @@ class NotesController extends Controller
 
     public function destroy($noteId)
     {
-        $note = Note::find($noteId);
+        $note = (new Note)
+            ->where('id', $noteId)
+            ->where('user_id', Auth::id())
+            ->first();
 
         if (!$note) {
             return redirect(route('notes'));
@@ -125,7 +138,7 @@ class NotesController extends Controller
             ->where('id', $tagId)
             ->first();
 
-        return view('notes/tags', [
+        return View::make('notes/tags', [
             'tags' => $tags,
             'currentTag' => $currentTag,
         ]);
@@ -133,7 +146,7 @@ class NotesController extends Controller
 
     public function tagCreate()
     {
-        return view('notes/tag-create');
+        return View::make('notes/tag-create');
     }
 
     public function tagAdd(TagCreate $request)
