@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class TagsTableSeeder extends Seeder
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,6 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Tag::class, 30)->create();
+        factory(User::class, 3)->create();
     }
 }
