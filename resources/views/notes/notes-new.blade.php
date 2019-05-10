@@ -30,6 +30,7 @@
           name="title"
           maxlength="50"
           class="form-control"
+          value="{{ old('title') }}"
         >
       </div>
       @error('body')
@@ -41,7 +42,7 @@
         rows="20"
         class="form-control"
         maxlength="10000"
-      ></textarea>
+      >{{ old('body') }}</textarea>
       <br>
 
       @if ($errors->has('tags.*'))

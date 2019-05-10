@@ -16,13 +16,13 @@
 
                 <div class="col-md-6">
                   <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                         name="email" value="{{ old('email', 'elvispt@gmail.com') }}" required autocomplete="email"
+                         name="email" value="{{ old('email', 'dev@mail.com') }}" required autocomplete="email"
                          autofocus>
 
                   @if ($errors->has('email'))
                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                      <strong>{{ $errors->first('email') }}</strong>
+                    </span>
                   @endif
                 </div>
               </div>
