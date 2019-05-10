@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ExistsWithUser;
+
 class NotesUpdate extends BaseFormRequest
 {
     /**
@@ -29,7 +31,7 @@ class NotesUpdate extends BaseFormRequest
             ],
             'tags.*' => [
                 'sometimes',
-                'exists:tags,id',
+                new ExistsWithUser('tags'),
             ],
         ];
     }

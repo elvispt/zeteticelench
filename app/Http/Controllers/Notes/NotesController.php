@@ -34,7 +34,10 @@ class NotesController extends Controller
                 ->toArray();
             return (Object) $n;
         });
-        $tags = Tag::all();
+        $tags = (new Tag())
+            ->where('user_id', $userId)
+            ->get()
+        ;
         return View::make('notes/notes', [
             'notes' => $notes,
             'currentNote' => $currentNote,
@@ -86,7 +89,10 @@ class NotesController extends Controller
                 ->toArray();
             return (Object) $n;
         });
-        $tags = Tag::all();
+        $tags = (new Tag())
+            ->where('user_id', $userId)
+            ->get()
+        ;
         return View::make('notes/notes-new', [
             'notes' => $notes,
             'tags' => $tags,
@@ -129,13 +135,16 @@ class NotesController extends Controller
 
     public function tags($tagId = null)
     {
+        $userId = Auth::id();
         $tags = Tag::withCount('notes')
+            ->where('user_id', $userId)
             ->orderBy('notes_count', 'desc')
             ->get();
         $tagId = (int) $tagId;
 
         $currentTag = $tags
             ->where('id', $tagId)
+            ->where('user_id', $userId)
             ->first();
 
         return View::make('notes/tags', [
@@ -155,6 +164,7 @@ class NotesController extends Controller
         $tagName = $validated->get('tag');
 
         $tag = new Tag();
+        $tag->user_id = Auth::id();
         $tag->tag = $tagName;
         $tag->save();
 
