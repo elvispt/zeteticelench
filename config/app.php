@@ -176,6 +176,8 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // custom Providers
+        App\Providers\ViewServiceProvider::class,
     ],
 
     /*
