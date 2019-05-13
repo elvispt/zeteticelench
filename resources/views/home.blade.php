@@ -21,3 +21,5 @@
     </div>
   </div>
 @endsection
+
+@includeWhen(!empty($unsplash), 'common.unsplash')
