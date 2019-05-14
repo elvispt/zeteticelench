@@ -40,11 +40,40 @@ class MakeUser extends Command
      */
     public function handle()
     {
+        [$name, $email, $password] = $this->askUserData();
+        $validator = $this->validator($name, $email, $password);
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $error) {
+                $this->error($error);
+            }
+            return;
+        }
+
+        $user = $this->createUser($name, $email, $password);
+        $id = $user->id;
+        $name = $user->name;
+        $email = $user->email;
+
+        $this->info("User $name created with id $id");
+        $this->info("Login with: $email and provided password.");
+    }
+
+    protected function askUserData()
+    {
         $name = $this->ask("Type name");
         $email = $this->ask("Type email (it will also be the username).");
         $password = $this->secret("Type your password");
 
-        $validator = Validator::make(
+        return [$name, $email, $password];
+    }
+
+    /**
+     *
+     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     */
+    protected function validator($name, $email, $password)
+    {
+        return Validator::make(
             [
                 'name' => $name,
                 'email' => $email,
@@ -56,25 +85,15 @@ class MakeUser extends Command
                 'password' => ['required', 'string', 'min:1', 'max:100'],
             ]
         );
+    }
 
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $error) {
-                $this->error($error);
-            }
-            return;
-        }
-
+    protected function createUser($name, $email, $password): User
+    {
         $user = new User();
         $user->name = $name;
         $user->email = $email;
         $user->password = Hash::make($password);
         $user->save();
-
-        $id = $user->id;
-        $name = $user->name;
-        $email = $user->email;
-
-        $this->info("User $name created with id $id");
-        $this->info("Login with: $email and provided password.");
+        return $user;
     }
 }

@@ -2,6 +2,7 @@ Zetetic Elench - Seeking Proof
 ---
 
 ## Stack:
+- PHP 7.2
 - Laravel 5.8
 - MySQL 5.7
 

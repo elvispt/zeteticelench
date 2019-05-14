@@ -39,15 +39,14 @@ class Tag extends Model
 
     public function clearStale($olderThan = '-2 Days'): int
     {
-        $deleted = $this
+        return $this
             ->get()
-            ->reduce(function (int $carry, Tag $tag) use ($olderThan) {
+            ->reduce(static function (int $carry, Tag $tag) use ($olderThan) {
                 if ($tag->notes->isEmpty()
                     && $tag->created_at->lessThan(Carbon::make($olderThan))) {
                     return $tag->delete() ? $carry + 1 : $carry;
                 }
                 return $carry;
             }, 0);
-        return $deleted;
     }
 }
