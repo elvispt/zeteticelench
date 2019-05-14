@@ -30,38 +30,46 @@ class Unsplash
         $photoUrl = Cache::get($this->cacheKey);
 
         if (empty($photoUrl)) {
-            $client = new Client([
-                'base_uri' => $this->baseUri,
-            ]);
+            $photoUrl = $this->getFeaturedImage();
             try {
-                $response = $client->get($this->randomPhoto, [
-                    'headers' => [
-                        'Accept-Version' => 'v1',
-                        'Authorization' => 'Client-ID ' . $this->accessKey
-                    ],
-                    'query' => [
-                        'featured' => 1,
-                        'orientation' => 'portrait',
-                        'query' => 'technology',
-                    ],
-                ]);
-            } catch (ClientException $e) {
-            }
-            if (!empty($response)) {
-                $json = $response->getBody()->getContents();
-                $obj = \GuzzleHttp\json_decode($json);
-                $photoUrl = (Object) [
-                    'url' => data_get($obj, 'urls.full'),
-                    'bg' => data_get($obj, 'color'),
-                ];
-                try {
-                    Cache::set($this->cacheKey, $photoUrl, $this->cacheExpiration);
-                } catch (InvalidArgumentException $e) {
-                    Log::warning("Could not store photoUrl into cache");
-                }
+                Cache::set($this->cacheKey, $photoUrl, $this->cacheExpiration);
+            } catch (InvalidArgumentException $exception) {
+                Log::warning("Could not store photoUrl into cache");
             }
         }
 
+        return $photoUrl;
+    }
+
+    protected function getFeaturedImage()
+    {
+        $photoUrl = null;
+        $client = new Client([
+            'base_uri' => $this->baseUri,
+        ]);
+        try {
+            $response = $client->get($this->randomPhoto, [
+                'headers' => [
+                    'Accept-Version' => 'v1',
+                    'Authorization' => 'Client-ID ' . $this->accessKey
+                ],
+                'query' => [
+                    'featured' => 1,
+                    'orientation' => 'portrait',
+                    'query' => 'technology',
+                ],
+            ]);
+        } catch (ClientException $exception) {
+            Log::warning("Failed to get image from unsplash api");
+        }
+        if (!empty($response)) {
+            $json = $response->getBody()->getContents();
+            $obj = \GuzzleHttp\json_decode($json);
+            $photoUrl = (Object) [
+                'url' => data_get($obj, 'urls.full'),
+                'bg' => data_get($obj, 'color'),
+            ];
+        }
         return $photoUrl;
     }
 }

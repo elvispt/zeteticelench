@@ -33,7 +33,7 @@ class InspireComposer
             $advice = data_get($obj, 'slip.advice');
             try {
                 Cache::set($this->cacheKey, $advice, $this->cacheExpiration);
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidArgumentException $exception) {
                 Log::warning("Could not store advice slip into cache");
             }
         }

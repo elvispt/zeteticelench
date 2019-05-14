@@ -26,13 +26,13 @@ class NotesController extends Controller
             ->where('user_id', $userId)
             ->first()
         ;
-        $notes = $notes->map(function (Note $note) {
+        $notes = $notes->map(static function (Note $note) {
             $note->tags;
-            $n = (Object) $note->toArray();
-            $n->tags = (new Collection($n->tags))
+            $parsed = (object) $note->toArray();
+            $parsed->tags = (new Collection($parsed->tags))
                 ->pluck('tag')
                 ->toArray();
-            return (Object) $n;
+            return (object) $parsed;
         });
         $tags = (new Tag())
             ->where('user_id', $userId)
@@ -48,7 +48,7 @@ class NotesController extends Controller
     public function update(NotesUpdate $request, $noteId)
     {
         $validated = new Collection($request->validated());
-        $note = (new Note)
+        $note = (new Note())
             ->where('id', $noteId)
             ->where('user_id', Auth::id())
             ->first();
@@ -81,13 +81,13 @@ class NotesController extends Controller
             ->where('user_id', $userId)
             ->orderBy('updated_at', 'DESC')
             ->get();
-        $notes = $notes->map(function (Note $note) {
+        $notes = $notes->map(static function (Note $note) {
             $note->tags;
-            $n = (Object) $note->toArray();
-            $n->tags = (new Collection($n->tags))
+            $parsed = (object) $note->toArray();
+            $parsed->tags = (new Collection($parsed->tags))
                 ->pluck('tag')
                 ->toArray();
-            return (Object) $n;
+            return (object) $parsed;
         });
         $tags = (new Tag())
             ->where('user_id', $userId)
@@ -119,7 +119,7 @@ class NotesController extends Controller
 
     public function destroy($noteId)
     {
-        $note = (new Note)
+        $note = (new Note())
             ->where('id', $noteId)
             ->where('user_id', Auth::id())
             ->first();
