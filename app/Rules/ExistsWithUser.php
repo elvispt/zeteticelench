@@ -15,7 +15,7 @@ class ExistsWithUser implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param $table
+     * @param string $table
      */
     public function __construct($table)
     {
