@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\View;
 
 class NotesController extends Controller
 {
-    public function index($noteId = null)
+    public function index()
     {
         $userId = Auth::id();
         $notes = (new Note())
@@ -21,11 +21,6 @@ class NotesController extends Controller
             ->orderBy('updated_at', 'DESC')
             ->get();
 
-        $currentNote = $notes
-            ->where('id', $noteId)
-            ->where('user_id', $userId)
-            ->first()
-        ;
         $notes = $notes->map(static function (Note $note) {
             $note->tags;
             $parsed = (object) $note->toArray();
@@ -40,6 +35,24 @@ class NotesController extends Controller
         ;
         return View::make('notes/notes', [
             'notes' => $notes,
+            'tags' => $tags,
+        ]);
+    }
+
+    public function edit($noteId = null)
+    {
+        $userId = Auth::id();
+
+        $currentNote = (new Note())
+            ->where('id', $noteId)
+            ->where('user_id', $userId)
+            ->first()
+        ;
+        $tags = (new Tag())
+            ->where('user_id', $userId)
+            ->get()
+        ;
+        return View::make('notes/notes-edit', [
             'currentNote' => $currentNote,
             'tags' => $tags,
         ]);
@@ -77,24 +90,11 @@ class NotesController extends Controller
     public function create()
     {
         $userId = Auth::id();
-        $notes = (new Note())
-            ->where('user_id', $userId)
-            ->orderBy('updated_at', 'DESC')
-            ->get();
-        $notes = $notes->map(static function (Note $note) {
-            $note->tags;
-            $parsed = (object) $note->toArray();
-            $parsed->tags = (new Collection($parsed->tags))
-                ->pluck('tag')
-                ->toArray();
-            return (object) $parsed;
-        });
         $tags = (new Tag())
             ->where('user_id', $userId)
             ->get()
         ;
         return View::make('notes/notes-new', [
-            'notes' => $notes,
             'tags' => $tags,
         ]);
     }
