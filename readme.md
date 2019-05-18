@@ -11,9 +11,11 @@ Zetetic Elench - Seeking Proof
 1. A simple note taking app ✔️
 2. Add authentication layer ✔️
 3. Use Docker compose to prepare ✔️
-4. Add homepage with common personal common links
-5. Styling
-6. Add Svelte to transform to a SPA
+4. Add hacker news best/top lists.
+5. User management
+6. Add homepage with common personal common links
+7. Styling
+8. Add Svelte to transform to a SPA
 
 ## Installation
 
