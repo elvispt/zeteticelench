@@ -50,7 +50,12 @@ class HackerNews
 
     protected function getTopStoriesFromApi(): array
     {
-        $topStoriesIdList = $this->getTopStoriesList();
+        $topStoriesIdList = $this->getLiveStoriesIdList($this->topStoriesUri, $this->topStoriesLimit);
+        return $this->concurrentRequestsForStories($topStoriesIdList);
+    }
+
+    protected function concurrentRequestsForStories($storiesIdList)
+    {
         $client = new Client([
             'base_uri' => $this->baseUri,
         ]);
@@ -60,7 +65,7 @@ class HackerNews
             }
         };
         $unorderedStories = [];
-        $pool = new Pool($client, $requests($topStoriesIdList), [
+        $pool = new Pool($client, $requests($storiesIdList), [
             'concurrency' => $this->concurrency,
             'fulfilled' => function (Response $response, $index) use (&$unorderedStories) {
                 $json = $response->getBody()->getContents();
@@ -87,7 +92,7 @@ class HackerNews
             })
         ;
 
-        return $this->sortStoriesList($unorderedStories, $topStoriesIdList);
+        return $this->sortStoriesList($unorderedStories, $storiesIdList);
     }
 
     protected function sortStoriesList($unorderedStories, $orderOfStories)
@@ -102,26 +107,6 @@ class HackerNews
             }
         }
         return $orderedStories;
-    }
-
-    protected function getTopStoriesList(): array
-    {
-        $client = new Client([
-            'base_uri' => $this->baseUri,
-        ]);
-
-        $response = $client->get($this->topStoriesUri);
-        $json = $response->getBody()->getContents();
-        try {
-            // 500 items
-            $topStoriesIdList = \GuzzleHttp\json_decode($json);
-        } catch (InvalidArgumentException $exception) {
-            Log::error("Could not decode topstories endpoint json response");
-            $topStoriesIdList= [];
-        }
-        $topStoriesIdList = array_slice($topStoriesIdList, 0, $this->topStoriesLimit);
-
-        return $topStoriesIdList;
     }
 
     public function getBestStories($forceCacheRefresh = false)
@@ -140,47 +125,11 @@ class HackerNews
 
     protected function getBestStoriesFromApi()
     {
-        $bestStoriesIdList = $this->getLiveStories($this->bestStoriesUri, $this->topStoriesLimit);
-        $client = new Client([
-            'base_uri' => $this->baseUri,
-        ]);
-        $requests = function ($topStoriesIdList) {
-            foreach ($topStoriesIdList as $id) {
-                yield new Request('GET', sprintf($this->itemUriFormat, $id));
-            }
-        };
-        $unorderedStories = [];
-        $pool = new Pool($client, $requests($bestStoriesIdList), [
-            'concurrency' => $this->concurrency,
-            'fulfilled' => function (Response $response, $index) use (&$unorderedStories) {
-                $json = $response->getBody()->getContents();
-                try {
-                    $item = \GuzzleHttp\json_decode($json);
-                } catch (InvalidArgumentException $exception) {
-                    Log::error("Failed to decode story item");
-                    $item = null;
-                }
-                $unorderedStories[] = $item;
-            },
-            'rejected' => function ($reason, $index) use (&$unorderedStories) {
-                $unorderedStories[] = null;
-            }
-        ]);
-        $promise = $pool->promise();
-        $promise->wait();
-
-        $unorderedStories = (new Collection($unorderedStories))
-            ->filter(function ($story) {
-                return data_get($story, 'type') === 'story'
-                       && data_get($story, 'deleted', false) === false
-                       && data_get($story, 'dead', false) === false;
-            })
-        ;
-
-        return $this->sortStoriesList($unorderedStories, $bestStoriesIdList);
+        $bestStoriesIdList = $this->getLiveStoriesIdList($this->bestStoriesUri, $this->topStoriesLimit);
+        return $this->concurrentRequestsForStories($bestStoriesIdList);
     }
 
-    protected function getLiveStories(string $uri, int $limit): array
+    protected function getLiveStoriesIdList(string $uri, int $limit): array
     {
         $client = new Client([
             'base_uri' => $this->baseUri,
