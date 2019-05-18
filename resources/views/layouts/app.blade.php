@@ -55,6 +55,8 @@
 
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ route('hackernews-top') }}">@lang('hackernews.top')</a>
+                <a class="dropdown-item" href="{{ route('hackernews-best') }}">@lang('hackernews.best')</a>
+                <a class="dropdown-item" href="{{ route('hackernews-jobs') }}">@lang('hackernews.jobs')</a>
               </div>
             </li>
           @endif

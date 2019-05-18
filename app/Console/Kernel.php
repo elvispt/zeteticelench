@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\StaleTags;
 use App\Repos\HackerNews;
+use App\Repos\Unsplash;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -35,6 +36,18 @@ class Kernel extends ConsoleKernel
         $schedule->call(static function () {
             $hackerNews = new HackerNews();
             $hackerNews->getTopStories(true);
+        })->everyFiveMinutes();
+        $schedule->call(static function () {
+            $hackerNews = new HackerNews();
+            $hackerNews->getBestStories(true);
+        })->everyFiveMinutes();
+        $schedule->call(static function () {
+            $hackerNews = new HackerNews();
+            $hackerNews->getJobStories(true);
+        })->everyFiveMinutes();
+        $schedule->call(static function () {
+           $un = new Unsplash();
+           $un->getUnsplashFeaturedImage(true);
         })->everyFiveMinutes();
     }
 

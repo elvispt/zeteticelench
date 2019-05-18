@@ -60,6 +60,12 @@ Route::namespace('HackerNews')
          Route::get('top', 'HackerNewsController@top')
               ->name('hackernews-top');
 
+         Route::get('best', 'HackerNewsController@best')
+              ->name('hackernews-best');
+
+         Route::get('jobs', 'HackerNewsController@jobs')
+              ->name('hackernews-jobs');
+
      });
 
 Auth::routes(['register' => false]);
