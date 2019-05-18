@@ -21,6 +21,8 @@ class HackerNews
 
     protected $bestStoriesUri;
 
+    protected $jobStoriesUri;
+
     protected $itemUriFormat;
 
     protected $concurrency = 10;
@@ -31,6 +33,7 @@ class HackerNews
         $this->baseUri = config('hackernews.api_base_uri');
         $this->topStoriesUri = config('hackernews.api_top_stories_uri');
         $this->bestStoriesUri = config('hackernews.api_best_stories_uri');
+        $this->jobStoriesUri = config('hackernews.api_job_stories_uri');
         $this->itemUriFormat = config('hackernews.api_item_details_uri_format');
     }
 
@@ -86,7 +89,7 @@ class HackerNews
 
         $unorderedStories = (new Collection($unorderedStories))
             ->filter(function ($story) {
-                return data_get($story, 'type') === 'story'
+                return (!is_null($story))
                        && data_get($story, 'deleted', false) === false
                        && data_get($story, 'dead', false) === false;
             })
@@ -147,5 +150,25 @@ class HackerNews
         $storiesIdList = array_slice($storiesIdList, 0, $limit);
 
         return $storiesIdList;
+    }
+
+    public function getJobStories($forceCacheRefresh = false)
+    {
+        $cacheKey = __METHOD__;
+        $expiration = 1800; // 30 mins
+        $stories = Cache::get($cacheKey);
+        if (is_null($stories) || $forceCacheRefresh) {
+            $stories = $this->getJobStoriesFromApi();
+            if (is_array($stories) && count($stories)) {
+                Cache::set($cacheKey, $stories, $expiration);
+            }
+        }
+        return $stories;
+    }
+
+    protected function getJobStoriesFromApi()
+    {
+        $jobStoriesIdList = $this->getLiveStoriesIdList($this->jobStoriesUri, $this->topStoriesLimit);
+        return $this->concurrentRequestsForStories($jobStoriesIdList);
     }
 }
