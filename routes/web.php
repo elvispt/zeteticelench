@@ -52,6 +52,16 @@ Route::namespace('Notes')
              ->name('notesDestroy');
     });
 
+Route::namespace('HackerNews')
+     ->prefix('hackernews')
+     ->middleware('auth')
+     ->group(function () {
+
+         Route::get('top', 'HackerNewsController@top')
+              ->name('hackernews-top');
+
+     });
+
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');

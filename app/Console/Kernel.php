@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\StaleTags;
+use App\Repos\HackerNews;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -30,7 +31,11 @@ class Kernel extends ConsoleKernel
             ->command(StaleTags::class, ['--force'])
             ->everyMinute()
             ->sendOutputTo(storage_path("logs/scheduler-$logDate.log"));
-        $schedule->command('telescope:prune')->daily();
+        $schedule->command('telescope:prune')->everyFifteenMinutes();
+        $schedule->call(static function () {
+            $hackerNews = new HackerNews();
+            $hackerNews->getTopStories(true);
+        })->everyFiveMinutes();
     }
 
     /**
