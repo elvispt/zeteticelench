@@ -21,6 +21,9 @@ Route::namespace('Notes')
     ->middleware('auth')
     ->group(function () {
 
+        Route::get('', 'NotesController@index')
+             ->name('notes');
+
         Route::get('/create', 'NotesController@create')
              ->name('notesCreate');
 
@@ -39,8 +42,8 @@ Route::namespace('Notes')
         Route::get('/tags/{tagId?}', 'NotesController@tags')
              ->name('notesTags');
 
-        Route::get('/{noteId?}', 'NotesController@index')
-             ->name('notes');
+        Route::get('/{noteId}', 'NotesController@edit')
+             ->name('notesEdit');
 
         Route::put('/{noteId}', 'NotesController@update')
             ->name('notesUpdate');

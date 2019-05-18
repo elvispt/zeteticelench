@@ -1,64 +1,68 @@
 @extends('layouts/app')
 
 @section('content')
-  <div>
-    @foreach($notes as $note)
-      <p>
-        <a href="{{ route('notes', ['noteId' => $note->id]) }}">{{ $note->title }}</a>
-        <small class="text-secondary">#{{ $note->id }}</small>
-        <span class="badge badge-secondary">{!! implode('</span> <span class="badge badge-secondary">', $note->tags) !!}</span>
-      </p>
-    @endforeach
-  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm">
+        <div class="card p-3 mt-3">
+          <h3>@lang('notes.new-note')</h3>
 
-  <br>
-  <a href="{{ route('notesCreate') }}"
-     class="btn btn-dark"
-  >-- Create New --</a>
-  <br>
-  <br>
-
-  <div>
-    @error('title')
-      <div class="alert alert-danger">{{ $message }}</div>
-    @enderror
-    <form action="{{ route('notesAdd') }}" method="post">
-      @csrf
-      <div class="form-group">
-        <input
-          type="text"
-          name="title"
-          maxlength="50"
-          class="form-control"
-          value="{{ old('title') }}"
-        >
+          <form action="{{ route('notesAdd') }}" method="post">
+            @csrf
+            <div>
+              @error('title')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+              <div class="form-group">
+                <label for="note-title">@lang('notes.title')</label>
+                <input
+                  type="text"
+                  id="note-title"
+                  name="title"
+                  class="form-control form-text"
+                  maxlength="50"
+                  value="{{ old('title') }}"
+                >
+              </div>
+            </div>
+            @error('body')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <div>
+              <label for="note-body">@lang('notes.note')</label>
+              <textarea
+                id="note-body"
+                name="body"
+                class="form-control form-text"
+                cols="100"
+                rows="15"
+              >{{ old('body') }}</textarea>
+            </div>
+            @if ($errors->has('tags.*'))
+              @foreach($errors->get('tags.*') as $msg)
+                <div class="alert alert-danger">{{ Arr::first($msg) }}</div>
+              @endforeach
+            @endif
+            <div class="mt-3">
+              <legend class="col-form-label pt-0">@lang('notes.tags')</legend>
+              @foreach($tags as $tag)
+                <div class="form-check form-check-inline">
+                  <input type="checkbox"
+                         value="{{ $tag->id }}"
+                         id="tag-{{ $tag->id }}"
+                         name="tags[]"
+                         class="form-check-input"
+                  >
+                  <label for="tag-{{ $tag->id }}"
+                         class="form-check-label"
+                  >{{ $tag->tag }}</label>
+                </div>
+              @endforeach
+            </div>
+            <button type="submit" class="btn btn-primary">@lang('notes.save')</button>
+          </form>
+        </div>
       </div>
-      @error('body')
-        <div class="alert alert-danger">{{ $message }}</div>
-      @enderror
-      <textarea
-        name="body"
-        cols="100"
-        rows="20"
-        class="form-control"
-        maxlength="10000"
-      >{{ old('body') }}</textarea>
-      <br>
-
-      @if ($errors->has('tags.*'))
-        @foreach($errors->get('tags.*') as $msg)
-          <div class="alert alert-danger">{{ Arr::first($msg) }}</div>
-        @endforeach
-      @endif
-      <select name="tags[]" id="tags" multiple class="form-control">
-        @foreach($tags as $tag)
-          <option value="{{ $tag->id }}">{{ $tag->tag }}</option>
-        @endforeach
-      </select>
-      <div>
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-    </form>
+    </div>
   </div>
-
 @endsection
