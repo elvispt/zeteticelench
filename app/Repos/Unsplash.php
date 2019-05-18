@@ -16,7 +16,7 @@ class Unsplash
 
     protected $cacheKey = Unsplash::class;
 
-    protected $cacheExpiration = 300; // 5 minutes
+    protected $cacheExpiration = 330; // 5 minutes
 
     public function __construct()
     {
@@ -25,11 +25,11 @@ class Unsplash
         $this->accessKey = config('unsplash.access_key');
     }
 
-    public function getUnsplashFeaturedImage()
+    public function getUnsplashFeaturedImage($forceCacheRefresh = false)
     {
         $photoUrl = Cache::get($this->cacheKey);
 
-        if (empty($photoUrl)) {
+        if (empty($photoUrl) || $forceCacheRefresh) {
             $photoUrl = $this->getFeaturedImage();
             try {
                 Cache::set($this->cacheKey, $photoUrl, $this->cacheExpiration);
