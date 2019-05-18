@@ -7,6 +7,7 @@ use App\Http\Requests\NotesUpdate;
 use App\Http\Requests\TagCreate;
 use App\Models\Note;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -84,7 +85,7 @@ class NotesController extends Controller
             $note->touch();
         }
 
-        return redirect(route('notes', ['noteId' => $noteId]));
+        return redirect(route('notesEdit', ['noteId' => $noteId]));
     }
 
     public function create()
@@ -133,12 +134,14 @@ class NotesController extends Controller
         return redirect(route('notes'));
     }
 
-    public function tags($tagId = null)
+    public function tags(Request $request, $tagId = null)
     {
         $userId = Auth::id();
+        $createdTag = $request->get('created');
         $tags = Tag::withCount('notes')
             ->where('user_id', $userId)
             ->orderBy('notes_count', 'desc')
+            ->orderBy('id', 'DESC')
             ->get();
         $tagId = (int) $tagId;
 
@@ -150,6 +153,7 @@ class NotesController extends Controller
         return View::make('notes/tags', [
             'tags' => $tags,
             'currentTag' => $currentTag,
+            'createdTag' => $createdTag,
         ]);
     }
 
@@ -168,6 +172,6 @@ class NotesController extends Controller
         $tag->tag = $tagName;
         $tag->save();
 
-        return back();
+        return redirect(route('notesTags', ['_', 'created' => $tagName]));
     }
 }

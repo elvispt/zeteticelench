@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
       <div class="col-sm">
         <div class="card p-3 mt-3">
-          <h3>@lang('notes.new')</h3>
+          <h3>@lang('notes.new-note')</h3>
 
           <form action="{{ route('notesAdd') }}" method="post">
             @csrf

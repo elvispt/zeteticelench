@@ -38,14 +38,12 @@
             <li class="nav-item dropdown">
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false" v-pre>
-                Notes <span class="caret"></span>
+                @lang('notes.notes') <span class="caret"></span>
               </a>
 
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('notes') }}">List</a>
-                <a class="dropdown-item" href="{{ route('notesAdd') }}">Create Note</a>
-                <a class="dropdown-item" href="{{ route('notesTags') }}">Tags</a>
-                <a class="dropdown-item" href="{{ route('notesTagsCreate') }}">Create Tag</a>
+                <a class="dropdown-item" href="{{ route('notes') }}">@lang('notes.notes')</a>
+                <a class="dropdown-item" href="{{ route('notesTags') }}">@lang('notes.tags')</a>
               </div>
             </li>
           @endif

@@ -6,7 +6,7 @@
       <div class="col-12">
         <a href="{{ route('notesCreate') }}"
            class="btn btn-dark"
-        >@lang('notes.new')</a>
+        >@lang('notes.new-note')</a>
       </div>
     </div>
     <div class="row justify-content-center">
