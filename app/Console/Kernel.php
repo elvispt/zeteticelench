@@ -38,6 +38,10 @@ class Kernel extends ConsoleKernel
             $hackerNews->getTopStories(true);
         })->everyFiveMinutes();
         $schedule->call(static function () {
+            $hackerNews = new HackerNews();
+            $hackerNews->getBestStories(true);
+        })->everyFiveMinutes();
+        $schedule->call(static function () {
            $un = new Unsplash();
            $un->getUnsplashFeaturedImage(true);
         })->everyFiveMinutes();

@@ -22,6 +22,17 @@ class HackerNewsController extends Controller
         ]);
     }
 
+    public function best()
+    {
+        $hackerNews = new HackerNews();
+        $stories = $hackerNews->getBestStories();
+        $hnPostUrlFormat = config('hackernews.site_url') . '/item?id=%s';
+        return View::make('hackernews/top', [
+            'stories' => $stories,
+            'hnPostUrlFormat' => $hnPostUrlFormat,
+        ]);
+    }
+
     protected function getItem($id)
     {
         $client = new Client([

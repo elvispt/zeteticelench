@@ -19,6 +19,8 @@ class HackerNews
 
     protected $topStoriesUri;
 
+    protected $bestStoriesUri;
+
     protected $itemUriFormat;
 
     protected $concurrency = 10;
@@ -28,6 +30,7 @@ class HackerNews
         $this->topStoriesLimit = 30;
         $this->baseUri = config('hackernews.api_base_uri');
         $this->topStoriesUri = config('hackernews.api_top_stories_uri');
+        $this->bestStoriesUri = config('hackernews.api_best_stories_uri');
         $this->itemUriFormat = config('hackernews.api_item_details_uri_format');
     }
 
@@ -119,5 +122,81 @@ class HackerNews
         $topStoriesIdList = array_slice($topStoriesIdList, 0, $this->topStoriesLimit);
 
         return $topStoriesIdList;
+    }
+
+    public function getBestStories($forceCacheRefresh = false)
+    {
+        $cacheKey = __METHOD__;
+        $expiration = 1800; // 30 mins
+        $stories = Cache::get($cacheKey);
+        if (is_null($stories) || $forceCacheRefresh) {
+            $stories = $this->getBestStoriesFromApi();
+            if (is_array($stories) && count($stories)) {
+                Cache::set($cacheKey, $stories, $expiration);
+            }
+        }
+        return $stories;
+    }
+
+    protected function getBestStoriesFromApi()
+    {
+        $bestStoriesIdList = $this->getLiveStories($this->bestStoriesUri, $this->topStoriesLimit);
+        $client = new Client([
+            'base_uri' => $this->baseUri,
+        ]);
+        $requests = function ($topStoriesIdList) {
+            foreach ($topStoriesIdList as $id) {
+                yield new Request('GET', sprintf($this->itemUriFormat, $id));
+            }
+        };
+        $unorderedStories = [];
+        $pool = new Pool($client, $requests($bestStoriesIdList), [
+            'concurrency' => $this->concurrency,
+            'fulfilled' => function (Response $response, $index) use (&$unorderedStories) {
+                $json = $response->getBody()->getContents();
+                try {
+                    $item = \GuzzleHttp\json_decode($json);
+                } catch (InvalidArgumentException $exception) {
+                    Log::error("Failed to decode story item");
+                    $item = null;
+                }
+                $unorderedStories[] = $item;
+            },
+            'rejected' => function ($reason, $index) use (&$unorderedStories) {
+                $unorderedStories[] = null;
+            }
+        ]);
+        $promise = $pool->promise();
+        $promise->wait();
+
+        $unorderedStories = (new Collection($unorderedStories))
+            ->filter(function ($story) {
+                return data_get($story, 'type') === 'story'
+                       && data_get($story, 'deleted', false) === false
+                       && data_get($story, 'dead', false) === false;
+            })
+        ;
+
+        return $this->sortStoriesList($unorderedStories, $bestStoriesIdList);
+    }
+
+    protected function getLiveStories(string $uri, int $limit): array
+    {
+        $client = new Client([
+            'base_uri' => $this->baseUri,
+        ]);
+
+        $response = $client->get($uri);
+        $json = $response->getBody()->getContents();
+        try {
+            // 500 items
+            $storiesIdList = \GuzzleHttp\json_decode($json);
+        } catch (InvalidArgumentException $exception) {
+            Log::error("Could not decode live data endpoint json response", [$exception->getMessage()]);
+            $storiesIdList= [];
+        }
+        $storiesIdList = array_slice($storiesIdList, 0, $limit);
+
+        return $storiesIdList;
     }
 }
