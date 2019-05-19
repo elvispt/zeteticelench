@@ -71,6 +71,15 @@ Route::namespace('HackerNews')
 
      });
 
+Route::namespace('Users')
+     ->prefix('users')
+     ->middleware('auth')
+     ->group(function () {
+
+         Route::get('top', 'UsersController@index')
+              ->name('users-list');
+     });
+
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
