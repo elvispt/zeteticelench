@@ -27,6 +27,8 @@ class HackerNews
 
     protected $concurrency = 10;
 
+    protected $cacheExpiration = 1800; // 30 mins
+
     public function __construct()
     {
         $this->topStoriesLimit = 30;
@@ -40,12 +42,11 @@ class HackerNews
     public function getTopStories($forceCacheRefresh = false)
     {
         $cacheKey = __METHOD__;
-        $expiration = 1800; // 30 mins
         $stories = Cache::get($cacheKey);
         if (is_null($stories) || $forceCacheRefresh) {
             $stories = $this->getTopStoriesFromApi();
             if (is_array($stories) && count($stories)) {
-                Cache::set($cacheKey, $stories, $expiration);
+                Cache::set($cacheKey, $stories, $this->cacheExpiration);
             }
         }
         return $stories;
@@ -115,12 +116,11 @@ class HackerNews
     public function getBestStories($forceCacheRefresh = false)
     {
         $cacheKey = __METHOD__;
-        $expiration = 1800; // 30 mins
         $stories = Cache::get($cacheKey);
         if (is_null($stories) || $forceCacheRefresh) {
             $stories = $this->getBestStoriesFromApi();
             if (is_array($stories) && count($stories)) {
-                Cache::set($cacheKey, $stories, $expiration);
+                Cache::set($cacheKey, $stories, $this->cacheExpiration);
             }
         }
         return $stories;
@@ -155,12 +155,11 @@ class HackerNews
     public function getJobStories($forceCacheRefresh = false)
     {
         $cacheKey = __METHOD__;
-        $expiration = 1800; // 30 mins
         $stories = Cache::get($cacheKey);
         if (is_null($stories) || $forceCacheRefresh) {
             $stories = $this->getJobStoriesFromApi();
             if (is_array($stories) && count($stories)) {
-                Cache::set($cacheKey, $stories, $expiration);
+                Cache::set($cacheKey, $stories, $this->cacheExpiration);
             }
         }
         return $stories;
