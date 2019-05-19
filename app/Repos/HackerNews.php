@@ -49,16 +49,17 @@ class HackerNews
                 Cache::set($cacheKey, $stories, $this->cacheExpiration);
             }
         }
+
         return $stories;
     }
 
     protected function getTopStoriesFromApi(): array
     {
         $topStoriesIdList = $this->getLiveStoriesIdList($this->topStoriesUri, $this->topStoriesLimit);
-        return $this->concurrentRequestsForStories($topStoriesIdList);
+        return $this->concurrentRequestsForItems($topStoriesIdList);
     }
 
-    protected function concurrentRequestsForStories($storiesIdList)
+    protected function concurrentRequestsForItems($storiesIdList)
     {
         $client = new Client([
             'base_uri' => $this->baseUri,
@@ -129,7 +130,7 @@ class HackerNews
     protected function getBestStoriesFromApi()
     {
         $bestStoriesIdList = $this->getLiveStoriesIdList($this->bestStoriesUri, $this->topStoriesLimit);
-        return $this->concurrentRequestsForStories($bestStoriesIdList);
+        return $this->concurrentRequestsForItems($bestStoriesIdList);
     }
 
     protected function getLiveStoriesIdList(string $uri, int $limit): array
@@ -168,6 +169,66 @@ class HackerNews
     protected function getJobStoriesFromApi()
     {
         $jobStoriesIdList = $this->getLiveStoriesIdList($this->jobStoriesUri, $this->topStoriesLimit);
-        return $this->concurrentRequestsForStories($jobStoriesIdList);
+        return $this->concurrentRequestsForItems($jobStoriesIdList);
+    }
+
+    public function getStory($id)
+    {
+        $client = new Client([
+            'base_uri' => $this->baseUri,
+        ]);
+        $response = $client->get(sprintf($this->itemUriFormat, $id));
+        $json = $response->getBody()->getContents();
+
+        $story = null;
+        try {
+            $story = \GuzzleHttp\json_decode($json);
+        } catch (InvalidArgumentException $exception) {
+            Log::error("Could not decode hn story item", [$exception->getMessage()]);
+        }
+
+        return $this->setStoryComments($story);
+    }
+
+    protected function setStoryComments($story)
+    {
+        $kids = data_get($story, 'kids');
+        $comments = [];
+        if (is_array($kids) && count($kids)) {
+            $comments = $this->comments($kids);
+        }
+        $story->sub = $comments;
+
+        return $story;
+    }
+
+    protected function comments($ids)
+    {
+        $changed = [];
+        $comments = [];
+        foreach ($ids as $id) {
+            $cacheKey = "comment-$id";
+            $cachedComment = Cache::get($cacheKey);
+            if (is_null($cachedComment)) {
+                $changed[] = $id;
+            } else {
+                $comments[] = $cachedComment;
+            }
+        }
+
+        $newComments = $this->concurrentRequestsForItems($changed);
+        $comments = array_merge($newComments, $comments);
+
+        foreach ($comments as $comment) {
+            $cacheKey = "comment-$comment->id";
+            Cache::set($cacheKey, $comment, 1000 + mt_rand(1, 500));
+            $kids = data_get($comment, 'kids');
+            if ($kids) {
+                $comment->sub = $this->comments($kids);
+            }
+        }
+        $comments = $this->sortStoriesList($comments, $ids);
+
+        return $comments;
     }
 }
