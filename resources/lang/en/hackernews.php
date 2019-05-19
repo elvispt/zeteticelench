@@ -8,4 +8,5 @@ return [
     'hnpost' => 'Hacker News post',
     'points' => ":points points",
     'comments' => ":comments comments",
+    'by' => "by :by",
 ];

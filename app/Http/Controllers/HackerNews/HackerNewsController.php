@@ -35,7 +35,18 @@ class HackerNewsController extends Controller
         $hackerNews = new HackerNews();
         $stories = $hackerNews->getJobStories();
         return View::make('hackernews/jobs', [
-            'stories' => $stories
+            'stories' => $stories,
+        ]);
+    }
+
+    public function item($id)
+    {
+        $hackerNews = new HackerNews();
+        $story = $hackerNews->getStory($id);
+        $hnPostUrlFormat = config('hackernews.site_url') . '/item?id=%s';
+        return View::make('hackernews/story', [
+            'story' => $story,
+            'hnPostUrlFormat' => $hnPostUrlFormat,
         ]);
     }
 }

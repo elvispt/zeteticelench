@@ -13,7 +13,7 @@
               </div>
               <small class="text-muted">@lang('hackernews.points', ['points' => $story->score])</small>
               |
-              <a href="#"><small>@lang('hackernews.comments', ['comments' => $story->descendants])</small></a>
+              <a href="{{ route('hackernews-item', ['id' => $story->id]) }}"><small>@lang('hackernews.comments', ['comments' => $story->descendants])</small></a>
               |
               <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
                  target="hncomments-{{ $story->id }}"
