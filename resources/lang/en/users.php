@@ -5,6 +5,7 @@ return [
     'users' => "Users",
     'user-edit' => "Edit user info",
     'save' => "Save",
+    'logout' => "Logout",
     'name' => "Name",
     'email' => "Email",
     'created_at' => "Created",
