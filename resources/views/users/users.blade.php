@@ -37,7 +37,7 @@
               </td>
               <td class="text-right">
                 <div class="btn-group btn-group-sm mr-2" role="group">
-                  <a href="#" class="btn btn-link btn-outline-info">@lang('users.edit')</a>
+                  <a href="{{ route('users-edit', ['id' => $user->id]) }}" class="btn btn-link btn-outline-info">@lang('users.edit')</a>
                   @if ($user->id !== $currentUserId)
                     <a href="#" class="btn btn-link text-danger btn-outline-danger">@lang('users.delete')</a>
                   @endif

@@ -76,8 +76,14 @@ Route::namespace('Users')
      ->middleware('auth')
      ->group(function () {
 
-         Route::get('top', 'UsersController@index')
+         Route::get('', 'UsersController@index')
               ->name('users-list');
+
+         Route::get('edit/{id}', 'UsersController@edit')
+              ->name('users-edit');
+
+         Route::put('update', 'UsersController@update')
+              ->name('users-update');
      });
 
 Auth::routes(['register' => false]);
