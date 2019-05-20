@@ -90,6 +90,9 @@ Route::namespace('Users')
 
          Route::post('create', 'UsersController@add')
               ->name('users-add');
+
+         Route::delete('destroy', 'UsersController@destroy')
+             ->name('users-destroy');
      });
 
 Auth::routes(['register' => false]);

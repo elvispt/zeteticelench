@@ -10,6 +10,16 @@
       </div>
     </div>
     <div class="row justify-content-center">
+      <div class="col-8">
+        @error('user-id')
+          <div class="alert alert-danger alert-dismissible fade show">
+            {{ $message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @enderror
+      </div>
       <div class="col-12">
         <table class="table table-hover mt-3">
           <thead>
@@ -39,7 +49,17 @@
                 <div class="btn-group btn-group-sm mr-2" role="group">
                   <a href="{{ route('users-edit', ['id' => $user->id]) }}" class="btn btn-link btn-outline-info">@lang('users.edit')</a>
                   @if ($user->id !== $currentUserId)
-                    <a href="#" class="btn btn-link text-danger btn-outline-danger">@lang('users.delete')</a>
+                    <a href="#" class="btn btn-link text-danger btn-outline-danger"
+                       onclick="event.preventDefault(); if (confirm('Are you want to delete user ({{ $user->id }}) {{ $user->name }}?')) { document.getElementById('delete_user_{{ $user->id }}').submit(); }"
+                    >@lang('users.delete')</a>
+
+                    <form id="delete_user_{{ $user->id }}"
+                          action="{{ route('users-destroy') }}"
+                          method="POST" style="display: none;">
+                      <input type="hidden" name="user-id" value="{{ $user->id }}">
+                      @method('delete')
+                      @csrf
+                    </form>
                   @endif
                 </div>
               </td>
