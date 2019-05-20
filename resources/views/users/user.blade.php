@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <a href="#"
+        <a href="{{ route('users-create') }}"
            class="btn btn-dark"
         >@lang('users.new-user')</a>
       </div>
@@ -75,7 +75,7 @@
                          readonly
                          type="text"
                          class="form-control-plaintext"
-                         @if ($user->email_verified_at)
+                         @if ($user->created_at)
                            value="{{ $user->created_at }} | {{ \Illuminate\Support\Carbon::make($user->created_at)->diffForHumans() }}"
                          @else
                            placeholder="-"
@@ -91,7 +91,7 @@
                          readonly
                          type="text"
                          class="form-control-plaintext"
-                         @if ($user->email_verified_at)
+                         @if ($user->updated_at)
                            value="{{ $user->updated_at }} | {{ \Illuminate\Support\Carbon::make($user->updated_at)->diffForHumans() }}"
                          @else
                            placeholder="-"

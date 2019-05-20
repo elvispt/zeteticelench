@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserCreate;
 use App\Http\Requests\UserUpdate;
 use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 
 class UsersController extends Controller
@@ -41,5 +43,22 @@ class UsersController extends Controller
         $user->save();
 
         return back();
+    }
+
+    public function create()
+    {
+        return View::make('users.user-create');
+    }
+
+    public function add(UserCreate $request)
+    {
+        $validated = new Collection($request->validated());
+        $user = new User();
+        $user->name = $validated->get('name');
+        $user->email = $validated->get('email');
+        $user->password = Hash::make($validated->get('password'));
+        $user->save();
+
+        return redirect(route('users-edit', ['id' => $user->id]));
     }
 }

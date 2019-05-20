@@ -84,6 +84,12 @@ Route::namespace('Users')
 
          Route::put('update', 'UsersController@update')
               ->name('users-update');
+
+         Route::get('create', 'UsersController@create')
+              ->name('users-create');
+
+         Route::post('create', 'UsersController@add')
+              ->name('users-add');
      });
 
 Auth::routes(['register' => false]);

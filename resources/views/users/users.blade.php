@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <a href="#"
+        <a href="{{ route('users-create') }}"
            class="btn btn-dark"
         >@lang('users.new-user')</a>
       </div>
