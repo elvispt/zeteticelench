@@ -71,6 +71,30 @@ Route::namespace('HackerNews')
 
      });
 
+Route::namespace('Users')
+     ->prefix('users')
+     ->middleware('auth')
+     ->group(function () {
+
+         Route::get('', 'UsersController@index')
+              ->name('users-list');
+
+         Route::get('edit/{id}', 'UsersController@edit')
+              ->name('users-edit');
+
+         Route::put('update', 'UsersController@update')
+              ->name('users-update');
+
+         Route::get('create', 'UsersController@create')
+              ->name('users-create');
+
+         Route::post('create', 'UsersController@add')
+              ->name('users-add');
+
+         Route::delete('destroy', 'UsersController@destroy')
+             ->name('users-destroy');
+     });
+
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
