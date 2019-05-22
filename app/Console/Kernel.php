@@ -49,6 +49,10 @@ class Kernel extends ConsoleKernel
            $un = new Unsplash();
            $un->getUnsplashFeaturedImage(true);
         })->everyFiveMinutes();
+        $schedule->call(static function () {
+            $hn = new \App\Repos\HackerNews\HackerNews();
+            $hn->importAll();
+        })->everyMinute();
     }
 
     /**
