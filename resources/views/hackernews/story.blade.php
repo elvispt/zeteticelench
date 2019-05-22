@@ -12,7 +12,7 @@
         <span class="text-muted">|</span>
         <small class="text-muted">@lang('hackernews.comments', ['comments' => $story->descendants])</small>
         <span class="text-muted">|</span>
-        <small class="text-muted">{{ \Illuminate\Support\Carbon::createFromTimestamp($story->time)->diffForHumans() }}</small>
+        <small class="text-muted">{{ \Illuminate\Support\Carbon::create($story->created_at)->diffForHumans() }}</small>
         <span class="text-muted">|</span>
         <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
            target="hncomments-{{ $story->id }}"

@@ -2,7 +2,7 @@
   <div class="card-body">
     <h6 class="card-subtitle mb-2 text-muted">
       @lang('hackernews.by', ['by' => $item->by]),
-      <small class="text-muted">{{ \Illuminate\Support\Carbon::createFromTimestamp($item->time)->diffForHumans() }}</small>
+      <small class="text-muted">{{ \Illuminate\Support\Carbon::create($item->created_at)->diffForHumans() }}</small>
     </h6>
 
     <p class="card-text">{!! $item->text !!}</p>
