@@ -8,4 +8,6 @@ return [
     'api_job_stories_uri' => '/v0/jobstories.json',
     'api_updates_uri' => '/v0/updates.json',
     'api_item_details_uri_format' => '/v0/item/%s.json',
+
+    'list_limit' => 15,
 ];
