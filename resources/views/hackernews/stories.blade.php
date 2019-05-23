@@ -2,6 +2,7 @@
 
 @section('content')
   <div class="container">
+
     <div class="row">
       <div class="col-12">
         <ul class="list-group">
@@ -22,6 +23,14 @@
             </li>
           @endforeach
         </ul>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <nav class="mt-3">
+          {{ $stories->links() }}
+        </nav>
       </div>
     </div>
   </div>

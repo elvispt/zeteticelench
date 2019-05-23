@@ -14,7 +14,7 @@ class HackerNews extends Hn
         parent::__construct();
     }
 
-    public function getTopStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false): array
+    public function getTopStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false)
     {
         $cacheKey = __METHOD__ . md5($limit . $offset);
         $stories = Cache::get($cacheKey);
@@ -28,7 +28,7 @@ class HackerNews extends Hn
         return $stories;
     }
 
-    public function getBestStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false): array
+    public function getBestStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false)
     {
         $cacheKey = __METHOD__ . md5($limit . $offset);
         $stories = Cache::get($cacheKey);
@@ -42,7 +42,7 @@ class HackerNews extends Hn
         return $stories;
     }
 
-    public function getJobStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false): array
+    public function getJobStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false)
     {
         $cacheKey = __METHOD__;
         $stories = Cache::get($cacheKey);
@@ -56,7 +56,7 @@ class HackerNews extends Hn
         return $stories;
     }
 
-    protected function getStories(string $uri, int $limit = 20, int $offset = 0): array
+    protected function getStories(string $uri, int $limit = 20, int $offset = 0)
     {
         $hackerNewsImport = new HackerNewsImport();
         $fullIdList = $hackerNewsImport->getLiveStoriesIdList($uri);
@@ -73,7 +73,12 @@ class HackerNews extends Hn
             $stories[] = $story;
         }
 
-        return Utils::sortStoriesList($stories, $ids);
+        $stories = Utils::sortStoriesList($stories, $ids);
+
+        return (object) [
+            'total' => count($fullIdList),
+            'stories' => $stories,
+        ];
     }
 
     public function getStory($id)
