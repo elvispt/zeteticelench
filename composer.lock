@@ -5018,19 +5018,20 @@
         },
         {
             "name": "nunomaduro/phpinsights",
-            "version": "v1.2.0",
+            "version": "v1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/phpinsights.git",
-                "reference": "bc68204b316ccd9c9520ada6adc7ddda99009c3a"
+                "reference": "141e28c130fc45b29971b1ef803f15927bcd3b15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/phpinsights/zipball/bc68204b316ccd9c9520ada6adc7ddda99009c3a",
-                "reference": "bc68204b316ccd9c9520ada6adc7ddda99009c3a",
+                "url": "https://api.github.com/repos/nunomaduro/phpinsights/zipball/141e28c130fc45b29971b1ef803f15927bcd3b15",
+                "reference": "141e28c130fc45b29971b1ef803f15927bcd3b15",
                 "shasum": ""
             },
             "require": {
+                "ext-iconv": "*",
                 "ext-json": "*",
                 "league/container": "^3.2",
                 "object-calisthenics/phpcs-calisthenics-rules": "^3.5",
@@ -5090,24 +5091,24 @@
                 "quality",
                 "source"
             ],
-            "time": "2019-05-16T21:35:16+00:00"
+            "time": "2019-05-20T18:18:10+00:00"
         },
         {
             "name": "object-calisthenics/phpcs-calisthenics-rules",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/object-calisthenics/phpcs-calisthenics-rules.git",
-                "reference": "6319ec7f3bb4f5f87775e15d013f9579678c8ef7"
+                "reference": "e4599d8c2a4a916007f57043de13bca910f8954d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/object-calisthenics/phpcs-calisthenics-rules/zipball/6319ec7f3bb4f5f87775e15d013f9579678c8ef7",
-                "reference": "6319ec7f3bb4f5f87775e15d013f9579678c8ef7",
+                "url": "https://api.github.com/repos/object-calisthenics/phpcs-calisthenics-rules/zipball/e4599d8c2a4a916007f57043de13bca910f8954d",
+                "reference": "e4599d8c2a4a916007f57043de13bca910f8954d",
                 "shasum": ""
             },
             "require": {
-                "nette/utils": "^2.5",
+                "nette/utils": "^2.5|^3.0",
                 "php": "^7.1",
                 "slevomat/coding-standard": "^5.0",
                 "squizlabs/php_codesniffer": "^3.4"
@@ -5136,7 +5137,7 @@
                 "MIT"
             ],
             "description": "PHP CodeSniffer Object Calisthenics rules/sniffs",
-            "time": "2019-03-19T12:33:02+00:00"
+            "time": "2019-05-15T17:09:16+00:00"
         },
         {
             "name": "ocramius/package-versions",
