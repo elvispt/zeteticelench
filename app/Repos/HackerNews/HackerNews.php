@@ -5,18 +5,14 @@ namespace App\Repos\HackerNews;
 use App\Models\HackerNewsItem;
 use Illuminate\Support\Facades\Cache;
 
-class HackerNews extends Hn
+class HackerNews extends HnApi
 {
     /**
      * The amount of time a story listing should be stored in cache
+     *
      * @var int In seconds
      */
     protected $cacheExpiration = 70;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function getTopStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false)
     {
@@ -76,10 +72,10 @@ class HackerNews extends Hn
     {
         $story = HackerNewsItem::find($id)->toArray();
 
-        return $this->setStoryComments((object) $story);
+        return $this->addCommentsToStory((object) $story);
     }
 
-    protected function setStoryComments($story)
+    protected function addCommentsToStory($story)
     {
         $kids = data_get($story, 'kids');
         $comments = [];

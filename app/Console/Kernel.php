@@ -52,13 +52,13 @@ class Kernel extends ConsoleKernel
         })->everyMinute();
 
         $schedule->call(static function () {
-           $un = new Unsplash();
-           $un->getUnsplashFeaturedImage(true);
+           $unsplash = new Unsplash();
+           $unsplash->getUnsplashFeaturedImage(true);
         })->everyFiveMinutes();
 
         $schedule->call(static function () {
-            $hn = new HackerNewsImport();
-            $hn->importAll();
+            $hackerNewsImport = new HackerNewsImport();
+            $hackerNewsImport->importAll();
         })->everyMinute();
     }
 

@@ -24,16 +24,6 @@ class MakeUser extends Command
     protected $description = 'Generates a user';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -67,10 +57,6 @@ class MakeUser extends Command
         return [$name, $email, $password];
     }
 
-    /**
-     *
-     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
-     */
     protected function validator($name, $email, $password)
     {
         return Validator::make(

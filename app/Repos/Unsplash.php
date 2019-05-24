@@ -65,7 +65,7 @@ class Unsplash
         if (!empty($response)) {
             $json = $response->getBody()->getContents();
             $obj = \GuzzleHttp\json_decode($json);
-            $photoUrl = (Object) [
+            $photoUrl = (object) [
                 'url' => data_get($obj, 'urls.full'),
                 'bg' => data_get($obj, 'color'),
             ];

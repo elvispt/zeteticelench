@@ -1,6 +1,6 @@
 <?php
 
-namespace  App\Http\Controllers\HackerNews;
+namespace App\Http\Controllers\HackerNews;
 
 use App\Http\Controllers\Controller;
 use App\Repos\HackerNews\HackerNews;

@@ -3,7 +3,10 @@
 namespace App\Repos\HackerNews;
 
 use App\Models\HackerNewsItem;
+use Exception;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class Utils
 {
@@ -23,59 +26,51 @@ class Utils
 
     public static function store($stories): int
     {
-        foreach ($stories as $story) {
-            $id = data_get($story, 'id');
-            if (is_null($id)) {
-                continue;
-            }
-            $hackerNewsItem = (HackerNewsItem::withTrashed())
-                ->where('id', $id)
-                ->first();
-            if (is_null($hackerNewsItem)) {
-                // new item
-                $hackerNewsItem = new HackerNewsItem();
-                $hackerNewsItem->id = $id;
-                if (property_exists($story, 'by')) {
-                    $hackerNewsItem->by = $story->by;
+        $map = [
+            // apiField => column
+            'descendants' => 'descendants',
+            'parent' => 'parent_id',
+            'kids' => 'kids',
+            'dead' => 'dead',
+            'url' => 'url',
+            'score' => 'score',
+            'title' => 'title',
+            'text' => 'text',
+        ];
+        return (new Collection($stories))
+            ->filter(static function ($story) {
+                return data_get($story, 'id', false);
+            })
+            ->each(static function ($story) use ($map) {
+                $id = $story->id;
+                $hackerNewsItem = (HackerNewsItem::withTrashed())
+                    ->where('id', $id)
+                    ->first();
+                if (is_null($hackerNewsItem)) {
+                    // new item
+                    $hackerNewsItem = new HackerNewsItem();
+                    $hackerNewsItem->id = $id;
+                    if (property_exists($story, 'by')) {
+                        $hackerNewsItem->by = $story->by;
+                    }
+                    $hackerNewsItem->created_at = Carbon::createFromTimestamp($story->time);
+                    $hackerNewsItem->type = $story->type;
                 }
-                $hackerNewsItem->created_at = Carbon::createFromTimestamp($story->time);
-                $hackerNewsItem->type = $story->type;
-            }
-            if (property_exists($story, 'descendants')) {
-                $hackerNewsItem->descendants = $story->descendants;
-            }
-            if (property_exists($story, 'parent')) {
-                $hackerNewsItem->parent_id = $story->parent;
-            }
-            if (property_exists($story, 'kids')) {
-                $hackerNewsItem->kids = $story->kids;
-            }
-            if (property_exists($story, 'deleted')) {
-                $hackerNewsItem->deleted_at = Carbon::now();
-            }
-            if (property_exists($story, 'dead')) {
-                $hackerNewsItem->dead = $story->dead;
-            }
-            if (property_exists($story, 'url')) {
-                $hackerNewsItem->url = $story->url;
-            }
-            if (property_exists($story, 'score')) {
-                $hackerNewsItem->score = $story->score;
-            }
-            if (property_exists($story, 'title')) {
-                $hackerNewsItem->title = $story->title;
-            }
-            if (property_exists($story, 'text')) {
-                $hackerNewsItem->text = $story->text;
-            }
-            try {
-                $hackerNewsItem->save();
-            } catch (\Exception $e) {
-                dd($e, $story, $hackerNewsItem);
-            }
-
-        }
-
-        return count($stories);
+                (new Collection($map))
+                    ->each(function ($column, $apiField) use ($hackerNewsItem, $story) {
+                        if (property_exists($story, $apiField)) {
+                            $hackerNewsItem->{$column} = data_get($story, $apiField);
+                        }
+                    });
+                if (property_exists($story, 'deleted')) {
+                    $hackerNewsItem->deleted_at = Carbon::now();
+                }
+                try {
+                    $hackerNewsItem->save();
+                } catch (Exception $exception) {
+                    Log::error("Could not save story to DB", [print_r($story, true)]);
+                }
+            })
+            ->count();
     }
 }
