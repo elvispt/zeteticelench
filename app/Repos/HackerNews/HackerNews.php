@@ -31,7 +31,7 @@ class HackerNews extends HnApi
 
     protected function getStories(string $uri, int $limit = 20, int $offset = 0, $forceCacheRefresh = false)
     {
-        $cacheKey = $uri . $limit . $offset . mt_rand();
+        $cacheKey = $uri . $limit . $offset;
         $stories = Cache::get($cacheKey);
         if (is_null($stories) || $forceCacheRefresh) {
             $stories = $this->storiesList($uri, $limit, $offset);
