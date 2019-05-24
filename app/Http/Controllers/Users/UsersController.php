@@ -7,7 +7,6 @@ use App\Http\Requests\UserCreate;
 use App\Http\Requests\UserDestroy;
 use App\Http\Requests\UserUpdate;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +23,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
         $user = (new User())
             ->where('id', $id)

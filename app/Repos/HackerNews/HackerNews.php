@@ -5,50 +5,37 @@ namespace App\Repos\HackerNews;
 use App\Models\HackerNewsItem;
 use Illuminate\Support\Facades\Cache;
 
-class HackerNews extends Hn
+class HackerNews extends HnApi
 {
-    protected $cacheExpiration = 80; // 30 mins
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    /**
+     * The amount of time a story listing should be stored in cache
+     *
+     * @var int In seconds
+     */
+    protected $cacheExpiration = 70;
 
     public function getTopStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false)
     {
-        $cacheKey = __METHOD__ . md5($limit . $offset);
-        $stories = Cache::get($cacheKey);
-        if (is_null($stories) || $forceCacheRefresh) {
-            $stories = $this->getStories($this->topStoriesUri, $limit, $offset);
-            if (is_array($stories) && count($stories)) {
-                Cache::set($cacheKey, $stories, $this->cacheExpiration);
-            }
-        }
-
-        return $stories;
+        return $this->getStories($this->topStoriesUri, $limit, $offset, $forceCacheRefresh);
     }
 
     public function getBestStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false)
     {
-        $cacheKey = __METHOD__ . md5($limit . $offset);
-        $stories = Cache::get($cacheKey);
-        if (is_null($stories) || $forceCacheRefresh) {
-            $stories = $this->getStories($this->bestStoriesUri, $limit, $offset);
-            if (is_array($stories) && count($stories)) {
-                Cache::set($cacheKey, $stories, $this->cacheExpiration);
-            }
-        }
-
-        return $stories;
+        return $this->getStories($this->bestStoriesUri, $limit, $offset, $forceCacheRefresh);
     }
 
     public function getJobStories(int $limit = 20, int $offset = 0, bool $forceCacheRefresh = false)
     {
-        $cacheKey = __METHOD__;
+        return $this->getStories($this->jobStoriesUri, $limit, $offset, $forceCacheRefresh);
+    }
+
+    protected function getStories(string $uri, int $limit = 20, int $offset = 0, $forceCacheRefresh = false)
+    {
+        $cacheKey = $uri . $limit . $offset . mt_rand();
         $stories = Cache::get($cacheKey);
         if (is_null($stories) || $forceCacheRefresh) {
-            $stories = $this->getStories($this->jobStoriesUri, $limit, $offset);
-            if (is_array($stories) && count($stories)) {
+            $stories = $this->storiesList($uri, $limit, $offset);
+            if (data_get($stories, 'total')) {
                 Cache::set($cacheKey, $stories, $this->cacheExpiration);
             }
         }
@@ -56,7 +43,7 @@ class HackerNews extends Hn
         return $stories;
     }
 
-    protected function getStories(string $uri, int $limit = 20, int $offset = 0)
+    protected function storiesList(string $uri, int $limit = 20, int $offset = 0)
     {
         $hackerNewsImport = new HackerNewsImport();
         $fullIdList = $hackerNewsImport->getLiveStoriesIdList($uri);
@@ -85,10 +72,10 @@ class HackerNews extends Hn
     {
         $story = HackerNewsItem::find($id)->toArray();
 
-        return $this->setStoryComments((object) $story);
+        return $this->addCommentsToStory((object) $story);
     }
 
-    protected function setStoryComments($story)
+    protected function addCommentsToStory($story)
     {
         $kids = data_get($story, 'kids');
         $comments = [];

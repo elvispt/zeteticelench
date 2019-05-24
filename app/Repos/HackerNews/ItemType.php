@@ -2,6 +2,8 @@
 
 namespace App\Repos\HackerNews;
 
+use ReflectionClass;
+
 abstract class ItemType
 {
     public const JOB = 'job';
@@ -12,12 +14,7 @@ abstract class ItemType
 
     public static function all()
     {
-        return [
-            static::COMMENT,
-            static::JOB,
-            static::POLL,
-            static::POLLOPT,
-            static::POLLOPT,
-        ];
+        $reflectionClass = new ReflectionClass(static::class);
+        return $reflectionClass->getConstants();
     }
 }

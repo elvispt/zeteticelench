@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 
-class HackerNewsImport extends Hn
+class HackerNewsImport extends HnApi
 {
     protected $updatesUri;
 
@@ -37,7 +37,7 @@ class HackerNewsImport extends Hn
         $topStoriesIdList = $this->removeExistingStoryIds($topStoriesFullIdList);
         $stories = $this->concurrentRequestsForItems($topStoriesIdList);
         Utils::store($stories);
-        $this->setComments($stories);
+        $this->addCommentsToStories($stories);
     }
 
     public function importBestStories()
@@ -46,7 +46,7 @@ class HackerNewsImport extends Hn
         $bestStoriesIdList = $this->removeExistingStoryIds($bestStoriesFullIdList);
         $stories = $this->concurrentRequestsForItems($bestStoriesIdList);
         Utils::store($stories);
-        $this->setComments($stories);
+        $this->addCommentsToStories($stories);
     }
 
     public function importJobStories()
@@ -55,7 +55,7 @@ class HackerNewsImport extends Hn
         $jobStoriesIdList = $this->removeExistingStoryIds($jobStoriesFullIdList);
         $stories = $this->concurrentRequestsForItems($jobStoriesIdList);
         Utils::store($stories);
-        $this->setComments($stories);
+        $this->addCommentsToStories($stories);
     }
 
     public function importUpdatedStories()
@@ -107,8 +107,9 @@ class HackerNewsImport extends Hn
                 }
                 $unorderedStories[] = $item;
             },
-            'rejected' => function ($reason, $index) use (&$unorderedStories) {
-            }
+            'rejected' => function ($reason, $index) {
+                Log::warning("Failed to make request to hn api", [$reason]);
+            },
         ]);
         $promise = $pool->promise();
         $promise->wait();
@@ -130,7 +131,7 @@ class HackerNewsImport extends Hn
             ->toArray();
     }
 
-    protected function setComments($stories)
+    protected function addCommentsToStories($stories)
     {
         foreach ($stories as $story) {
             $kids = data_get($story, 'kids');

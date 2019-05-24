@@ -32,33 +32,33 @@ class Kernel extends ConsoleKernel
         $schedule
             ->command(StaleTags::class, ['--force'])
             ->everyMinute()
-            ->sendOutputTo(storage_path("logs/scheduler-$logDate.log"));
+            ->appendOutputTo(storage_path("logs/scheduler-$logDate.log"));
 
         $schedule->command('telescope:prune')->everyFifteenMinutes();
 
         $schedule->call(static function () {
             $hackerNews = new HackerNews();
             $hackerNews->getTopStories(config('hackernews.list_limit'), 0, true);
-        })->everyFiveMinutes();
+        })->everyMinute();
 
         $schedule->call(static function () {
             $hackerNews = new HackerNews();
             $hackerNews->getBestStories(config('hackernews.list_limit'), 0, true);
-        })->everyFiveMinutes();
+        })->everyMinute();
 
         $schedule->call(static function () {
             $hackerNews = new HackerNews();
             $hackerNews->getJobStories(config('hackernews.list_limit'), 0, true);
+        })->everyMinute();
+
+        $schedule->call(static function () {
+           $unsplash = new Unsplash();
+           $unsplash->getUnsplashFeaturedImage(true);
         })->everyFiveMinutes();
 
         $schedule->call(static function () {
-           $un = new Unsplash();
-           $un->getUnsplashFeaturedImage(true);
-        })->everyFiveMinutes();
-
-        $schedule->call(static function () {
-            $hn = new HackerNewsImport();
-            $hn->importAll();
+            $hackerNewsImport = new HackerNewsImport();
+            $hackerNewsImport->importAll();
         })->everyMinute();
     }
 

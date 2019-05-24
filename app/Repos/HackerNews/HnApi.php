@@ -2,7 +2,7 @@
 
 namespace App\Repos\HackerNews;
 
-class Hn
+class HnApi
 {
     protected $baseUri;
 
