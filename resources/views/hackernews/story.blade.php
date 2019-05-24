@@ -4,7 +4,12 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <p class="lead">{{ $story->title }}</p>
+        <p class="lead">
+          {{ $story->title }}
+          <a href="{{ data_get($story, 'url', '#') }}" target="story-{{ $story->id }}" class="text-body">
+            <b>[↗]</b>
+          </a>
+        </p>
         @if (data_get($story, 'text'))
           <p>{!! $story->text !!}</p>
         @endif
