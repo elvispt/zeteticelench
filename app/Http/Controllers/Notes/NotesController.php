@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 class NotesController extends Controller
 {
@@ -165,7 +166,7 @@ class NotesController extends Controller
     public function tagAdd(TagCreate $request)
     {
         $validated = new Collection($request->validated());
-        $tagName = $validated->get('tag');
+        $tagName = Str::lower($validated->get('tag'));
 
         $tag = new Tag();
         $tag->user_id = Auth::id();

@@ -11,4 +11,5 @@ return [
     'title' => "Title",
     'note' => "Note",
     'tags' => "Tags",
+    'tag' => "Tag",
 ];
