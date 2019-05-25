@@ -7,6 +7,7 @@ use App\Repos\HackerNews\HackerNews;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 class HackerNewsController extends Controller
 {
@@ -28,6 +29,7 @@ class HackerNewsController extends Controller
         $items = $hackerNews->getTopStories($this->perPage, $offset);
         $stories = new LengthAwarePaginator($items->stories, $items->total, $this->perPage, $currentPage);
         $stories->withPath(route('hackernews-top'));
+        $this->appendDomain($stories);
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
@@ -42,6 +44,7 @@ class HackerNewsController extends Controller
         $items = $hackerNews->getBestStories($this->perPage, $offset);
         $stories = new LengthAwarePaginator($items->stories, $items->total, $this->perPage, $currentPage);
         $stories->withPath(route('hackernews-best'));
+        $this->appendDomain($stories);
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
@@ -65,9 +68,20 @@ class HackerNewsController extends Controller
     {
         $hackerNews = new HackerNews();
         $story = $hackerNews->getStory($id);
+        $this->appendDomain([$story]);
         return View::make('hackernews/story', [
             'story' => $story,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
         ]);
+    }
+
+    protected function appendDomain($stories)
+    {
+        foreach ($stories as $story) {
+            $urlParsed = parse_url($story->url);
+            $host = data_get($urlParsed, 'host');
+            $domain = Str::replaceFirst('www.', '', $host);
+            $story->domain = $domain;
+        }
     }
 }

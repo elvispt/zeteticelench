@@ -6,9 +6,14 @@
       <div class="col-12">
         <p class="lead">
           {{ $story->title }}
-          <a href="{{ data_get($story, 'url', '#') }}" target="story-{{ $story->id }}" class="text-body">
-            <b>[↗]</b>
-          </a>
+          @if ($story->domain)
+            <a href="{{ data_get($story, 'url', '#') }}"
+               target="story-{{ $story->id }}"
+               class="text-body"
+            >
+              <small class="text-muted">({{ $story->domain }}) [↗]</small>
+            </a>
+          @endif
         </p>
         @if (data_get($story, 'text'))
           <p>{!! $story->text !!}</p>
