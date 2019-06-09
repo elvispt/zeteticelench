@@ -16,6 +16,10 @@ class AddUsersToTagsTable extends Migration
      */
     public function up()
     {
+        Schema::table('tags', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')
+                  ->after('id');
+        });
         if (!$this->isTableEmpty()) {
             $user = User::first();
             if (!$user) {
@@ -26,25 +30,20 @@ class AddUsersToTagsTable extends Migration
                 $user->save();
             }
             $userId = $user->id;
-            Schema::table('tags', function (Blueprint $table) {
-                $table->unsignedBigInteger('user_id')
-                      ->after('id');
-            });
-
             Tag::All()->each(function (Tag $tag) use ($userId) {
                 $tag->user_id = $userId;
                 $tag->save();
             });
-
-            Schema::table('tags', function (Blueprint $table) use ($userId) {
-                $table
-                    ->foreign('user_id')
-                    ->references('id')->on('users')
-                    ->onDelete('no action')
-                    ->onUpdate('no action')
-                ;
-            });
         }
+
+        Schema::table('tags', function (Blueprint $table) {
+            $table
+                ->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('no action')
+                ->onUpdate('no action')
+            ;
+        });
     }
 
     protected function isTableEmpty()
