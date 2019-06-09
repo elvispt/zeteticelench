@@ -16,30 +16,41 @@ class AddUsersToNotesTable extends Migration
      */
     public function up()
     {
-        $user = User::first();
-        if (!$user) {
-            throw new Exception('A user must exist on users table.');
+        if (!$this->isTableEmpty()) {
+            $user = User::first();
+            if (!$user) {
+                $user = new User();
+                $user->name = "Ghost";
+                $user->email = "ghost@example.com";
+                $user->password = Hash::make(123);
+                $user->save();
+            }
+            $userId = $user->id;
+
+            Schema::table('notes', function (Blueprint $table) {
+                $table->unsignedBigInteger('user_id')
+                      ->after('id');
+            });
+
+            Note::withTrashed()->get()->each(function (Note $note) use ($userId) {
+                $note->user_id = $userId;
+                $note->save();
+            });
+
+            Schema::table('notes', function (Blueprint $table) use ($userId) {
+                $table
+                    ->foreign('user_id')
+                    ->references('id')->on('users')
+                    ->onDelete('no action')
+                    ->onUpdate('no action')
+                ;
+            });
         }
-        $userId = $user->id;
+    }
 
-        Schema::table('notes', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')
-                ->after('id');
-        });
-
-        Note::withTrashed()->get()->each(function (Note $note) use ($userId) {
-            $note->user_id = $userId;
-            $note->save();
-        });
-
-        Schema::table('notes', function (Blueprint $table) use ($userId) {
-            $table
-                ->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('no action')
-                ->onUpdate('no action')
-            ;
-        });
+    protected function isTableEmpty()
+    {
+        return is_null(Note::withTrashed()->first());
     }
 
     /**

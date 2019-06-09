@@ -16,29 +16,40 @@ class AddUsersToTagsTable extends Migration
      */
     public function up()
     {
-        $user = User::first();
-        if (!$user) {
-            throw new Exception('A user must exist on users table.');
+        if (!$this->isTableEmpty()) {
+            $user = User::first();
+            if (!$user) {
+                $user = new User();
+                $user->name = "Ghost";
+                $user->email = "ghost@example.com";
+                $user->password = Hash::make(123);
+                $user->save();
+            }
+            $userId = $user->id;
+            Schema::table('tags', function (Blueprint $table) {
+                $table->unsignedBigInteger('user_id')
+                      ->after('id');
+            });
+
+            Tag::All()->each(function (Tag $tag) use ($userId) {
+                $tag->user_id = $userId;
+                $tag->save();
+            });
+
+            Schema::table('tags', function (Blueprint $table) use ($userId) {
+                $table
+                    ->foreign('user_id')
+                    ->references('id')->on('users')
+                    ->onDelete('no action')
+                    ->onUpdate('no action')
+                ;
+            });
         }
-        $userId = $user->id;
-        Schema::table('tags', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')
-                  ->after('id');
-        });
+    }
 
-        Tag::All()->each(function (Tag $tag) use ($userId) {
-            $tag->user_id = $userId;
-            $tag->save();
-        });
-
-        Schema::table('tags', function (Blueprint $table) use ($userId) {
-            $table
-                ->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('no action')
-                ->onUpdate('no action')
-            ;
-        });
+    protected function isTableEmpty()
+    {
+        return is_null(Tag::first());
     }
 
     /**
