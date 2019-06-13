@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
         $logDate = date('Ymd');
         $schedule
             ->command(StaleTags::class, ['--force'])
-            ->everyMinute()
+            ->everyThirtyMinutes()
             ->appendOutputTo(storage_path("logs/scheduler-$logDate.log"));
 
         $schedule->command('telescope:prune')->everyFifteenMinutes();
