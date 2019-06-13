@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
         $logDate = date('Ymd');
         $schedule
             ->command(StaleTags::class, ['--force'])
-            ->everyMinute()
+            ->everyThirtyMinutes()
             ->appendOutputTo(storage_path("logs/scheduler-$logDate.log"));
 
         $schedule->command('telescope:prune')->everyFifteenMinutes();
@@ -56,9 +56,10 @@ class Kernel extends ConsoleKernel
            $unsplash->getUnsplashFeaturedImage(true);
         })->everyFiveMinutes();
 
-        $schedule->call(static function () {
+        $schedule->call(function () {
             $hackerNewsImport = new HackerNewsImport();
-            $hackerNewsImport->importAll();
+            $hackerNewsImport->importUpdatedStories();
+            $hackerNewsImport->queueStoriesImport();
         })->everyMinute();
     }
 

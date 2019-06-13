@@ -16,6 +16,10 @@ class AddUsersToNotesTable extends Migration
      */
     public function up()
     {
+        Schema::table('notes', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')
+                  ->after('id');
+        });
         if (!$this->isTableEmpty()) {
             $user = User::first();
             if (!$user) {
@@ -26,26 +30,20 @@ class AddUsersToNotesTable extends Migration
                 $user->save();
             }
             $userId = $user->id;
-
-            Schema::table('notes', function (Blueprint $table) {
-                $table->unsignedBigInteger('user_id')
-                      ->after('id');
-            });
-
             Note::withTrashed()->get()->each(function (Note $note) use ($userId) {
                 $note->user_id = $userId;
                 $note->save();
             });
-
-            Schema::table('notes', function (Blueprint $table) use ($userId) {
-                $table
-                    ->foreign('user_id')
-                    ->references('id')->on('users')
-                    ->onDelete('no action')
-                    ->onUpdate('no action')
-                ;
-            });
         }
+
+        Schema::table('notes', function (Blueprint $table) {
+            $table
+                ->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('no action')
+                ->onUpdate('no action')
+            ;
+        });
     }
 
     protected function isTableEmpty()
