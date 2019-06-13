@@ -2,61 +2,22 @@
 
 namespace App\Repos\HackerNews;
 
+use App\Jobs\HnImportStories;
 use App\Models\HackerNewsItem;
+use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Pool;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use InvalidArgumentException;
 
 class HackerNewsImport extends HnApi
 {
-    protected $updatesUri;
 
-    protected $concurrency = 50;
+    protected $chunkSize = 200;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->updatesUri = config('hackernews.api_updates_uri');
-    }
-
-    public function importAll()
-    {
-        $this->importTopStories();
-        $this->importBestStories();
-        $this->importJobStories();
-        $this->importUpdatedStories();
-    }
-
-    public function importTopStories()
-    {
-        $topStoriesFullIdList = $this->getLiveStoriesIdList($this->topStoriesUri);
-        $topStoriesIdList = $this->removeExistingStoryIds($topStoriesFullIdList);
-        $stories = $this->concurrentRequestsForItems($topStoriesIdList);
-        Utils::store($stories);
-        $this->addCommentsToStories($stories);
-    }
-
-    public function importBestStories()
-    {
-        $bestStoriesFullIdList = $this->getLiveStoriesIdList($this->bestStoriesUri);
-        $bestStoriesIdList = $this->removeExistingStoryIds($bestStoriesFullIdList);
-        $stories = $this->concurrentRequestsForItems($bestStoriesIdList);
-        Utils::store($stories);
-        $this->addCommentsToStories($stories);
-    }
-
-    public function importJobStories()
-    {
-        $jobStoriesFullIdList = $this->getLiveStoriesIdList($this->jobStoriesUri);
-        $jobStoriesIdList = $this->removeExistingStoryIds($jobStoriesFullIdList);
-        $stories = $this->concurrentRequestsForItems($jobStoriesIdList);
-        Utils::store($stories);
-        $this->addCommentsToStories($stories);
-    }
+    protected $maxIdCacheKey = 'maxid';
 
     public function importUpdatedStories()
     {
@@ -66,60 +27,83 @@ class HackerNewsImport extends HnApi
         Utils::store($stories);
     }
 
-    public function getLiveStoriesIdList(string $uri)
+    public function queueStoriesImport()
     {
-        $client = new Client([
-            'base_uri' => $this->baseUri,
-        ]);
-
-        $response = $client->get($uri);
-        $json = $response->getBody()->getContents();
-        try {
-            $storiesIdList = \GuzzleHttp\json_decode($json);
-        } catch (InvalidArgumentException $exception) {
-            Log::error("Could not decode live data endpoint json response", [$exception->getMessage()]);
-            $storiesIdList= [];
+        $maxId = Cache::get($this->maxIdCacheKey);
+        if (is_null($maxId)) {
+            $maxId = $this->getMaxItemStoryId();
         }
-
-        return $storiesIdList;
+        if ($maxId > 0) {
+            $this->dispatchChunk($maxId);
+        }
     }
 
-    protected function concurrentRequestsForItems($storiesIdList)
+    protected function dispatchChunk(int $maxId, int $iterations = 100)
     {
+        list($ids, $nextMaxId) = $this->chunk($maxId);
+        if (count($ids)) {
+            HnImportStories::dispatch($ids);
+        }
+        if ($nextMaxId > 0 && $iterations > 0) {
+            $iterations -= 1;
+            $this->dispatchChunk($nextMaxId, $iterations);
+        } else {
+            Cache::set($this->maxIdCacheKey, $nextMaxId, Carbon::now()->addDays(100));
+        }
+    }
+
+    protected function chunk($maxId)
+    {
+        $ids = [];
+        $nextMaxId = $maxId;
+        while (count($ids) < $this->chunkSize) {
+            $nextMaxId = $maxId - $this->chunkSize;
+            for ($i = $nextMaxId; $i < $maxId; $i++) {
+                $ids[] = $i;
+            }
+            $ids = $this->removeExistingStoryIds($ids);
+        }
+        return [$ids, $nextMaxId];
+    }
+
+    protected function chunk2($maxId, &$iterations)
+    {
+        $ids = [];
+        $nextMaxId = $maxId - $this->chunkSize;
+        for ($i = $nextMaxId; $i < $maxId; $i++) {
+            $ids[] = $i;
+        }
+        $ids = $this->removeExistingStoryIds($ids);
+        if (count($ids) === 0 && $iterations > 0) {
+            $iterations -= 1;
+            return $this->chunk($nextMaxId, $iterations);
+        }
+        return [$ids, $nextMaxId];
+    }
+
+    protected function getMaxItemStoryId()
+    {
+        Log::debug("Getting max story id from API");
         $client = new Client([
             'base_uri' => $this->baseUri,
         ]);
-        $requests = function ($topStoriesIdList) {
-            foreach ($topStoriesIdList as $id) {
-                yield new Request('GET', sprintf($this->itemUriFormat, $id));
-            }
-        };
-        $unorderedStories = [];
-        $pool = new Pool($client, $requests($storiesIdList), [
-            'concurrency' => $this->concurrency,
-            'fulfilled' => function (Response $response) use (&$unorderedStories) {
-                $json = $response->getBody()->getContents();
-                try {
-                    $item = \GuzzleHttp\json_decode($json);
-                } catch (InvalidArgumentException $exception) {
-                    Log::error("Failed to decode story item");
-                    $item = null;
-                }
-                $unorderedStories[] = $item;
-            },
-            'rejected' => function ($reason, $index) {
-                Log::warning("Failed to make request to hn api", [$reason]);
-            },
-        ]);
-        $promise = $pool->promise();
-        $promise->wait();
 
-        return $unorderedStories;
+        $maxItemId = null;
+        try {
+            $response = $client->get($this->maxItemIdUri);
+            $maxItemId = $response->getBody()->getContents();
+        } catch (ClientException $exception) {
+            Log::alert("Could not get max item id");
+        } catch (Exception $exception) {
+            Log::alert("Could not get max item id");
+        }
+        return $maxItemId ? (int) $maxItemId : null;
     }
 
     protected function removeExistingStoryIds($ids)
     {
         $foundStoriesIds = (new HackerNewsItem())
+            ->withTrashed()
             ->select('id')
             ->whereIn('id', $ids)
             ->get()
@@ -129,32 +113,5 @@ class HackerNewsImport extends HnApi
         return (new Collection($ids))
             ->diff($foundStoriesIds)
             ->toArray();
-    }
-
-    protected function addCommentsToStories($stories)
-    {
-        foreach ($stories as $story) {
-            $kids = data_get($story, 'kids');
-            if (is_array($kids) && count($kids)) {
-                $this->comments($kids);
-            }
-        }
-    }
-
-    protected function comments($ids)
-    {
-        $comments = $this->concurrentRequestsForItems($ids);
-
-        Utils::store($comments);
-
-        foreach ($comments as $comment) {
-            $kids = data_get($comment, 'kids');
-            if ($kids) {
-                $subComments = $this->comments($kids);
-                Utils::store($subComments);
-            }
-        }
-
-        return $comments;
     }
 }
