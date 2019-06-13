@@ -68,7 +68,14 @@ class Utils
                 try {
                     $hackerNewsItem->save();
                 } catch (Exception $exception) {
-                    Log::error("Could not save story to DB", [print_r($story, true)]);
+                    Log::error(
+                        "Could not save story to DB",
+                        [
+                            'exceptionMessage' => $exception->getMessage(),
+                            'data' => print_r($story, true),
+                        ]
+                    );
+
                 }
             })
             ->count();
