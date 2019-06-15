@@ -24,8 +24,8 @@ class HackerNewsController extends Controller
     public function top(Request $request)
     {
         $currentPage = (int) $request->get('page', 1);
+        $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
-        $offset = $currentPage === 1 ? 0 : ($currentPage - 1 ) * $this->perPage;
         $items = $hackerNews->getTopStories($this->perPage, $offset);
         $stories = new LengthAwarePaginator($items->stories, $items->total, $this->perPage, $currentPage);
         $stories->withPath(route('hackernews-top'));
@@ -39,8 +39,8 @@ class HackerNewsController extends Controller
     public function best(Request $request)
     {
         $currentPage = (int) $request->get('page', 1);
+        $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
-        $offset = $currentPage === 1 ? 0 : ($currentPage - 1 ) * $this->perPage;
         $items = $hackerNews->getBestStories($this->perPage, $offset);
         $stories = new LengthAwarePaginator($items->stories, $items->total, $this->perPage, $currentPage);
         $stories->withPath(route('hackernews-best'));
@@ -54,14 +54,19 @@ class HackerNewsController extends Controller
     public function jobs(Request $request)
     {
         $currentPage = (int) $request->get('page', 1);
+        $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
-        $offset = $currentPage === 1 ? 0 : ($currentPage - 1 ) * $this->perPage;
         $items = $hackerNews->getJobStories($this->perPage, $offset);
         $stories = new LengthAwarePaginator($items->stories, $items->total, $this->perPage, $currentPage);
         $stories->withPath(route('hackernews-jobs'));
         return View::make('hackernews/jobs', [
             'stories' => $stories,
         ]);
+    }
+
+    protected function offset($currentPage)
+    {
+        return $currentPage === 1 ? 0 : ($currentPage - 1) * $this->perPage;
     }
 
     public function item($id)

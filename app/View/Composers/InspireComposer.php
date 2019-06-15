@@ -25,7 +25,7 @@ class InspireComposer
     protected function adviceSlip(): string
     {
         $advice = Cache::get($this->cacheKey);
-        if (empty($advice)) {
+        if (is_null($advice)) {
             $client = new Client();
             $response = $client->get($this->adviceSlipUrl);
             $json = $response->getBody()->getContents();

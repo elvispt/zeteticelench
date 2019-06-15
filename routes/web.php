@@ -19,7 +19,7 @@ Route::get('/', 'HomeController@index');
 Route::namespace('Notes')
     ->prefix('notes')
     ->middleware('auth')
-    ->group(function () {
+    ->group(static function () {
 
         Route::get('', 'NotesController@index')
              ->name('notes');
@@ -55,7 +55,7 @@ Route::namespace('Notes')
 Route::namespace('HackerNews')
      ->prefix('hackernews')
      ->middleware('auth')
-     ->group(function () {
+     ->group(static function () {
 
          Route::get('top', 'HackerNewsController@top')
               ->name('hackernews-top');
@@ -74,7 +74,7 @@ Route::namespace('HackerNews')
 Route::namespace('Users')
      ->prefix('users')
      ->middleware('auth')
-     ->group(function () {
+     ->group(static function () {
 
          Route::get('', 'UsersController@index')
               ->name('users-list');

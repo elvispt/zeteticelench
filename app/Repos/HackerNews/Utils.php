@@ -26,9 +26,8 @@ class Utils
 
     public static function store($stories): int
     {
-        $map = [
+        $map = new Collection([
             // apiField => column
-            'descendants' => 'descendants',
             'parent' => 'parent_id',
             'kids' => 'kids',
             'dead' => 'dead',
@@ -36,14 +35,14 @@ class Utils
             'score' => 'score',
             'title' => 'title',
             'text' => 'text',
-        ];
+        ]);
         return (new Collection($stories))
             ->filter(static function ($story) {
                 return data_get($story, 'id', false);
             })
             ->each(static function ($story) use ($map) {
                 $id = $story->id;
-                $hackerNewsItem = (HackerNewsItem::withTrashed())
+                $hackerNewsItem = HackerNewsItem::withTrashed()
                     ->where('id', $id)
                     ->first();
                 if (is_null($hackerNewsItem)) {
@@ -53,15 +52,20 @@ class Utils
                     if (property_exists($story, 'by')) {
                         $hackerNewsItem->by = $story->by;
                     }
-                    $hackerNewsItem->created_at = Carbon::createFromTimestamp($story->time);
+                    $hackerNewsItem->created_at = Carbon::createFromTimestamp(data_get($story, 'time'));
                     $hackerNewsItem->type = $story->type;
                 }
-                (new Collection($map))
-                    ->each(function ($column, $apiField) use ($hackerNewsItem, $story) {
+                $map
+                    ->each(static function ($column, $apiField) use ($hackerNewsItem, $story) {
                         if (property_exists($story, $apiField)) {
                             $hackerNewsItem->{$column} = data_get($story, $apiField);
                         }
                     });
+                $descendants = data_get($story, 'descendants');
+                if (!$descendants || $descendants < 0) {
+                    $descendants = 0;
+                }
+                $hackerNewsItem->descendants = $descendants;
                 if (property_exists($story, 'deleted')) {
                     $hackerNewsItem->deleted_at = Carbon::now();
                 }

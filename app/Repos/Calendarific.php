@@ -19,6 +19,7 @@ class Calendarific
 
     /**
      * 1 day expiration
+     *
      * @var int
      */
     protected $cacheExpiration = 86400;
@@ -69,10 +70,8 @@ class Calendarific
         $holidays = Cache::get($this->cacheKey);
         if (is_null($holidays)) {
             $holidays = $this->getHolidaysFromApi($year, $country, $location);
-            if (!is_null($holidays)) {
-                $holidays = data_get($holidays, 'response.holidays');
-                Cache::set($this->cacheKey, $holidays, $this->cacheExpiration);
-            }
+            $holidays = data_get($holidays, 'response.holidays');
+            Cache::set($this->cacheKey, $holidays, $this->cacheExpiration);
         }
         $this->holidays = $holidays;
         return $this->holidays;
@@ -95,7 +94,7 @@ class Calendarific
         $country = 'pt',
         $location = 'Madeira'
     ) {
-        $year = $year ?: date('Y');
+        $year = $year ? $year : date('Y');
         $response = null;
         try {
             $response = $this->client->get($this->endpoint, [
