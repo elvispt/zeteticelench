@@ -19,6 +19,7 @@ class Calendarific
 
     /**
      * 1 day expiration
+     *
      * @var int
      */
     protected $cacheExpiration = 86400;
@@ -95,7 +96,7 @@ class Calendarific
         $country = 'pt',
         $location = 'Madeira'
     ) {
-        $year = $year ?: date('Y');
+        $year = $year ? $year : date('Y');
         $response = null;
         try {
             $response = $this->client->get($this->endpoint, [

@@ -40,7 +40,7 @@ class HackerNewsImport extends HnApi
 
     protected function dispatchChunk(int $maxId, int $iterations = 100)
     {
-        list($ids, $nextMaxId) = $this->chunk($maxId);
+        [$ids, $nextMaxId] = $this->chunk($maxId);
         if (count($ids)) {
             HnImportStories::dispatch($ids);
         }
@@ -62,21 +62,6 @@ class HackerNewsImport extends HnApi
                 $ids[] = $i;
             }
             $ids = $this->removeExistingStoryIds($ids);
-        }
-        return [$ids, $nextMaxId];
-    }
-
-    protected function chunk2($maxId, &$iterations)
-    {
-        $ids = [];
-        $nextMaxId = $maxId - $this->chunkSize;
-        for ($i = $nextMaxId; $i < $maxId; $i++) {
-            $ids[] = $i;
-        }
-        $ids = $this->removeExistingStoryIds($ids);
-        if (count($ids) === 0 && $iterations > 0) {
-            $iterations -= 1;
-            return $this->chunk($nextMaxId, $iterations);
         }
         return [$ids, $nextMaxId];
     }

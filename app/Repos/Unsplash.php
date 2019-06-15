@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 class Unsplash
@@ -29,7 +30,7 @@ class Unsplash
     {
         $photoUrl = Cache::get($this->cacheKey);
 
-        if (empty($photoUrl) || $forceCacheRefresh) {
+        if (is_null($photoUrl) || $forceCacheRefresh) {
             $photoUrl = $this->getFeaturedImage();
             try {
                 Cache::set($this->cacheKey, $photoUrl, $this->cacheExpiration);
@@ -47,29 +48,50 @@ class Unsplash
         $client = new Client([
             'base_uri' => $this->baseUri,
         ]);
+        $response = null;
         try {
             $response = $client->get($this->randomPhoto, [
-                'headers' => [
-                    'Accept-Version' => 'v1',
-                    'Authorization' => 'Client-ID ' . $this->accessKey
-                ],
-                'query' => [
-                    'featured' => 1,
-                    'orientation' => 'portrait',
-                    'query' => 'technology',
-                ],
+                'headers' => $this->headers(),
+                'query' => $this->query(),
             ]);
         } catch (ClientException $exception) {
             Log::warning("Failed to get image from unsplash api");
         }
-        if (!empty($response)) {
-            $json = $response->getBody()->getContents();
-            $obj = \GuzzleHttp\json_decode($json);
-            $photoUrl = (object) [
-                'url' => data_get($obj, 'urls.full'),
-                'bg' => data_get($obj, 'color'),
-            ];
+        if ($response) {
+            $photoUrl = $this->getImageFromResponse($response);
         }
+
         return $photoUrl;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return object
+     */
+    protected function getImageFromResponse(ResponseInterface $response)
+    {
+        $json = $response->getBody()->getContents();
+        $obj = \GuzzleHttp\json_decode($json);
+        return (object) [
+            'url' => data_get($obj, 'urls.full'),
+            'bg' => data_get($obj, 'color'),
+        ];
+    }
+
+    protected function headers()
+    {
+        return [
+            'Accept-Version' => 'v1',
+            'Authorization' => 'Client-ID ' . $this->accessKey,
+        ];
+    }
+
+    protected function query()
+    {
+        return [
+            'featured' => 1,
+            'orientation' => 'portrait',
+            'query' => 'technology',
+        ];
     }
 }

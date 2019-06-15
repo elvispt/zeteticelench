@@ -51,7 +51,7 @@ class HnApi
         $unorderedStories = [];
         $pool = new Pool($client, $requests($storiesIdList), [
             'concurrency' => $this->concurrency,
-            'fulfilled' => function (Response $response) use (&$unorderedStories) {
+            'fulfilled' => static function (Response $response) use (&$unorderedStories) {
                 $json = $response->getBody()->getContents();
                 try {
                     $item = \GuzzleHttp\json_decode($json);
@@ -61,7 +61,7 @@ class HnApi
                 }
                 $unorderedStories[] = $item;
             },
-            'rejected' => function ($reason, $index) {
+            'rejected' => static function ($reason) {
                 Log::warning("Failed to make request to hn api", [$reason]);
             },
         ]);
