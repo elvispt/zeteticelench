@@ -25,7 +25,7 @@ class HnApi
 
     protected $maxItemIdUri;
 
-    protected $concurrency = 50;
+    protected $concurrency = 10;
 
     public function __construct()
     {
