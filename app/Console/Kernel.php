@@ -2,6 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Commands\StaleTags;
+use App\Repos\HackerNews\HackerNews;
+use App\Repos\HackerNews\HackerNewsImport;
+use App\Repos\Unsplash;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +28,41 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $logDate = date('Ymd');
+        $schedule
+            ->command(StaleTags::class, ['--force'])
+            ->everyThirtyMinutes()
+            ->appendOutputTo(storage_path("logs/scheduler-$logDate.log"));
+
+        $schedule->command('telescope:prune')->everyFifteenMinutes();
+
+        $schedule->call(static function () {
+            $hackerNews = new HackerNews();
+            $hackerNews->getTopStories(config('hackernews.list_limit'), 0, true);
+        })->everyMinute();
+
+        $schedule->call(static function () {
+            $hackerNews = new HackerNews();
+            $hackerNews->getBestStories(config('hackernews.list_limit'), 0, true);
+        })->everyMinute();
+
+        $schedule->call(static function () {
+            $hackerNews = new HackerNews();
+            $hackerNews->getJobStories(config('hackernews.list_limit'), 0, true);
+        })->everyMinute();
+
+        $schedule->call(static function () {
+           $unsplash = new Unsplash();
+           $unsplash->getUnsplashFeaturedImage(true);
+        })->everyFiveMinutes();
+
+        $schedule->call(function () {
+            $hackerNewsImport = new HackerNewsImport();
+            $hackerNewsImport->importUpdatedStories();
+            if (config('hackernews.api_full_import_active')) {
+                $hackerNewsImport->queueStoriesImport();
+            }
+        })->everyMinute();
     }
 
     /**

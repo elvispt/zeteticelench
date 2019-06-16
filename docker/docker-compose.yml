@@ -1,0 +1,45 @@
+version: '3'
+services:
+  zeteticelench:
+    build: ./
+    image: laravel
+    ports:
+      - 8080:80
+    container_name: zeteticelench
+    volumes:
+      - "../:/var/www/html"
+    networks:
+      - zeteticelench
+    depends_on:
+      - mysql
+    restart:
+      on-failure
+  mysql:
+    image: "mysql:5.7"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+    volumes:
+      - "/home/elvist/Documents/mysql:/var/lib/mysql"
+    container_name: mysql
+    networks:
+      - zeteticelench
+    restart:
+      on-failure
+  pma:
+    image: "phpmyadmin/phpmyadmin"
+    environment:
+      - PMA_USER=root
+      - PMA_PASSWORD=123
+      - PMA_HOST=mysql
+    ports:
+      - 8764:80
+    container_name: pma
+    networks:
+      - zeteticelench
+    depends_on:
+      - mysql
+    restart:
+      on-failure
+networks:
+  zeteticelench: {}
+
