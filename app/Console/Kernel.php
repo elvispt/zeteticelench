@@ -59,7 +59,9 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $hackerNewsImport = new HackerNewsImport();
             $hackerNewsImport->importUpdatedStories();
-            $hackerNewsImport->queueStoriesImport();
+            if (config('hackernews.api_full_import_active')) {
+                $hackerNewsImport->queueStoriesImport();
+            }
         })->everyMinute();
     }
 
