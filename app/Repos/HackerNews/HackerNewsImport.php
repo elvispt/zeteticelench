@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 class HackerNewsImport extends HnApi
 {
 
-    protected $chunkSize = 200;
+    protected $chunkSize = 100;
 
     protected $maxIdCacheKey = 'maxid';
 
@@ -33,22 +33,27 @@ class HackerNewsImport extends HnApi
         if (is_null($maxId)) {
             $maxId = $this->getMaxItemStoryId();
         }
+        Log::debug("queueStoriesImport: Obtained $maxId as maxid");
         if ($maxId > 0) {
             $this->dispatchChunk($maxId);
         }
     }
 
-    protected function dispatchChunk(int $maxId, int $iterations = 100)
+    protected function dispatchChunk(int $maxId, int $iterations = 50)
     {
         [$ids, $nextMaxId] = $this->chunk($maxId);
         if (count($ids)) {
+            Log::debug("dispatchChunk: Dispatching " . count($ids) . " to job");
             HnImportStories::dispatch($ids);
         }
         if ($nextMaxId > 0 && $iterations > 0) {
             $iterations -= 1;
             $this->dispatchChunk($nextMaxId, $iterations);
         } else {
-            Cache::set($this->maxIdCacheKey, $nextMaxId, Carbon::now()->addDays(100));
+            $result = Cache::set($this->maxIdCacheKey, $nextMaxId, Carbon::now()->addDays(100));
+            if (!$result) {
+                Log::warning("Failed to set $this->maxIdCacheKey on cache with value $nextMaxId");
+            }
         }
     }
 
