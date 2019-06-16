@@ -11,4 +11,6 @@ return [
     'api_item_max_id' => '/v0/maxitem.json',
 
     'list_limit' => 15,
+
+    'api_full_import_active' => env('HN_FULL_IMPORT_ENABLED', false),
 ];

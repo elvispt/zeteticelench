@@ -1,6 +1,8 @@
 Zetetic Elench - Seeking Proof
 ---
 
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=elvispt/zeteticelench)](https://dependabot.com)
+
 ## Stack:
 - PHP 7.2
 - Laravel 5.8
