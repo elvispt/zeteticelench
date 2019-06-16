@@ -16,7 +16,7 @@
 
                 <div class="col-md-6">
                   <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                         name="email" value="{{ old('email', 'dev@mail.com') }}" required autocomplete="email"
+                         name="email" value="{{ old('email') }}" required autocomplete="email"
                          autofocus>
 
                   @if ($errors->has('email'))
@@ -33,7 +33,7 @@
                 <div class="col-md-6">
                   <input id="password" type="password"
                          class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
-                         required autocomplete="current-password" value="123">
+                         required autocomplete="current-password">
 
                   @if ($errors->has('password'))
                     <span class="invalid-feedback" role="alert">
