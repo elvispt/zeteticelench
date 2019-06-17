@@ -27,8 +27,7 @@ class HackerNewsController extends Controller
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
         $items = $hackerNews->getTopStories($this->perPage, $offset);
-        $stories = new LengthAwarePaginator($items->stories, $items->total, $this->perPage, $currentPage);
-        $stories->withPath(route('hackernews-top'));
+        $stories = $this->lengthAwarePaginator($currentPage, $items, route('hackernews-top'));
         $this->appendDomain($stories);
         return View::make('hackernews/stories', [
             'stories' => $stories,
@@ -42,8 +41,7 @@ class HackerNewsController extends Controller
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
         $items = $hackerNews->getBestStories($this->perPage, $offset);
-        $stories = new LengthAwarePaginator($items->stories, $items->total, $this->perPage, $currentPage);
-        $stories->withPath(route('hackernews-best'));
+        $stories = $this->lengthAwarePaginator($currentPage, $items, route('hackernews-best'));
         $this->appendDomain($stories);
         return View::make('hackernews/stories', [
             'stories' => $stories,
@@ -57,8 +55,7 @@ class HackerNewsController extends Controller
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
         $items = $hackerNews->getJobStories($this->perPage, $offset);
-        $stories = new LengthAwarePaginator($items->stories, $items->total, $this->perPage, $currentPage);
-        $stories->withPath(route('hackernews-jobs'));
+        $stories = $this->lengthAwarePaginator($currentPage, $items, route('hackernews-jobs'));
         return View::make('hackernews/jobs', [
             'stories' => $stories,
         ]);
@@ -88,5 +85,19 @@ class HackerNewsController extends Controller
             $domain = Str::replaceFirst('www.', '', $host);
             $story->domain = $domain;
         }
+    }
+
+    protected function lengthAwarePaginator($currentPage, $items, $withPath)
+    {
+        $stories = new LengthAwarePaginator(
+            $items->stories,
+            $items->total,
+            $this->perPage,
+            $currentPage
+        );
+        $stories->withPath($withPath);
+        $stories->onEachSide(1);
+
+        return $stories;
     }
 }
