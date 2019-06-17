@@ -4,9 +4,18 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Allows making a user using artisan command make:user.
+ * When running initial migration there is no user created, so this command
+ * must be called to create a user.
+ *
+ * @package App\Console\Commands
+ */
 class MakeUser extends Command
 {
     /**
@@ -24,9 +33,8 @@ class MakeUser extends Command
     protected $description = 'Generates a user';
 
     /**
-     * Execute the console command.
-     *
-     * @return mixed
+     * Execute the console command. If the caller provides invalid data,
+     * error messages will be shown in the command line.
      */
     public function handle()
     {
@@ -39,7 +47,14 @@ class MakeUser extends Command
             return;
         }
 
-        $user = $this->createUser($name, $email, $password);
+        try {
+            $user = $this->createUser($name, $email, $password);
+        } catch (QueryException $exception) {
+            Log::error("Failed to store user into db.", ['message' => $exception->getMessage()]);
+            $this->error("Failed to create user. Failed to store user data into DB.");
+            return;
+        }
+
         $id = $user->id;
         $name = $user->name;
         $email = $user->email;
@@ -48,6 +63,11 @@ class MakeUser extends Command
         $this->info("Login with: $email and provided password.");
     }
 
+    /**
+     * Requests the necessary data for creating the user.
+     *
+     * @return array Returns the name, email, and password as an array.
+     */
     protected function askUserData()
     {
         $name = $this->ask("Type name");
@@ -57,7 +77,16 @@ class MakeUser extends Command
         return [$name, $email, $password];
     }
 
-    protected function validator($name, $email, $password)
+    /**
+     * The validation of the data is run against the rules defined here.
+     *
+     * @param string $name The name of the user
+     * @param string $email The email of the user
+     * @param string $password The password of the user
+     *
+     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     */
+    protected function validator(string $name, string $email, string $password)
     {
         return Validator::make(
             [
@@ -73,13 +102,24 @@ class MakeUser extends Command
         );
     }
 
-    protected function createUser($name, $email, $password): User
+    /**
+     * Stores the given user information into database. Takes care of securely
+     * hashing the given password.
+     *
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     *
+     * @return User Returns the user model after storing into db.
+     */
+    protected function createUser(string $name, string $email, string $password): User
     {
         $user = new User();
         $user->name = $name;
         $user->email = $email;
         $user->password = Hash::make($password);
         $user->save();
+
         return $user;
     }
 }
