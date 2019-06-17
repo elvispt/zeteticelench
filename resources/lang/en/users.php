@@ -13,4 +13,6 @@ return [
     'edit' => "Edit",
     'delete' => "Delete",
     'email_verified_at' => "Email Verified at",
+    'password' => "Password",
+    'password_confirmation' => "Confirm Password",
 ];
