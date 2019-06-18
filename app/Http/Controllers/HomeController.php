@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Repos\Calendarific;
-use App\Repos\Unsplash;
+use App\Repos\Unsplash\Unsplash;
+use App\Repos\Unsplash\UnsplashApi;
 
 class HomeController extends Controller
 {
@@ -27,8 +28,10 @@ class HomeController extends Controller
         $cal = new Calendarific();
         $holidays = $cal->holidays();
         $nextHolidays = $cal->getNextHolidays($holidays);
+        $unsplash = new Unsplash();
+
         return view('home', [
-            'unsplash' => (new Unsplash())->getUnsplashFeaturedImage(),
+            'unsplash' => $unsplash->getUnsplashFeaturedImage(new UnsplashApi()),
             'nextHolidays' => $nextHolidays,
         ]);
     }
