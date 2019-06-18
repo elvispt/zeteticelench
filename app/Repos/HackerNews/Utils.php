@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Log;
 
 class Utils
 {
+    /**
+     * Sorts the given list of stories against the expect order of items set on
+     * $orderOfStories.
+     *
+     * @param array      $unorderedStories
+     * @param array<int> $orderOfStories
+     * @return array Returns the list of stories sorted according to
+     * $orderOfStories
+     */
     public static function sortStoriesList($unorderedStories, $orderOfStories)
     {
         $orderedStories = [];
@@ -24,6 +33,12 @@ class Utils
         return $orderedStories;
     }
 
+    /**
+     * Parses and stores the given stories.
+     *
+     * @param array $stories The stories parsed from the HN API
+     * @return int Returns the number of updated/created hn story items.
+     */
     public static function store($stories): int
     {
         $map = new Collection([
@@ -52,17 +67,25 @@ class Utils
                     if (property_exists($story, 'by')) {
                         $hackerNewsItem->by = $story->by;
                     }
-                    $hackerNewsItem->created_at = Carbon::createFromTimestamp(data_get($story, 'time'));
+                    $time = data_get($story, 'time');
+                    $created_at = Carbon::createFromTimestamp($time);
+                    $hackerNewsItem->created_at = $created_at;
                     $hackerNewsItem->type = $story->type;
                 }
                 $map
-                    ->each(static function ($column, $apiField) use ($hackerNewsItem, $story) {
+                    ->each(static function ($column, $apiField) use (
+                        $hackerNewsItem,
+                        $story
+                    ) {
                         if (property_exists($story, $apiField)) {
-                            $hackerNewsItem->{$column} = data_get($story, $apiField);
+                            $hackerNewsItem->{$column} = data_get(
+                                $story,
+                                $apiField
+                            );
                         }
                     });
                 $descendants = data_get($story, 'descendants');
-                if (!$descendants || $descendants < 0) {
+                if (! $descendants || $descendants < 0) {
                     $descendants = 0;
                 }
                 $hackerNewsItem->descendants = $descendants;

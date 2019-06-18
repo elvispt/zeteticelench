@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
+use stdClass;
 
 class HnApi
 {
@@ -27,6 +28,9 @@ class HnApi
 
     protected $concurrency = 10;
 
+    /**
+     * Init class properties with common configuration values
+     */
     public function __construct()
     {
         $this->baseUri = config('hackernews.api_base_uri');
@@ -34,32 +38,28 @@ class HnApi
         $this->bestStoriesUri = config('hackernews.api_best_stories_uri');
         $this->jobStoriesUri = config('hackernews.api_job_stories_uri');
         $this->updatesUri = config('hackernews.api_updates_uri');
-        $this->itemUriFormat = config('hackernews.api_item_details_uri_format');
+        $this->itemUriFormat =
+            config('hackernews.api_item_details_uri_format');
         $this->maxItemIdUri = config('hackernews.api_item_max_id');
     }
 
-    public function concurrentRequestsForItems($storiesIdList)
+    /**
+     * Makes concurrent requests to HN api to obtain hn item info
+     *
+     * @param array<int> $storiesIdList
+     * @return array Returns the responses
+     */
+    public function concurrentRequestsForItems(array $storiesIdList)
     {
         $client = new Client([
             'base_uri' => $this->baseUri,
         ]);
-        $requests = function ($topStoriesIdList) {
-            foreach ($topStoriesIdList as $id) {
-                yield new Request('GET', sprintf($this->itemUriFormat, $id));
-            }
-        };
-        $unorderedStories = [];
+        $requests = $this->requestsGenerator();
+        $stories = [];
         $pool = new Pool($client, $requests($storiesIdList), [
             'concurrency' => $this->concurrency,
-            'fulfilled' => static function (Response $response) use (&$unorderedStories) {
-                $json = $response->getBody()->getContents();
-                try {
-                    $item = \GuzzleHttp\json_decode($json);
-                } catch (InvalidArgumentException $exception) {
-                    Log::error("Failed to decode story item");
-                    $item = null;
-                }
-                $unorderedStories[] = $item;
+            'fulfilled' => function (Response $response) use (&$stories) {
+                $stories[] = $this->parseItemResponse($response);
             },
             'rejected' => static function ($reason) {
                 Log::warning("Failed to make request to hn api", [$reason]);
@@ -68,9 +68,16 @@ class HnApi
         $promise = $pool->promise();
         $promise->wait();
 
-        return $unorderedStories;
+        return $stories;
     }
 
+    /**
+     * Makes a request to one of best/top/jobs api endpoints (depends on passed
+     * uri).
+     *
+     * @param string $uri The uri to either best/top/jobs endpoint
+     * @return object Returns a list of ids of hn items
+     */
     public function getLiveStoriesIdList(string $uri)
     {
         $client = new Client([
@@ -82,10 +89,52 @@ class HnApi
         try {
             $storiesIdList = \GuzzleHttp\json_decode($json);
         } catch (InvalidArgumentException $exception) {
-            Log::error("Could not decode live data endpoint json response", [$exception->getMessage()]);
-            $storiesIdList= [];
+            Log::error(
+                "Could not decode live data endpoint json response",
+                ['eMessage' => $exception->getMessage()]
+            );
+            $storiesIdList = new stdClass();
         }
 
         return $storiesIdList;
+    }
+
+    /**
+     * Returns a function that contains all the requests as a generator.
+     *
+     * @return \Closure The callback as a generator function
+     */
+    protected function requestsGenerator()
+    {
+        return function ($topStoriesIdList) {
+            foreach ($topStoriesIdList as $id) {
+                yield new Request(
+                    'GET',
+                    sprintf($this->itemUriFormat, $id)
+                );
+            }
+        };
+    }
+
+    /**
+     * Parses the response from HN api
+     *
+     * @param Response $response The response from the api
+     * @return mixed|null Returns the response parse, null on failure
+     */
+    protected function parseItemResponse(Response $response)
+    {
+        $json = $response->getBody()->getContents();
+        try {
+            $item = \GuzzleHttp\json_decode($json);
+        } catch (InvalidArgumentException $exception) {
+            Log::error(
+                "Failed to decode story item",
+                ['eMessage' => $exception->getMessage()]
+            );
+            $item = null;
+        }
+
+        return $item;
     }
 }

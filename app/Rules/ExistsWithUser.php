@@ -36,7 +36,6 @@ class ExistsWithUser implements Rule
             ->where('id', $value)
             ->where('user_id', $this->userId)
             ->exists();
-
     }
 
     /**

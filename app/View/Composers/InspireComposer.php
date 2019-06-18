@@ -22,6 +22,11 @@ class InspireComposer
         $view->with('__inspire', $__inspire);
     }
 
+    /**
+     * Gets the advice slip from cache or from the API
+     *
+     * @return string Returns the advice splip
+     */
     protected function adviceSlip(): string
     {
         $advice = Cache::get($this->cacheKey);
@@ -38,6 +43,6 @@ class InspireComposer
             }
         }
 
-        return $advice;
+        return is_string($advice) ? $advice : $advice;
     }
 }

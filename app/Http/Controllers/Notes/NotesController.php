@@ -7,14 +7,22 @@ use App\Http\Requests\NotesUpdate;
 use App\Http\Requests\TagCreate;
 use App\Models\Note;
 use App\Models\Tag;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class NotesController extends Controller
 {
+    /**
+     * Shows the list of notes
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $userId = Auth::id();
@@ -31,16 +39,18 @@ class NotesController extends Controller
                 ->toArray();
             return (object) $parsed;
         });
-        $tags = (new Tag())
-            ->where('user_id', $userId)
-            ->get()
-        ;
+
         return View::make('notes/notes', [
             'notes' => $notes,
-            'tags' => $tags,
         ]);
     }
 
+    /**
+     * Shows the page for editing a note
+     *
+     * @param int|null $noteId The note identifier
+     * @return \Illuminate\Contracts\View\View
+     */
     public function edit($noteId = null)
     {
         $userId = Auth::id();
@@ -60,6 +70,14 @@ class NotesController extends Controller
         ]);
     }
 
+    /**
+     * Updates the notes with the provided data on the request. If note cannot
+     * be found it will redirect the user to the list of notes.
+     *
+     * @param NotesUpdate $request Validates the data sent
+     * @param int|null    $noteId The note identifier
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update(NotesUpdate $request, $noteId)
     {
         $validated = new Collection($request->validated());
@@ -67,28 +85,28 @@ class NotesController extends Controller
             ->where('id', $noteId)
             ->where('user_id', Auth::id())
             ->first();
-
-        if (!$note) {
+        if (! $note) {
             return redirect(route('notes'));
         }
 
         $note->title = $validated->get('title', '');
         $note->body = $validated->get('body', '');
-
         $note->save();
 
         $tags = $validated->get('tags', []);
         $result = $note->tags()->sync($tags);
-        if (!empty($result['attached'])
-            || !empty($result['detached'])
-            || !empty($result['updated'])
-        ) {
+        if (count(array_filter($result)) > 0) {
             $note->touch();
         }
 
         return redirect(route('notesEdit', ['noteId' => $noteId]));
     }
 
+    /**
+     * Shows the page for creating a new note
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function create()
     {
         $userId = Auth::id();
@@ -101,6 +119,12 @@ class NotesController extends Controller
         ]);
     }
 
+    /**
+     * Adds the new note with the provided information.
+     *
+     * @param NotesUpdate $request Validates the data sent
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function add(NotesUpdate $request)
     {
         $validated = new Collection($request->validated());
@@ -119,6 +143,12 @@ class NotesController extends Controller
         return redirect(route('notes', ['noteId' => $note->id]));
     }
 
+    /**
+     * Deletes the note identified by the $noteId
+     *
+     * @param int $noteId The note identifier.
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function destroy($noteId)
     {
         $note = (new Note())
@@ -126,15 +156,29 @@ class NotesController extends Controller
             ->where('user_id', Auth::id())
             ->first();
 
-        if (!$note) {
+        if (! $note) {
             return redirect(route('notes'));
         }
 
-        $note->delete();
+        try {
+            $note->delete();
+        } catch (QueryException $exception) {
+            Log::error("Could not delete note with id: $noteId.");
+        } catch (Exception $exception) {
+            Log::error("Could not delete note with id: $noteId.");
+        }
 
         return redirect(route('notes'));
     }
 
+    /**
+     * Shows the list of tags. If a tagId is provided it will also show the
+     * notes that have that tag attached to id.
+     *
+     * @param Request  $request
+     * @param int|null $tagId Optional. The tag identifier.
+     * @return \Illuminate\Contracts\View\View
+     */
     public function tags(Request $request, $tagId = null)
     {
         $userId = Auth::id();
@@ -158,11 +202,22 @@ class NotesController extends Controller
         ]);
     }
 
+    /**
+     * Shows the page for creating a new tag
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function tagCreate()
     {
         return View::make('notes/tag-create');
     }
 
+    /**
+     * Creates a tag with the provided information.
+     *
+     * @param TagCreate $request Validates the tag data provided.
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function tagAdd(TagCreate $request)
     {
         $validated = new Collection($request->validated());
