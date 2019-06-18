@@ -26,6 +26,15 @@ class Unsplash
         $this->accessKey = config('unsplash.access_key');
     }
 
+    /**
+     * Gets a featured image from Unsplash API
+     *
+     * @param bool $forceCacheRefresh Forcefully get a new image. When false
+     *                                it will always attempt to obtain first
+     *                                from cache.
+     * @return object|null Returns the path (url) to the unsplash image and a
+     *                     background color to use
+     */
     public function getUnsplashFeaturedImage($forceCacheRefresh = false)
     {
         $photoUrl = Cache::get($this->cacheKey);
@@ -42,6 +51,12 @@ class Unsplash
         return $photoUrl;
     }
 
+    /**
+     * Gets a featured image from the Unsplash API
+     *
+     * @return object|null Returns the path (url) to the unsplash image and a
+     *                     background color to use
+     */
     protected function getFeaturedImage()
     {
         $photoUrl = null;
@@ -65,8 +80,11 @@ class Unsplash
     }
 
     /**
-     * @param ResponseInterface $response
-     * @return object
+     * Parses the response to obtain path and background color
+     *
+     * @param ResponseInterface $response The response object from the API
+     * @return object|null Returns the path (url) to the unsplash image and a
+     *                     background color to use
      */
     protected function getImageFromResponse(ResponseInterface $response)
     {
@@ -78,6 +96,9 @@ class Unsplash
         ];
     }
 
+    /**
+     * Defines the headers for the request
+     */
     protected function headers()
     {
         return [
@@ -86,6 +107,9 @@ class Unsplash
         ];
     }
 
+    /**
+     * Defines the query params for the request
+     */
     protected function query()
     {
         return [

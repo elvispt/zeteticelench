@@ -41,9 +41,7 @@ class MakeUser extends Command
         [$name, $email, $password] = $this->askUserData();
         $validator = $this->validator($name, $email, $password);
         if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $error) {
-                $this->error($error);
-            }
+            $this->showErrors($validator);
             return;
         }
 
@@ -59,12 +57,8 @@ class MakeUser extends Command
             return;
         }
 
-        $id = $user->id;
-        $name = $user->name;
-        $email = $user->email;
-
-        $this->info("User $name created with id $id");
-        $this->info("Login with: $email and provided password.");
+        $this->info("User $user->name created with id $user->id");
+        $this->info("Login with: $user->email / <PASSWORD>");
     }
 
     /**
@@ -103,6 +97,18 @@ class MakeUser extends Command
                 'password' => ['required', 'string', 'min:1', 'max:100'],
             ]
         );
+    }
+
+    /**
+     * Shows errors on the command line, for the fields that have errors
+     *
+     * @param \Illuminate\Validation\Validator $validator
+     */
+    protected function showErrors($validator)
+    {
+        foreach ($validator->errors()->all() as $error) {
+            $this->error($error);
+        }
     }
 
     /**

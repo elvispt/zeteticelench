@@ -9,6 +9,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
+use Psr\Http\Message\ResponseInterface;
+use Psr\SimpleCache\InvalidArgumentException as
+    SimpleCacheInvalidArgumentException;
 
 class Calendarific
 {
@@ -40,10 +43,8 @@ class Calendarific
     protected $apiKey;
 
     /**
-     * @var Client
+     * @var array
      */
-    protected $client;
-
     protected $holidays;
 
     public function __construct()
@@ -51,18 +52,20 @@ class Calendarific
         $this->baseUri = config('calendarific.base_uri');
         $this->endpoint = config('calendarific.holidays_endpoint');
         $this->apiKey = config('calendarific.api_key');
-        $this->client = new Client([
-            'base_uri' => $this->baseUri,
-            'headers' => [
-                'Accept: application/json',
-            ],
-        ]);
     }
 
+    /**
+     * Gets the holidays for the given country and year
+     *
+     * @param string|null $year     Optional. The year of the holidays.
+     * @param string      $country  Optional. The country code.
+     * @param string      $location Optional. The region name.
+     * @return array Returns the holidays
+     */
     public function holidays(
-        $year = null,
-        $country = 'pt',
-        $location = 'Madeira'
+        ?string $year = null,
+        string $country = 'pt',
+        string $location = 'Madeira'
     ) {
         if ($this->holidays) {
             return $this->holidays;
@@ -71,15 +74,31 @@ class Calendarific
         if (is_null($holidays)) {
             $holidays = $this->getHolidaysFromApi($year, $country, $location);
             $holidays = data_get($holidays, 'response.holidays');
-            Cache::set($this->cacheKey, $holidays, $this->cacheExpiration);
+            try {
+                Cache::set($this->cacheKey, $holidays, $this->cacheExpiration);
+            } catch (SimpleCacheInvalidArgumentException $exception) {
+                Log::error(
+                    "Failed to store holidays on cache",
+                    ['eMessage' => $exception->getMessage()]
+                );
+            }
         }
         $this->holidays = $holidays;
+
         return $this->holidays;
     }
 
+    /**
+     * Gets the next $length holidays based on current date/time.
+     *
+     * @param array $holidays The holidays list
+     * @param int   $length   The number of next holidays to obtain
+     * @return array Returns the next holidays
+     */
     public function getNextHolidays($holidays = [], $length = 3)
     {
         $currentDateTime = Carbon::now();
+
         return (new Collection($holidays))
             ->filter(static function ($holiday) use ($currentDateTime) {
                 $holidayDateTime = Carbon::make($holiday->date->iso);
@@ -89,15 +108,47 @@ class Calendarific
             ->toArray();
     }
 
+    /**
+     * Gets the holidays from the Calendarific API and parse the response
+     *
+     * @param null   $year     Year of the holidays
+     * @param string $country  Country of the holidays
+     * @param string $location Location of the holidays
+     * @return mixed|null
+     */
     protected function getHolidaysFromApi(
         $year = null,
         $country = 'pt',
         $location = 'Madeira'
     ) {
         $year = $year ? $year : date('Y');
+        $response = $this->holidaysApiRequest($year, $country, $location);
+
+        return $this->parseApiResponse($response);
+    }
+
+    /**
+     * Make the request to the Calendarific API endpoint
+     *
+     * @param string $year     Year of the holidays
+     * @param string $country  Country of the holidays
+     * @param string $location The location of the holidays
+     * @return ResponseInterface|null Returns the response from the API
+     */
+    protected function holidaysApiRequest(
+        string $year,
+        string $country,
+        string $location
+    ) {
         $response = null;
         try {
-            $response = $this->client->get($this->endpoint, [
+            $client = new Client([
+                'base_uri' => $this->baseUri,
+                'headers' => [
+                    'Accept: application/json',
+                ],
+            ]);
+            $response = $client->get($this->endpoint, [
                 'query' => [
                     'api_key' => $this->apiKey,
                     'country' => $country,
@@ -111,6 +162,18 @@ class Calendarific
                 ['message' => $exception->getMessage()]
             );
         }
+
+        return $response;
+    }
+
+    /**
+     * Parses the calendarific api response
+     *
+     * @param ResponseInterface|null $response The response from the API.
+     * @return mixed|null Returns the parsed response from the API
+     */
+    protected function parseApiResponse(?ResponseInterface $response = null)
+    {
         if (is_null($response)) {
             return null;
         }
@@ -121,9 +184,10 @@ class Calendarific
         } catch (InvalidArgumentException $exception) {
             Log::warning(
                 "Could not parse Calendarific response",
-                ['message' => $exception->getMessage()]
+                ['eMessage' => $exception->getMessage()]
             );
         }
+
         return $holidays;
     }
 }
