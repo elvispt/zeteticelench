@@ -50,8 +50,12 @@ class MakeUser extends Command
         try {
             $user = $this->createUser($name, $email, $password);
         } catch (QueryException $exception) {
-            Log::error("Failed to store user into db.", ['message' => $exception->getMessage()]);
-            $this->error("Failed to create user. Failed to store user data into DB.");
+            $errorMessage = "Failed to create user when storing into DB.";
+            Log::error(
+                $errorMessage,
+                ['message' => $exception->getMessage()]
+            );
+            $this->error($errorMessage);
             return;
         }
 
@@ -83,7 +87,6 @@ class MakeUser extends Command
      * @param string $name The name of the user
      * @param string $email The email of the user
      * @param string $password The password of the user
-     *
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
     protected function validator(string $name, string $email, string $password)
@@ -109,11 +112,13 @@ class MakeUser extends Command
      * @param string $name
      * @param string $email
      * @param string $password
-     *
      * @return User Returns the user model after storing into db.
      */
-    protected function createUser(string $name, string $email, string $password): User
-    {
+    protected function createUser(
+        string $name,
+        string $email,
+        string $password
+    ): User {
         $user = new User();
         $user->name = $name;
         $user->email = $email;

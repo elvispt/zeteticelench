@@ -20,7 +20,6 @@ Route::namespace('Notes')
     ->prefix('notes')
     ->middleware('auth')
     ->group(static function () {
-
         Route::get('', 'NotesController@index')
              ->name('notes');
 
@@ -53,47 +52,44 @@ Route::namespace('Notes')
     });
 
 Route::namespace('HackerNews')
-     ->prefix('hackernews')
-     ->middleware('auth')
-     ->group(static function () {
+    ->prefix('hackernews')
+    ->middleware('auth')
+    ->group(static function () {
+        Route::get('top', 'HackerNewsController@top')
+             ->name('hackernews-top');
 
-         Route::get('top', 'HackerNewsController@top')
-              ->name('hackernews-top');
+        Route::get('best', 'HackerNewsController@best')
+             ->name('hackernews-best');
 
-         Route::get('best', 'HackerNewsController@best')
-              ->name('hackernews-best');
+        Route::get('jobs', 'HackerNewsController@jobs')
+             ->name('hackernews-jobs');
 
-         Route::get('jobs', 'HackerNewsController@jobs')
-              ->name('hackernews-jobs');
-
-         Route::get('item/{id}', 'HackerNewsController@item')
-              ->name('hackernews-item');
-
-     });
+        Route::get('item/{id}', 'HackerNewsController@item')
+             ->name('hackernews-item');
+    });
 
 Route::namespace('Users')
-     ->prefix('users')
-     ->middleware('auth')
-     ->group(static function () {
+    ->prefix('users')
+    ->middleware('auth')
+    ->group(static function () {
+        Route::get('', 'UsersController@index')
+             ->name('users-list');
 
-         Route::get('', 'UsersController@index')
-              ->name('users-list');
+        Route::get('edit/{id}', 'UsersController@edit')
+             ->name('users-edit');
 
-         Route::get('edit/{id}', 'UsersController@edit')
-              ->name('users-edit');
+        Route::put('update', 'UsersController@update')
+             ->name('users-update');
 
-         Route::put('update', 'UsersController@update')
-              ->name('users-update');
+        Route::get('create', 'UsersController@create')
+             ->name('users-create');
 
-         Route::get('create', 'UsersController@create')
-              ->name('users-create');
+        Route::post('create', 'UsersController@add')
+             ->name('users-add');
 
-         Route::post('create', 'UsersController@add')
-              ->name('users-add');
-
-         Route::delete('destroy', 'UsersController@destroy')
+        Route::delete('destroy', 'UsersController@destroy')
              ->name('users-destroy');
-     });
+    });
 
 Auth::routes(['register' => false]);
 

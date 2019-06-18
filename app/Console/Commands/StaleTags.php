@@ -5,6 +5,13 @@ namespace App\Console\Commands;
 use App\Models\Tag;
 use Illuminate\Console\Command;
 
+/**
+ * Clears also unused tags from the system.
+ * Allows to be called without confirmation, useful when used as a scheduled
+ * command.
+ *
+ * @package App\Console\Commands
+ */
 class StaleTags extends Command
 {
     /**
@@ -23,8 +30,6 @@ class StaleTags extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -36,8 +41,14 @@ class StaleTags extends Command
         $this->info("Removed $staleTags stale tags.");
     }
 
+    /**
+     * Ask the user for confirmation since this is a destructive command.
+     *
+     * @return bool
+     */
     protected function shouldRun()
     {
-        return $this->option('force') || $this->confirm("This is a destructive command. Continue?");
+        $question = "This is a destructive command. Continue?";
+        return $this->option('force') || $this->confirm($question);
     }
 }

@@ -56,7 +56,7 @@ class Kernel extends ConsoleKernel
            $unsplash->getUnsplashFeaturedImage(true);
         })->everyFiveMinutes();
 
-        $schedule->call(function () {
+        $schedule->call(static function () {
             $hackerNewsImport = new HackerNewsImport();
             $hackerNewsImport->importUpdatedStories();
             if (config('hackernews.api_full_import_active')) {
