@@ -81,7 +81,7 @@ class MakeUser extends Command
      * @param string $name The name of the user
      * @param string $email The email of the user
      * @param string $password The password of the user
-     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(string $name, string $email, string $password)
     {
@@ -102,7 +102,7 @@ class MakeUser extends Command
     /**
      * Shows errors on the command line, for the fields that have errors
      *
-     * @param \Illuminate\Validation\Validator $validator
+     * @param \Illuminate\Contracts\Validation\Validator $validator
      */
     protected function showErrors($validator)
     {
