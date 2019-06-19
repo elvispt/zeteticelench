@@ -66,6 +66,9 @@
         ],
         "permissions": [
             "chown -R www-data storage/framework/ && chown -R www-data storage/logs/ && chown -R www-data bootstrap/cache/"
+        ],
+        "tests": [
+          "./vendor/bin/phpunit --testdox && ./vendor/bin/phpunit --coverage-html tests/coverage"
         ]
     }
 }
