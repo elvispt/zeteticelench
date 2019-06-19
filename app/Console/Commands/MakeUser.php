@@ -83,7 +83,7 @@ class MakeUser extends Command
      * @param string $password The password of the user
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(string $name, string $email, string $password)
+    protected function validator(?string $name, ?string $email, ?string $password)
     {
         return Validator::make(
             [
