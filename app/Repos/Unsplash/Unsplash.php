@@ -31,8 +31,10 @@ class Unsplash
      * @return object|null Returns the path (url) to the unsplash image and a
      *                     background color to use
      */
-    public function getUnsplashFeaturedImage(UnsplashApi $unsplashApi, $forceCacheRefresh = false)
-    {
+    public function getUnsplashFeaturedImage(
+        UnsplashApi $unsplashApi,
+        $forceCacheRefresh = false
+    ) {
         if ($forceCacheRefresh) {
             $photoUrl = $this->fromApi($unsplashApi);
         } else {
