@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers\Notes;
 
 use App\Models\Note;
 use App\Models\Tag;

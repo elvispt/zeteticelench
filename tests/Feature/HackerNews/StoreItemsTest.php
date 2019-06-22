@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature\HackerNews;
 
 use App\Repos\HackerNews\StoreItems;
 use Illuminate\Foundation\Testing\RefreshDatabase;

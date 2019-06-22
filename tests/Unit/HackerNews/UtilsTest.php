@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\HackerNews;
 
 use App\Repos\HackerNews\Utils;
 use Tests\TestCase;
