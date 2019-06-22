@@ -13,7 +13,7 @@ class NotesControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testIndexWithNoAuth()
+    public function testListNotesFailsWithNoAuth()
     {
         $this
             ->get(route('notes'))
@@ -21,7 +21,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testIndex()
+    public function testListNotes()
     {
         $user = factory(User::class)
             ->create();
@@ -38,7 +38,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testEditFailsWithNonExistingNoteId()
+    public function testShowNoteEditPageFailsWithNonExistingNoteId()
     {
         $user = factory(User::class)
             ->create();
@@ -50,7 +50,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testEdit()
+    public function testShowNoteEditPage()
     {
         $user = factory(User::class)
             ->create();
@@ -72,7 +72,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testUpdateFailsWithNoNoteDataSent()
+    public function testUpdateNoteFailsWithNoNoteDataSent()
     {
         $user = factory(User::class)
             ->create();
@@ -94,7 +94,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testUpdateFailsWithInvalidNoteId()
+    public function testUpdateNoteFailsWithInvalidNoteId()
     {
         $user = factory(User::class)
             ->create();
@@ -117,7 +117,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testUpdateWithRequiredData()
+    public function testUpdateNoteWithRequiredData()
     {
         $user = factory(User::class)
             ->create();
@@ -152,7 +152,7 @@ class NotesControllerTest extends TestCase
         ]);
     }
 
-    public function testUpdateWithAllNoteData()
+    public function testUpdateNoteWithAllNoteData()
     {
         $user = factory(User::class)
             ->create();
@@ -202,7 +202,7 @@ class NotesControllerTest extends TestCase
         }
     }
 
-    public function testCreate()
+    public function testShowCreateNotePage()
     {
         $user = factory(User::class)
             ->create();
@@ -213,7 +213,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testAddFailsWithNoNoteDataSent()
+    public function testAddNoteFailsWithNoNoteDataSent()
     {
         $user = factory(User::class)
             ->create();
@@ -224,7 +224,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testAddWithRequiredData()
+    public function testAddNoteWithRequiredData()
     {
         $user = factory(User::class)
             ->create();
@@ -248,7 +248,7 @@ class NotesControllerTest extends TestCase
         ]);
     }
 
-    public function testAddWithAllNoteData()
+    public function testAddNoteWithAllNoteData()
     {
         $user = factory(User::class)
             ->create();
@@ -292,7 +292,7 @@ class NotesControllerTest extends TestCase
         }
     }
 
-    public function testDestroyFailsWithInvalidNoteId()
+    public function testDestroyNoteFailsWithInvalidNoteId()
     {
         $user = factory(User::class)
             ->create();
@@ -308,7 +308,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testDestroy()
+    public function testDestroyNote()
     {
         $user = factory(User::class)
             ->create();
@@ -334,7 +334,7 @@ class NotesControllerTest extends TestCase
         ]);
     }
 
-    public function testTagListing()
+    public function testTagListingWithTabsOnDatabase()
     {
         $user = factory(User::class)
             ->create();
@@ -351,7 +351,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testTagListingWithNoTags()
+    public function testTagListingWithNoTagsOnDatabase()
     {
         $user = factory(User::class)
             ->create();
@@ -383,7 +383,7 @@ class NotesControllerTest extends TestCase
         ;
     }
 
-    public function testTagCreate()
+    public function testTagShowCreatePage()
     {
         $user = factory(User::class)
             ->create();

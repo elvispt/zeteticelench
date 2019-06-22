@@ -10,7 +10,7 @@ class HomeControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testIndexWithNoAuth()
+    public function testShowDashboardFailsWithNoAuth()
     {
         $this
             ->get('/')
@@ -18,7 +18,7 @@ class HomeControllerTest extends TestCase
         ;
     }
 
-    public function testIndexWithAuth()
+    public function testShowDashboard()
     {
         $user = factory(User::class)
             ->create();

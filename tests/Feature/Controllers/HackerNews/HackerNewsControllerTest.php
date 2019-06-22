@@ -11,7 +11,7 @@ class HackerNewsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testTopWithNoAuth()
+    public function testListTopStoriesFailsWithNoAuth()
     {
         $this
             ->get(route('hackernews-top'))
@@ -19,7 +19,7 @@ class HackerNewsControllerTest extends TestCase
         ;
     }
 
-    public function testTop()
+    public function testListTopStories()
     {
         $user = factory(User::class)
             ->create();
@@ -31,7 +31,7 @@ class HackerNewsControllerTest extends TestCase
         ;
     }
 
-    public function testBest()
+    public function testListBestStories()
     {
         $user = factory(User::class)
             ->create();
@@ -43,7 +43,7 @@ class HackerNewsControllerTest extends TestCase
         ;
     }
 
-    public function testJobs()
+    public function testListJobStories()
     {
         $user = factory(User::class)
             ->create();
@@ -55,7 +55,7 @@ class HackerNewsControllerTest extends TestCase
         ;
     }
 
-    public function testItemWithNonExistingItem()
+    public function testShowStoryFailsWithNonExistingStoryId()
     {
         $user = factory(User::class)
             ->create();
@@ -67,7 +67,7 @@ class HackerNewsControllerTest extends TestCase
         ;
     }
 
-    public function testItem()
+    public function testShowStory()
     {
         $user = factory(User::class)
             ->create();
