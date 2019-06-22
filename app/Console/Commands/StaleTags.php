@@ -33,12 +33,13 @@ class StaleTags extends Command
      */
     public function handle()
     {
-        $staleTags = 0;
         if ($this->shouldRun()) {
             $tag = new Tag();
             $staleTags = $tag->clearStale();
+            $this->info("Removed $staleTags stale tags.");
+        } else {
+            $this->info("Canceled!");
         }
-        $this->info("Removed $staleTags stale tags.");
     }
 
     /**

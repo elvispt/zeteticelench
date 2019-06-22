@@ -37,7 +37,12 @@ class HackerNewsImport extends HnApi
         $updatedIdsList = $this->getLiveStoriesIdList($this->updatesUri);
         $updatedIdsList = data_get($updatedIdsList, 'items', []);
         $stories = $this->concurrentRequestsForItems($updatedIdsList);
-        Utils::store($stories);
+        $storeItems = new StoreItems();
+        $storeItems->store($stories);
+        Log::debug(
+            "Update import result",
+            ['changes' => $storeItems->getChanges()]
+        );
     }
 
     /**

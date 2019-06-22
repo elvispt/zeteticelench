@@ -164,12 +164,17 @@ class HackerNews extends HnApi
      * from local db.
      *
      * @param int|null $id The story identifier
-     * @return object Returns and object containing the story details and
+     * @return object|null Returns and object containing the story details and
      * comments
      */
     public function getStory($id)
     {
-        $story = HackerNewsItem::find($id)->toArray();
+        $storyModel = HackerNewsItem::find($id);
+        if ($storyModel) {
+            $story = $storyModel->toArray();
+        } else {
+            return null;
+        }
 
         return $this->addCommentsToStory((object) $story);
     }

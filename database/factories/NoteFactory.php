@@ -13,7 +13,11 @@ $usersIdList = User::all()
 /**
  * @var Factory $factory
  */
-$factory->define(Note::class, function (Faker $faker) use ($usersIdList) {
+$factory->define(Note::class, function (Faker $faker) {
+    $usersIdList = User::all()
+                       ->pluck('id')
+                       ->toArray();
+
     return [
         'user_id' => $faker->randomElement($usersIdList),
         'title' => $faker->realText(50),

@@ -14,7 +14,7 @@ $factory->define(HackerNewsItem::class, function (Faker $faker) {
     return [
         'id' => $faker
             ->unique()
-            ->numberBetween(),
+            ->numberBetween(1000, 9999999),
         'type' => $faker->randomElement(ItemType::all()),
         'parent_id' => $faker->randomElement([null, $faker->numberBetween()]),
         'by' => $faker->randomElement([null, $faker->userName]),

@@ -104,6 +104,9 @@ class HackerNewsController extends Controller
     {
         $hackerNews = new HackerNews();
         $story = $hackerNews->getStory($id);
+        if (!$story) {
+            return abort(404);
+        }
         $this->appendDomain([$story]);
         return View::make('hackernews/story', [
             'story' => $story,
