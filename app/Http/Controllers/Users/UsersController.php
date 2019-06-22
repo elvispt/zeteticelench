@@ -36,9 +36,10 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = (new User())
-            ->where('id', $id)
-            ->first();
+        $user = User::find($id);
+        if (! $user) {
+            return abort(404);
+        }
         return View::make('users.user', [
             'user' => $user,
             'currentUserId' => Auth::id(),
@@ -60,7 +61,7 @@ class UsersController extends Controller
         $user->name = $validated->get('name');
         $user->save();
 
-        return back();
+        return redirect(route('users-list'));
     }
 
     /**
