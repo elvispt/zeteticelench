@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Repos\Unsplash;
+use App\Repos\Unsplash\Unsplash;
+use App\Repos\Unsplash\UnsplashApi;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -42,8 +41,9 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
+        $unsplash = new Unsplash();
         return view('auth.login', [
-            'unsplash' => (new Unsplash())->getUnsplashFeaturedImage(),
+            'unsplash' => $unsplash->getUnsplashFeaturedImage(new UnsplashApi()),
         ]);
     }
 }

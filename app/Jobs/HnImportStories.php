@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Repos\HackerNews\HnApi;
-use App\Repos\HackerNews\Utils;
+use App\Repos\HackerNews\StoreItems;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -30,6 +30,7 @@ class HnImportStories implements ShouldQueue
     {
         $stories = (new HnApi())
             ->concurrentRequestsForItems($this->ids);
-        Utils::store($stories);
+        $storeItems = new StoreItems();
+        $storeItems->store($stories);
     }
 }

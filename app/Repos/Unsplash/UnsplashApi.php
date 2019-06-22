@@ -1,23 +1,17 @@
 <?php
 
-namespace App\Repos;
+namespace App\Repos\Unsplash;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 
-class Unsplash
+class UnsplashApi
 {
     protected $accessKey;
     protected $baseUri;
     protected $randomPhoto;
-
-    protected $cacheKey = Unsplash::class;
-
-    protected $cacheExpiration = 330; // 5 minutes
 
     public function __construct()
     {
@@ -26,23 +20,13 @@ class Unsplash
         $this->accessKey = config('unsplash.access_key');
     }
 
-    public function getUnsplashFeaturedImage($forceCacheRefresh = false)
-    {
-        $photoUrl = Cache::get($this->cacheKey);
-
-        if (is_null($photoUrl) || $forceCacheRefresh) {
-            $photoUrl = $this->getFeaturedImage();
-            try {
-                Cache::set($this->cacheKey, $photoUrl, $this->cacheExpiration);
-            } catch (InvalidArgumentException $exception) {
-                Log::warning("Could not store photoUrl into cache");
-            }
-        }
-
-        return $photoUrl;
-    }
-
-    protected function getFeaturedImage()
+    /**
+     * Gets a featured image from the Unsplash API
+     *
+     * @return object|null Returns the path (url) to the unsplash image and a
+     *                     background color to use
+     */
+    public function getFeaturedImage()
     {
         $photoUrl = null;
         $client = new Client([
@@ -65,19 +49,26 @@ class Unsplash
     }
 
     /**
-     * @param ResponseInterface $response
-     * @return object
+     * Parses the response to obtain path and background color
+     *
+     * @param ResponseInterface $response The response object from the API
+     * @return object|null Returns the path (url) to the unsplash image and a
+     *                     background color to use
      */
     protected function getImageFromResponse(ResponseInterface $response)
     {
         $json = $response->getBody()->getContents();
         $obj = \GuzzleHttp\json_decode($json);
+
         return (object) [
             'url' => data_get($obj, 'urls.full'),
             'bg' => data_get($obj, 'color'),
         ];
     }
 
+    /**
+     * Defines the headers for the request
+     */
     protected function headers()
     {
         return [
@@ -86,6 +77,9 @@ class Unsplash
         ];
     }
 
+    /**
+     * Defines the query params for the request
+     */
     protected function query()
     {
         return [

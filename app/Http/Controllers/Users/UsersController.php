@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\View;
 
 class UsersController extends Controller
 {
+    /**
+     * Shows the list of users
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $users = User::all();
@@ -23,17 +28,30 @@ class UsersController extends Controller
         ]);
     }
 
+    /**
+     * Shows the page for editing a single user
+     *
+     * @param int $id The user identifier
+     * @return \Illuminate\Contracts\View\View
+     */
     public function edit($id)
     {
-        $user = (new User())
-            ->where('id', $id)
-            ->first();
+        $user = User::find($id);
+        if (! $user) {
+            return abort(404);
+        }
         return View::make('users.user', [
             'user' => $user,
             'currentUserId' => Auth::id(),
         ]);
     }
 
+    /**
+     * Updates the user info according to provided data
+     *
+     * @param UserUpdate $request Validates the provided data
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(UserUpdate $request)
     {
         $validated = new Collection($request->validated());
@@ -43,14 +61,25 @@ class UsersController extends Controller
         $user->name = $validated->get('name');
         $user->save();
 
-        return back();
+        return redirect(route('users-list'));
     }
 
+    /**
+     * Shows the page for creating a new user
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function create()
     {
         return View::make('users.user-create');
     }
 
+    /**
+     * Creates a new user according to provided data
+     *
+     * @param UserCreate $request Validates provided user data
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function add(UserCreate $request)
     {
         $validated = new Collection($request->validated());
@@ -63,6 +92,13 @@ class UsersController extends Controller
         return redirect(route('users-edit', ['id' => $user->id]));
     }
 
+    /**
+     * Deletes a single user along with it's associated notes.
+     *
+     * @param UserDestroy $request Validates that the user request exists.
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
     public function destroy(UserDestroy $request)
     {
         $validated = new Collection($request->validated());

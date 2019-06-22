@@ -5,7 +5,8 @@ namespace App\Console;
 use App\Console\Commands\StaleTags;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
-use App\Repos\Unsplash;
+use App\Repos\Unsplash\Unsplash;
+use App\Repos\Unsplash\UnsplashApi;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -53,10 +54,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(static function () {
            $unsplash = new Unsplash();
-           $unsplash->getUnsplashFeaturedImage(true);
+           $unsplash->getUnsplashFeaturedImage(new UnsplashApi(), true);
         })->everyFiveMinutes();
 
-        $schedule->call(function () {
+        $schedule->call(static function () {
             $hackerNewsImport = new HackerNewsImport();
             $hackerNewsImport->importUpdatedStories();
             if (config('hackernews.api_full_import_active')) {
