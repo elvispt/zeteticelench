@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -11,6 +12,9 @@ class MakeUserCommandTest extends TestCase
 
     public function testCreateUser()
     {
+        $statement = DB::select("SHOW TABLE STATUS LIKE 'users'");
+        $nextId = $statement[0]->Auto_increment;
+
         $this->artisan('make:user')
             ->expectsQuestion('Type name', 'Test User')
             ->expectsQuestion(
@@ -18,7 +22,7 @@ class MakeUserCommandTest extends TestCase
                 'email@email.com'
             )
             ->expectsQuestion('Type your password', '123')
-            ->expectsOutput('User Test User created with id 1')
+            ->expectsOutput("User Test User created with id $nextId")
             ->expectsOutput('Login with: email@email.com / <PASSWORD>')
             ->assertExitCode(0);
     }
