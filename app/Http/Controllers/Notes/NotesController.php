@@ -60,6 +60,9 @@ class NotesController extends Controller
             ->where('user_id', $userId)
             ->first()
         ;
+        if (!$currentNote) {
+            return abort(404);
+        }
         $tags = (new Tag())
             ->where('user_id', $userId)
             ->get()
@@ -71,8 +74,7 @@ class NotesController extends Controller
     }
 
     /**
-     * Updates the notes with the provided data on the request. If note cannot
-     * be found it will redirect the user to the list of notes.
+     * Updates the notes with the provided data on the request.
      *
      * @param NotesUpdate $request Validates the data sent
      * @param int|null    $noteId The note identifier
@@ -86,7 +88,7 @@ class NotesController extends Controller
             ->where('user_id', Auth::id())
             ->first();
         if (! $note) {
-            return redirect(route('notes'));
+            return abort(404);
         }
 
         $note->title = $validated->get('title', '');
@@ -140,7 +142,7 @@ class NotesController extends Controller
         $tags = $validated->get('tags', []);
         $note->tags()->sync($tags);
 
-        return redirect(route('notes', ['noteId' => $note->id]));
+        return redirect(route('notes'));
     }
 
     /**
@@ -157,7 +159,7 @@ class NotesController extends Controller
             ->first();
 
         if (! $note) {
-            return redirect(route('notes'));
+            return abort(404);
         }
 
         try {
