@@ -128,6 +128,7 @@
   </nav>
 
   <main class="py-4">
+    @include('common.errors')
     @yield('content')
   </main>
 </div>
