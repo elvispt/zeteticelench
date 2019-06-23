@@ -70,4 +70,35 @@ class BookmarkedStoriesTest extends TestCase
         $this->assertIsArray($storiesList);
         $this->assertEquals($nStories, count($storiesList));
     }
+
+
+    public function testBookmarkHackerNewsStory()
+    {
+        factory(HackerNewsItem::class, 200)
+            ->create();
+        $nStories = 1;
+        $storyId = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::STORY)
+            ->inRandomOrder()
+            ->limit($nStories)
+            ->pluck('id')
+            ->first();
+
+        $userId = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->pluck('id')
+            ->first();
+
+        $bookmarkedStories = new BookmarkedStories();
+        $bookmarkId = $bookmarkedStories->bookmarkStory($storyId, $userId);
+        $this->assertIsInt($bookmarkId);
+        $this->assertTrue($bookmarkId > 0);
+        $this->assertDatabaseHas('hacker_news_items_bookmarks', [
+            'id' => $bookmarkId,
+            'hacker_news_item_id' => $storyId,
+            'user_id' => $userId,
+        ]);
+    }
 }

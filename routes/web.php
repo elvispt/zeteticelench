@@ -67,6 +67,9 @@ Route::namespace('HackerNews')
         Route::get('bookmarks', 'HackerNewsController@bookmarkList')
              ->name('hackernews-bookmark-list');
 
+        Route::post('bookmarks', 'HackerNewsController@bookmarkAdd')
+             ->name('hackernews-bookmark-add');
+
         Route::get('item/{id}', 'HackerNewsController@item')
              ->name('hackernews-item');
     });

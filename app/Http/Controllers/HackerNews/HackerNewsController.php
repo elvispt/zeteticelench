@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\HackerNews;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\HnBookmarkAdd;
+use App\Models\HackerNewsItemsBookmark;
 use App\Repos\HackerNews\BookmarkedStories;
 use App\Repos\HackerNews\HackerNews;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
@@ -44,6 +47,7 @@ class HackerNewsController extends Controller
             route('hackernews-top')
         );
         $stories = $this->appendDomain($stories);
+        $stories = $this->appendBookmarkStatus($stories);
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
@@ -68,6 +72,7 @@ class HackerNewsController extends Controller
             route('hackernews-best')
         );
         $stories = $this->appendDomain($stories);
+        $stories = $this->appendBookmarkStatus($stories);
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
@@ -115,10 +120,28 @@ class HackerNewsController extends Controller
             route('hackernews-bookmark-list')
         );
         $stories = $this->appendDomain($stories);
+        $stories = $this->appendBookmarkStatus($stories);
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
         ]);
+    }
+
+    /**
+     * In a POST request bookmarks the story for the currently logged in user
+     *
+     * @param HnBookmarkAdd $request Validates the data sent
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function bookmarkAdd(HnBookmarkAdd $request)
+    {
+        $validated = new Collection($request->validated());
+        $storyId = $validated->get('story_id');
+        $bookmarkedStories = new BookmarkedStories();
+        $bookmarkedStories->bookmarkStory($storyId, Auth::id());
+
+        return back();
     }
 
     /**
@@ -167,6 +190,32 @@ class HackerNewsController extends Controller
             $host = data_get($urlParsed, 'host');
             $domain = Str::replaceFirst('www.', '', $host);
             $story->domain = $domain;
+        }
+        return $stories;
+    }
+
+    /**
+     * Iterates over the list to find which stories are bookmarked by the
+     * currently logged in user
+     *
+     * @param array $stories The list of stories to process
+     * @return array The list of stories with the bookmark status added to each
+     * story
+     */
+    protected function appendBookmarkStatus($stories)
+    {
+        $ids = [];
+        foreach ($stories as $story) {
+            $ids[] = $story->id;
+        }
+        $bookmarkedIds = (new HackerNewsItemsBookmark())
+            ->select('hacker_news_item_id')
+            ->whereIn('hacker_news_item_id', $ids)
+            ->get()
+            ->pluck('hacker_news_item_id')
+            ->toArray();
+        foreach ($stories as $story) {
+            $story->bookmarked = in_array($story->id, $bookmarkedIds);
         }
         return $stories;
     }

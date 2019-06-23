@@ -33,4 +33,35 @@ class BookmarkedStories
 
         return Utils::storiesListFromDb($hnIds, $limit, $offset);
     }
+
+    /**
+     * Bookmarks a story for the user
+     *
+     * @param int $hackerNewsItemId The identifier of the story
+     * @param int $userId           The identifier of the user
+     * @return int Returns the id of hacker_news_items_bookmarks
+     */
+    public function bookmarkStory(int $hackerNewsItemId, int $userId): int
+    {
+        $hackerNewsItemsBookmark = (new HackerNewsItemsBookmark())
+            ->where('user_id', $userId)
+            ->where('hacker_news_item_id', $hackerNewsItemId)
+            ->first();
+        if (! $hackerNewsItemsBookmark) {
+            $hackerNewsItemsBookmark = new HackerNewsItemsBookmark();
+            $hackerNewsItemsBookmark->user_id = $userId;
+            $hackerNewsItemsBookmark->hacker_news_item_id = $hackerNewsItemId;
+
+            try {
+                $hackerNewsItemsBookmark->save();
+            } catch (QueryException $exception) {
+                Log::error(
+                    "Failed to bookmark story",
+                    ['userId' => $userId, 'hackerNewsItemId' => $hackerNewsItemId]
+                );
+            }
+        }
+
+        return $hackerNewsItemsBookmark->id;
+    }
 }
