@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\HackerNews;
 
 use App\Http\Controllers\Controller;
+use App\Repos\HackerNews\BookmarkedStories;
 use App\Repos\HackerNews\HackerNews;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
@@ -91,6 +93,31 @@ class HackerNewsController extends Controller
         );
         return View::make('hackernews/jobs', [
             'stories' => $stories,
+        ]);
+    }
+
+    /**
+     * Show bookmarked hacker news post
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function bookmarkList(Request $request)
+    {
+        $currentPage = (int) $request->get('page', 1);
+        $offset = $this->offset($currentPage);
+        $bookmarkedStories = new BookmarkedStories();
+        $items = $bookmarkedStories->bookmarkedStories($this->perPage, $offset, Auth::id());
+        $stories = $this->lengthAwarePaginator(
+            $currentPage,
+            $items,
+            route('hackernews-bookmark-list')
+        );
+        $stories = $this->appendDomain($stories);
+        return View::make('hackernews/stories', [
+            'stories' => $stories,
+            'hnPostUrlFormat' => $this->hnPostUrlFormat,
         ]);
     }
 

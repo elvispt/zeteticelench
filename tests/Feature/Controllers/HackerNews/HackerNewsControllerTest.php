@@ -55,6 +55,18 @@ class HackerNewsControllerTest extends TestCase
         ;
     }
 
+    public function testListBookmarkedStories()
+    {
+        $user = factory(User::class)
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->get(route('hackernews-bookmark-list'))
+            ->assertStatus(200)
+        ;
+    }
+
     public function testShowStoryFailsWithNonExistingStoryId()
     {
         $user = factory(User::class)
