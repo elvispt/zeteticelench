@@ -3,6 +3,7 @@
 namespace App\Repos\HackerNews;
 
 use App\Models\HackerNewsItemsBookmark;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 
@@ -57,11 +58,49 @@ class BookmarkedStories
             } catch (QueryException $exception) {
                 Log::error(
                     "Failed to bookmark story",
-                    ['userId' => $userId, 'hackerNewsItemId' => $hackerNewsItemId]
+                    [
+                        'eMessage' => $exception->getMessage(),
+                        'userId' => $userId,
+                        'hackerNewsItemId' => $hackerNewsItemId
+                    ]
                 );
             }
         }
 
         return $hackerNewsItemsBookmark->id;
+    }
+
+    /**
+     * Removes a bookmarked story for the user
+     *
+     * @param int $hackerNewsItemId The identifier of the story.
+     * @param int $userId           The identifier of the user.
+     * @return bool Returns true on success, false otherwise.
+     */
+    public function destroyBookmarkedStory(
+        int $hackerNewsItemId,
+        int $userId
+    ): bool {
+        $hackerNewsItemsBookmark = (new HackerNewsItemsBookmark())
+            ->where('user_id', $userId)
+            ->where('hacker_news_item_id', $hackerNewsItemId)
+            ->first();
+        $isDeleted = false;
+        if ($hackerNewsItemsBookmark) {
+            try {
+                $isDeleted = $hackerNewsItemsBookmark->delete();
+            } catch (Exception $exception) {
+                Log::error(
+                    "Failed to destroy bookmark",
+                    [
+                        'eMessage' => $exception->getMessage(),
+                        'userId' => $userId,
+                        'hackerNewsItemId' => $hackerNewsItemId
+                    ]
+                );
+            }
+        }
+
+        return !!$isDeleted;
     }
 }

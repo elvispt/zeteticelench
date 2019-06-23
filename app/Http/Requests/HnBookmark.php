@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class HnBookmarkAdd extends BaseFormRequest
+class HnBookmark extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.

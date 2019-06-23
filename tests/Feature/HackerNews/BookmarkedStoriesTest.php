@@ -101,4 +101,65 @@ class BookmarkedStoriesTest extends TestCase
             'user_id' => $userId,
         ]);
     }
+
+    public function testDestroyBookmarkedStoryFailsWithInvalidStoryId()
+    {
+        factory(HackerNewsItem::class, 200)
+            ->create();
+        $storyId = 8465465465;
+
+        $userId = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->pluck('id')
+            ->first();
+
+        $bookmarkedStories = new BookmarkedStories();
+        $result = $bookmarkedStories->destroyBookmarkedStory($storyId, $userId);
+        $this->assertIsBool($result);
+        $this->assertFalse($result);
+    }
+
+    public function testDestroyBookmarkedStory()
+    {
+        $userId = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->pluck('id')
+            ->first();
+        factory(HackerNewsItem::class, 200)
+            ->create();
+        $storyIds = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::STORY)
+            ->inRandomOrder()
+            ->limit(5)
+            ->pluck('id')
+        ;
+
+        foreach ($storyIds as $id) {
+            $hackerNewsItemsBookmark = new HackerNewsItemsBookmark();
+            $hackerNewsItemsBookmark->user_id = $userId;
+            $hackerNewsItemsBookmark->hacker_news_item_id = $id;
+            $hackerNewsItemsBookmark->created_at = $this->faker->dateTimeThisYear();
+            $hackerNewsItemsBookmark->updated_at = $this->faker->dateTimeThisMonth();
+            $hackerNewsItemsBookmark->save();
+        }
+        $storyId = (new HackerNewsItemsBookmark())
+            ->select('hacker_news_item_id')
+            ->where('user_id', $userId)
+            ->inRandomOrder()
+            ->limit(1)
+            ->first()
+            ->hacker_news_item_id;
+
+        $bookmarkedStories = new BookmarkedStories();
+        $result = $bookmarkedStories->destroyBookmarkedStory($storyId, $userId);
+        $this->assertIsBool($result);
+        $this->assertTrue($result);
+        $this->assertDatabaseMissing('hacker_news_items_bookmarks', [
+            'hacker_news_item_id' => $storyId,
+            'user_id' => $userId,
+        ]);
+    }
 }

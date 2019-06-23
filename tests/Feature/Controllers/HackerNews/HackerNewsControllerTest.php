@@ -125,6 +125,59 @@ class HackerNewsControllerTest extends TestCase
         ]);
     }
 
+    public function testDestroyBookmarkedStoryFailsWithNonExistingStoryId()
+    {
+        factory(HackerNewsItem::class, 10)
+            ->create();
+        $storyId = 879789561136543;
+
+        $user = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->delete(
+                route('hackernews-bookmark-destroy'),
+                ['story_id' => $storyId]
+            )
+            ->assertStatus(302)
+        ;
+    }
+
+    public function testDestroyBookmarkedStory()
+    {
+        factory(HackerNewsItem::class, 200)
+            ->create();
+        $nStories = 1;
+        $storyId = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::STORY)
+            ->inRandomOrder()
+            ->limit($nStories)
+            ->pluck('id')
+            ->first();
+
+        $user = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->delete(
+                route('hackernews-bookmark-destroy'),
+                ['story_id' => $storyId]
+            )
+            ->assertStatus(302)
+        ;
+        $this->assertDatabaseMissing('hacker_news_items_bookmarks', [
+            'hacker_news_item_id' => $storyId,
+            'user_id' => $user->id,
+        ]);
+    }
+
     public function testShowStoryFailsWithNonExistingStoryId()
     {
         $user = factory(User::class)

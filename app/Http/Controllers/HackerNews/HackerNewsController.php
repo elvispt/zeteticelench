@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\HackerNews;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\HnBookmarkAdd;
+use App\Http\Requests\HnBookmark;
 use App\Models\HackerNewsItemsBookmark;
 use App\Repos\HackerNews\BookmarkedStories;
 use App\Repos\HackerNews\HackerNews;
@@ -130,16 +130,31 @@ class HackerNewsController extends Controller
     /**
      * In a POST request bookmarks the story for the currently logged in user
      *
-     * @param HnBookmarkAdd $request Validates the data sent
-     *
+     * @param HnBookmark $request Validates the data sent
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function bookmarkAdd(HnBookmarkAdd $request)
+    public function bookmarkAdd(HnBookmark $request)
     {
         $validated = new Collection($request->validated());
         $storyId = $validated->get('story_id');
         $bookmarkedStories = new BookmarkedStories();
         $bookmarkedStories->bookmarkStory($storyId, Auth::id());
+
+        return back();
+    }
+
+    /**
+     * In a delete request remove the bookmarks for the currently logged in user
+     *
+     * @param HnBookmark $request Validates the data sent
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function bookmarkDestroy(HnBookmark $request)
+    {
+        $validated = new Collection($request->validated());
+        $storyId = $validated->get('story_id');
+        $bookmarkedStories = new BookmarkedStories();
+        $bookmarkedStories->destroyBookmarkedStory($storyId, Auth::id());
 
         return back();
     }

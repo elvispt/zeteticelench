@@ -70,6 +70,9 @@ Route::namespace('HackerNews')
         Route::post('bookmarks', 'HackerNewsController@bookmarkAdd')
              ->name('hackernews-bookmark-add');
 
+        Route::delete('bookmarks', 'HackerNewsController@bookmarkDestroy')
+             ->name('hackernews-bookmark-destroy');
+
         Route::get('item/{id}', 'HackerNewsController@item')
              ->name('hackernews-item');
     });
