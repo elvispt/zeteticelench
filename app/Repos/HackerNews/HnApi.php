@@ -76,7 +76,7 @@ class HnApi
      * uri).
      *
      * @param string $uri The uri to either best/top/jobs endpoint
-     * @return object Returns a list of ids of hn items
+     * @return object|array Returns a list of ids of hn items
      */
     public function getLiveStoriesIdList(string $uri)
     {

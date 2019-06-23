@@ -140,23 +140,8 @@ class HackerNews extends HnApi
     ) {
         $hackerNewsImport = new HackerNewsImport();
         $fullIdList = $hackerNewsImport->getLiveStoriesIdList($uri);
-        $ids = array_slice($fullIdList, $offset, $limit);
 
-        $items = (new HackerNewsItem())
-            ->whereIn('id', $ids)
-            ->get()
-            ->toArray();
-        $stories = [];
-        foreach ($items as $item) {
-            $story = (object) $item;
-            $stories[] = $story;
-        }
-        $stories = Utils::sortStoriesList($stories, $ids);
-
-        return (object) [
-            'total' => count($fullIdList),
-            'stories' => $stories,
-        ];
+        return Utils::storiesListFromDb($fullIdList, $limit, $offset);
     }
 
     /**
