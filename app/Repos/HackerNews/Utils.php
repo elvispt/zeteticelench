@@ -2,6 +2,8 @@
 
 namespace App\Repos\HackerNews;
 
+use App\Models\HackerNewsItem;
+
 class Utils
 {
     /**
@@ -25,5 +27,28 @@ class Utils
             }
         }
         return $orderedStories;
+    }
+
+    public static function storiesListFromDb(
+        array $fullIdList,
+        int $limit = 20,
+        int $offset = 0
+    ) {
+        $ids = array_slice($fullIdList, $offset, $limit);
+        $items = (new HackerNewsItem())
+            ->whereIn('id', $ids)
+            ->get()
+            ->toArray();
+        $stories = [];
+        foreach ($items as $item) {
+            $story = (object) $item;
+            $stories[] = $story;
+        }
+        $stories = Utils::sortStoriesList($stories, $ids);
+
+        return (object) [
+            'total' => count($fullIdList),
+            'stories' => $stories,
+        ];
     }
 }
