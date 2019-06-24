@@ -105,7 +105,6 @@ class HackerNewsController extends Controller
      * Show bookmarked hacker news post
      *
      * @param Request $request
-     *
      * @return \Illuminate\Contracts\View\View
      */
     public function bookmarkList(Request $request)
@@ -163,7 +162,7 @@ class HackerNewsController extends Controller
      * Shows the details and comments of the hacker news story
      *
      * @param int $id The identifier of the hacker news story
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\View\View|void
      */
     public function item($id)
     {

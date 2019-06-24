@@ -17,9 +17,9 @@ class UnsplashApi
     protected $headers;
 
     public function __construct(
-        array $query = null,
-        array $headers = null,
-        string $accessKey = null
+        ?array $query = null,
+        ?array $headers = null,
+        ?string $accessKey = null
     ) {
         $this->baseUri = config('unsplash.base_uri');
         $this->randomPhoto = config('unsplash.random_photo_endpoint');
@@ -82,7 +82,7 @@ class UnsplashApi
      * @param array|null $headers
      * @return array
      */
-    protected function headers(array $headers = null)
+    protected function headers(?array $headers = null)
     {
         $defaults = [
             'Accept-Version' => 'v1',
@@ -100,7 +100,7 @@ class UnsplashApi
      * @param array|null $query
      * @return array
      */
-    protected function query(array $query = null): array
+    protected function query(?array $query = null): array
     {
         $searchTerm = Arr::random(config('unsplash.search_query_values'));
         $defaults = [
