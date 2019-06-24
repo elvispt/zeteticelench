@@ -14,7 +14,7 @@ class HnImportStories implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $ids;
+    public $ids;
 
     public function __construct($ids)
     {
