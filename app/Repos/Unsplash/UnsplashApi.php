@@ -4,6 +4,7 @@ namespace App\Repos\Unsplash;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
 
@@ -12,12 +13,21 @@ class UnsplashApi
     protected $accessKey;
     protected $baseUri;
     protected $randomPhoto;
+    protected $query;
+    protected $headers;
 
-    public function __construct()
-    {
+    public function __construct(
+        array $query = null,
+        array $headers = null,
+        string $accessKey = null
+    ) {
         $this->baseUri = config('unsplash.base_uri');
         $this->randomPhoto = config('unsplash.random_photo_endpoint');
-        $this->accessKey = config('unsplash.access_key');
+        $this->accessKey = $accessKey
+            ? $accessKey
+            : config('unsplash.access_key');
+        $this->query = $this->query($query);
+        $this->headers = $this->headers($headers);
     }
 
     /**
@@ -35,8 +45,8 @@ class UnsplashApi
         $response = null;
         try {
             $response = $client->get($this->randomPhoto, [
-                'headers' => $this->headers(),
-                'query' => $this->query(),
+                'headers' => $this->headers,
+                'query' => $this->query,
             ]);
         } catch (ClientException $exception) {
             Log::warning("Failed to get image from unsplash api");
@@ -68,24 +78,39 @@ class UnsplashApi
 
     /**
      * Defines the headers for the request
+     *
+     * @param array|null $headers
+     * @return array
      */
-    protected function headers()
+    protected function headers(array $headers = null)
     {
-        return [
+        $defaults = [
             'Accept-Version' => 'v1',
             'Authorization' => 'Client-ID ' . $this->accessKey,
         ];
+        if (is_array($headers)) {
+            return array_merge($defaults, $headers);
+        }
+        return $defaults;
     }
 
     /**
      * Defines the query params for the request
+     *
+     * @param array|null $query
+     * @return array
      */
-    protected function query()
+    protected function query(array $query = null): array
     {
-        return [
+        $searchTerm = Arr::random(config('unsplash.search_query_values'));
+        $defaults = [
             'featured' => 1,
             'orientation' => 'portrait',
-            'query' => 'technology',
+            'query' => $searchTerm,
         ];
+        if (is_array($query)) {
+            return array_merge($defaults, $query);
+        }
+        return $defaults;
     }
 }

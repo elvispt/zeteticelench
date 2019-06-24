@@ -48,4 +48,6 @@
   </div>
 @endsection
 
-@includeWhen(!empty($unsplash), 'common.unsplash')
+@section('headers')
+  @includeWhen(!empty($unsplash), 'common.unsplash')
+@endsection
