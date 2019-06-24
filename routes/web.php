@@ -61,6 +61,9 @@ Route::namespace('HackerNews')
         Route::get('best', 'HackerNewsController@best')
              ->name('hackernews-best');
 
+        Route::get('new', 'HackerNewsController@newStories')
+             ->name('hackernews-new');
+
         Route::get('jobs', 'HackerNewsController@jobs')
              ->name('hackernews-jobs');
 
