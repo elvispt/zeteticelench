@@ -1,6 +1,9 @@
 All notable changes will be added here.
 ---
 
+### 1.2 <2019-06-24>
+- Now able to bookmark a hacker news story, on a per user basis.
+
 ### 1.1 <2019-06-23>
 - Updated Laravel framework to v5.8.24.
 - Fixed issue with pagination object on xs screens.
