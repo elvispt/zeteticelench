@@ -21,7 +21,7 @@ class BookmarkedStories
     public function bookmarkedStories(
         int $limit = 20,
         int $offset = 0,
-        int $userId = null
+        ?int $userId = null
     ) {
         $hnIds = (new HackerNewsItemsBookmark())
             ->select('hacker_news_item_id')
@@ -61,7 +61,7 @@ class BookmarkedStories
                     [
                         'eMessage' => $exception->getMessage(),
                         'userId' => $userId,
-                        'hackerNewsItemId' => $hackerNewsItemId
+                        'hackerNewsItemId' => $hackerNewsItemId,
                     ]
                 );
             }
@@ -95,7 +95,7 @@ class BookmarkedStories
                     [
                         'eMessage' => $exception->getMessage(),
                         'userId' => $userId,
-                        'hackerNewsItemId' => $hackerNewsItemId
+                        'hackerNewsItemId' => $hackerNewsItemId,
                     ]
                 );
             }

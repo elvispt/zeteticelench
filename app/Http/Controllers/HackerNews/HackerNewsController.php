@@ -80,6 +80,32 @@ class HackerNewsController extends Controller
     }
 
     /**
+     * Shows the new hacker news posts. Has pagination.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function newStories(Request $request)
+    {
+        $currentPage = (int) $request->get('page', 1);
+        $offset = $this->offset($currentPage);
+        $hackerNews = new HackerNews();
+        $items = $hackerNews->getNewStories($this->perPage, $offset);
+        $stories = $this->lengthAwarePaginator(
+            $currentPage,
+            $items,
+            route('hackernews-new')
+        );
+        $stories = $this->appendDomain($stories);
+        $stories = $this->appendBookmarkStatus($stories);
+        return View::make('hackernews/new-stories', [
+            'stories' => $stories,
+            'hnPostUrlFormat' => $this->hnPostUrlFormat,
+        ]);
+    }
+
+
+    /**
      * Shows jobs posting from hacker news
      *
      * @param Request $request
@@ -105,7 +131,6 @@ class HackerNewsController extends Controller
      * Show bookmarked hacker news post
      *
      * @param Request $request
-     *
      * @return \Illuminate\Contracts\View\View
      */
     public function bookmarkList(Request $request)
@@ -163,7 +188,7 @@ class HackerNewsController extends Controller
      * Shows the details and comments of the hacker news story
      *
      * @param int $id The identifier of the hacker news story
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\View\View|void
      */
     public function item($id)
     {

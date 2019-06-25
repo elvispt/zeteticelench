@@ -4,39 +4,74 @@ namespace App\Repos\HackerNews;
 
 use App\Jobs\HnImportStories;
 use App\Models\HackerNewsItem;
-use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
+use Log;
 use Psr\SimpleCache\InvalidArgumentException;
 
-class HackerNewsImport extends HnApi
+class HackerNewsImport
 {
+
+    protected $cacheKey;
+
+    protected $expiration;
+
     /**
-     * Size of each chunk of hacker news items ids
+     * Size of each chunk of ids to send to queue
      *
      * @var int
      */
     protected $chunkSize = 100;
 
     /**
-     * The cache key that stores the maximum id value
+     * Sets the list of top stories ids into a queue
      *
-     * @var string
+     * @param HnApi $hnApi
      */
-    protected $maxIdCacheKey = 'maxid' . self::class;
+    public function importTop(HnApi $hnApi): void
+    {
+        $this->importStories($hnApi->getTopStoriesUri(), $hnApi);
+    }
 
     /**
-     * Grabs the latest new/changed stories and updates the local db
+     * Sets the list of best stories ids into a queue
+     * @param HnApi $hnApi
      */
-    public function importUpdatedStories()
+    public function importBest(HnApi $hnApi): void
     {
-        $updatedIdsList = $this->getLiveStoriesIdList($this->updatesUri);
+        $this->importStories($hnApi->getBestStoriesUri(), $hnApi);
+    }
+
+    /**
+     * Sets the list of new stories ids into a queue
+     *
+     * @param HnApi $hnApi
+     */
+    public function importNew(HnApi $hnApi): void
+    {
+        $this->importStories($hnApi->getNewStoriesUri(), $hnApi);
+    }
+
+    /**
+     * Sets the list of job stories ids into a queue
+     *
+     * @param HnApi $hnApi
+     */
+    public function importJobs(HnApi $hnApi): void
+    {
+        $this->importStories($hnApi->getJobStoriesUri(), $hnApi);
+    }
+
+    /**
+     * Get the latest hacker news items that were changed
+     *
+     * @param HnApi $hnApi
+     */
+    public function importUpdatedStories(HnApi $hnApi): void
+    {
+        $updatedIdsList = $hnApi->getLiveStoriesIdList($hnApi->getUpdatesUri());
         $updatedIdsList = data_get($updatedIdsList, 'items', []);
-        $stories = $this->concurrentRequestsForItems($updatedIdsList);
+        $stories = $hnApi->concurrentRequestsForItems($updatedIdsList);
         $storeItems = new StoreItems();
         $storeItems->store($stories);
         Log::debug(
@@ -48,113 +83,113 @@ class HackerNewsImport extends HnApi
     /**
      * Sets jobs on the queue for later importing of hacker news items.
      * Walks the id list in reverse order.
-     */
-    public function queueStoriesImport()
-    {
-        $maxId = Cache::get($this->maxIdCacheKey);
-        if (is_null($maxId)) {
-            $maxId = $this->getMaxItemStoryId();
-        }
-        if ($maxId > 0) {
-            $this->dispatchChunk($maxId);
-        }
-    }
-
-    /**
-     * Gets a chunk of hacker news item ids and dispatches a job to the queue,
-     * using recursion.
      *
-     * @param int $maxId The max hn item id.
-     * @param int $iterations The maximum number of recursive calls.
+     * @param string $uri
+     * @param HnApi  $hnApi
      */
-    protected function dispatchChunk(int $maxId, int $iterations = 50)
+    protected function importStories(string $uri, HnApi $hnApi): void
     {
-        [$ids, $nextMaxId] = $this->chunk($maxId);
-        if (count($ids)) {
-            HnImportStories::dispatch($ids);
+        $cacheKey = $this->cacheKey ? $this->cacheKey : self::class . $uri;
+        $newStoriesIds = $hnApi->getLiveStoriesIdList($uri);
+        $newStoriesIds = $this->diffWithCachedIds($newStoriesIds, $cacheKey);
+        if (count($newStoriesIds) === 0) {
+            return;
         }
-        if ($nextMaxId > 0 && $iterations > 0) {
-            $iterations -= 1;
-            $this->dispatchChunk($nextMaxId, $iterations);
-        } else {
-            try {
-                Cache::set(
-                    $this->maxIdCacheKey,
-                    $nextMaxId,
-                    Carbon::now()->addDays(100)
-                );
-            } catch (InvalidArgumentException $exception) {
-                Log::warning(
-                    "Fail set $this->maxIdCacheKey on cache. Val: $nextMaxId",
-                    ['eMessage' => $exception->getMessage()]
-                );
-            }
-        }
-    }
 
-    /**
-     * Generates a chunk of ids against ids already present on db
-     *
-     * @param int $maxId The current max item id. Iterates in reverse.
-     * @return array The list of ids.
-     */
-    protected function chunk($maxId)
-    {
-        $ids = [];
-        $nextMaxId = $maxId;
-        while (count($ids) < $this->chunkSize) {
-            $nextMaxId = $maxId - $this->chunkSize;
-            for ($i = $nextMaxId; $i < $maxId; $i++) {
-                $ids[] = $i;
-            }
-            $ids = $this->removeExistingStoryIds($ids);
-        }
-        return [$ids, $nextMaxId];
-    }
+        $storyIdsToImport = $this->diffWithExistingStories($newStoriesIds);
+        $this->queueJobs($storyIdsToImport);
 
-    /**
-     * Gets the highest hn item id from the hn api
-     *
-     * @return int|null Returns the max id
-     */
-    protected function getMaxItemStoryId()
-    {
-        Log::debug("Getting max story id from API");
-        $client = new Client([
-            'base_uri' => $this->baseUri,
-        ]);
-
-        $maxItemId = null;
         try {
-            $response = $client->get($this->maxItemIdUri);
-            $maxItemId = $response->getBody()->getContents();
-        } catch (ClientException $exception) {
-            Log::alert("Could not get max item id");
-        } catch (Exception $exception) {
-            Log::alert("Could not get max item id");
+            $expiration = $this->expiration ? $this->expiration : 300;
+            Cache::set($cacheKey, $storyIdsToImport, $expiration);
+        } catch (InvalidArgumentException $exception) {
+            Log::error(
+                "Cache: settting ids list when importing stories",
+                ['eMesssage' => $exception->getMessage()]
+            );
         }
-        return $maxItemId ? (int) $maxItemId : null;
     }
 
     /**
-     * Removes all ids from the given $ids list against the ids present on the
-     * local db
+     * Checks which item ids already exists on cache and removes those from the
+     * final id list.
      *
-     * @param array<int> $ids The list of generated ids
-     * @return array<int> Returns the ids that do not exist on local db.
+     * @param array  $newIds The list of new ids obtained.
+     * @param string $cacheKey The cache where the list of the previously stored
+     *                         ids are set.
+     *
+     * @return array Returns the ids that have not yet been processed.
      */
-    protected function removeExistingStoryIds($ids)
+    protected function diffWithCachedIds(array $newIds, string $cacheKey): array
     {
-        $foundStoriesIds = (new HackerNewsItem())
-            ->withTrashed()
-            ->select('id')
-            ->whereIn('id', $ids)
-            ->get()
-            ->pluck('id')
-            ->toArray()
-        ;
-        return (new Collection($ids))
-            ->diff($foundStoriesIds)
+        $cachedStoryIds = Cache::get($cacheKey);
+
+        return (new Collection($newIds))
+            ->diff($cachedStoryIds)
+            ->values()
             ->toArray();
+    }
+
+    /**
+     * Checks which item ids already exists on DB and removes those from the
+     * final id list.
+     *
+     * @param array $newIds The list of new ids obtained.
+     *
+     * @return array Returns the ids that do not exist on db.
+     */
+    protected function diffWithExistingStories(array $newIds): array
+    {
+        $existingStoryIds = HackerNewsItem::findMany([$newIds])
+            ->pluck('id');
+
+        return (new Collection($newIds))
+            ->diff($existingStoryIds)
+            ->values()
+            ->toArray();
+    }
+
+    /**
+     * Gets the list of ids and separates into chunks of $this->chunkSize and
+     * dispatches that list into a Job class for later processing by the queue
+     * worker.
+     *
+     * @param array $storyIdsToImport The list of ids to dispatch to a queue.
+     */
+    protected function queueJobs(array $storyIdsToImport): void
+    {
+        $list = [];
+        foreach ($storyIdsToImport as $index => $storyId) {
+            $list[] = $storyId;
+            if (count($list) === $this->chunkSize
+                || count($storyIdsToImport) === $index + 1) {
+                HnImportStories::dispatch($list);
+                $list = [];
+            }
+        }
+    }
+
+    /**
+     * @param mixed $cacheKey
+     *
+     * @return HackerNewsImport
+     */
+    public function setCacheKey($cacheKey)
+    {
+        $this->cacheKey = $cacheKey;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $expiration
+     *
+     * @return HackerNewsImport
+     */
+    public function setExpiration($expiration)
+    {
+        $this->expiration = $expiration;
+
+        return $this;
     }
 }
