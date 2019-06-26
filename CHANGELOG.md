@@ -1,5 +1,14 @@
 All notable changes will be added here.
----
+-------------------------------------------------------------------------------
+
+### 1.3 <2019-06-26>
+- Top main menu will no longer have a dropdown but instead be moved to a
+sub-menu that appears on the hacker new story pages with the the options
+Top, Best, New, Bookmarked, Jobs.
+- Added Hacker News new stories page.
+- Background image, on dashboard, continues to be obtained from Unsplash API
+but will now randomly use a word from pre-determined list to search for and
+image.
 
 ### 1.2 <2019-06-24>
 - Now able to bookmark a hacker news story, on a per user basis.
