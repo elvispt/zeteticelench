@@ -24,6 +24,8 @@
         <span class="text-muted">|</span>
         <small class="text-muted">{{ \Illuminate\Support\Carbon::create($story->created_at)->diffForHumans() }}</small>
         <span class="text-muted">|</span>
+        <small class="text-muted">@lang('hackernews.by', ['by' => $story->by])</small>
+        <span class="text-muted">|</span>
         <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
            target="hncomments-{{ $story->id }}"
            class="text-info"
@@ -33,7 +35,7 @@
     <div class="row">
       <div class="col-12">
         @foreach($story->sub as $sub)
-          @component('hackernews.comment', ['item' => $sub])@endcomponent
+          @component('hackernews.comment', ['item' => $sub, 'op' => $story->by])@endcomponent
         @endforeach
       </div>
     </div>
