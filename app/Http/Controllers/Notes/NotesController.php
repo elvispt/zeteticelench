@@ -49,7 +49,7 @@ class NotesController extends Controller
      * Shows the page for editing a note
      *
      * @param int|null $noteId The note identifier
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\View\View|void
      */
     public function edit($noteId = null)
     {
@@ -78,7 +78,7 @@ class NotesController extends Controller
      *
      * @param NotesUpdate $request Validates the data sent
      * @param int|null    $noteId The note identifier
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
      */
     public function update(NotesUpdate $request, $noteId)
     {
@@ -149,7 +149,7 @@ class NotesController extends Controller
      * Deletes the note identified by the $noteId
      *
      * @param int $noteId The note identifier.
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
      */
     public function destroy($noteId)
     {

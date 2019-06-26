@@ -32,7 +32,7 @@ class UsersController extends Controller
      * Shows the page for editing a single user
      *
      * @param int $id The user identifier
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\View\View|void
      */
     public function edit($id)
     {

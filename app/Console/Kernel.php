@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\StaleTags;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
+use App\Repos\HackerNews\HnApi;
 use App\Repos\Unsplash\Unsplash;
 use App\Repos\Unsplash\UnsplashApi;
 use Illuminate\Console\Scheduling\Schedule;
@@ -59,10 +60,11 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(static function () {
             $hackerNewsImport = new HackerNewsImport();
-            $hackerNewsImport->importUpdatedStories();
-            if (config('hackernews.api_full_import_active')) {
-                $hackerNewsImport->queueStoriesImport();
-            }
+            $hackerNewsImport->importUpdatedStories(new HnApi());
+            $hackerNewsImport->importNew(new HnApi());
+            $hackerNewsImport->importTop(new HnApi());
+            $hackerNewsImport->importBest(new HnApi());
+            $hackerNewsImport->importJobs(new HnApi());
         })->everyMinute();
     }
 

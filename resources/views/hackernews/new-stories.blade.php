@@ -24,10 +24,6 @@
                 </span>
                 <span class="badge">{{ \Illuminate\Support\Carbon::make($story->created_at)->diffForHumans() }}</span>
               </div>
-              <small class="text-muted">@lang('hackernews.points', ['points' => $story->score])</small>
-              |
-              <small>@lang('hackernews.comments', ['comments' => data_get($story, 'descendants', '-')])</small>
-              |
               <a href="#"
                  onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
               >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>

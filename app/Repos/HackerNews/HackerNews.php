@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Psr\SimpleCache\InvalidArgumentException;
 
-class HackerNews extends HnApi
+class HackerNews
 {
     /**
      * The amount of time a story listing should be stored in cache
@@ -32,7 +32,7 @@ class HackerNews extends HnApi
         bool $forceCacheRefresh = false
     ) {
         return $this->getStories(
-            $this->topStoriesUri,
+            (new HnApi())->getTopStoriesUri(),
             $limit,
             $offset,
             $forceCacheRefresh
@@ -55,7 +55,30 @@ class HackerNews extends HnApi
         bool $forceCacheRefresh = false
     ) {
         return $this->getStories(
-            $this->bestStoriesUri,
+            (new HnApi())->getBestStoriesUri(),
+            $limit,
+            $offset,
+            $forceCacheRefresh
+        );
+    }
+
+    /**
+     * Gets hacker news new stories either from DB or cache.
+     *
+     * @param int  $limit The maximum number of stories
+     * @param int $offset The offset (index) from which to obtain the story
+     *                    items
+     * @param bool $forceCacheRefresh Force the cache to be refreshed?
+     * @return mixed|object Returns an object containing the list of stories
+     *                      and the total number of stories available.
+     */
+    public function getNewStories(
+        int $limit = 20,
+        int $offset = 0,
+        bool $forceCacheRefresh = false
+    ) {
+        return $this->getStories(
+            (new HnApi())->getNewStoriesUri(),
             $limit,
             $offset,
             $forceCacheRefresh
@@ -78,7 +101,7 @@ class HackerNews extends HnApi
         bool $forceCacheRefresh = false
     ) {
         return $this->getStories(
-            $this->jobStoriesUri,
+            (new HnApi())->getJobStoriesUri(),
             $limit,
             $offset,
             $forceCacheRefresh
@@ -138,8 +161,8 @@ class HackerNews extends HnApi
         int $limit = 20,
         int $offset = 0
     ) {
-        $hackerNewsImport = new HackerNewsImport();
-        $fullIdList = $hackerNewsImport->getLiveStoriesIdList($uri);
+        $hnApi = new HnApi();
+        $fullIdList = $hnApi->getLiveStoriesIdList($uri);
 
         return Utils::storiesListFromDb($fullIdList, $limit, $offset);
     }

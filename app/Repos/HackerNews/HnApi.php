@@ -18,13 +18,13 @@ class HnApi
 
     protected $bestStoriesUri;
 
+    protected $newStoriesUri;
+
     protected $jobStoriesUri;
 
     protected $updatesUri;
 
     protected $itemUriFormat;
-
-    protected $maxItemIdUri;
 
     protected $concurrency = 10;
 
@@ -36,11 +36,11 @@ class HnApi
         $this->baseUri = config('hackernews.api_base_uri');
         $this->topStoriesUri = config('hackernews.api_top_stories_uri');
         $this->bestStoriesUri = config('hackernews.api_best_stories_uri');
+        $this->newStoriesUri = config('hackernews.api_new_stories_uri');
         $this->jobStoriesUri = config('hackernews.api_job_stories_uri');
         $this->updatesUri = config('hackernews.api_updates_uri');
         $this->itemUriFormat =
             config('hackernews.api_item_details_uri_format');
-        $this->maxItemIdUri = config('hackernews.api_item_max_id');
     }
 
     /**
@@ -136,5 +136,45 @@ class HnApi
         }
 
         return $item;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTopStoriesUri()
+    {
+        return $this->topStoriesUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBestStoriesUri()
+    {
+        return $this->bestStoriesUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNewStoriesUri()
+    {
+        return $this->newStoriesUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJobStoriesUri()
+    {
+        return $this->jobStoriesUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatesUri()
+    {
+        return $this->updatesUri;
     }
 }

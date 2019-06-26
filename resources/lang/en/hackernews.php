@@ -4,6 +4,7 @@ return [
     'hackernews' => 'Hacker News',
     'top' => 'Top',
     'best' => 'Best',
+    'new' => "New",
     'jobs' => 'Jobs',
     'bookmarked' => "Bookmarked",
     'bookmark' => "Mark",

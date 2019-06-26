@@ -26,7 +26,7 @@
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
-
+  @yield('headers')
 </head>
 <body>
 <div id="app">
@@ -60,22 +60,10 @@
               </div>
             </li>
 
-            <li class="nav-item dropdown">
-              <a id="navbarDropdown"
-                 class="nav-link dropdown-toggle {{ \Illuminate\Support\Str::startsWith(Route::getCurrentRoute()->getName(), 'hackernews') ? 'text-primary' : '' }}"
-                 href="#"
-                 role="button"
-                 data-toggle="dropdown"
-                 aria-haspopup="true" aria-expanded="false" v-pre>
-                @lang('hackernews.hackernews') <span class="caret"></span>
-              </a>
-
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('hackernews-top') }}">@lang('hackernews.top')</a>
-                <a class="dropdown-item" href="{{ route('hackernews-best') }}">@lang('hackernews.best')</a>
-                <a class="dropdown-item" href="{{ route('hackernews-bookmark-list') }}">@lang('hackernews.bookmarked')</a>
-                <a class="dropdown-item" href="{{ route('hackernews-jobs') }}">@lang('hackernews.jobs')</a>
-              </div>
+            <li class="nav-item">
+              <a class="nav-link {{ \Illuminate\Support\Str::startsWith(Route::getCurrentRoute()->getName(), 'hackernews') ? 'text-primary' : '' }}"
+                 href="{{ route('hackernews-top') }}"
+              >@lang('hackernews.hackernews')</a>
             </li>
           @endif
         </ul>
