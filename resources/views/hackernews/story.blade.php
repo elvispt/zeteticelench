@@ -26,11 +26,29 @@
         <span class="text-muted">|</span>
         <small class="text-muted">@lang('hackernews.by', ['by' => $story->by])</small>
         <span class="text-muted">|</span>
+        <a href="#"
+           onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
+        >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
+        <span class="text-muted">|</span>
         <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
            target="hncomments-{{ $story->id }}"
            class="text-info"
         ><small>@lang('hackernews.hnpost')</small></a>
       </div>
+
+      @if ($story->bookmarked)
+        <form id="bookmark-{{ $story->id }}" action="{{ route('hackernews-bookmark-destroy') }}" method="post">
+          @csrf
+          @method('DELETE')
+          <input type="hidden" name="story_id" value="{{ $story->id }}">
+        </form>
+      @else
+        <form id="bookmark-{{ $story->id }}" action="{{ route('hackernews-bookmark-add') }}" method="post">
+          @csrf
+          <input type="hidden" name="story_id" value="{{ $story->id }}">
+        </form>
+      @endif
+
     </div>
     <div class="row">
       <div class="col-12">

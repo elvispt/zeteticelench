@@ -198,6 +198,7 @@ class HackerNewsController extends Controller
             return abort(404);
         }
         $this->appendDomain([$story]);
+        $this->appendBookmarkStatus([$story]);
         return View::make('hackernews/story', [
             'story' => $story,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
