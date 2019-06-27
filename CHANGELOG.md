@@ -1,6 +1,12 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.3.1 <2019-07-27>
+- Reduce the number of elements when on xs-screens.
+- Prune application logs automatically logs after 10 days.
+- Story can now be bookmarked on the story detail page.
+- Hightlight op's username on story details comment listing.
+
 ### 1.3 <2019-06-26>
 - Top main menu will no longer have a dropdown but instead be moved to a
 sub-menu that appears on the hacker new story pages with the the options
