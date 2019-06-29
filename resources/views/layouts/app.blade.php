@@ -68,7 +68,9 @@
           @endif
         </ul>
 
-        @include('common/inspire')
+        <div class="d-none d-md-block">
+          @include('common/inspire')
+        </div>
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
