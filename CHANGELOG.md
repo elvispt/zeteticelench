@@ -1,7 +1,14 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 1.3.1 <2019-07-27>
+### 1.4 <2019-06-29>
+- Show system information on dashboard.
+- Advice slip will on also appear on dashboard.
+  - On mobile, advice slip will not appear on top nav bar.
+- Fix issue that occurred when network connection was down and could not
+connect to Unsplash Api.
+
+### 1.3.1 <2019-06-27>
 - Reduce the number of elements when on xs-screens.
 - Prune application logs automatically logs after 10 days.
 - Story can now be bookmarked on the story detail page.
