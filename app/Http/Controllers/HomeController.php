@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\SysInfo\SysInfo;
 use App\Repos\Calendarific\Calendarific;
 use App\Repos\Calendarific\CalendarificApi;
 use App\Repos\Unsplash\Unsplash;
@@ -26,6 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $sysInfo = new SysInfo();
         $calendarific = new Calendarific();
         $calendarificApi = new CalendarificApi();
         $holidays = $calendarific->holidays($calendarificApi);
@@ -35,6 +37,7 @@ class HomeController extends Controller
         return view('home', [
             'unsplash' => $unsplash->getUnsplashFeaturedImage(new UnsplashApi()),
             'nextHolidays' => $nextHolidays,
+            'sysInfo' => $sysInfo->all(),
         ]);
     }
 }
