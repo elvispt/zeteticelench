@@ -4,6 +4,7 @@ namespace App\Repos\Unsplash;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
@@ -50,6 +51,8 @@ class UnsplashApi
             ]);
         } catch (ClientException $exception) {
             Log::warning("Failed to get image from unsplash api");
+        } catch (ConnectException $exception) {
+            Log::warning("Cannot connect to unsplash api");
         }
         if ($response) {
             $photoUrl = $this->getImageFromResponse($response);
