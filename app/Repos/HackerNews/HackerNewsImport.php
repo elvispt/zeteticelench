@@ -3,6 +3,7 @@
 namespace App\Repos\HackerNews;
 
 use App\Jobs\HnImportStories;
+use App\Jobs\HnImportStoryWithComments;
 use App\Models\HackerNewsItem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -78,6 +79,19 @@ class HackerNewsImport
             "Update import result",
             ['changes' => $storeItems->getChanges()]
         );
+    }
+
+    /**
+     * Import a single story and its comments, by using a queue.
+     *
+     * @param int      $storyId The identifier of the story.
+     * @param int|null $bookmarkUserId The user to bookmark this story with.
+     */
+    public function importStoryWithComments(
+        int $storyId,
+        ?int $bookmarkUserId = null
+    ): void {
+        HnImportStoryWithComments::dispatch($storyId, $bookmarkUserId);
     }
 
     /**

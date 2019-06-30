@@ -73,6 +73,9 @@ Route::namespace('HackerNews')
         Route::post('bookmarks', 'HackerNewsController@bookmarkAdd')
              ->name('hackernews-bookmark-add');
 
+        Route::post('bookmarks/manual', 'HackerNewsController@bookmarkManualAdd')
+             ->name('hackernews-bookmark-manual-add');
+
         Route::delete('bookmarks', 'HackerNewsController@bookmarkDestroy')
              ->name('hackernews-bookmark-destroy');
 

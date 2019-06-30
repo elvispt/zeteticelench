@@ -7,6 +7,7 @@ use App\Http\Requests\HnBookmark;
 use App\Models\HackerNewsItemsBookmark;
 use App\Repos\HackerNews\BookmarkedStories;
 use App\Repos\HackerNews\HackerNews;
+use App\Repos\HackerNews\HackerNewsImport;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -149,6 +150,7 @@ class HackerNewsController extends Controller
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
+            'bookmarkStore' => true,
         ]);
     }
 
@@ -164,6 +166,21 @@ class HackerNewsController extends Controller
         $storyId = $validated->get('story_id');
         $bookmarkedStories = new BookmarkedStories();
         $bookmarkedStories->bookmarkStory($storyId, Auth::id());
+
+        return back();
+    }
+
+    /**
+     * In a POST request make a manual import of a story with its comments
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function bookmarkManualAdd(Request $request)
+    {
+        $id = (int) $request->get('story-id');
+        $hnImport = new HackerNewsImport();
+        $hnImport->importStoryWithComments($id, Auth::id());
 
         return back();
     }
