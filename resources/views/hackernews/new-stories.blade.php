@@ -22,16 +22,18 @@
                     </a>
                   @endif
                 </span>
-                <span class="badge">{{ \Illuminate\Support\Carbon::make($story->created_at)->diffForHumans() }}</span>
+                <span class="badge d-none d-md-block">{{ \Illuminate\Support\Carbon::make($story->created_at)->diffForHumans() }}</span>
               </div>
-              <a href="#"
-                 onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
-              >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
-              |
-              <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
-                 target="hncomments-{{ $story->id }}"
-                 class="text-info"
-              ><small>@lang('hackernews.hnpost')</small></a>
+              <div class="d-none d-md-block">
+                <a href="#"
+                   onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
+                >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
+                |
+                <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
+                   target="hncomments-{{ $story->id }}"
+                   class="text-info"
+                ><small>@lang('hackernews.hnpost')</small></a>
+              </div>
             </li>
             @if ($story->bookmarked)
               <form id="bookmark-{{ $story->id }}" action="{{ route('hackernews-bookmark-destroy') }}" method="post">
