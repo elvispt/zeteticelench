@@ -20,7 +20,6 @@ $factory->define(Note::class, function (Faker $faker) {
 
     return [
         'user_id' => $faker->randomElement($usersIdList),
-        'title' => $faker->realText(50),
         'body' => $faker->realText(500),
         'deleted_at' => $faker->randomElement([null, $faker->dateTimeThisMonth()]),
         'created_at' => $faker->dateTimeThisDecade('-2 Years'),
