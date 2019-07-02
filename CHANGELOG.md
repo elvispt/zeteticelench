@@ -1,7 +1,7 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 1.5 <2019-07-02>
+### 1.5.1 <2019-07-02>
 - Added a page to show a note, converted from markdown to html.
 - Notes now only contain a body and accept markdown.
   - Titles are extracted from the first line of the body.
