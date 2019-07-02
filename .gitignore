@@ -132,3 +132,4 @@ _ide_helper.php
 tests/coverage
 public/css
 public/js
+public/mix-manifest.json
