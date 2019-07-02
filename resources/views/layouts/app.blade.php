@@ -31,6 +31,7 @@
 <body>
 <div id="app">
   <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+    @php $currentRouteName = Route::getCurrentRoute()->getName(); @endphp
     <div class="container">
       <a class="navbar-brand" href="{{ url('/') }}">
         {{ config('app.name', 'Laravel') }}
@@ -44,7 +45,6 @@
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
           @if (\Illuminate\Support\Facades\Auth::check())
-            @php $currentRouteName = Route::getCurrentRoute()->getName(); @endphp
             <li class="nav-item">
               <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'notes') ? 'text-primary' : '' }}"
                  href="{{ route('notes') }}"
