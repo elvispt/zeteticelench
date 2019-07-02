@@ -130,3 +130,5 @@ $RECYCLE.BIN/
 .phpstorm.meta.php
 _ide_helper.php
 tests/coverage
+public/css
+public/js
