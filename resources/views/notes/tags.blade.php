@@ -2,13 +2,8 @@
 
 @section('content')
   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <a href="{{ route('notesTagsCreate') }}"
-           class="btn btn-dark"
-        >@lang('notes.new-tag')</a>
-      </div>
-    </div>
+
+    @include('notes.top-submenu')
 
     <div class="row">
       <div class="col-12">
@@ -30,7 +25,7 @@
           <div class="col-xs-12 col-md-6 mt-3">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">{{ $note->title }}</h5>
+                <h5 class="card-title">{{ $note->extractTitle() }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">
                   <small>#{{ $note->id }}</small>
                   <small>@lang('notes.updated') {{ \Illuminate\Support\Carbon::make($note->updated_at)->diffForHumans() }}</small>

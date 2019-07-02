@@ -63,5 +63,11 @@
         </nav>
       </div>
     </div>
+
+    <div class="row justify-content-center">
+      <div class="col-12">
+        @includeWhen($bookmarkStore ?? false, 'hackernews.bookmark-manual')
+      </div>
+    </div>
   </div>
 @endsection

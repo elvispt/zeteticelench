@@ -13,4 +13,6 @@ return [
     'points' => ":points points",
     'comments' => ":comments comments",
     'by' => "by :by",
+    'add_bookmark_by_id' => "Add bookmark by it's story identifier",
+    'bookmark_id' => "The story id",
 ];

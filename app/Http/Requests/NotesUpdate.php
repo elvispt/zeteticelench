@@ -14,12 +14,6 @@ class NotesUpdate extends BaseFormRequest
     public function rules()
     {
         return [
-            'title' => [
-                'required',
-                'string',
-                'min:1',
-                'max:50',
-            ],
             'body' => [
                 'required',
                 'string',

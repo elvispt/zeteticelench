@@ -31,17 +31,42 @@ class NotesController extends Controller
             ->orderBy('updated_at', 'DESC')
             ->get();
 
-        $notes = $notes->map(static function (Note $note) {
+        $notes = $notes->map(function (Note $note) {
             $note->tags;
             $parsed = (object) $note->toArray();
             $parsed->tags = (new Collection($parsed->tags))
                 ->pluck('tag')
                 ->toArray();
+            $parsed->title = $note->extractTitle();
+            $parsed->description = $note->extractDescription();
+
             return (object) $parsed;
         });
 
         return View::make('notes/notes', [
             'notes' => $notes,
+        ]);
+    }
+
+    /**
+     * Shows a note converted according to CommonMark
+     *
+     * @param int $id The note identifier
+     * @return \Illuminate\Contracts\View\View|void
+     */
+    public function show($id)
+    {
+        $userId = Auth::id();
+        $note = (new Note())
+            ->where('id', $id)
+            ->where('user_id', $userId)
+            ->first();
+        if (! $note) {
+            return abort(404);
+        }
+
+        return View::make('notes/note', [
+            'note' => $note,
         ]);
     }
 
@@ -91,7 +116,6 @@ class NotesController extends Controller
             return abort(404);
         }
 
-        $note->title = $validated->get('title', '');
         $note->body = $validated->get('body', '');
         $note->save();
 
@@ -101,7 +125,7 @@ class NotesController extends Controller
             $note->touch();
         }
 
-        return redirect(route('notesEdit', ['noteId' => $noteId]));
+        return redirect(route('notesShow', ['noteId' => $noteId]));
     }
 
     /**
@@ -134,7 +158,6 @@ class NotesController extends Controller
         $note = new Note();
 
         $note->user_id = Auth::id();
-        $note->title = $validated->get('title', '');
         $note->body = $validated->get('body', '');
 
         $note->save();

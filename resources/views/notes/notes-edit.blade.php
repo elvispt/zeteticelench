@@ -2,17 +2,19 @@
 
 @section('content')
   <div class="container">
+
+    @include('notes.top-submenu')
+
     <div class="row justify-content-center">
       <div class="col-sm">
         @if ($currentNote)
 
           <div class="card p-3 mt-3">
-            <h3>
-              Edit
+            <div class="text-right">
               <small class="text-muted">@lang('notes.updated') {{ $currentNote->updated_at->diffForHumans() }}</small>
-              <small>|</small>
+              <small class="text-muted">|</small>
               <small class="text-muted">@lang('notes.created') {{ $currentNote->created_at->diffForHumans() }}</small>
-            </h3>
+            </div>
 
             <form action="{{ route('notesUpdate', ['noteId' => $currentNote->id]) }}" method="post">
               @csrf
@@ -21,23 +23,11 @@
                 @error('title')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
-                <div class="form-group">
-                  <label for="note-title">@lang('notes.title')</label>
-                  <input
-                    type="text"
-                    id="note-title"
-                    name="title"
-                    class="form-control form-text"
-                    maxlength="50"
-                    value="{{ $currentNote->title }}"
-                  >
-                </div>
               </div>
               @error('body')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
               <div>
-                <label for="note-body">@lang('notes.note')</label>
                 <textarea
                   id="note-body"
                   name="body"
@@ -45,6 +35,9 @@
                   cols="100"
                   rows="15"
                 >{{ $currentNote->body }}</textarea>
+                <small class="form-text text-muted">
+                  <a class="text-muted" href="https://commonmark.org/help/" target="_CommonMark">CommonMark</a>
+                </small>
               </div>
               @if ($errors->has('tags.*'))
                 @foreach($errors->get('tags.*') as $msg)

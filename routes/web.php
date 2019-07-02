@@ -11,43 +11,50 @@
 |
 */
 
+use App\Http\Controllers\HackerNews\HackerNewsController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Notes\NotesController;
+use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'HomeController@index');
+Route::get('/', [HomeController::class, 'index']);
 
 Route::namespace('Notes')
     ->prefix('notes')
     ->middleware('auth')
     ->group(static function () {
-        Route::get('', 'NotesController@index')
+        Route::get('', [NotesController::class, 'index'])
              ->name('notes');
 
-        Route::get('/create', 'NotesController@create')
+        Route::get('/create', [NotesController::class, 'create'])
              ->name('notesCreate');
 
-        Route::post('/create', 'NotesController@add')
+        Route::post('/create', [NotesController::class, 'add'])
              ->name('notesAdd');
 
-        Route::get('/tags', 'NotesController@tags')
+        Route::get('/tags', [NotesController::class, 'tags'])
              ->name('notesTags');
 
-        Route::get('/tags/create', 'NotesController@tagCreate')
+        Route::get('/tags/create', [NotesController::class, 'tagCreate'])
              ->name('notesTagsCreate');
 
-        Route::post('/tags/create', 'NotesController@tagAdd')
+        Route::post('/tags/create', [NotesController::class, 'tagAdd'])
              ->name('notesTagsAdd');
 
-        Route::get('/tags/{tagId?}', 'NotesController@tags')
+        Route::get('/tags/{tagId?}', [NotesController::class, 'tags'])
              ->name('notesTags');
 
-        Route::get('/{noteId}', 'NotesController@edit')
+        Route::get('/{noteId}', [NotesController::class, 'show'])
+             ->name('notesShow');
+
+        Route::get('/edit/{noteId}', [NotesController::class, 'edit'])
              ->name('notesEdit');
 
-        Route::put('/{noteId}', 'NotesController@update')
+        Route::put('/{noteId}', [NotesController::class, 'update'])
             ->name('notesUpdate');
 
-        Route::delete('/{noteId}', 'NotesController@destroy')
+        Route::delete('/{noteId}', [NotesController::class, 'destroy'])
              ->name('notesDestroy');
     });
 
@@ -55,28 +62,37 @@ Route::namespace('HackerNews')
     ->prefix('hackernews')
     ->middleware('auth')
     ->group(static function () {
-        Route::get('top', 'HackerNewsController@top')
+        Route::get('top', [HackerNewsController::class, 'top'])
              ->name('hackernews-top');
 
-        Route::get('best', 'HackerNewsController@best')
+        Route::get('best', [HackerNewsController::class, 'best'])
              ->name('hackernews-best');
 
-        Route::get('new', 'HackerNewsController@newStories')
+        Route::get('new', [HackerNewsController::class, 'newStories'])
              ->name('hackernews-new');
 
-        Route::get('jobs', 'HackerNewsController@jobs')
+        Route::get('jobs', [HackerNewsController::class, 'jobs'])
              ->name('hackernews-jobs');
 
-        Route::get('bookmarks', 'HackerNewsController@bookmarkList')
+        Route::get('bookmarks', [HackerNewsController::class, 'bookmarkList'])
              ->name('hackernews-bookmark-list');
 
-        Route::post('bookmarks', 'HackerNewsController@bookmarkAdd')
+        Route::post('bookmarks', [HackerNewsController::class, 'bookmarkAdd'])
              ->name('hackernews-bookmark-add');
 
-        Route::delete('bookmarks', 'HackerNewsController@bookmarkDestroy')
+        Route::post(
+            'bookmarks/manual',
+            [HackerNewsController::class, 'bookmarkManualAdd']
+        )
+             ->name('hackernews-bookmark-manual-add');
+
+        Route::delete(
+            'bookmarks',
+            [HackerNewsController::class, 'bookmarkDestroy']
+        )
              ->name('hackernews-bookmark-destroy');
 
-        Route::get('item/{id}', 'HackerNewsController@item')
+        Route::get('item/{id}', [HackerNewsController::class, 'item'])
              ->name('hackernews-item');
     });
 
@@ -84,25 +100,26 @@ Route::namespace('Users')
     ->prefix('users')
     ->middleware('auth')
     ->group(static function () {
-        Route::get('', 'UsersController@index')
+        Route::get('', [UsersController::class, 'index'])
              ->name('users-list');
 
-        Route::get('edit/{id}', 'UsersController@edit')
+        Route::get('edit/{id}', [UsersController::class, 'edit'])
              ->name('users-edit');
 
-        Route::put('update', 'UsersController@update')
+        Route::put('update', [UsersController::class, 'update'])
              ->name('users-update');
 
-        Route::get('create', 'UsersController@create')
+        Route::get('create', [UsersController::class, 'create'])
              ->name('users-create');
 
-        Route::post('create', 'UsersController@add')
+        Route::post('create', [UsersController::class, 'add'])
              ->name('users-add');
 
-        Route::delete('destroy', 'UsersController@destroy')
+        Route::delete('destroy', [UsersController::class, 'destroy'])
              ->name('users-destroy');
     });
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', [HomeController::class, 'index'])
+    ->name('home');

@@ -3,11 +3,13 @@
 namespace App\Repos\HackerNews;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
+use Psr\Http\Message\ResponseInterface;
 use stdClass;
 
 class HnApi
@@ -84,7 +86,30 @@ class HnApi
             'base_uri' => $this->baseUri,
         ]);
 
-        $response = $client->get($uri);
+        $response = null;
+        try {
+            $response = $client->get($uri);
+        } catch (ConnectException $exception) {
+            Log::error(
+                "Could not connecto to HN api",
+                ['eMessage' => $exception->getMessage()]
+            );
+        }
+        $storiesIdList = [];
+        if (! is_null($response)) {
+            $storiesIdList = $this->parseLiveStoriesIdListResponse($response);
+        }
+
+        return $storiesIdList;
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @return mixed|stdClass
+     */
+    protected function parseLiveStoriesIdListResponse(
+        ?ResponseInterface $response
+    ) {
         $json = $response->getBody()->getContents();
         try {
             $storiesIdList = \GuzzleHttp\json_decode($json);

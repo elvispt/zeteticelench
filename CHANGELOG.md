@@ -1,6 +1,14 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.5 <2019-07-02>
+- Added a page to show a note, converted from markdown to html.
+- Notes now only contain a body and accept markdown.
+  - Titles are extracted from the first line of the body.
+- Notes section now as a submenu instead of the navbar dropdown.
+  - Submenus now use 100% of horizontal space.
+- Can now import and bookmark a hacker news story by it's id.
+
 ### 1.4 <2019-06-29>
 - Show system information on dashboard.
 - Advice slip will on also appear on dashboard.
