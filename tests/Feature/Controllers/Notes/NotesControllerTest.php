@@ -38,6 +38,40 @@ class NotesControllerTest extends TestCase
         ;
     }
 
+    public function testShowNotePageFailsWithNonExistingNoteId()
+    {
+        $user = factory(User::class)
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->get(route('notesShow', ['noteId' => 890776454567]))
+            ->assertStatus(404)
+        ;
+    }
+
+    public function testShowNotePage()
+    {
+        $user = factory(User::class)
+            ->create();
+        factory(Note::class, 10)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+        $id = (new Note())
+            ->select('id')
+            ->inRandomOrder()
+            ->limit(1)
+            ->pluck('id')
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->get(route('notesShow', ['noteId' => $id]))
+            ->assertStatus(200)
+        ;
+    }
+
     public function testShowNoteEditPageFailsWithNonExistingNoteId()
     {
         $user = factory(User::class)
@@ -132,22 +166,17 @@ class NotesControllerTest extends TestCase
             ->pluck('id')
             ->first();
 
-        $title = 'new title ' . Str::random();
         $body = 'new body text, new body text, new body text ' . Str::random();
         $this
             ->actingAs($user)
             ->put(
                 route('notesUpdate', ['noteId' => $id]),
-                [
-                    'title' => $title,
-                    'body' => $body,
-                ]
+                ['body' => $body]
             )
-            ->assertRedirect(route('notesEdit', ['noteId' => $id]))
+            ->assertRedirect(route('notesShow', ['noteId' => $id]))
         ;
         $this->assertDatabaseHas('notes', [
             'id' => $id,
-            'title' => $title,
             'body' => $body,
         ]);
     }
@@ -175,23 +204,20 @@ class NotesControllerTest extends TestCase
             ->random(2)
             ->toArray();
 
-        $title = 'new title ' . Str::random();
         $body = 'new body text, new body text, new body text ' . Str::random();
         $this
             ->actingAs($user)
             ->put(
                 route('notesUpdate', ['noteId' => $id]),
                 [
-                    'title' => $title,
                     'body' => $body,
                     'tags' => $tags,
                 ]
             )
-            ->assertRedirect(route('notesEdit', ['noteId' => $id]))
+            ->assertRedirect(route('notesShow', ['noteId' => $id]))
         ;
         $this->assertDatabaseHas('notes', [
             'id' => $id,
-            'title' => $title,
             'body' => $body,
         ]);
         foreach ($tags as $tagId) {
@@ -229,21 +255,18 @@ class NotesControllerTest extends TestCase
         $user = factory(User::class)
             ->create();
 
-        $title = 'new title ' . Str::random();
         $body = 'new body text, new body text, new body text ' . Str::random();
         $this
             ->actingAs($user)
             ->post(
                 route('notesAdd'),
                 [
-                    'title' => $title,
                     'body' => $body,
                 ]
             )
             ->assertRedirect(route('notes'))
         ;
         $this->assertDatabaseHas('notes', [
-            'title' => $title,
             'body' => $body,
         ]);
     }
@@ -261,14 +284,12 @@ class NotesControllerTest extends TestCase
             ->random(2)
             ->toArray();
 
-        $title = 'new title ' . Str::random();
         $body = 'new body text, new body text, new body text ' . Str::random();
         $this
             ->actingAs($user)
             ->post(
                 route('notesCreate'),
                 [
-                    'title' => $title,
                     'body' => $body,
                     'tags' => $tags,
                 ]
@@ -281,7 +302,6 @@ class NotesControllerTest extends TestCase
             ->first()
             ->pluck('id');
         $this->assertDatabaseHas('notes', [
-            'title' => $title,
             'body' => $body,
         ]);
         foreach ($tags as $tagId) {

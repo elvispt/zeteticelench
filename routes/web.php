@@ -45,7 +45,10 @@ Route::namespace('Notes')
         Route::get('/tags/{tagId?}', [NotesController::class, 'tags'])
              ->name('notesTags');
 
-        Route::get('/{noteId}', [NotesController::class, 'edit'])
+        Route::get('/{noteId}', [NotesController::class, 'show'])
+             ->name('notesShow');
+
+        Route::get('/edit/{noteId}', [NotesController::class, 'edit'])
              ->name('notesEdit');
 
         Route::put('/{noteId}', [NotesController::class, 'update'])

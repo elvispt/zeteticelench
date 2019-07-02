@@ -2,10 +2,12 @@
 
 @section('content')
   <div class="container">
+
+    @include('notes.top-submenu')
+
     <div class="row justify-content-center">
       <div class="col-sm">
         <div class="card p-3 mt-3">
-          <h3>@lang('notes.new-note')</h3>
 
           <form action="{{ route('notesAdd') }}" method="post">
             @csrf
@@ -13,23 +15,11 @@
               @error('title')
                 <div class="alert alert-danger">{{ $message }}</div>
               @enderror
-              <div class="form-group">
-                <label for="note-title">@lang('notes.title')</label>
-                <input
-                  type="text"
-                  id="note-title"
-                  name="title"
-                  class="form-control form-text"
-                  maxlength="50"
-                  value="{{ old('title') }}"
-                >
-              </div>
             </div>
             @error('body')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             <div>
-              <label for="note-body">@lang('notes.note')</label>
               <textarea
                 id="note-body"
                 name="body"
