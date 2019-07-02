@@ -2,6 +2,9 @@
 
 @section('content')
   <div class="container">
+
+    @include('notes.top-submenu')
+
     <div class="row justify-content-center">
       <div class="col-12">
         @error('tag')

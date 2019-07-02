@@ -3,9 +3,11 @@
 namespace App\View\Composers;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
 class InspireComposer
@@ -32,17 +34,40 @@ class InspireComposer
         $advice = Cache::get($this->cacheKey);
         if (is_null($advice)) {
             $client = new Client();
-            $response = $client->get($this->adviceSlipUrl);
-            $json = $response->getBody()->getContents();
-            $obj = \GuzzleHttp\json_decode($json);
-            $advice = data_get($obj, 'slip.advice');
+            $response = null;
             try {
-                Cache::set($this->cacheKey, $advice, $this->cacheExpiration);
-            } catch (InvalidArgumentException $exception) {
-                Log::warning("Could not store advice slip into cache");
+                $response = $client->get($this->adviceSlipUrl);
+            } catch (ConnectException $exception) {
+                Log::warning(
+                    "Could not connect to advice slip api.",
+                    ['eMessage' => $exception->getMessage()]
+                );
+            }
+            if (! is_null($response)) {
+                $advice = $this->parseResponse($response);
             }
         }
 
-        return is_string($advice) ? $advice : $advice;
+        return is_string($advice) ? $advice : '';
     }
+
+    /**
+     * @param ResponseInterface|null $response
+     * @return mixed
+     */
+    protected function parseResponse(?ResponseInterface $response) {
+        $json = $response->getBody()->getContents();
+        $obj = \GuzzleHttp\json_decode($json);
+        $advice = data_get($obj, 'slip.advice');
+        try {
+            Cache::set($this->cacheKey, $advice, $this->cacheExpiration);
+        } catch (InvalidArgumentException $exception) {
+            Log::warning(
+                "Could not store advice slip into cache",
+                ['eMessage' => $exception->getMessage()]
+            );
+        }
+
+        return $advice;
+}
 }

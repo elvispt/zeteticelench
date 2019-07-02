@@ -44,24 +44,15 @@
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
           @if (\Illuminate\Support\Facades\Auth::check())
-            <li class="nav-item dropdown">
-              <a id="navbarDropdown"
-                 class="nav-link dropdown-toggle {{ \Illuminate\Support\Str::startsWith(Route::getCurrentRoute()->getName(), 'notes') ? 'text-primary' : '' }}"
-                 href="#"
-                 role="button"
-                 data-toggle="dropdown"
-                 aria-haspopup="true" aria-expanded="false" v-pre>
-                @lang('notes.notes') <span class="caret"></span>
-              </a>
-
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('notes') }}">@lang('notes.notes')</a>
-                <a class="dropdown-item" href="{{ route('notesTags') }}">@lang('notes.tags')</a>
-              </div>
+            @php $currentRouteName = Route::getCurrentRoute()->getName(); @endphp
+            <li class="nav-item">
+              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'notes') ? 'text-primary' : '' }}"
+                 href="{{ route('notes') }}"
+              >@lang('notes.notes')</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link {{ \Illuminate\Support\Str::startsWith(Route::getCurrentRoute()->getName(), 'hackernews') ? 'text-primary' : '' }}"
+              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'hackernews') ? 'text-primary' : '' }}"
                  href="{{ route('hackernews-top') }}"
               >@lang('hackernews.hackernews')</a>
             </li>
@@ -76,7 +67,7 @@
         <ul class="navbar-nav ml-auto">
 
           <li class="nav-item">
-            <a class="nav-link {{ \Illuminate\Support\Str::startsWith(Route::getCurrentRoute()->getName(), 'users') ? 'text-primary' : '' }}"
+            <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'users') ? 'text-primary' : '' }}"
                href="{{ route('users-list') }}"
             >@lang('users.users')</a>
           </li>
@@ -118,7 +109,7 @@
     </div>
   </nav>
 
-  <main class="py-4">
+  <main class="pb-4">
     @include('common.errors')
     @yield('content')
   </main>
