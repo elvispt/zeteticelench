@@ -4,6 +4,7 @@ namespace App\Repos\Calendarific;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
@@ -67,6 +68,7 @@ class CalendarificApi
         try {
             $client = new Client([
                 'base_uri' => $this->baseUri,
+                'connect_timeout' => 2,
                 'headers' => [
                     'Accept: application/json',
                 ],
@@ -80,6 +82,11 @@ class CalendarificApi
                 ],
             ]);
         } catch (ClientException $exception) {
+            Log::warning(
+                "Failed to make request to Calendarific endpoint",
+                ['message' => $exception->getMessage()]
+            );
+        } catch (ServerException $exception) {
             Log::warning(
                 "Failed to make request to Calendarific endpoint",
                 ['message' => $exception->getMessage()]

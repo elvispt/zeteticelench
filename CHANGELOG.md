@@ -1,6 +1,12 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.5.4 <2019-07-08>
+- Fix issue with server connection failures
+[#139](https://github.com/elvispt/zeteticelench/issues/139).
+- Make user listing table responsive
+[#138](https://github.com/elvispt/zeteticelench/issues/138).
+
 ### 1.5.3 <2019-07-02>
  - Fixed issue with view on login pages.
 
