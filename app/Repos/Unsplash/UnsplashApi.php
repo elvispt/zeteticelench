@@ -2,9 +2,11 @@
 
 namespace App\Repos\Unsplash;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\ResponseInterface;
@@ -42,6 +44,7 @@ class UnsplashApi
         $photoUrl = null;
         $client = new Client([
             'base_uri' => $this->baseUri,
+            'connect_timeout' => 2,
         ]);
         $response = null;
         try {
@@ -50,9 +53,17 @@ class UnsplashApi
                 'query' => $this->query,
             ]);
         } catch (ClientException $exception) {
-            Log::warning("Failed to get image from unsplash api");
+            Log::warning("Failed to get image from unsplash api",
+                ['eMessage' => $exception->getMessage()]
+            );
         } catch (ConnectException $exception) {
-            Log::warning("Cannot connect to unsplash api");
+            Log::warning("Cannot connect to unsplash api",
+                ['eMessage' => $exception->getMessage()]
+            );
+        } catch (ServerException $exception) {
+            Log::warning("Issue with Unsplash API",
+                ['eMessage' => $exception->getMessage()]
+            );
         }
         if ($response) {
             $photoUrl = $this->getImageFromResponse($response);

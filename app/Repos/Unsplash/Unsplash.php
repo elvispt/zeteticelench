@@ -44,6 +44,11 @@ class Unsplash
             }
         }
 
+        if (!$photoUrl) {
+            $photoUrl->url = 'markus-spiske-gcgves5H_Ac-unsplash.png';
+            $photoUrl->bg = '#424242';
+        }
+
         return $photoUrl;
     }
 
