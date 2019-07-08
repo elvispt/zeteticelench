@@ -1,6 +1,16 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.6 <2019-07-08>
+- Bump laravel/framework from 5.8.24 to 5.8.27
+[#133](https://github.com/elvispt/zeteticelench/pull/133).
+- Bump phpunit/phpunit from 8.2.3 to 8.2.4
+[#135](https://github.com/elvispt/zeteticelench/pull/135).
+- Bump sentry/sentry-laravel from 1.0.2 to 1.1.0
+[#136](https://github.com/elvispt/zeteticelench/pull/136).
+- Bump filp/whoops from 2.4.0 to 2.4.1
+[#137](https://github.com/elvispt/zeteticelench/pull/137).
+
 ### 1.5.4 <2019-07-08>
 - Fix issue with server connection failures
 [#139](https://github.com/elvispt/zeteticelench/issues/139).
