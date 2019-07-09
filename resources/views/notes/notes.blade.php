@@ -1,5 +1,7 @@
 @extends('layouts/app')
 
+@section('title') @lang('notes.notes') @endsection
+
 @section('content')
   <div class="container">
 
@@ -19,7 +21,7 @@
               <p class="card-text">{{ $note->description }}</p>
               <a href="{{ route('notesEdit', ['noteId' => $note->id]) }}"
                  class="card-link"
-              >@lang('notes.edit')</a>
+              >@lang('common.edit')</a>
             </div>
             <div class="card-footer text-right">
               <span class="badge badge-secondary">{!! implode('</span> <span class="badge badge-secondary">', $note->tags) !!}</span>

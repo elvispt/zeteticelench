@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title') @lang('common.dashboard') @endsection
+
 @section('content')
   <div class="container pt-4">
     <div class="row justify-content-center">

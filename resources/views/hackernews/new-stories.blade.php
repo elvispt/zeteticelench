@@ -1,5 +1,7 @@
 @extends('layouts/app')
 
+@section('title') @lang($title) @endsection
+
 @section('content')
   <div class="container">
     @include('hackernews.top-submenu')

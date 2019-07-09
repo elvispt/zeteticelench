@@ -1,5 +1,7 @@
 @extends('layouts/app')
 
+@section('title') @lang('users.user-edit') @endsection
+
 @section('content')
   <div class="container">
     <div class="row">

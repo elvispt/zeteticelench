@@ -1,5 +1,7 @@
 @extends('layouts/app')
 
+@section('title') @lang('notes.new-note') @endsection
+
 @section('content')
   <div class="container">
 
