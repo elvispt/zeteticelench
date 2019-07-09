@@ -4,13 +4,9 @@
 
 @section('content')
   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <a href="{{ route('users-create') }}"
-           class="btn btn-dark"
-        >@lang('users.new-user')</a>
-      </div>
-    </div>
+
+    @include('users.top-submenu')
+
     <div class="row justify-content-center">
       <div class="col-8">
         @error('user-id')

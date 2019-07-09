@@ -4,6 +4,9 @@
 
 @section('content')
   <div class="container">
+
+    @include('users.top-submenu')
+
     <div class="row justify-content-center">
       <div class="col-12">
         <form action="{{ route('users-create') }}" method="post">
