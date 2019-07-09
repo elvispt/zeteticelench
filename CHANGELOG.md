@@ -1,7 +1,7 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 1.6.1 <UNRELEASED>
+### 1.6.1 <2019-07-09>
 - Change page title according to location
 [#140](https://github.com/elvispt/zeteticelench/pull/140).
 - Story details no longer clickable when on new Hacker News stories page
