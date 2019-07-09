@@ -45,11 +45,23 @@ class Unsplash
         }
 
         if (!$photoUrl) {
-            $photoUrl->url = 'markus-spiske-gcgves5H_Ac-unsplash.png';
-            $photoUrl->bg = '#424242';
+            $photoUrl = $this->fallback();
         }
 
         return $photoUrl;
+    }
+
+    /**
+     * The fallback when obtaining an image fails
+     *
+     * @return object
+     */
+    protected function fallback()
+    {
+        return (object) [
+            'url' => 'markus-spiske-gcgves5H_Ac-unsplash.png',
+            'bg' => '#424242'
+        ];
     }
 
     /**
