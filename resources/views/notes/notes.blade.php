@@ -1,5 +1,7 @@
 @extends('layouts/app')
 
+@section('title') @lang('notes.notes') @endsection
+
 @section('content')
   <div class="container">
 
@@ -9,7 +11,7 @@
 
       @foreach($notes as $note)
         <div class="col-xs-12 col-md-6 mt-3">
-          <div class="card">
+          <div class="card shadow">
             <div class="card-body">
               <h5 class="card-title"><a href="{{ route('notesShow', ['noteId' => $note->id]) }}">{{ $note->title }}</a></h5>
               <h6 class="card-subtitle mb-2 text-muted">
@@ -19,7 +21,7 @@
               <p class="card-text">{{ $note->description }}</p>
               <a href="{{ route('notesEdit', ['noteId' => $note->id]) }}"
                  class="card-link"
-              >@lang('notes.edit')</a>
+              >@lang('common.edit')</a>
             </div>
             <div class="card-footer text-right">
               <span class="badge badge-secondary">{!! implode('</span> <span class="badge badge-secondary">', $note->tags) !!}</span>

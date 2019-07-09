@@ -1,5 +1,5 @@
 <div class="comment card mt-3">
-  <div class="card-body">
+  <div class="card-body px-2 px-md-3 shadow">
     <h6 class="card-subtitle mb-2 text-muted">
       <a role="button"
          class="btn btn-sm btn-outline-secondary"

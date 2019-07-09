@@ -1,17 +1,19 @@
 @extends('layouts.app')
 
+@section('title') @lang('common.dashboard') @endsection
+
 @section('content')
   <div class="container pt-4">
     <div class="row justify-content-center">
 
       <div class="col-sm-6">
-        <div class="card mb-3">
+        <div class="card mb-3 shadow">
           <div class="card-body">
             @include('common/inspire')
           </div>
         </div>
 
-        <div class="card mb-3">
+        <div class="card mb-3 shadow">
           <div class="card-header">@lang('system.info')</div>
           <div class="card-body">
             @lang('system.uptime', [
@@ -43,7 +45,7 @@
       </div>
 
       <div class="col-sm-6">
-        <div class="card">
+        <div class="card shadow">
           <div class="card-header">Next Holiday</div>
           <div class="card-body">
             @foreach($nextHolidays as $nextHoliday)

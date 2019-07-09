@@ -2,6 +2,9 @@
 
 @section('content')
   <div class="container">
+
+    @include('hackernews.top-submenu')
+
     <div class="row">
       <div class="col-12">
         <p class="lead">

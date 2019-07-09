@@ -52,6 +52,7 @@ class HackerNewsController extends Controller
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
+            'title' => 'hackernews.hn_top',
         ]);
     }
 
@@ -77,6 +78,7 @@ class HackerNewsController extends Controller
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
+            'title' => 'hackernews.hn_best',
         ]);
     }
 
@@ -102,6 +104,7 @@ class HackerNewsController extends Controller
         return View::make('hackernews/new-stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
+            'title' => 'hackernews.hn_new',
         ]);
     }
 
@@ -125,6 +128,7 @@ class HackerNewsController extends Controller
         );
         return View::make('hackernews/jobs', [
             'stories' => $stories,
+            'title' => 'hackernews.hn_job',
         ]);
     }
 
@@ -151,6 +155,7 @@ class HackerNewsController extends Controller
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'bookmarkStore' => true,
+            'title' => 'hackernews.hn_bookmarked',
         ]);
     }
 
