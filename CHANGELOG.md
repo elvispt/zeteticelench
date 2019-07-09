@@ -1,6 +1,18 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.6.1 <UNRELEASED>
+- Change page title according to location
+[#140](https://github.com/elvispt/zeteticelench/pull/140).
+- Story details no longer clickable when on new Hacker News stories page
+[#141](https://github.com/elvispt/zeteticelench/pull/141).
+- Submenu now set on users management pages
+[#143](https://github.com/elvispt/zeteticelench/pull/143).
+- Added submenu on hacker news story details page.
+- Card elements now have a shadow set.
+[#142](https://github.com/elvispt/zeteticelench/pull/142).
+- Fixed issue with Unsplash fallback.
+
 ### 1.6 <2019-07-08>
 - Bump laravel/framework from 5.8.24 to 5.8.27
 [#133](https://github.com/elvispt/zeteticelench/pull/133).
