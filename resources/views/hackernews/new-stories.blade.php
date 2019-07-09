@@ -12,9 +12,7 @@
             <li class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <span>
-                  <a href="{{ route('hackernews-item', ['id' => $story->id]) }}"
-                     class="text-body"
-                  >{{ $story->title }}️</a>
+                  <span class="text-body">{{ $story->title }}️</span>
                   @if ($story->domain)
                     <a href="{{ data_get($story, 'url', '#') }}"
                        target="story-{{$index}}"
