@@ -16,7 +16,7 @@
         <form action="{{ route('users-update') }}" method="post">
           @csrf
           @method('PUT')
-          <div class="card mt-3">
+          <div class="card mt-3 shadow">
             <div class="card-header text-center">
               @lang('users.users')
               |

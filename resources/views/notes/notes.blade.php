@@ -11,7 +11,7 @@
 
       @foreach($notes as $note)
         <div class="col-xs-12 col-md-6 mt-3">
-          <div class="card">
+          <div class="card shadow">
             <div class="card-body">
               <h5 class="card-title"><a href="{{ route('notesShow', ['noteId' => $note->id]) }}">{{ $note->title }}</a></h5>
               <h6 class="card-subtitle mb-2 text-muted">

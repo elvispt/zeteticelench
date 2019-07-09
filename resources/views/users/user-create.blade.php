@@ -8,7 +8,7 @@
       <div class="col-12">
         <form action="{{ route('users-create') }}" method="post">
           @csrf
-          <div class="card mt-3">
+          <div class="card mt-3 shadow">
             <div class="card-header text-center">
               @lang('users.users')
             </div>
