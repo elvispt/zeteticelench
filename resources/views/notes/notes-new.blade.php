@@ -1,5 +1,7 @@
 @extends('layouts/app')
 
+@section('title') @lang('notes.new-note') @endsection
+
 @section('content')
   <div class="container">
 
@@ -7,7 +9,7 @@
 
     <div class="row justify-content-center">
       <div class="col-sm">
-        <div class="card p-3 mt-3">
+        <div class="card p-3 mt-3 shadow">
 
           <form action="{{ route('notesAdd') }}" method="post">
             @csrf

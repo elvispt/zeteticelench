@@ -1,20 +1,18 @@
 @extends('layouts/app')
 
+@section('title') @lang('users.user-edit') @endsection
+
 @section('content')
   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <a href="{{ route('users-create') }}"
-           class="btn btn-dark"
-        >@lang('users.new-user')</a>
-      </div>
-    </div>
+
+    @include('users.top-submenu')
+
     <div class="row justify-content-center">
       <div class="col-12">
         <form action="{{ route('users-update') }}" method="post">
           @csrf
           @method('PUT')
-          <div class="card mt-3">
+          <div class="card mt-3 shadow">
             <div class="card-header text-center">
               @lang('users.users')
               |
