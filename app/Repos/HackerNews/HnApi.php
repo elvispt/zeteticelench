@@ -4,6 +4,7 @@ namespace App\Repos\HackerNews;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -92,6 +93,11 @@ class HnApi
         } catch (ConnectException $exception) {
             Log::error(
                 "Could not connecto to HN api",
+                ['eMessage' => $exception->getMessage()]
+            );
+        } catch (ServerException $exception) {
+            Log::error(
+                "Unexpected response from HN Api",
                 ['eMessage' => $exception->getMessage()]
             );
         }
