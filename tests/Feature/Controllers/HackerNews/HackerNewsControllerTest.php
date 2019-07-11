@@ -117,7 +117,7 @@ class HackerNewsControllerTest extends TestCase
                 route('hackernews-bookmark-add'),
                 ['story_id' => $storyId]
             )
-            ->assertStatus(302)
+            ->assertStatus(200)
         ;
         $this->assertDatabaseHas('hacker_news_items_bookmarks', [
             'hacker_news_item_id' => $storyId,
@@ -170,7 +170,7 @@ class HackerNewsControllerTest extends TestCase
                 route('hackernews-bookmark-destroy'),
                 ['story_id' => $storyId]
             )
-            ->assertStatus(302)
+            ->assertStatus(200)
         ;
         $this->assertDatabaseMissing('hacker_news_items_bookmarks', [
             'hacker_news_item_id' => $storyId,

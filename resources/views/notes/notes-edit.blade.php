@@ -65,14 +65,52 @@
               </div>
               <button type="submit" class="btn btn-primary">@lang('notes.save')</button>
             </form>
-            <form action="{{ route('notesDestroy', ['noteId' => $currentNote->id]) }}"
-                  method="post"
-                  class="mt-3 text-right"
-            >
-              @csrf
-              @method('delete')
-              <button type="submit" class="btn btn-danger mt-3">@lang('notes.delete')</button>
-            </form>
+
+            <div class="mt-3 text-right">
+              <button type="button" id="btn_delete_note" class="btn btn-danger mt-3">@lang('notes.delete')</button>
+            </div>
+
+            <div id="overlay"
+                 class="d-none position-absolute bg-light rounded shadow"
+                 style="height: calc(100% - 1rem); width: calc(100% - 1rem); top: .5rem; left: .5rem;"
+            ></div>
+
+            <dialog id="confirmation_dialog" class="shadow bg-light border-secondary rounded">
+              <h3 class="text-center">@lang('notes.confirm_delete')</h3>
+              <form action="{{ route('notesDestroy', ['noteId' => $currentNote->id]) }}"
+                    method="post"
+                    class="p-2 px-5"
+              >
+                @csrf
+                @method('delete')
+                <button type="button"
+                        id="btn_delete_cancel"
+                        class="btn btn-primary mr-3">@lang('common.cancel')</button>
+                <button type="submit"
+                        class="btn btn-danger">@lang('notes.delete')</button>
+              </form>
+            </dialog>
+
+
+
+            <script type="text/javascript">
+              (function () {
+                document.addEventListener('DOMContentLoaded', function () {
+                  var dialog = document.getElementById('confirmation_dialog');
+                  var overlay = document.getElementById('overlay');
+
+                  document.getElementById('btn_delete_note').addEventListener('click', function () {
+                    dialog.setAttribute('open', true);
+                    overlay.classList.remove('d-none');
+                  });
+
+                  document.getElementById('btn_delete_cancel').addEventListener('click', function () {
+                    dialog.removeAttribute('open');
+                    overlay.classList.add('d-none');
+                  });
+                });
+              })();
+            </script>
           </div>
         @endif
       </div>
