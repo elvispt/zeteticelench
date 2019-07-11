@@ -29,16 +29,15 @@
               <div class="d-none d-md-block">
                 <small class="text-muted">@lang('hackernews.points', ['points' => $story->score])</small>
                 |
-                <small>@lang('hackernews.comments', ['comments' => data_get($story, 'descendants', '-')])</small>
+                <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
+                   target="hncomments-{{ $story->id }}"
+                   class="text-info"
+                   title="@lang('hackernews.hnpost')"
+                ><small>@lang('hackernews.comments', ['comments' => data_get($story, 'descendants', '-')])</small></a>
                 |
                 <a href="#"
                    onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
                 >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
-                |
-                <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
-                   target="hncomments-{{ $story->id }}"
-                   class="text-info"
-                ><small>@lang('hackernews.hnpost')</small></a>
               </div>
             </li>
             @if ($story->bookmarked)
