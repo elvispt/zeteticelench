@@ -1,7 +1,7 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 1.6.2 <UNRELEASED>
+### 1.6.2 <2019-07-11>
 - The page title, when on story comments page, is now the title of the story
 [#148](https://github.com/elvispt/zeteticelench/pull/148).
 - We now ask for confirmation before deleting a note
