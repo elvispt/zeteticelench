@@ -41,24 +41,61 @@
                 ><small>@lang('hackernews.comments', ['comments' => data_get($story, 'descendants', '-')])</small></a>
                 |
                 <a href="#"
-                   onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
+                   data-story-id="{{ $story->id }}"
+                   data-bookmarked="{{ $story->bookmarked ? 'true' : 'false' }}"
+                   class="bookmark-story"
                 >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
               </div>
             </li>
-            @if ($story->bookmarked)
-              <form id="bookmark-{{ $story->id }}" action="{{ route('hackernews-bookmark-destroy') }}" method="post">
-                @csrf
-                @method('DELETE')
-                <input type="hidden" name="story_id" value="{{ $story->id }}">
-              </form>
-            @else
-              <form id="bookmark-{{ $story->id }}" action="{{ route('hackernews-bookmark-add') }}" method="post">
-                @csrf
-                <input type="hidden" name="story_id" value="{{ $story->id }}">
-              </form>
-            @endif
+
           @endforeach
         </ul>
+
+        <script type="text/javascript">
+          (function () {
+            var iconBookmarked = "⚫";
+            var iconNotBookmarked = "⚪️";
+
+            document.addEventListener('DOMContentLoaded', function () {
+              $.ajaxSetup({
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+              });
+              $('.bookmark-story').on('click', function (event) {
+                event.preventDefault();
+                var el = $(this);
+                var id = el.data('story-id');
+                var isBookmarked = el.data('bookmarked');
+
+                if (isBookmarked) {
+                  $.ajax({
+                    method: 'post',
+                    url: '{{ route('hackernews-bookmark-destroy') }}',
+                    data: {
+                      _method: 'DELETE',
+                      story_id: id,
+                    },
+                  }).done(function () {
+                    el.text(iconNotBookmarked);
+                    el.data('bookmarked', false);
+                  });
+                } else {
+                  $.ajax({
+                    method: 'post',
+                    url: '{{ route('hackernews-bookmark-add') }}',
+                    data: {
+                      story_id: id,
+                    },
+                  }).done(function () {
+                    el.text(iconBookmarked);
+                    el.data('bookmarked', true);
+                  });
+                }
+              });
+            });
+          })();
+        </script>
       </div>
     </div>
 
