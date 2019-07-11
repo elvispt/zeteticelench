@@ -13,4 +13,5 @@ return [
     'tags' => "Tags",
     'tag' => "Tag",
     'edit' => "Edit Note",
+    'confirm_delete' => "Delete note?"
 ];

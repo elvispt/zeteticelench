@@ -8,6 +8,7 @@ use App\Models\HackerNewsItemsBookmark;
 use App\Repos\HackerNews\BookmarkedStories;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -163,16 +164,16 @@ class HackerNewsController extends Controller
      * In a POST request bookmarks the story for the currently logged in user
      *
      * @param HnBookmark $request Validates the data sent
-     * @return \Illuminate\Http\RedirectResponse
+     * @return JsonResponse
      */
-    public function bookmarkAdd(HnBookmark $request)
+    public function bookmarkAdd(HnBookmark $request): JsonResponse
     {
         $validated = new Collection($request->validated());
         $storyId = $validated->get('story_id');
         $bookmarkedStories = new BookmarkedStories();
         $bookmarkedStories->bookmarkStory($storyId, Auth::id());
 
-        return back();
+        return new JsonResponse(['ok' => true]);
     }
 
     /**
@@ -194,7 +195,7 @@ class HackerNewsController extends Controller
      * In a delete request remove the bookmarks for the currently logged in user
      *
      * @param HnBookmark $request Validates the data sent
-     * @return \Illuminate\Http\RedirectResponse
+     * @return JsonResponse
      */
     public function bookmarkDestroy(HnBookmark $request)
     {
@@ -203,7 +204,7 @@ class HackerNewsController extends Controller
         $bookmarkedStories = new BookmarkedStories();
         $bookmarkedStories->destroyBookmarkedStory($storyId, Auth::id());
 
-        return back();
+        return new JsonResponse(['ok' => true]);
     }
 
     /**

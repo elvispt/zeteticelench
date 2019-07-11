@@ -18,37 +18,78 @@
                        target="story-{{$index}}"
                        class="text-body"
                     >
-                      <small class="text-muted">({{ $story->domain }}) [↗]</small>
+                      <small class="text-muted">({{ $story->domain }})</small>
                     </a>
                   @endif
+                </span>
+                <span class="d-block d-md-none">
+                  <a href="#"
+                     onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
+                  >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
                 </span>
                 <span class="badge d-none d-md-block">{{ \Illuminate\Support\Carbon::make($story->created_at)->diffForHumans() }}</span>
               </div>
               <div class="d-none d-md-block">
-                <a href="#"
-                   onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
-                >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
-                |
                 <a href="{{ sprintf($hnPostUrlFormat, $story->id) }}"
                    target="hncomments-{{ $story->id }}"
                    class="text-info"
                 ><small>@lang('hackernews.hnpost')</small></a>
+                |
+                <a href="#"
+                   data-story-id="{{ $story->id }}"
+                   data-bookmarked="{{ $story->bookmarked ? 'true' : 'false' }}"
+                   class="bookmark-story"
+                >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
               </div>
             </li>
-            @if ($story->bookmarked)
-              <form id="bookmark-{{ $story->id }}" action="{{ route('hackernews-bookmark-destroy') }}" method="post">
-                @csrf
-                @method('DELETE')
-                <input type="hidden" name="story_id" value="{{ $story->id }}">
-              </form>
-            @else
-              <form id="bookmark-{{ $story->id }}" action="{{ route('hackernews-bookmark-add') }}" method="post">
-                @csrf
-                <input type="hidden" name="story_id" value="{{ $story->id }}">
-              </form>
-            @endif
           @endforeach
         </ul>
+
+        <script type="text/javascript">
+          (function () {
+            var iconBookmarked = "⚫";
+            var iconNotBookmarked = "⚪️";
+
+            document.addEventListener('DOMContentLoaded', function () {
+              $.ajaxSetup({
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+              });
+              $('.bookmark-story').on('click', function (event) {
+                event.preventDefault();
+                var el = $(this);
+                var id = el.data('story-id');
+                var isBookmarked = el.data('bookmarked');
+
+                if (isBookmarked) {
+                  $.ajax({
+                    method: 'post',
+                    url: '{{ route('hackernews-bookmark-destroy') }}',
+                    data: {
+                      _method: 'DELETE',
+                      story_id: id,
+                    },
+                  }).done(function () {
+                    el.text(iconNotBookmarked);
+                    el.data('bookmarked', false);
+                  });
+                } else {
+                  $.ajax({
+                    method: 'post',
+                    url: '{{ route('hackernews-bookmark-add') }}',
+                    data: {
+                      story_id: id,
+                    },
+                  }).done(function () {
+                    el.text(iconBookmarked);
+                    el.data('bookmarked', true);
+                  });
+                }
+              });
+            });
+          })();
+        </script>
       </div>
     </div>
 

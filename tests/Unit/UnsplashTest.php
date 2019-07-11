@@ -104,9 +104,9 @@ class UnsplashTest extends TestCase
         $mock
             ->expects($this->once())
             ->method('getFeaturedImage')
-            ->will($this->returnValue(null));
+            ->will($this->returnValue(new \stdClass()));
         $unsplash = new Unsplash(null, 666);
         $featuredImage = $unsplash->getUnsplashFeaturedImage($mock);
-        $this->assertNull($featuredImage);
+        $this->assertIsObject($featuredImage);
     }
 }

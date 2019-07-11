@@ -1,6 +1,28 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.6.2 <UNRELEASED>
+- The page title, when on story comments page, is now the title of the story
+[#148](https://github.com/elvispt/zeteticelench/pull/148).
+- We now ask for confirmation before deleting a note
+[#149](https://github.com/elvispt/zeteticelench/pull/149).
+- The text of the number of comments is now clickable and sends the user to
+hacker news site to view comments there
+[#153](https://github.com/elvispt/zeteticelench/pull/153).
+- The list of notes, when filtered by tags, is now consistent with the list of
+notes on the note list page
+[#145](https://github.com/elvispt/zeteticelench/pull/145).
+- We can now bookmark a new story item, on mobile, on the new Hacker news
+stories page [#152](https://github.com/elvispt/zeteticelench/pull/152).
+- Bookmarking a story is now made using Ajax requests, removing the need for
+a page refresh [#150](https://github.com/elvispt/zeteticelench/pull/150).
+- Fixed issue with an uncaught Guzzle exception
+[#147](https://github.com/elvispt/zeteticelench/pull/147).
+- Fixed with test suite failing due to issue with the Telescope package. More
+information on issue [#154](https://github.com/elvispt/zeteticelench/pull/154).
+- Add inputmode to some html fields so that when on mobile the correct keyboard
+is brought up [#151](https://github.com/elvispt/zeteticelench/pull/151).
+
 ### 1.6.1 <2019-07-09>
 - Change page title according to location
 [#140](https://github.com/elvispt/zeteticelench/pull/140).

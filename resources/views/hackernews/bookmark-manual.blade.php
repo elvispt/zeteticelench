@@ -12,6 +12,7 @@
       @csrf
       <label class="sr-only" for="story-id">@lang('hackernews.bookmark_id')</label>
       <input type="number"
+             inputmode="numeric"
              class="form-control"
              id="story-id"
              name="story-id"

@@ -25,19 +25,17 @@
       <div class="row justify-content-center">
         @foreach($currentTag->notes as $note)
           <div class="col-xs-12 col-md-6 mt-3">
-            <div class="card">
+            <div class="card shadow">
               <div class="card-body">
-                <h5 class="card-title">{{ $note->extractTitle() }}</h5>
+                <h5 class="card-title"><a href="{{ route('notesShow', ['noteId' => $note->id]) }}">{{ $note->extractTitle() }}</a></h5>
                 <h6 class="card-subtitle mb-2 text-muted">
                   <small>#{{ $note->id }}</small>
                   <small>@lang('notes.updated') {{ \Illuminate\Support\Carbon::make($note->updated_at)->diffForHumans() }}</small>
                 </h6>
-                <p class="card-text">
-                  {{ mb_substr($note->body, 0, 200) }} ...
-                </p>
+                <p class="card-text">{{ $note->extractDescription() }}</p>
                 <a href="{{ route('notesEdit', ['noteId' => $note->id]) }}"
                    class="card-link"
-                >Edit</a>
+                >@lang('common.edit')</a>
               </div>
               <div class="card-footer text-right">
                 <span class="badge badge-secondary">{!! implode('</span> <span class="badge badge-secondary">', $note->tags->pluck('tag')->toArray()) !!}</span>

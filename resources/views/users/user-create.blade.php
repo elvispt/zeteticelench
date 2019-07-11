@@ -34,7 +34,9 @@
               <div class="form-group row">
                 <label for="email" class="col-sm-2 col-form-label">@lang('users.email')</label>
                 <div class="col-sm-10">
-                  <input type="text"
+                  <input type="email"
+                         inputmode="email"
+                         autocomplete="email"
                          class="form-control"
                          id="email"
                          name="email"
