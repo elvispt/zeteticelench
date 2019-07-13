@@ -75,7 +75,7 @@
                  style="height: calc(100% - 1rem); width: calc(100% - 1rem); top: .5rem; left: .5rem;"
             ></div>
 
-            <dialog id="confirmation_dialog" class="shadow bg-light border-secondary rounded">
+            <dialog id="confirmation_dialog" class="shadow bg-light border-secondary rounded d-none">
               <h3 class="text-center">@lang('notes.confirm_delete')</h3>
               <form action="{{ route('notesDestroy', ['noteId' => $currentNote->id]) }}"
                     method="post"
@@ -91,23 +91,27 @@
               </form>
             </dialog>
 
-
-
             <script type="text/javascript">
               (function () {
                 document.addEventListener('DOMContentLoaded', function () {
+                  var hideClass = 'd-none';
                   var dialog = document.getElementById('confirmation_dialog');
                   var overlay = document.getElementById('overlay');
+                  var btnDelete = document.getElementById('btn_delete_note');
+                  var btnDeleteCancel = document.getElementById('btn_delete_cancel');
 
-                  document.getElementById('btn_delete_note').addEventListener('click', function () {
-                    dialog.setAttribute('open', true);
-                    overlay.classList.remove('d-none');
-                  });
-
-                  document.getElementById('btn_delete_cancel').addEventListener('click', function () {
-                    dialog.removeAttribute('open');
-                    overlay.classList.add('d-none');
-                  });
+                  if (btnDelete && btnDeleteCancel) {
+                    btnDelete.addEventListener('click', function () {
+                      dialog.classList.remove(hideClass);
+                      dialog.setAttribute('open', true);
+                      overlay.classList.remove(hideClass);
+                    });
+                    btnDeleteCancel.addEventListener('click', function () {
+                      dialog.classList.add(hideClass);
+                      dialog.removeAttribute('open');
+                      overlay.classList.add(hideClass);
+                    });
+                  }
                 });
               })();
             </script>
