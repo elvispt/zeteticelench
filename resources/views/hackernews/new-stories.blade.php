@@ -2,6 +2,11 @@
 
 @section('title') @lang($title) @endsection
 
+@section('meta')
+  <meta name="route-hackernews-bookmark-add" content="{{ route('hackernews-bookmark-destroy') }}">
+  <meta name="route-hackernews-bookmark-destroy" content="{{ route('hackernews-bookmark-add') }}">
+@endsection
+
 @section('content')
   <div class="container">
     @include('hackernews.top-submenu')
@@ -44,52 +49,6 @@
             </li>
           @endforeach
         </ul>
-
-        <script type="text/javascript">
-          (function () {
-            var iconBookmarked = "⚫";
-            var iconNotBookmarked = "⚪️";
-
-            document.addEventListener('DOMContentLoaded', function () {
-              $.ajaxSetup({
-                headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-              });
-              $('.bookmark-story').on('click', function (event) {
-                event.preventDefault();
-                var el = $(this);
-                var id = el.data('story-id');
-                var isBookmarked = el.data('bookmarked');
-
-                if (isBookmarked) {
-                  $.ajax({
-                    method: 'post',
-                    url: '{{ route('hackernews-bookmark-destroy') }}',
-                    data: {
-                      _method: 'DELETE',
-                      story_id: id,
-                    },
-                  }).done(function () {
-                    el.text(iconNotBookmarked);
-                    el.data('bookmarked', false);
-                  });
-                } else {
-                  $.ajax({
-                    method: 'post',
-                    url: '{{ route('hackernews-bookmark-add') }}',
-                    data: {
-                      story_id: id,
-                    },
-                  }).done(function () {
-                    el.text(iconBookmarked);
-                    el.data('bookmarked', true);
-                  });
-                }
-              });
-            });
-          })();
-        </script>
       </div>
     </div>
 
@@ -100,5 +59,8 @@
         </nav>
       </div>
     </div>
+    @push('scripts')
+      <script src="{{ mix('/js/mods/bookmark.js') }}" defer async></script>
+    @endpush
   </div>
 @endsection
