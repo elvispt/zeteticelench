@@ -2,6 +2,8 @@ All notable changes will be added here.
 -------------------------------------------------------------------------------
 
 ### 1.6.3 <2019-07-13>
+- Fix issue delete note dialog was visible on page load on unsupported browsers
+[#156](https://github.com/elvispt/zeteticelench/issues/156).
 - Fix issue with add/remove bookmark on story comments page
 [#150](https://github.com/elvispt/zeteticelench/issues/150#issuecomment-511109941).
 - Fix issue on story comments page where the text of the number of comments
