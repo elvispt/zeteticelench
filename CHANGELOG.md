@@ -1,6 +1,13 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.6.4 <UNRELEASED>
+- List limit increased from 15 to 20.
+- Extracted save/remove bookmark into a js module
+[#157](https://github.com/elvispt/zeteticelench/issues/157).
+- Now using versioning/cache busting for frontend assets.
+- Now using sentry.io on client side code.
+
 ### 1.6.3 <2019-07-13>
 - Fix issue delete note dialog was visible on page load on unsupported browsers
 [#156](https://github.com/elvispt/zeteticelench/issues/156).
