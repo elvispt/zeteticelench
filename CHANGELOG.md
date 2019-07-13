@@ -1,6 +1,15 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.6.3 <2019-07-13>
+- Fix issue delete note dialog was visible on page load on unsupported browsers
+[#156](https://github.com/elvispt/zeteticelench/issues/156).
+- Fix issue with add/remove bookmark on story comments page
+[#150](https://github.com/elvispt/zeteticelench/issues/150#issuecomment-511109941).
+- Fix issue on story comments page where the text of the number of comments
+clickable and sends the user to hacker news site to view comments there
+[#153](https://github.com/elvispt/zeteticelench/issues/153#issuecomment-511110352).
+
 ### 1.6.2 <2019-07-11>
 - The page title, when on story comments page, is now the title of the story
 [#148](https://github.com/elvispt/zeteticelench/pull/148).
