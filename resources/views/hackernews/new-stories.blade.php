@@ -29,7 +29,9 @@
                 </span>
                 <span class="d-block d-md-none">
                   <a href="#"
-                     onclick="event.preventDefault();document.getElementById('bookmark-{{ $story->id }}').submit();"
+                     data-story-id="{{ $story->id }}"
+                     data-bookmarked="{{ $story->bookmarked ? 'true' : 'false' }}"
+                     class="bookmark-story"
                   >{{ $story->bookmarked ? "⚫" : "⚪️" }}</a>
                 </span>
                 <span class="badge d-none d-md-block">{{ \Illuminate\Support\Carbon::make($story->created_at)->diffForHumans() }}</span>

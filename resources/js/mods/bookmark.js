@@ -4,33 +4,41 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     $('.bookmark-story').on('click', function (event) {
-      event.preventDefault();
       const el = $(this);
       const id = el.data('story-id');
       const isBookmarked = el.data('bookmarked');
       let url = urlAddBm();
       let data = {story_id: id};
-      let done = function () {
-        el.text(iconBookmarked);
-        el.data('bookmarked', true);
-      };
+      let icon = iconBookmarked;
+      let bookmarked = true;
 
+      event.preventDefault();
       if (isBookmarked) {
         url = urlDestroyBm();
         data = Object.assign({}, data, {_method: 'DELETE'});
-        done = function () {
-          el.text(iconNotBookmarked);
-          el.data('bookmarked', false);
-        };
+        icon = iconNotBookmarked;
+        bookmarked = false;
       }
 
       $.ajax({
         method: 'post',
         url,
         data,
-      }).done(done);
+      }).done(changeIcon(id, icon, bookmarked));
     });
   });
+
+  const changeIcon = function (id, icon, isBookmarked) {
+
+    return function () {
+      $(`.bookmark-story[data-story-id="${id}"]`).each(function () {
+        const innerEls = $(this);
+
+        innerEls.text(icon);
+        innerEls.data('bookmarked', isBookmarked);
+      });
+    };
+  };
 
   const urlDestroyBm = (function () {
     let _urlDestroyBm;
