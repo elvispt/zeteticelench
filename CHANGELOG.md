@@ -1,6 +1,12 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.6.5 <2019-07-15>
+- Add Laravel Envoy to automate deployment process
+[#160](https://github.com/elvispt/zeteticelench/issues/160).
+- Bump laravel/telescope from 2.0.5 to 2.0.6
+[#161](https://github.com/elvispt/zeteticelench/pull/161).
+
 ### 1.6.4 <2019-07-14>
 - List limit increased from 15 to 20.
 - Extracted save/remove bookmark into a js module
