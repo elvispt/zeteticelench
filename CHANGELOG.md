@@ -1,6 +1,14 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.7.0 <2019-07-17>
+- Notes are now searchable
+[#165](https://github.com/elvispt/zeteticelench/issues/165).
+- Bump laravel/framework from 5.8.28 to 5.8.29
+[#164](https://github.com/elvispt/zeteticelench/pull/164).
+- Bump phpunit/phpunit from 8.2.4 to 8.2.5
+[#163](https://github.com/elvispt/zeteticelench/pull/163).
+
 ### 1.6.5 <2019-07-15>
 - Add Laravel Envoy to automate deployment process
 [#160](https://github.com/elvispt/zeteticelench/issues/160).
