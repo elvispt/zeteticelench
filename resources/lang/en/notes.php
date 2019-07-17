@@ -13,5 +13,6 @@ return [
     'tags' => "Tags",
     'tag' => "Tag",
     'edit' => "Edit Note",
-    'confirm_delete' => "Delete note?"
+    'confirm_delete' => "Delete note?",
+    'search' => "Search notes",
 ];
