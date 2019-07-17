@@ -1,7 +1,7 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 1.7.1 <UNRELEASED>
+### 1.7.0 <2019-07-17>
 - Notes are now searchable
 [#165](https://github.com/elvispt/zeteticelench/issues/165).
 - Bump laravel/framework from 5.8.28 to 5.8.29
