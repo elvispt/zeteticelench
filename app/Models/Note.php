@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Laravel\Scout\Searchable;
 use League\CommonMark\CommonMarkConverter;
 
 class Note extends Model
 {
     use SoftDeletes;
+
+    use Searchable;
 
     public function tags()
     {

@@ -8,6 +8,21 @@
     @include('notes.top-submenu')
 
     <div class="row justify-content-center">
+      <div class="col-12">
+        <form class="form-inline justify-content-center" action="{{ route('notes') }}" method="get">
+          <label class="sr-only" for="query">@lang('notes.search')</label>
+          <input type="text"
+                 class="form-control w-50"
+                 id="query"
+                 name="query"
+                 placeholder="@lang('notes.search')"
+                 value="{{ old('query', $query ?? '') }}"
+          >
+        </form>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
 
       @foreach($notes as $note)
         <div class="col-xs-12 col-md-6 mt-3">

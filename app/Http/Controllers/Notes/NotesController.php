@@ -21,16 +21,23 @@ class NotesController extends Controller
     /**
      * Shows the list of notes
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->get('query');
         $userId = Auth::id();
-        $notes = (new Note())
-            ->where('user_id', $userId)
-            ->orderBy('updated_at', 'DESC')
-            ->get();
-
+        if ($query) {
+            $notes = Note::search($query)
+                ->where('user_id', $userId)
+                ->get();
+        } else {
+            $notes = (new Note())
+                ->where('user_id', $userId)
+                ->orderBy('updated_at', 'DESC')
+                ->get();
+        }
         $notes = $notes->map(function (Note $note) {
             $note->tags;
             $parsed = (object) $note->toArray();
@@ -45,6 +52,7 @@ class NotesController extends Controller
 
         return View::make('notes/notes', [
             'notes' => $notes,
+            'query' => $query,
         ]);
     }
 
