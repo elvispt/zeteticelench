@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/browser';
+
 Sentry.init({ dsn: 'https://50142ad267aa4c7c9dab6ed21262d2ab@sentry.io/1504143' });
 
 window._ = require('lodash');
