@@ -31,6 +31,7 @@
   const changeIcon = function (id, icon, isBookmarked) {
 
     return function () {
+      updateNBookmarks(isBookmarked ? 1 : -1);
       $(`.bookmark-story[data-story-id="${id}"]`).each(function () {
         const innerEls = $(this);
 
@@ -39,6 +40,13 @@
       });
     };
   };
+
+  function updateNBookmarks(nToAdd) {
+    const $elNBookmarks = $('#bookmark-count');
+    const currentNBookmarks = $elNBookmarks.text() * 1;
+
+    $elNBookmarks.text(currentNBookmarks + nToAdd);
+  }
 
   const urlDestroyBm = (function () {
     let _urlDestroyBm;
