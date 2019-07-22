@@ -4,8 +4,11 @@ namespace App\Http\Controllers\HackerNews;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HnBookmark;
+use App\Http\Requests\HnCollapseComment;
+use App\Models\HackerNewsItem;
 use App\Models\HackerNewsItemsBookmark;
 use App\Repos\HackerNews\BookmarkedStories;
+use App\Repos\HackerNews\CollapsedComments;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
 use Illuminate\Http\JsonResponse;
@@ -54,6 +57,7 @@ class HackerNewsController extends Controller
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'title' => 'hackernews.hn_top',
+            'nBookmarkedStories' => HackerNewsItemsBookmark::count(),
         ]);
     }
 
@@ -80,6 +84,7 @@ class HackerNewsController extends Controller
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'title' => 'hackernews.hn_best',
+            'nBookmarkedStories' => HackerNewsItemsBookmark::count(),
         ]);
     }
 
@@ -106,6 +111,7 @@ class HackerNewsController extends Controller
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'title' => 'hackernews.hn_new',
+            'nBookmarkedStories' => HackerNewsItemsBookmark::count(),
         ]);
     }
 
@@ -130,6 +136,7 @@ class HackerNewsController extends Controller
         return View::make('hackernews/jobs', [
             'stories' => $stories,
             'title' => 'hackernews.hn_job',
+            'nBookmarkedStories' => HackerNewsItemsBookmark::count(),
         ]);
     }
 
@@ -157,6 +164,7 @@ class HackerNewsController extends Controller
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'bookmarkStore' => true,
             'title' => 'hackernews.hn_bookmarked',
+            'nBookmarkedStories' => HackerNewsItemsBookmark::count(),
         ]);
     }
 
@@ -222,10 +230,61 @@ class HackerNewsController extends Controller
         }
         $this->appendDomain([$story]);
         $this->appendBookmarkStatus([$story]);
+        $collapsedComments = (new CollapsedComments(Auth::id(), $id))
+            ->getCollapsedComments();
+
         return View::make('hackernews/story', [
             'story' => $story,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
+            'nBookmarkedStories' => HackerNewsItemsBookmark::count(),
+            'collapsedComments' => $collapsedComments,
         ]);
+    }
+
+    /**
+     * Add a comment to the collapsed list
+     *
+     * @param HnCollapseComment $request
+     * @param int               $id The id of the parent story
+     * @return JsonResponse|void
+     */
+    public function itemCommentCollapse(HnCollapseComment $request, $id)
+    {
+        $storyExists = (new HackerNewsItem())
+            ->where('id', $id)
+            ->exists();
+        if (!$storyExists) {
+            return abort(404);
+        }
+        $validated = new Collection($request->validated());
+        $commentId = $validated->get('commentId');
+        $collapsedComments = new CollapsedComments(Auth::id(), $id);
+        $collapsedComments->collapse($commentId);
+
+        return new JsonResponse(['ok' => true]);
+    }
+
+    /**
+     * Remove a comment off the collapsed list
+     *
+     * @param HnCollapseComment $request
+     * @param int               $id The id of the parent story
+     * @return JsonResponse|void
+     */
+    public function itemCommentRemoveCollapse(HnCollapseComment $request, $id)
+    {
+        $storyExists = (new HackerNewsItem())
+            ->where('id', $id)
+            ->exists();
+        if (!$storyExists) {
+            return abort(404);
+        }
+        $validated = new Collection($request->validated());
+        $commentId = $validated->get('commentId');
+        $collapsedComments = new CollapsedComments(Auth::id(), $id);
+        $collapsedComments->removeCollapsed($commentId);
+
+        return new JsonResponse(['ok' => true]);
     }
 
     /**

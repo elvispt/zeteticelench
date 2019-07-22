@@ -211,4 +211,176 @@ class HackerNewsControllerTest extends TestCase
             ->assertStatus(200)
         ;
     }
+
+    public function testCollapseCommentFailsWithInvalidCommentId()
+    {
+        factory(HackerNewsItem::class, 100)
+            ->create();
+        $commentId = 999999999;
+
+        $user = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->delete(
+                route('hackernews-item-comments-collapse', ['id' => 123]),
+                ['commentId' => $commentId]
+            )
+            ->assertStatus(302)
+        ;
+    }
+
+    public function testCollapseCommentFailsWithInvalidStoryId()
+    {
+        factory(HackerNewsItem::class, 100)
+            ->create();
+        $id = 99999999999;
+        $commentId = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::COMMENT)
+            ->inRandomOrder()
+            ->limit(1)
+            ->pluck('id')
+            ->first()
+        ;
+
+        $user = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->delete(
+                route('hackernews-item-comments-collapse', ['id' => $id]),
+                ['commentId' => $commentId]
+            )
+            ->assertStatus(404)
+        ;
+    }
+
+    public function testCollapseComment()
+    {
+        factory(HackerNewsItem::class, 100)
+            ->create();
+        $id = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::STORY)
+            ->inRandomOrder()
+            ->limit(1)
+            ->pluck('id')
+            ->first()
+        ;
+        $commentId = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::COMMENT)
+            ->inRandomOrder()
+            ->limit(1)
+            ->pluck('id')
+            ->first()
+        ;
+
+        $user = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->delete(
+                route('hackernews-item-comments-collapse', ['id' => $id]),
+                ['commentId' => $commentId]
+            )
+            ->assertStatus(200)
+        ;
+    }
+
+    public function testCollapseRemoveCommentFailsWithInvalidCommentId()
+    {
+        factory(HackerNewsItem::class, 100)
+            ->create();
+        $commentId = 999999999;
+
+        $user = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->delete(
+                route('hackernews-item-comments-remove-collapse', ['id' => 123]),
+                ['commentId' => $commentId]
+            )
+            ->assertStatus(302)
+        ;
+    }
+
+    public function testCollapseRemoveCommentFailsWithInvalidStoryId()
+    {
+        factory(HackerNewsItem::class, 100)
+            ->create();
+        $id = 99999999999;
+        $commentId = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::COMMENT)
+            ->inRandomOrder()
+            ->limit(1)
+            ->pluck('id')
+            ->first()
+        ;
+
+        $user = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->delete(
+                route('hackernews-item-comments-remove-collapse', ['id' => $id]),
+                ['commentId' => $commentId]
+            )
+            ->assertStatus(404)
+        ;
+    }
+
+    public function testCollapseRemoveComment()
+    {
+        factory(HackerNewsItem::class, 100)
+            ->create();
+        $id = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::STORY)
+            ->inRandomOrder()
+            ->limit(1)
+            ->pluck('id')
+            ->first()
+        ;
+        $commentId = (new HackerNewsItem())
+            ->select('id')
+            ->where('type', ItemType::COMMENT)
+            ->inRandomOrder()
+            ->limit(1)
+            ->pluck('id')
+            ->first()
+        ;
+
+        $user = factory(User::class, 10)
+            ->create()
+            ->random(1)
+            ->first();
+
+        $this
+            ->actingAs($user)
+            ->delete(
+                route('hackernews-item-comments-remove-collapse', ['id' => $id]),
+                ['commentId' => $commentId]
+            )
+            ->assertStatus(200)
+        ;
+    }
 }

@@ -13,9 +13,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
   @endif
 
-  <script src="https://browser.sentry-cdn.com/5.5.0/bundle.min.js" crossorigin="anonymous">
-  </script>
-
   <!-- Scripts -->
   <script src="{{ mix('js/app.js') }}" defer></script>
 

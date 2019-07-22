@@ -14,7 +14,8 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');
 
-mix.js('resources/js/mods/*.js', 'public/js/mods');
+mix.js('resources/js/mods/bookmark.js', 'public/js/mods');
+mix.js('resources/js/mods/collapse.js', 'public/js/mods');
 
 if (mix.inProduction()) {
   mix.version();
