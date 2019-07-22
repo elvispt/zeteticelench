@@ -7,7 +7,8 @@
          data-toggle="collapse"
          data-target="#collapse-{{ $item->id }}"
       >↕️️</a>
-      <span class="{{ $op === $item->by ? 'text-success' : '' }}">@lang('hackernews.by', ['by' => $item->by]),</span>
+      <span class="{{ $op === $item->by ? 'text-success' : (in_array($item->by, ['dang', 'sctb']) ? 'text-danger' : '') }}"
+      >@lang('hackernews.by', ['by' => $item->by]),</span>
       <small class="text-muted">{{ \Illuminate\Support\Carbon::create($item->created_at)->diffForHumans() }}</small>
     </h6>
 
