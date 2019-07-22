@@ -25,3 +25,11 @@
     border-top-right-radius: 0;
   }
 }
+
+em.algolia {
+  background: #fff3007a;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
