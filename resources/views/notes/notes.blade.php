@@ -9,7 +9,9 @@
 
     <div class="row justify-content-center">
       <div class="col-12">
-        <form class="form-inline justify-content-center" action="{{ route('notes') }}" method="get">
+        <form class="form-inline justify-content-center"
+              action="{{ route('notes') }}"
+              method="get">
           <label class="sr-only" for="query">@lang('notes.search')</label>
           <input type="text"
                  class="form-control w-50"
@@ -28,7 +30,7 @@
         <div class="col-xs-12 col-md-6 mt-3">
           <div class="card shadow">
             <div class="card-body">
-              <h5 class="card-title"><a href="{{ route('notesShow', ['noteId' => $note->id]) }}">{{ $note->title }}</a></h5>
+              <h5 class="card-title"><a href="{{ route('notesShow', ['noteId' => $note->id, 'query' => $query]) }}">{{ $note->title }}</a></h5>
               <h6 class="card-subtitle mb-2 text-muted">
                 <small>#{{ $note->id }}</small>
                 <small>@lang('notes.updated') {{ \Illuminate\Support\Carbon::make($note->updated_at)->diffForHumans() }}</small>
