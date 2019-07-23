@@ -6,7 +6,6 @@
   packages
   cache
   migrate
-  assets
   finish
 @endstory
 
@@ -24,7 +23,6 @@
 @task('packages')
   /snap/bin/docker exec zeteticelench composer install --no-dev
   /snap/bin/docker exec zeteticelench service apache2 reload
-  /snap/bin/docker exec zeteticelench npm install
 @endtask
 
 @task('cache')
@@ -35,10 +33,6 @@
 
 @task('migrate')
   /snap/bin/docker exec zeteticelench php artisan migrate --force
-@endtask
-
-@task('assets')
-  /snap/bin/docker exec zeteticelench npm run prod
 @endtask
 
 @task('finish')

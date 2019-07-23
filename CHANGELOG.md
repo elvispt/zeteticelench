@@ -1,6 +1,10 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.7.2 <2019-07-23>
+- Added production assets to repo, since the server has low memory and is not
+capable of building the assets on the server.
+
 ### 1.7.1 <2019-07-23>
 - The collapsed comments are now stored so that when the user revisits a
 hacker news post comments, previously collapsed comments will still be
