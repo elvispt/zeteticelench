@@ -4,8 +4,11 @@ namespace App\Http\Controllers\HackerNews;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HnBookmark;
+use App\Http\Requests\HnCollapseComment;
+use App\Models\HackerNewsItem;
 use App\Models\HackerNewsItemsBookmark;
 use App\Repos\HackerNews\BookmarkedStories;
+use App\Repos\HackerNews\CollapsedComments;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
 use Illuminate\Http\JsonResponse;
@@ -50,10 +53,15 @@ class HackerNewsController extends Controller
         );
         $stories = $this->appendDomain($stories);
         $stories = $this->appendBookmarkStatus($stories);
+        $nBookmarkedStories = HackerNewsItemsBookmark
+            ::where('user_id', Auth::id())
+            ->count();
+
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'title' => 'hackernews.hn_top',
+            'nBookmarkedStories' => $nBookmarkedStories,
         ]);
     }
 
@@ -76,10 +84,15 @@ class HackerNewsController extends Controller
         );
         $stories = $this->appendDomain($stories);
         $stories = $this->appendBookmarkStatus($stories);
+        $nBookmarkedStories = HackerNewsItemsBookmark
+            ::where('user_id', Auth::id())
+            ->count();
+
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'title' => 'hackernews.hn_best',
+            'nBookmarkedStories' => $nBookmarkedStories,
         ]);
     }
 
@@ -102,10 +115,15 @@ class HackerNewsController extends Controller
         );
         $stories = $this->appendDomain($stories);
         $stories = $this->appendBookmarkStatus($stories);
+        $nBookmarkedStories = HackerNewsItemsBookmark
+            ::where('user_id', Auth::id())
+            ->count();
+
         return View::make('hackernews/new-stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'title' => 'hackernews.hn_new',
+            'nBookmarkedStories' => $nBookmarkedStories,
         ]);
     }
 
@@ -127,9 +145,14 @@ class HackerNewsController extends Controller
             $items,
             route('hackernews-jobs')
         );
+        $nBookmarkedStories = HackerNewsItemsBookmark
+            ::where('user_id', Auth::id())
+            ->count();
+
         return View::make('hackernews/jobs', [
             'stories' => $stories,
             'title' => 'hackernews.hn_job',
+            'nBookmarkedStories' => $nBookmarkedStories,
         ]);
     }
 
@@ -141,10 +164,15 @@ class HackerNewsController extends Controller
      */
     public function bookmarkList(Request $request)
     {
+        $userId = Auth::id();
         $currentPage = (int) $request->get('page', 1);
         $offset = $this->offset($currentPage);
         $bookmarkedStories = new BookmarkedStories();
-        $items = $bookmarkedStories->bookmarkedStories($this->perPage, $offset, Auth::id());
+        $items = $bookmarkedStories->bookmarkedStories(
+            $this->perPage,
+            $offset,
+            $userId
+        );
         $stories = $this->lengthAwarePaginator(
             $currentPage,
             $items,
@@ -152,11 +180,16 @@ class HackerNewsController extends Controller
         );
         $stories = $this->appendDomain($stories);
         $stories = $this->appendBookmarkStatus($stories);
+        $nBookmarkedStories = HackerNewsItemsBookmark
+            ::where('user_id', $userId)
+            ->count();
+
         return View::make('hackernews/stories', [
             'stories' => $stories,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
             'bookmarkStore' => true,
             'title' => 'hackernews.hn_bookmarked',
+            'nBookmarkedStories' => $nBookmarkedStories,
         ]);
     }
 
@@ -220,12 +253,67 @@ class HackerNewsController extends Controller
         if (!$story) {
             return abort(404);
         }
+        $userId = Auth::id();
         $this->appendDomain([$story]);
         $this->appendBookmarkStatus([$story]);
+        $collapsedComments = (new CollapsedComments($userId, $id))
+            ->getCollapsedComments();
+        $nBookmarkedStories = HackerNewsItemsBookmark
+            ::where('user_id', $userId)
+            ->count();
+
         return View::make('hackernews/story', [
             'story' => $story,
             'hnPostUrlFormat' => $this->hnPostUrlFormat,
+            'nBookmarkedStories' => $nBookmarkedStories,
+            'collapsedComments' => $collapsedComments,
         ]);
+    }
+
+    /**
+     * Add a comment to the collapsed list
+     *
+     * @param HnCollapseComment $request
+     * @param int               $id The id of the parent story
+     * @return JsonResponse|void
+     */
+    public function itemCommentCollapse(HnCollapseComment $request, $id)
+    {
+        $storyExists = (new HackerNewsItem())
+            ->where('id', $id)
+            ->exists();
+        if (!$storyExists) {
+            return abort(404);
+        }
+        $validated = new Collection($request->validated());
+        $commentId = $validated->get('commentId');
+        $collapsedComments = new CollapsedComments(Auth::id(), $id);
+        $collapsedComments->collapse($commentId);
+
+        return new JsonResponse(['ok' => true]);
+    }
+
+    /**
+     * Remove a comment off the collapsed list
+     *
+     * @param HnCollapseComment $request
+     * @param int               $id The id of the parent story
+     * @return JsonResponse|void
+     */
+    public function itemCommentRemoveCollapse(HnCollapseComment $request, $id)
+    {
+        $storyExists = (new HackerNewsItem())
+            ->where('id', $id)
+            ->exists();
+        if (!$storyExists) {
+            return abort(404);
+        }
+        $validated = new Collection($request->validated());
+        $commentId = $validated->get('commentId');
+        $collapsedComments = new CollapsedComments(Auth::id(), $id);
+        $collapsedComments->removeCollapsed($commentId);
+
+        return new JsonResponse(['ok' => true]);
     }
 
     /**

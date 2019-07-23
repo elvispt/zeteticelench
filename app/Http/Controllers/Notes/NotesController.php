@@ -62,13 +62,22 @@ class NotesController extends Controller
      * @param int $id The note identifier
      * @return \Illuminate\Contracts\View\View|void
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $userId = Auth::id();
-        $note = (new Note())
-            ->where('id', $id)
-            ->where('user_id', $userId)
-            ->first();
+        $query = $request->get('query');
+        if ($query) {
+            $note = Note::search($query)
+                ->where('id', $id)
+                ->where('user_id', $userId)
+                ->first();
+        } else {
+            $note = (new Note())
+                ->where('id', $id)
+                ->where('user_id', $userId)
+                ->first();
+        }
+
         if (! $note) {
             return abort(404);
         }

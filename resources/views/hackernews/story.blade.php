@@ -3,8 +3,12 @@
 @section('title') {{ $story->title }} @endsection
 
 @section('meta')
-  <meta name="route-hackernews-bookmark-add" content="{{ route('hackernews-bookmark-destroy') }}">
-  <meta name="route-hackernews-bookmark-destroy" content="{{ route('hackernews-bookmark-add') }}">
+  <meta name="route-hackernews-bookmark-add"
+        content="{{ route('hackernews-bookmark-destroy') }}">
+  <meta name="route-hackernews-bookmark-destroy"
+        content="{{ route('hackernews-bookmark-add') }}">
+  <meta name="route-hackernews-item-comments-collapse"
+        content="{{ route('hackernews-item-comments-collapse', ['id' => $story->id]) }}">
 @endsection
 
 @section('content')
@@ -50,12 +54,17 @@
     <div class="row">
       <div class="col-12">
         @foreach($story->sub as $sub)
-          @component('hackernews.comment', ['item' => $sub, 'op' => $story->by])@endcomponent
+          @component('hackernews.comment', [
+            'item' => $sub,
+            'op' => $story->by,
+            'collapsedComments' => $collapsedComments
+            ])@endcomponent
         @endforeach
       </div>
     </div>
     @push('scripts')
-      <script src="{{ mix('/js/mods/bookmark.js') }}" defer async></script>
+      <script src="{{ mix('/js/mods/bookmark.js') }}" async></script>
+      <script src="{{ mix('/js/mods/collapse.js') }}" async></script>
     @endpush
   </div>
 @endsection

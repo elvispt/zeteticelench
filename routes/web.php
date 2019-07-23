@@ -94,6 +94,16 @@ Route::namespace('HackerNews')
 
         Route::get('item/{id}', [HackerNewsController::class, 'item'])
              ->name('hackernews-item');
+
+        Route::post(
+            'item/{id}/comments/collapse',
+            [HackerNewsController::class, 'itemCommentCollapse']
+        )->name('hackernews-item-comments-collapse');
+
+        Route::delete(
+            'item/{id}/comments/collapse',
+            [HackerNewsController::class, 'itemCommentRemoveCollapse']
+        )->name('hackernews-item-comments-remove-collapse');
     });
 
 Route::namespace('Users')
