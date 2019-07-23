@@ -1,6 +1,24 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.7.1 <2019-07-23>
+- The collapsed comments are now stored so that when the user revisits a
+hacker news post comments, previously collapsed comments will still be
+collapsed [#171](https://github.com/elvispt/zeteticelench/issues/171).
+- The number of bookmarked stories is now visible on the menu option
+[#169](https://github.com/elvispt/zeteticelench/issues/168).
+- Now highlighting moderator name on comments list
+[#168](https://github.com/elvispt/zeteticelench/issues/168).
+- When the user opens a note, after a search, the searched word will be
+highlighted on the notes page. To obtain the highlighted words we had to use
+the package "algolia/scout-extended". Requires a reindexing the notes.
+[#170](https://github.com/elvispt/zeteticelench/issues/170).
+- Use self hosted version of sentry.io client side Js.
+- Bump algolia/algoliasearch-client-php from 2.2.6 to 2.3.0
+[#167](https://github.com/elvispt/zeteticelench/pull/167).
+- Bump lodash from 4.17.11 to 4.17.13 (fixes a security vulnerability)
+[#173](https://github.com/elvispt/zeteticelench/pull/173).
+
 ### 1.7.0 <2019-07-17>
 - Notes are now searchable
 [#165](https://github.com/elvispt/zeteticelench/issues/165).
