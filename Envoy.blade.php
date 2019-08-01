@@ -1,4 +1,4 @@
-@servers(['web' => ['root@159.65.199.206']])
+@servers(['web' => ['<USER>@<IP>']])
 
 @story('deploy',  ['on' => 'web'])
   init
