@@ -1,6 +1,19 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.7.3 <2019-08-01>
+- Added Algolia logo on notes page, as required by the community plan.
+- Fixed issue with attaching events on page load
+[#180](https://github.com/elvispt/zeteticelench/pull/180).
+- Bump laravel/scout from 7.1.2 to 7.1.3
+[#179](https://github.com/elvispt/zeteticelench/pull/179).
+- Bump laravel/framework from 5.8.29 to 5.8.30
+[#178](https://github.com/elvispt/zeteticelench/pull/178).
+- Bump fideloper/proxy from 4.1.0 to 4.2.0
+[#177](https://github.com/elvispt/zeteticelench/pull/177).
+- Bump laravel/tinker from 1.0.8 to 1.0.9
+[#176](https://github.com/elvispt/zeteticelench/pull/176).
+
 ### 1.7.2 <2019-07-23>
 - Added production assets to repo, since the server has low memory and is not
 capable of building the assets on the server.
