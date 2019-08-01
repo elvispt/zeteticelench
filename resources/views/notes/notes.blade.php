@@ -20,6 +20,8 @@
                  placeholder="@lang('notes.search')"
                  value="{{ old('query', $query ?? '') }}"
           >
+          &nbsp;
+          <img src="{{ asset('search-by-algolia.svg') }}" alt="search by algolia">
         </form>
       </div>
     </div>
