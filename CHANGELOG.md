@@ -1,6 +1,9 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.7.3 <2019-08-08>
+- Fixed issue with bookmarking not working sometimes.
+
 ### 1.7.3 <2019-08-01>
 - Added Algolia logo on notes page, as required by the community plan.
 - Fixed issue with attaching events on page load
