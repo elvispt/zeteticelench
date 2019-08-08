@@ -74,7 +74,7 @@
       </div>
     </div>
     @push('scripts')
-      <script src="{{ mix('/js/mods/bookmark.js') }}" defer async></script>
+      <script src="{{ mix('/js/mods/bookmark.js') }}" defer></script>
     @endpush
   </div>
 @endsection

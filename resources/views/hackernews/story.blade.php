@@ -63,8 +63,8 @@
       </div>
     </div>
     @push('scripts')
-      <script src="{{ mix('/js/mods/bookmark.js') }}" async></script>
-      <script src="{{ mix('/js/mods/collapse.js') }}" async></script>
+      <script src="{{ mix('/js/mods/bookmark.js') }}" defer></script>
+      <script src="{{ mix('/js/mods/collapse.js') }}" defer></script>
     @endpush
   </div>
 @endsection
