@@ -18,7 +18,7 @@
         href="{{ route('hackernews-bookmark-list') }}"
       >@lang('hackernews.bookmarked')&nbsp;<span id="bookmark-count" class="badge badge-light">{{ $nBookmarkedStories }}</span></a>
       <a
-        class="btn btn-group-sm w-100 text-nowrap @submenuactive('jobs')"
+        class="btn btn-group-sm w-100 text-nowrap @submenuactive('hackernews-jobs')"
         href="{{ route('hackernews-jobs') }}"
       >@lang('hackernews.jobs')</a>
     </div>

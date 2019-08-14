@@ -41,11 +41,10 @@
             </div>
           </div>
         </div>
-
       </div>
 
       <div class="col-sm-6">
-        <div class="card shadow">
+        <div class="card shadow mb-3">
           <div class="card-header">Next Holiday</div>
           <div class="card-body">
             @foreach($nextHolidays as $nextHoliday)
