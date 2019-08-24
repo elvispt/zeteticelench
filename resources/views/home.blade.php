@@ -75,7 +75,7 @@
               @foreach($jobs as $job)
                 <div class="list-group-item list-group-item-action">
                   <div class="d-flex w-100 justify-content-between">
-                    <h6 class="mb-1"
+                    <h6 class="mb-1 pointer"
                         data-toggle="collapse"
                         data-target="#collapse-{{ $job->id }}"
                     >{{ $job->title }}</h6>
