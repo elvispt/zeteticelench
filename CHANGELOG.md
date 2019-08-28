@@ -1,6 +1,11 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.7.5 <2018-08-28>
+- Fixed issue when parsing JSON response. When parsing response from advice
+slip an invalid JSON was being returned and we were not properly checking if
+theJSON is valid.
+
 ### 1.7.3 <2019-08-08>
 - Fixed issue with bookmarking not working sometimes.
 
