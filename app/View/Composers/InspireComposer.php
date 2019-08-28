@@ -57,7 +57,15 @@ class InspireComposer
      */
     protected function parseResponse(?ResponseInterface $response) {
         $json = $response->getBody()->getContents();
-        $obj = \GuzzleHttp\json_decode($json);
+        try {
+            $obj = \GuzzleHttp\json_decode($json);
+        } catch (\InvalidArgumentException $exception) {
+            Log::warning(
+                "Failed to parse json on Inspire quote",
+                ['eMessage' => $exception->getMessage()]
+            );
+            $obj = null;
+        }
         $advice = data_get($obj, 'slip.advice');
         try {
             Cache::set($this->cacheKey, $advice, $this->cacheExpiration);
