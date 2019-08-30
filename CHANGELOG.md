@@ -1,6 +1,11 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.7.6 <2018-08-30>
+- Fixed issue where page was being emptied when on some hacker news items. This
+issue occurred due to VueJS interpolating HN comments as VueJS expressions.
+[#200](https://github.com/elvispt/zeteticelench/issues/200).
+
 ### 1.7.5 <2018-08-28>
 - Fixed issue when parsing JSON response. When parsing response from advice
 slip an invalid JSON was being returned and we were not properly checking if
