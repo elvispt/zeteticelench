@@ -15,7 +15,9 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (err) {
+    Sentry.captureException(err);
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -43,7 +45,9 @@ if (token) {
         }
     });
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    const msg = "CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token";
+    Sentry.captureMessage(msg);
+    console.error(msg);
 }
 
 /**
