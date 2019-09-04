@@ -19,7 +19,7 @@
         "laravel/telescope": "^2.0",
         "laravel/tinker": "^1.0",
         "league/commonmark": "^1.0",
-        "sentry/sentry-laravel": "1.1.0"
+        "sentry/sentry-laravel": "1.2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
