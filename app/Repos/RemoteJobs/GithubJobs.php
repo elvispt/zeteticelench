@@ -140,6 +140,7 @@ class GithubJobs implements RemoteJobsInterface
                 $job->time = Carbon::createFromFormat('D M d H:i:s e Y', $time);
 
                 return $job;
-            });
+            })
+            ->filter();
     }
 }

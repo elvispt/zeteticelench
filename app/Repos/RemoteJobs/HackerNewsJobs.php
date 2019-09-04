@@ -22,6 +22,7 @@ class HackerNewsJobs implements RemoteJobsInterface
             ->map(function ($hnJob) {
                 $this->parseJob($hnJob);
             })
+            ->filter()
         ;
 
         return $jobs;
