@@ -12,10 +12,8 @@ use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
-class GithubJobs
+class GithubJobs implements RemoteJobsInterface
 {
-    public const FORCE_CACHE_REFRESH = true;
-
     /**
      * @var string
      */
@@ -55,7 +53,7 @@ class GithubJobs
 
     protected function getFromCache($forceCacheRefresh = null)
     {
-        if ($forceCacheRefresh === self::FORCE_CACHE_REFRESH) {
+        if ($forceCacheRefresh === static::FORCE_CACHE_REFRESH) {
             Cache::forget($this->cacheKey);
             return null;
         }
@@ -83,7 +81,10 @@ class GithubJobs
                 ],
             ]);
         } catch (Exception $exception) {
-            dd($exception);
+            Log::alert(
+                "Failed to make request to Github Jobs",
+                ['eMessage' => $exception->getMessage()]
+            );
         }
         return $response;
     }
