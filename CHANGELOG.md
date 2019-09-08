@@ -1,6 +1,27 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.8.0 <2018-09-08>
+- Show remote jobs on Dashboard
+[#93](https://github.com/elvispt/zeteticelench/issues/93).
+- Fixed issue where jobs list could be null.
+[#207](https://github.com/elvispt/zeteticelench/pull/207).
+- Removed dev env key from env file./
+- Bump nunomaduro/larastan from 0.3.17 to 0.4.0
+[#198](https://github.com/elvispt/zeteticelench/pull/198).
+- Bump algolia/scout-extended from 1.6.0 to 1.7.0
+[#199](https://github.com/elvispt/zeteticelench/pull/199).
+- Bump sentry/sentry-laravel from 1.1.0 to 1.2.0
+[#201](https://github.com/elvispt/zeteticelench/pull/201).
+- Bump fideloper/proxy from 4.2.0 to 4.2.1
+[#202](https://github.com/elvispt/zeteticelench/pull/202).
+- Bump laravel/framework from 5.8.33 to 5.8.35
+[#203](https://github.com/elvispt/zeteticelench/pull/203).
+- Bump laravel/telescope from 2.0.6 to 2.1
+[#205](https://github.com/elvispt/zeteticelench/pull/205).
+- Bump barryvdh/laravel-ide-helper from 2.6.2 to 2.6.5
+[#208](https://github.com/elvispt/zeteticelench/pull/208).
+
 ### 1.7.6 <2018-08-30>
 - Fixed issue where page was being emptied when on some hacker news items. This
 issue occurred due to VueJS interpolating HN comments as VueJS expressions.
