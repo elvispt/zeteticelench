@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
 class AppendDomainAction
@@ -10,8 +11,9 @@ class AppendDomainAction
      * Iterates over the list of stories and extracts the domain, then adds that
      * domain as a new property to the story object.
      *
-     * @param array $stories The list of stories to process
-     * @return array The list of stories with the domain added to each story
+     * @param array|LengthAwarePaginator $stories The list of stories to process
+     * @return array|LengthAwarePaginator The list of stories with the domain
+     * added to each story
      */
     public function execute($stories)
     {
