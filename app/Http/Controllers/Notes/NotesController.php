@@ -9,7 +9,9 @@ use App\Models\Note;
 use App\Models\Tag;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -59,7 +61,8 @@ class NotesController extends Controller
     /**
      * Shows a note converted according to CommonMark
      *
-     * @param int $id The note identifier
+     * @param Request $request
+     * @param int     $id The note identifier
      * @return \Illuminate\Contracts\View\View|void
      */
     public function show(Request $request, $id)
@@ -120,7 +123,7 @@ class NotesController extends Controller
      *
      * @param NotesUpdate $request Validates the data sent
      * @param int|null    $noteId The note identifier
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     * @return RedirectResponse|Redirector|void
      */
     public function update(NotesUpdate $request, $noteId)
     {
@@ -166,7 +169,7 @@ class NotesController extends Controller
      * Adds the new note with the provided information.
      *
      * @param NotesUpdate $request Validates the data sent
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
     public function add(NotesUpdate $request)
     {
@@ -189,7 +192,7 @@ class NotesController extends Controller
      * Deletes the note identified by the $noteId
      *
      * @param int $noteId The note identifier.
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|void
+     * @return RedirectResponse|Redirector|void
      */
     public function destroy($noteId)
     {
@@ -258,7 +261,7 @@ class NotesController extends Controller
      * Creates a tag with the provided information.
      *
      * @param TagCreate $request Validates the tag data provided.
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
     public function tagAdd(TagCreate $request)
     {
