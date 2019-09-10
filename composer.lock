@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f7d881c5fc0c3df964cec23b6aa6257",
+    "content-hash": "2478a7405a100eaa1dd8c6a236ed3ba3",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -3273,6 +3273,60 @@
                 "sentry"
             ],
             "time": "2019-09-03T07:39:44+00:00"
+        },
+        {
+            "name": "spatie/laravel-view-models",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-view-models.git",
+                "reference": "9eeaa79b68a25c92089a5c5cf94f34d4fecc7bbe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-view-models/zipball/9eeaa79b68a25c92089a5c5cf94f34d4fecc7bbe",
+                "reference": "9eeaa79b68a25c92089a5c5cf94f34d4fecc7bbe",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.5|~5.6|~5.7|~5.8|^6.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.5|~3.6|~3.7|~3.8|^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\ViewModels\\Providers\\ViewModelsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ViewModels\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "View models in Laravel",
+            "homepage": "https://github.com/spatie/laravel-view-models",
+            "keywords": [
+                "laravel-view-models",
+                "spatie"
+            ],
+            "time": "2019-09-04T07:31:58+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

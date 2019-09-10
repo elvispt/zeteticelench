@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Models\HackerNewsItemsBookmark;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class StoriesBookmarkStatusAction
 {
@@ -10,9 +11,9 @@ class StoriesBookmarkStatusAction
      * Iterates over the list to find which stories are bookmarked by the
      * currently logged in user
      *
-     * @param array $stories The list of stories to process
-     * @return array The list of stories with the bookmark status added to each
-     * story
+     * @param array|LengthAwarePaginator $stories The list of stories to process
+     * @return array|LengthAwarePaginator The list of stories with the bookmark
+     * status added to each story
      */
     public function execute($stories)
     {
