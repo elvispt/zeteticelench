@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\HackerNews;
 
+use App\Actions\AppendDomainAction;
+use App\Actions\StoriesBookmarkStatusAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HnBookmark;
 use App\Http\Requests\HnCollapseComment;
@@ -14,10 +16,10 @@ use App\Repos\HackerNews\HackerNewsImport;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
 
 class HackerNewsController extends Controller
 {
@@ -37,11 +39,16 @@ class HackerNewsController extends Controller
     /**
      * Shows the top hacker news posts. Has pagination.
      *
-     * @param Request $request
+     * @param Request                     $request
+     * @param AppendDomainAction          $appendDomainAction
+     * @param StoriesBookmarkStatusAction $storiesBookmarkStatusAction
      * @return \Illuminate\Contracts\View\View
      */
-    public function top(Request $request)
-    {
+    public function top(
+        Request $request,
+        AppendDomainAction $appendDomainAction,
+        StoriesBookmarkStatusAction $storiesBookmarkStatusAction
+    ) {
         $currentPage = (int) $request->get('page', 1);
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
@@ -51,8 +58,8 @@ class HackerNewsController extends Controller
             $items,
             route('hackernews-top')
         );
-        $stories = $this->appendDomain($stories);
-        $stories = $this->appendBookmarkStatus($stories);
+        $stories = $appendDomainAction->execute($stories);
+        $stories = $storiesBookmarkStatusAction->execute($stories);
         $nBookmarkedStories = HackerNewsItemsBookmark
             ::where('user_id', Auth::id())
             ->count();
@@ -68,11 +75,16 @@ class HackerNewsController extends Controller
     /**
      * Shows the best hacker news posts. Has pagination.
      *
-     * @param Request $request
+     * @param Request                     $request
+     * @param AppendDomainAction          $appendDomainAction
+     * @param StoriesBookmarkStatusAction $storiesBookmarkStatusAction
      * @return \Illuminate\Contracts\View\View
      */
-    public function best(Request $request)
-    {
+    public function best(
+        Request $request,
+        AppendDomainAction $appendDomainAction,
+        StoriesBookmarkStatusAction $storiesBookmarkStatusAction
+    ) {
         $currentPage = (int) $request->get('page', 1);
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
@@ -82,8 +94,8 @@ class HackerNewsController extends Controller
             $items,
             route('hackernews-best')
         );
-        $stories = $this->appendDomain($stories);
-        $stories = $this->appendBookmarkStatus($stories);
+        $stories = $appendDomainAction->execute($stories);
+        $stories = $storiesBookmarkStatusAction->execute($stories);
         $nBookmarkedStories = HackerNewsItemsBookmark
             ::where('user_id', Auth::id())
             ->count();
@@ -99,11 +111,16 @@ class HackerNewsController extends Controller
     /**
      * Shows the new hacker news posts. Has pagination.
      *
-     * @param Request $request
+     * @param Request                     $request
+     * @param AppendDomainAction          $appendDomainAction
+     * @param StoriesBookmarkStatusAction $storiesBookmarkStatusAction
      * @return \Illuminate\Contracts\View\View
      */
-    public function newStories(Request $request)
-    {
+    public function newStories(
+        Request $request,
+        AppendDomainAction $appendDomainAction,
+        StoriesBookmarkStatusAction $storiesBookmarkStatusAction
+    ) {
         $currentPage = (int) $request->get('page', 1);
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
@@ -113,8 +130,8 @@ class HackerNewsController extends Controller
             $items,
             route('hackernews-new')
         );
-        $stories = $this->appendDomain($stories);
-        $stories = $this->appendBookmarkStatus($stories);
+        $stories = $appendDomainAction->execute($stories);
+        $stories = $storiesBookmarkStatusAction->execute($stories);
         $nBookmarkedStories = HackerNewsItemsBookmark
             ::where('user_id', Auth::id())
             ->count();
@@ -159,11 +176,16 @@ class HackerNewsController extends Controller
     /**
      * Show bookmarked hacker news post
      *
-     * @param Request $request
+     * @param Request                     $request
+     * @param AppendDomainAction          $appendDomainAction
+     * @param StoriesBookmarkStatusAction $storiesBookmarkStatusAction
      * @return \Illuminate\Contracts\View\View
      */
-    public function bookmarkList(Request $request)
-    {
+    public function bookmarkList(
+        Request $request,
+        AppendDomainAction $appendDomainAction,
+        StoriesBookmarkStatusAction $storiesBookmarkStatusAction
+    ) {
         $userId = Auth::id();
         $currentPage = (int) $request->get('page', 1);
         $offset = $this->offset($currentPage);
@@ -178,8 +200,8 @@ class HackerNewsController extends Controller
             $items,
             route('hackernews-bookmark-list')
         );
-        $stories = $this->appendDomain($stories);
-        $stories = $this->appendBookmarkStatus($stories);
+        $stories = $appendDomainAction->execute($stories);
+        $stories = $storiesBookmarkStatusAction->execute($stories);
         $nBookmarkedStories = HackerNewsItemsBookmark
             ::where('user_id', $userId)
             ->count();
@@ -243,19 +265,24 @@ class HackerNewsController extends Controller
     /**
      * Shows the details and comments of the hacker news story
      *
-     * @param int $id The identifier of the hacker news story
+     * @param int                         $id The identifier of the hacker news story
+     * @param AppendDomainAction          $appendDomainAction
+     * @param StoriesBookmarkStatusAction $storiesBookmarkStatusAction
      * @return \Illuminate\Contracts\View\View|void
      */
-    public function item($id)
-    {
+    public function item(
+        $id,
+        AppendDomainAction $appendDomainAction,
+        StoriesBookmarkStatusAction $storiesBookmarkStatusAction
+    ) {
         $hackerNews = new HackerNews();
         $story = $hackerNews->getStory($id);
         if (!$story) {
             return abort(404);
         }
         $userId = Auth::id();
-        $this->appendDomain([$story]);
-        $this->appendBookmarkStatus([$story]);
+        $story = Arr::first($appendDomainAction->execute([$story]));
+        $story = Arr::first($storiesBookmarkStatusAction->execute([$story]));
         $collapsedComments = (new CollapsedComments($userId, $id))
             ->getCollapsedComments();
         $nBookmarkedStories = HackerNewsItemsBookmark
@@ -326,50 +353,6 @@ class HackerNewsController extends Controller
     protected function offset(int $currentPage)
     {
         return $currentPage === 1 ? 0 : ($currentPage - 1) * $this->perPage;
-    }
-
-    /**
-     * Iterates over the list of stories and extracts the domain, then adds that
-     * domain as a new property to the story object.
-     *
-     * @param array $stories The list of stories to process
-     * @return array The list of stories with the domain added to each story
-     */
-    protected function appendDomain($stories)
-    {
-        foreach ($stories as $story) {
-            $urlParsed = parse_url($story->url);
-            $host = data_get($urlParsed, 'host');
-            $domain = Str::replaceFirst('www.', '', $host);
-            $story->domain = $domain;
-        }
-        return $stories;
-    }
-
-    /**
-     * Iterates over the list to find which stories are bookmarked by the
-     * currently logged in user
-     *
-     * @param array $stories The list of stories to process
-     * @return array The list of stories with the bookmark status added to each
-     * story
-     */
-    protected function appendBookmarkStatus($stories)
-    {
-        $ids = [];
-        foreach ($stories as $story) {
-            $ids[] = $story->id;
-        }
-        $bookmarkedIds = (new HackerNewsItemsBookmark())
-            ->select('hacker_news_item_id')
-            ->whereIn('hacker_news_item_id', $ids)
-            ->get()
-            ->pluck('hacker_news_item_id')
-            ->toArray();
-        foreach ($stories as $story) {
-            $story->bookmarked = in_array($story->id, $bookmarkedIds);
-        }
-        return $stories;
     }
 
     /**
