@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\HackerNews;
 
+use App\Actions\AppendDomainAction;
+use App\Actions\StoriesBookmarkStatusAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HnBookmark;
 use App\Http\Requests\HnCollapseComment;
@@ -11,13 +13,13 @@ use App\Repos\HackerNews\BookmarkedStories;
 use App\Repos\HackerNews\CollapsedComments;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
+use App\ViewModels\HackerNewsStoriesViewModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
 
 class HackerNewsController extends Controller
 {
@@ -37,7 +39,7 @@ class HackerNewsController extends Controller
     /**
      * Shows the top hacker news posts. Has pagination.
      *
-     * @param Request $request
+     * @param Request                     $request
      * @return \Illuminate\Contracts\View\View
      */
     public function top(Request $request)
@@ -46,29 +48,21 @@ class HackerNewsController extends Controller
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
         $items = $hackerNews->getTopStories($this->perPage, $offset);
-        $stories = $this->lengthAwarePaginator(
-            $currentPage,
-            $items,
-            route('hackernews-top')
-        );
-        $stories = $this->appendDomain($stories);
-        $stories = $this->appendBookmarkStatus($stories);
-        $nBookmarkedStories = HackerNewsItemsBookmark
-            ::where('user_id', Auth::id())
-            ->count();
 
-        return View::make('hackernews/stories', [
-            'stories' => $stories,
-            'hnPostUrlFormat' => $this->hnPostUrlFormat,
-            'title' => 'hackernews.hn_top',
-            'nBookmarkedStories' => $nBookmarkedStories,
-        ]);
+        $viewData = new HackerNewsStoriesViewModel(
+            Auth::user(),
+            $items,
+            $currentPage,
+            'hackernews.hn_top',
+            'hackernews-top'
+        );
+        return View::make('hackernews/stories', $viewData);
     }
 
     /**
      * Shows the best hacker news posts. Has pagination.
      *
-     * @param Request $request
+     * @param Request                     $request
      * @return \Illuminate\Contracts\View\View
      */
     public function best(Request $request)
@@ -77,29 +71,21 @@ class HackerNewsController extends Controller
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
         $items = $hackerNews->getBestStories($this->perPage, $offset);
-        $stories = $this->lengthAwarePaginator(
-            $currentPage,
-            $items,
-            route('hackernews-best')
-        );
-        $stories = $this->appendDomain($stories);
-        $stories = $this->appendBookmarkStatus($stories);
-        $nBookmarkedStories = HackerNewsItemsBookmark
-            ::where('user_id', Auth::id())
-            ->count();
 
-        return View::make('hackernews/stories', [
-            'stories' => $stories,
-            'hnPostUrlFormat' => $this->hnPostUrlFormat,
-            'title' => 'hackernews.hn_best',
-            'nBookmarkedStories' => $nBookmarkedStories,
-        ]);
+        $viewData = new HackerNewsStoriesViewModel(
+            Auth::user(),
+            $items,
+            $currentPage,
+            'hackernews.hn_best',
+            'hackernews-best'
+        );
+        return View::make('hackernews/stories', $viewData);
     }
 
     /**
      * Shows the new hacker news posts. Has pagination.
      *
-     * @param Request $request
+     * @param Request                     $request
      * @return \Illuminate\Contracts\View\View
      */
     public function newStories(Request $request)
@@ -108,25 +94,16 @@ class HackerNewsController extends Controller
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
         $items = $hackerNews->getNewStories($this->perPage, $offset);
-        $stories = $this->lengthAwarePaginator(
-            $currentPage,
+
+        $viewData = new HackerNewsStoriesViewModel(
+            Auth::user(),
             $items,
-            route('hackernews-new')
+            $currentPage,
+            'hackernews.hn_new',
+            'hackernews-new'
         );
-        $stories = $this->appendDomain($stories);
-        $stories = $this->appendBookmarkStatus($stories);
-        $nBookmarkedStories = HackerNewsItemsBookmark
-            ::where('user_id', Auth::id())
-            ->count();
-
-        return View::make('hackernews/new-stories', [
-            'stories' => $stories,
-            'hnPostUrlFormat' => $this->hnPostUrlFormat,
-            'title' => 'hackernews.hn_new',
-            'nBookmarkedStories' => $nBookmarkedStories,
-        ]);
+        return View::make('hackernews/new-stories', $viewData);
     }
-
 
     /**
      * Shows jobs posting from hacker news
@@ -140,26 +117,21 @@ class HackerNewsController extends Controller
         $offset = $this->offset($currentPage);
         $hackerNews = new HackerNews();
         $items = $hackerNews->getJobStories($this->perPage, $offset);
-        $stories = $this->lengthAwarePaginator(
-            $currentPage,
-            $items,
-            route('hackernews-jobs')
-        );
-        $nBookmarkedStories = HackerNewsItemsBookmark
-            ::where('user_id', Auth::id())
-            ->count();
 
-        return View::make('hackernews/jobs', [
-            'stories' => $stories,
-            'title' => 'hackernews.hn_job',
-            'nBookmarkedStories' => $nBookmarkedStories,
-        ]);
+        $viewData = new HackerNewsStoriesViewModel(
+            Auth::user(),
+            $items,
+            $currentPage,
+            'hackernews.hn_job',
+            'hackernews-jobs'
+        );
+        return View::make('hackernews/jobs', $viewData);
     }
 
     /**
      * Show bookmarked hacker news post
      *
-     * @param Request $request
+     * @param Request                     $request
      * @return \Illuminate\Contracts\View\View
      */
     public function bookmarkList(Request $request)
@@ -173,24 +145,16 @@ class HackerNewsController extends Controller
             $offset,
             $userId
         );
-        $stories = $this->lengthAwarePaginator(
-            $currentPage,
-            $items,
-            route('hackernews-bookmark-list')
-        );
-        $stories = $this->appendDomain($stories);
-        $stories = $this->appendBookmarkStatus($stories);
-        $nBookmarkedStories = HackerNewsItemsBookmark
-            ::where('user_id', $userId)
-            ->count();
 
-        return View::make('hackernews/stories', [
-            'stories' => $stories,
-            'hnPostUrlFormat' => $this->hnPostUrlFormat,
-            'bookmarkStore' => true,
-            'title' => 'hackernews.hn_bookmarked',
-            'nBookmarkedStories' => $nBookmarkedStories,
-        ]);
+        $viewData = new HackerNewsStoriesViewModel(
+            Auth::user(),
+            $items,
+            $currentPage,
+            'hackernews.hn_bookmarked',
+            'hackernews-bookmark-list',
+            HackerNewsStoriesViewModel::SHOW_MANUAL_BOOKMARK_FORM
+        );
+        return View::make('hackernews/stories', $viewData);
     }
 
     /**
@@ -243,19 +207,24 @@ class HackerNewsController extends Controller
     /**
      * Shows the details and comments of the hacker news story
      *
-     * @param int $id The identifier of the hacker news story
+     * @param int                         $id The identifier of the hacker news story
+     * @param AppendDomainAction          $appendDomainAction
+     * @param StoriesBookmarkStatusAction $storiesBookmarkStatusAction
      * @return \Illuminate\Contracts\View\View|void
      */
-    public function item($id)
-    {
+    public function item(
+        $id,
+        AppendDomainAction $appendDomainAction,
+        StoriesBookmarkStatusAction $storiesBookmarkStatusAction
+    ) {
         $hackerNews = new HackerNews();
         $story = $hackerNews->getStory($id);
         if (!$story) {
             return abort(404);
         }
         $userId = Auth::id();
-        $this->appendDomain([$story]);
-        $this->appendBookmarkStatus([$story]);
+        $story = Arr::first($appendDomainAction->execute([$story]));
+        $story = Arr::first($storiesBookmarkStatusAction->execute([$story]));
         $collapsedComments = (new CollapsedComments($userId, $id))
             ->getCollapsedComments();
         $nBookmarkedStories = HackerNewsItemsBookmark
@@ -326,72 +295,5 @@ class HackerNewsController extends Controller
     protected function offset(int $currentPage)
     {
         return $currentPage === 1 ? 0 : ($currentPage - 1) * $this->perPage;
-    }
-
-    /**
-     * Iterates over the list of stories and extracts the domain, then adds that
-     * domain as a new property to the story object.
-     *
-     * @param array $stories The list of stories to process
-     * @return array The list of stories with the domain added to each story
-     */
-    protected function appendDomain($stories)
-    {
-        foreach ($stories as $story) {
-            $urlParsed = parse_url($story->url);
-            $host = data_get($urlParsed, 'host');
-            $domain = Str::replaceFirst('www.', '', $host);
-            $story->domain = $domain;
-        }
-        return $stories;
-    }
-
-    /**
-     * Iterates over the list to find which stories are bookmarked by the
-     * currently logged in user
-     *
-     * @param array $stories The list of stories to process
-     * @return array The list of stories with the bookmark status added to each
-     * story
-     */
-    protected function appendBookmarkStatus($stories)
-    {
-        $ids = [];
-        foreach ($stories as $story) {
-            $ids[] = $story->id;
-        }
-        $bookmarkedIds = (new HackerNewsItemsBookmark())
-            ->select('hacker_news_item_id')
-            ->whereIn('hacker_news_item_id', $ids)
-            ->get()
-            ->pluck('hacker_news_item_id')
-            ->toArray();
-        foreach ($stories as $story) {
-            $story->bookmarked = in_array($story->id, $bookmarkedIds);
-        }
-        return $stories;
-    }
-
-    /**
-     * Grabs the story list and creates a pagination object based on the current
-     * page, items, and the links to load new pages.
-     *
-     * @param int $currentPage The current page
-     * @param object $items The list of story items
-     * @param string $withPath The path to another page
-     * @return mixed
-     */
-    protected function lengthAwarePaginator($currentPage, $items, $withPath)
-    {
-        $stories = new LengthAwarePaginator(
-            $items->stories,
-            $items->total,
-            $this->perPage,
-            $currentPage
-        );
-        $stories->withPath($withPath);
-        $stories->onEachSide(1);
-
-        return $stories;
     }
 }

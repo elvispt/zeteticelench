@@ -5,7 +5,7 @@ Zetetic Elench - Seeking Proof
 
 ## Stack:
 - PHP 7.2
-- Laravel 5.8
+- Laravel 6.*
 - MySQL 5.7
 
 ## Milestones:
@@ -17,7 +17,7 @@ Zetetic Elench - Seeking Proof
 5. User management ✔️
 6. Add homepage with common personal common links
 7. Styling
-8. Add (Svelte || Vue || React) to transform to a SPA 
+8. Add (Svelte || Vue || React) to transform to a SPA
 
 ## Installation
 
