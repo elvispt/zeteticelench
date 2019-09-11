@@ -1,7 +1,16 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 1.8.0 <2018-09-08>
+### 1.8.1 <2019-09-11>
+- Refactored some controller logic into actions
+[Refactoring to actions ](https://freek.dev/1371-refactoring-to-actions).
+- Now using ViewModels to load view data on some endpoints
+[spatie/laravel-view-models]()https://github.com/spatie/laravel-view-models).
+- Bump laravel/framework from 5.8.35 to 6.0.3
+[#207](https://github.com/elvispt/zeteticelench/pull/209) and
+[#207](https://github.com/elvispt/zeteticelench/pull/212).
+
+### 1.8.0 <2019-09-08>
 - Show remote jobs on Dashboard
 [#93](https://github.com/elvispt/zeteticelench/issues/93).
 - Fixed issue where jobs list could be null.
@@ -22,12 +31,12 @@ All notable changes will be added here.
 - Bump barryvdh/laravel-ide-helper from 2.6.2 to 2.6.5
 [#208](https://github.com/elvispt/zeteticelench/pull/208).
 
-### 1.7.6 <2018-08-30>
+### 1.7.6 <2019-08-30>
 - Fixed issue where page was being emptied when on some hacker news items. This
 issue occurred due to VueJS interpolating HN comments as VueJS expressions.
 [#200](https://github.com/elvispt/zeteticelench/issues/200).
 
-### 1.7.5 <2018-08-28>
+### 1.7.5 <2019-08-28>
 - Fixed issue when parsing JSON response. When parsing response from advice
 slip an invalid JSON was being returned and we were not properly checking if
 theJSON is valid.
