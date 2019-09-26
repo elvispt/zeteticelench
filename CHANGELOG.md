@@ -1,6 +1,27 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.8.2 <2019-09-26>
+
+- Bump laravel/scout from 7.1.3 to 7.2.1
+[#224](https://github.com/elvispt/zeteticelench/pull/224).
+- Bump laravel/framework from 6.0.3 to 6.0.4
+[#223](https://github.com/elvispt/zeteticelench/pull/223).
+- Bump sentry/sentry-laravel from 1.2.1 to 1.3.0
+[#222](https://github.com/elvispt/zeteticelench/pull/222). This is an automated
+security fix recommended by Github.
+- Bump mixin-deep from 1.3.1 to 1.3.2
+[#221](https://github.com/elvispt/zeteticelench/pull/221). This is an automated
+security fix recommended by Github.
+- Bump facade/ignition from 1.6.0 to 1.8.2
+[#220](https://github.com/elvispt/zeteticelench/pull/220).
+- Bump sentry/sentry-laravel from 1.2.0 to 1.2.1
+[#217](https://github.com/elvispt/zeteticelench/pull/217).
+- Bump phpunit/phpunit from 8.3.4 to 8.3.5
+[#216](https://github.com/elvispt/zeteticelench/pull/216).
+- Bump algolia/algoliasearch-client-php from 2.3.0 to 2.4.0
+[#213](https://github.com/elvispt/zeteticelench/pull/213).
+
 ### 1.8.1 <2019-09-11>
 - Refactored some controller logic into actions
 [Refactoring to actions ](https://freek.dev/1371-refactoring-to-actions).
