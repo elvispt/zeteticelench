@@ -1,8 +1,10 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 1.8.2 <2019-09-26>
+### 1.8.3 <2019-09-26>
+- Updated frontend assets.
 
+### 1.8.2 <2019-09-26>
 - Bump laravel/scout from 7.1.3 to 7.2.1
 [#224](https://github.com/elvispt/zeteticelench/pull/224).
 - Bump laravel/framework from 6.0.3 to 6.0.4
