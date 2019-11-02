@@ -78,16 +78,16 @@
         },
         {
             "name": "algolia/scout-extended",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/scout-extended.git",
-                "reference": "32a7940efdfe43416bf820540e7ba7ecf7387b71"
+                "reference": "ea5cec58af8f726fe1f5848082c0a5f84ffbd3b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/32a7940efdfe43416bf820540e7ba7ecf7387b71",
-                "reference": "32a7940efdfe43416bf820540e7ba7ecf7387b71",
+                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/ea5cec58af8f726fe1f5848082c0a5f84ffbd3b8",
+                "reference": "ea5cec58af8f726fe1f5848082c0a5f84ffbd3b8",
                 "shasum": ""
             },
             "require": {
@@ -150,7 +150,7 @@
                 "scout",
                 "search"
             ],
-            "time": "2019-08-28T09:18:09+00:00"
+            "time": "2019-10-14T11:00:44+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -5099,9 +5099,9 @@
             "authors": [
                 {
                     "name": "Marcel Pociot",
+                    "role": "Developer",
                     "email": "marcel@beyondco.de",
-                    "homepage": "https://beyondco.de",
-                    "role": "Developer"
+                    "homepage": "https://beyondco.de"
                 }
             ],
             "description": "Symfony Var-Dump Server for Laravel",
@@ -5752,8 +5752,8 @@
             "authors": [
                 {
                     "name": "Filipe Dobreira",
-                    "homepage": "https://github.com/filp",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://github.com/filp"
                 }
             ],
             "description": "php error handling for cool kids",
@@ -7946,18 +7946,18 @@
             "authors": [
                 {
                     "name": "Geert Bergman",
-                    "homepage": "http://www.scrivo.org/",
-                    "role": "Project Author"
+                    "role": "Project Author",
+                    "homepage": "http://www.scrivo.org/"
                 },
                 {
                     "name": "Vladimir Jimenez",
-                    "homepage": "https://allejo.io",
-                    "role": "Contributor"
+                    "role": "Contributor",
+                    "homepage": "https://allejo.io"
                 },
                 {
                     "name": "Martin Folkers",
-                    "homepage": "https://twobrain.io",
-                    "role": "Contributor"
+                    "role": "Contributor",
+                    "homepage": "https://twobrain.io"
                 }
             ],
             "description": "Server side syntax highlighter that supports 185 languages. It's a PHP port of highlight.js",
