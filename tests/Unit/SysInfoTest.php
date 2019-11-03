@@ -46,4 +46,12 @@ class SysInfoTest extends TestCase
         $this->assertArrayHasKey('upSince', $all);
         $this->assertArrayHasKey('memory', $all);
     }
+
+    public function testNumberOfQueueWorkersRunning()
+    {
+        $sysInfo = new SysInfo();
+        $nWorkers = $sysInfo->nQueueWorkersRunning();
+        $this->assertIsInt($nWorkers);
+        $this->assertTrue($nWorkers >= 0);
+    }
 }
