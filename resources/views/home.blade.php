@@ -16,10 +16,19 @@
         <div class="card mb-3 shadow">
           <div class="card-header">@lang('system.info')</div>
           <div class="card-body">
-            @lang('system.uptime', [
-              'up' => ucfirst($sysInfo['up']),
-              'since' => $sysInfo['upSince'],
-            ])
+            <p class="alert-info">
+              @lang('system.uptime', [
+                'up' => ucfirst($sysInfo['up']),
+                'since' => $sysInfo['upSince'],
+              ])
+            </p>
+
+            <p class="{{ $sysInfo['nQueueWorkersRunning'] === 0 ? 'alert-danger' : 'alert-success' }}">
+              @lang('system.number_queue_workers', [
+                'number' => $sysInfo['nQueueWorkersRunning']
+              ])
+            </p>
+
             <div class="pt-4">
               <table class="table table-sm">
                 <caption>@lang('system.memory_info')</caption>
