@@ -46,4 +46,12 @@ class Account extends Model
     {
         return $this->hasMany(Movement::class);
     }
+
+    public function balance()
+    {
+        $movements = $this->movements()->get();
+        return $movements->reduce(function ($carry, Movement $movement) {
+            return $carry + $movement->amount;
+        }, 0);
+    }
 }

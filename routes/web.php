@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\Expenses\AccountsController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Notes\NotesController;
@@ -128,6 +129,14 @@ Route::namespace('Users')
         Route::delete('destroy', [UsersController::class, 'destroy'])
              ->name('users-destroy');
     });
+
+Route::namespace('Expenses')
+     ->prefix('expenses')
+     ->middleware('auth')
+     ->group(static function () {
+         Route::get('/accounts', [AccountsController::class, 'index'])
+              ->name('expensesAccounts');
+     });
 
 Auth::routes(['register' => false]);
 
