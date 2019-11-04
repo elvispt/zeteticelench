@@ -19,6 +19,7 @@ $factory->define( Movement::class, function (Faker $faker) {
         'amount' => $faker->randomFloat(2, -9999999.99, 9999999.99),
         'description' => $faker->randomElement(
             [$faker->realText(1000), null]),
+        'amount_date' => $faker->dateTimeThisYear(),
         'deleted_at' => $faker->randomElement([null, $faker->dateTimeThisMonth()]),
         'created_at' => $updated,
         'updated_at' => $updated,
