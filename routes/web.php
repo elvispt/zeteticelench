@@ -140,6 +140,13 @@ Route::namespace('Expenses')
 
          Route::get('', [MovementsController::class, 'index'])
               ->name('movements');
+
+         Route::get('/create', [MovementsController::class, 'create'])
+              ->name('movementsCreate');
+
+         Route::post('/create', [MovementsController::class, 'add'])
+              ->name('movementsAdd');
+
      });
 
 Auth::routes(['register' => false]);

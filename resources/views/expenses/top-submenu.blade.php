@@ -7,6 +7,11 @@
       >@lang('expenses.movements')</a>
 
       <a
+        class="btn btn-group-sm w-100 text-nowrap @submenuactive('movementsCreate')"
+        href="{{ route('movementsCreate') }}"
+      >@lang('expenses.movements_create')</a>
+
+      <a
         class="btn btn-group-sm w-100 text-nowrap @submenuactive('expensesAccounts')"
         href="{{ route('expensesAccounts') }}"
       >@lang('expenses.accounts')</a>
