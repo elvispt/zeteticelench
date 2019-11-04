@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\Expenses\AccountsController;
+use App\Http\Controllers\Expenses\MovementsController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Notes\NotesController;
@@ -136,6 +137,9 @@ Route::namespace('Expenses')
      ->group(static function () {
          Route::get('/accounts', [AccountsController::class, 'index'])
               ->name('expensesAccounts');
+
+         Route::get('', [MovementsController::class, 'index'])
+              ->name('movements');
      });
 
 Auth::routes(['register' => false]);

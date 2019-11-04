@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $user_id
  * @property string $name
  * @property string|null $description
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Movement[] $movements
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Account whereName($value)
