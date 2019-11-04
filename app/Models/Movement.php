@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $account_id
  * @property float $amount
  * @property string|null $description
+ * @property \Illuminate\Support\Carbon $amount_date
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement whereAccountId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement whereAmountDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement whereDescription($value)
@@ -36,6 +38,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Movement extends Model
 {
     use SoftDeletes;
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'amount_date' => 'datetime',
+    ];
 
     public function account()
     {
