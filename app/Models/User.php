@@ -17,6 +17,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Note[] $accounts
+ * @property-read int|null $accounts_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Note[] $notes
  * @property-read int|null $notes_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
@@ -75,5 +77,10 @@ class User extends Authenticatable
     public function tags()
     {
         return $this->hasMany(Tag::class);
+    }
+
+    public function accounts()
+    {
+        return $this->hasMany(Note::class);
     }
 }

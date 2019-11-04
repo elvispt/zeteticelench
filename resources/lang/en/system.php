@@ -7,4 +7,5 @@ return [
     'used' => "Used",
     'free' => "Free",
     'total' => "Total",
+    'number_queue_workers' => "Queue workers running: :number",
 ];

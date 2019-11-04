@@ -67,6 +67,12 @@
                  href="{{ route('hackernews-top') }}"
               >@lang('hackernews.hackernews')</a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'expenses') ? 'text-primary' : '' }}"
+                 href="{{ route('expensesAccounts') }}"
+              >@lang('expenses.expenses')</a>
+            </li>
           @endif
         </ul>
 
