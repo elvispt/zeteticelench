@@ -1,6 +1,15 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.9.0 <2019-11-04>
+
+- Added new expenses section. User can add expenses to an account.
+Note that at this time, the account must be created directly in the database.
+- Updated Laravel to v6.4.1
+[#248](https://github.com/elvispt/zeteticelench/pull/248).
+  - Made a general update to all php dependencies. There are too many to list
+    here so please check commits.
+
 ### 1.8.3 <2019-09-26>
 - Updated frontend assets.
 
