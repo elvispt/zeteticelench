@@ -1,3 +1,6 @@
+<?php
+use \App\Http\Controllers\Expenses\MovementsController;
+?>
 @extends('layouts/app')
 
 @section('title') @lang($title) @endsection
@@ -20,8 +23,38 @@
 
         <br>
 
-        <form method="POST" target="{{ route('movementsAdd') }}">
+        <form method="POST" action="{{ route('movementsAdd') }}">
           @csrf
+
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            @php
+            switch (old('credit-debit')) {
+              case MovementsController::CREDIT:
+                $val = MovementsController::CREDIT;
+                break;
+              case MovementsController::DEBIT:
+              default:
+                $val = MovementsController::DEBIT;
+            }
+            @endphp
+            <label class="btn btn-primary {{ $val == MovementsController::DEBIT ? 'active' : '' }}">
+              <input type="radio"
+                     name="credit-debit"
+                     value="{{ MovementsController::DEBIT }}"
+                     autocomplete="off"
+                     {{ $val == MovementsController::DEBIT ? 'checked' : '' }}
+              > @lang('expenses.debit')
+            </label>
+            <label class="btn btn-primary {{ $val == MovementsController::CREDIT ? 'active' : '' }}">
+              <input type="radio"
+                     name="credit-debit"
+                     value="{{ MovementsController::CREDIT }}"
+                     autocomplete="off"
+                     {{ $val == MovementsController::CREDIT ? 'checked' : '' }}
+              > @lang('expenses.credit')
+            </label>
+          </div>
+
           <div class="form-row">
             <div class="col">
               <label for="date">@lang('expenses.movement_date')</label>
@@ -62,6 +95,7 @@
                    name="amount"
                    step="0.01"
                    placeholder="@lang('expenses.enter_amount')"
+                   min="0"
                    value="{{ old('amount') }}"
             >
           </div>

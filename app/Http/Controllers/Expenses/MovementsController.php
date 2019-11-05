@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\View;
 
 class MovementsController extends Controller
 {
+    public const CREDIT = 'CREDIT';
+    public const DEBIT = 'DEBIT';
+
     public function index()
     {
         $account = (new Accounts())
@@ -21,7 +24,7 @@ class MovementsController extends Controller
         ;
         $movements = $account
             ->movements()
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('amount_date', 'DESC')
             ->get()
         ;
         return View::make('expenses/movements', [
@@ -55,7 +58,12 @@ class MovementsController extends Controller
             ->first()
         ;
         $movement->account_id = $account->id;
-        $movement->amount = $validated->get('amount');
+        $creditDebit = $validated->get('credit-debit');
+        $amount = $validated->get('amount');
+        if ($creditDebit == static::DEBIT) {
+            $amount = -1 * ($amount);
+        }
+        $movement->amount = $amount;
         $movement->description = $validated->get('description');
         $date = $validated->get('date');
         $time = $validated->get('time');
