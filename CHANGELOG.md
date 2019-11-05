@@ -1,6 +1,15 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.9.0 <2019-11-05>
+- User now picks if the movement is a debit or credit. Will automatically set
+a negative amount if the user picks debit. The UI selects debit by default.
+- Fixed issue with list of movements not being sorted by date_amount
+[#261](https://github.com/elvispt/zeteticelench/issues/261).
+- Fixed issue where the soft deletes column was set on movements table instead
+of the accounts table
+[#260](https://github.com/elvispt/zeteticelench/issues/260).
+
 ### 1.9.0 <2019-11-04>
 
 - Added new expenses section. User can add expenses to an account.
