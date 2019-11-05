@@ -7,7 +7,7 @@ function context($amount)
 {
   if ($amount < -50) {
     return 'table-danger';
-  } elseif ($amount < -10) {
+  } elseif ($amount < -20) {
     return 'table-warning';
   } elseif ($amount > 0) {
     return 'table-success';
@@ -46,7 +46,7 @@ function context($amount)
             <tbody>
               @foreach ($movements as $movement)
                 <tr data-id="{{ $movement->id }}" class="{{ context($movement->amount)  }}">
-                  <td>{{ \Illuminate\Support\Carbon::createFromFormat('Y-m-d H:i:s', $movement->created_at)->format('Y-m-d H:i') }}</td>
+                  <td>{{ $movement->amount_date->format('Y-m-d H:i') }}</td>
                   <td>{{ $movement->description }}</td>
                   <td class="text-right">{{ $movement->amount }}</td>
                 </tr>

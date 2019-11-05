@@ -16,4 +16,6 @@ return [
     'enter_amount' => "Enter amount",
     'enter_date' => "Enter amount date",
     'enter_time' => "Enter amount time",
+    'debit' => "DEBIT",
+    'credit' => "CREDIT",
 ];
