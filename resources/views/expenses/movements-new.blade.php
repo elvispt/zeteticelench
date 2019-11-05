@@ -20,7 +20,7 @@
 
         <br>
 
-        <form method="POST" target="{{ route('movementsAdd') }}">
+        <form method="POST" action="{{ route('movementsAdd') }}">
           @csrf
           <div class="form-row">
             <div class="col">
