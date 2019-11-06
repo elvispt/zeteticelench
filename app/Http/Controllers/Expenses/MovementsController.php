@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MovementCreate;
 use App\Models\Movement;
 use App\Repos\Expenses\Accounts;
+use App\Repos\Expenses\Movements;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -22,15 +23,13 @@ class MovementsController extends Controller
             ->get(Auth::user())
             ->first()
         ;
-        $movements = $account
-            ->movements()
-            ->orderBy('amount_date', 'DESC')
-            ->get()
-        ;
+        $movements = new Movements();
+        $movementsGroupedByDate = $movements->movementsGroupedByDate($account);
+
         return View::make('expenses/movements', [
             'title' => 'expenses.movements_list',
             'account' => $account,
-            'movements' => $movements,
+            'movementsGroupedByDate' => $movementsGroupedByDate,
         ]);
     }
 

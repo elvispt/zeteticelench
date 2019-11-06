@@ -2,20 +2,6 @@
 
 @section('title') @lang($title) @endsection
 
-@php
-function context($amount)
-{
-  if ($amount < -50) {
-    return 'table-danger';
-  } elseif ($amount < -20) {
-    return 'table-warning';
-  } elseif ($amount > 0) {
-    return 'table-success';
-  }
-  return '';
-}
-@endphp
-
 @section('content')
   <div class="container">
     @include('expenses.top-submenu')
@@ -25,35 +11,48 @@ function context($amount)
           <div class="alert alert-danger" role="alert">
             @lang('expenses.no_accounts_exist')
           </div>
-        @else
-          {{ setlocale(LC_MONETARY, 'pt_PT') }}
-          <div class="text-right">€ {{ number_format($account->balance(), 2, '.', ' ') }}</div>
         @endif
 
         <br>
 
-        <div class="table-responsive">
-          <table class="table table-sm">
-            <caption>@lang('expenses.movements_list')</caption>
-            <thead>
-              <tr>
-                <th scope="col">@lang('expenses.movement_date')</th>
-                <th scope="col">@lang('expenses.movement_description')</th>
-                <th scope="col" class="text-right"
-                >@lang('expenses.movement_amount')</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($movements as $movement)
-                <tr data-id="{{ $movement->id }}" class="{{ context($movement->amount)  }}">
-                  <td>{{ $movement->amount_date->format('Y-m-d H:i') }}</td>
-                  <td>{{ $movement->description }}</td>
-                  <td class="text-right">{{ $movement->amount }}</td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
+        <div class="jumbotron py-4 text-center">
+          <h4 class="text-center">€ {{ $movementsGroupedByDate->total }}</h4>
+          <p class="lead">{{ $account->name }}</p>
+          <p>{{ $account->description }}</p>
         </div>
+
+        @foreach ($movementsGroupedByDate->movements as $amountDate => $movements)
+          <div class="list-group list-group-flush">
+            <div class="list-group-item">
+              <div class="row">
+                <div class="col-sm-2"><b>{{ $amountDate }}</b></div>
+                <div class="col-sm-10">
+                  @foreach($movements->movements as $movement)
+                    <div class="row mb-1 {{ $loop->even ? 'bg-light' : '' }}" data-id="{{ $movement->id }}">
+                      <div class="col-8">
+                        <div class="text-truncate text-secondary">
+                          @if (empty($movement->description))
+                            *
+                          @else
+                            {{ $movement->description }}
+                          @endif
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="text-right text-nowrap">€ {{ $movement->amount }}</div>
+                      </div>
+                    </div>
+                  @endforeach
+                </div>
+              </div>
+              <div class="row">
+                <div class="offset-sm-2 col-sm-10">
+                  <div class="text-right"><b>€ {{ $movements->total }}</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endforeach
       </div>
     </div>
   </div>
