@@ -1,7 +1,20 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 1.9.0 <2019-11-05>
+### 1.9.2 <2019-11-06>
+- Now grouping expenses by day.
+- Now showin the total amount of expenses by day.
+- Now showing the total amount of expenses.
+- Fixed issue with the number of queue workers not being correctly identified
+on the dashboard [#264](https://github.com/elvispt/zeteticelench/issues/264).
+- Fixed issue where the Expenses main menu option is not highlighted when on
+the expenses section of the application.
+- Bump algolia/algoliasearch-client-php from 2.4.0 to 2.5.0
+[#265](https://github.com/elvispt/zeteticelench/pull/265).
+- Bump laravel/framework from 6.4.1 to 6.5.0
+[#266](https://github.com/elvispt/zeteticelench/pull/266).
+
+### 1.9.1 <2019-11-05>
 - User now picks if the movement is a debit or credit. Will automatically set
 a negative amount if the user picks debit. The UI selects debit by default.
 - Fixed issue with list of movements not being sorted by date_amount

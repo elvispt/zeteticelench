@@ -103,7 +103,7 @@ class SysInfo
      */
     public function nQueueWorkersRunning(): int
     {
-        $command = "ps aux | grep 'php artisan queue:work' | grep -v 'grep' | awk '{print $2}'";
+        $command = "ps aux | grep 'php artisan queue:work' | grep -v 'grep' | grep -v 'runuser' | awk '{print $2}'";
         try {
             exec($command, $output);
         } catch (Exception $exception) {

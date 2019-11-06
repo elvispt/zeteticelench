@@ -69,7 +69,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'expenses') ? 'text-primary' : '' }}"
+              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'movements') ? 'text-primary' : '' }}"
                  href="{{ route('movements') }}"
               >@lang('expenses.expenses')</a>
             </li>
