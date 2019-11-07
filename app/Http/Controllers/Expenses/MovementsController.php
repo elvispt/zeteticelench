@@ -23,14 +23,21 @@ class MovementsController extends Controller
             ->get(Auth::user())
             ->first()
         ;
-        $movements = new Movements();
-        $movementsGroupedByDate = $movements->movementsGroupedByDay($account);
-
-        return View::make('expenses/movements', [
-            'title' => 'expenses.movements_list',
-            'account' => $account,
-            'movementsGroupedByDate' => $movementsGroupedByDate,
-        ]);
+        if ($account) {
+            $movements = new Movements();
+            $movementsGroupedByDate = $movements->movementsGroupedByDay($account);
+            return View::make('expenses/movements', [
+                'title' => 'expenses.movements_list',
+                'account' => $account,
+                'movementsGroupedByDate' => $movementsGroupedByDate,
+            ]);
+        } else {
+            return View::make('expenses/movements', [
+                'title' => 'expenses.movements_list',
+                'account' => $account,
+                'movementsGroupedByDate' => null,
+            ]);
+        }
     }
 
     /**
