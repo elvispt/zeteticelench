@@ -53,6 +53,7 @@ class InspireComposer
 
     /**
      * @param ResponseInterface|null $response
+     *
      * @return mixed
      */
     protected function parseResponse(?ResponseInterface $response) {

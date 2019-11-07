@@ -11,7 +11,7 @@ use Spatie\ViewModels\ViewModel;
 
 class HackerNewsStoriesViewModel extends ViewModel
 {
-    const SHOW_MANUAL_BOOKMARK_FORM = 1;
+    public const SHOW_MANUAL_BOOKMARK_FORM = 1;
 
     /**
      * @var User
@@ -93,7 +93,7 @@ class HackerNewsStoriesViewModel extends ViewModel
 
     public function bookmarkStore(): bool
     {
-        return $this->showManualBookmarkForm === static::SHOW_MANUAL_BOOKMARK_FORM;
+        return $this->showManualBookmarkForm === self::SHOW_MANUAL_BOOKMARK_FORM;
     }
 
     /**
@@ -103,6 +103,7 @@ class HackerNewsStoriesViewModel extends ViewModel
      * @param int $currentPage The current page
      * @param object $items The list of story items
      * @param string $withPath The path to another page
+     *
      * @return mixed
      */
     private function lengthAwarePaginator($currentPage, $items, $withPath)

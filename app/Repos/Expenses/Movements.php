@@ -22,29 +22,34 @@ class Movements
      *
      * @return mixed
      */
-    public function movementsGroupedByDate(Account $account)
+    public function movementsGroupedByDay(Account $account)
     {
         $movementsCollection = $account
             ->movements()
             ->orderBy('amount_date', 'DESC')
             ->get()
         ;
-        $m = new stdClass();
-        $m->movements = [];
-        $m->total = 0;
+        $movInfo = new stdClass();
+        $movInfo->movements = [];
+        $movInfo->total = 0;
 
-        return $movementsCollection->reduce(function (stdClass $m, Movement $movement) {
+        return $this->parseMovementsByDay($movementsCollection, $movInfo);
+    }
+
+    protected function parseMovementsByDay(Collection $movementsCollection, stdClass $movInfo)
+    {
+        return $movementsCollection->reduce(static function (stdClass $movInfo, Movement $movement) {
             $amountDate = $movement->amount_date->format('Y-m-d');
-            if (!array_key_exists($amountDate, $m->movements)) {
-                $m->movements[$amountDate] = new stdClass();
-                $m->movements[$amountDate]->movements = [];
-                $m->movements[$amountDate]->total = 0;
+            if (!array_key_exists($amountDate, $movInfo->movements)) {
+                $movInfo->movements[$amountDate] = new stdClass();
+                $movInfo->movements[$amountDate]->movements = [];
+                $movInfo->movements[$amountDate]->total = 0;
             }
-            $m->movements[$amountDate]->movements[] = $movement;
-            $m->movements[$amountDate]->total += $movement->amount;
-            $m->total += $movement->amount;
-            return $m;
-        }, $m);
+            $movInfo->movements[$amountDate]->movements[] = $movement;
+            $movInfo->movements[$amountDate]->total += $movement->amount;
+            $movInfo->total += $movement->amount;
+            return $movInfo;
+        }, $movInfo);
     }
 
     public function add(Collection $validated, int $accountId): bool
@@ -53,8 +58,8 @@ class Movements
         $movement->account_id = $accountId;
         $creditDebit = $validated->get('credit-debit');
         $amount = $validated->get('amount');
-        if ($creditDebit == static::DEBIT) {
-            $amount = -1 * ($amount);
+        if ($creditDebit === self::DEBIT) {
+            $amount = -1 * $amount;
         }
         $movement->amount = $amount;
         $movement->description = $validated->get('description');

@@ -29,6 +29,7 @@ class RemoteJobs
             try {
                 $sourceObject = new $sourceClassPath();
             } catch (Exception $exception) {
+                $sourceObject = [];
                 Log::error(
                     "Could not instantiate class with provided path",
                     [

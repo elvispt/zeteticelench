@@ -50,6 +50,7 @@ class HnApi
      * Makes concurrent requests to HN api to obtain hn item info
      *
      * @param array<int> $storiesIdList
+     *
      * @return array Returns the responses
      */
     public function concurrentRequestsForItems(array $storiesIdList)
@@ -79,6 +80,7 @@ class HnApi
      * uri).
      *
      * @param string $uri The uri to either best/top/jobs endpoint
+     *
      * @return object|array Returns a list of ids of hn items
      */
     public function getLiveStoriesIdList(string $uri)
@@ -111,6 +113,7 @@ class HnApi
 
     /**
      * @param ResponseInterface $response
+     *
      * @return mixed|stdClass
      */
     protected function parseLiveStoriesIdListResponse(
@@ -151,6 +154,7 @@ class HnApi
      * Parses the response from HN api
      *
      * @param Response $response The response from the api
+     *
      * @return mixed|null Returns the response parse, null on failure
      */
     protected function parseItemResponse(Response $response)

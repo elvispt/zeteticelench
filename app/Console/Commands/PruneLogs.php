@@ -60,7 +60,7 @@ class PruneLogs extends Command
      */
     protected function outputFileList(Collection $files): void
     {
-        $rows = $files->map(function (array $file) {
+        $rows = $files->map(static function (array $file) {
             return [
                 $file['path'],
                 Carbon::createFromTimestamp($file['timestamp'])

@@ -23,6 +23,7 @@ class HackerNews
      * @param int $offset The offset (index) from which to obtain the story
      *                    items
      * @param bool $forceCacheRefresh Force the cache to be refreshed?
+     *
      * @return mixed|object Returns an object containing the list of stories
      *                      and the total number of stories available.
      */
@@ -46,6 +47,7 @@ class HackerNews
      * @param int $offset The offset (index) from which to obtain the story
      *                    items
      * @param bool $forceCacheRefresh Force the cache to be refreshed?
+     *
      * @return mixed|object Returns an object containing the list of stories
      *                      and the total number of stories available.
      */
@@ -69,6 +71,7 @@ class HackerNews
      * @param int $offset The offset (index) from which to obtain the story
      *                    items
      * @param bool $forceCacheRefresh Force the cache to be refreshed?
+     *
      * @return mixed|object Returns an object containing the list of stories
      *                      and the total number of stories available.
      */
@@ -92,6 +95,7 @@ class HackerNews
      * @param int $offset The offset (index) from which to obtain the story
      *                    items
      * @param bool $forceCacheRefresh Force the cache to be refreshed?
+     *
      * @return mixed|object Returns an object containing the list of stories
      *                      and the total number of stories available.
      */
@@ -117,6 +121,7 @@ class HackerNews
      * @param int    $offset            The offset (index) from which to obtain
      *                                  the story items
      * @param bool   $forceCacheRefresh Force the cache to be refreshed?
+     *
      * @return mixed|object Returns an object containing the list of stories
      *                      and the total number of stories available.
      */
@@ -153,6 +158,7 @@ class HackerNews
      * @param int    $limit  The maximum number of stories
      * @param int    $offset The offset (index) from which to obtain the story
      *                       items
+     *
      * @return mixed|object Returns an object containing the list of stories
      *                      and the total number of stories available.
      */
@@ -172,6 +178,7 @@ class HackerNews
      * from local db.
      *
      * @param int|null $id The story identifier
+     *
      * @return object|null Returns and object containing the story details and
      * comments
      */
@@ -191,6 +198,7 @@ class HackerNews
      * Appends comments, and child comments to a story.
      *
      * @param object $story The story details
+     *
      * @return object Returns and object containing the story details and
      * comments
      */
@@ -210,6 +218,7 @@ class HackerNews
      * Attaches all comments and child comments, using recursion.
      *
      * @param array<int> $ids An array with the id of the comments
+     *
      * @return array Returns the full list of comments
      */
     protected function comments($ids)

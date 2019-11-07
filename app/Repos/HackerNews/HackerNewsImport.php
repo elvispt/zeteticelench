@@ -36,6 +36,7 @@ class HackerNewsImport
 
     /**
      * Sets the list of best stories ids into a queue
+     *
      * @param HnApi $hnApi
      */
     public function importBest(HnApi $hnApi): void

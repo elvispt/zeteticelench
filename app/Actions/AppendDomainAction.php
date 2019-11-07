@@ -12,6 +12,7 @@ class AppendDomainAction
      * domain as a new property to the story object.
      *
      * @param array|LengthAwarePaginator $stories The list of stories to process
+     *
      * @return array|LengthAwarePaginator The list of stories with the domain
      * added to each story
      */

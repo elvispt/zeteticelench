@@ -24,7 +24,7 @@ class MovementsController extends Controller
             ->first()
         ;
         $movements = new Movements();
-        $movementsGroupedByDate = $movements->movementsGroupedByDate($account);
+        $movementsGroupedByDate = $movements->movementsGroupedByDay($account);
 
         return View::make('expenses/movements', [
             'title' => 'expenses.movements_list',

@@ -19,6 +19,7 @@ class PruneLogs
      * Obtains the file list to be deleted.
      *
      * @param int $daysOld Files older than the number of days defined here.
+     *
      * @return Collection Returns all files older than $daysOld
      */
     public function filesToBeDeleted($daysOld = 2): Collection
@@ -40,12 +41,13 @@ class PruneLogs
      * Deletes the provided file paths from disk.
      *
      * @param Collection $files The files metadata.
+     *
      * @return bool Returns true on success, false otherwise.
      */
     public function deleteFiles(Collection $files): bool
     {
         $filePathsToDelete = $files
-            ->map(function ($file) {
+            ->map(static function ($file) {
                 return $file['path'];
             })
             ->values()

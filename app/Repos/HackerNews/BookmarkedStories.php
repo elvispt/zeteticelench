@@ -15,6 +15,7 @@ class BookmarkedStories
      * @param int      $limit The maximum number of stories to show
      * @param int      $offset The offset of list of stories
      * @param int|null $userId The identifier of the user
+     *
      * @return object Returns an object contained the total number of stories
      *                and the stories.
      */
@@ -40,6 +41,7 @@ class BookmarkedStories
      *
      * @param int $hackerNewsItemId The identifier of the story
      * @param int $userId           The identifier of the user
+     *
      * @return int Returns the id of hacker_news_items_bookmarks
      */
     public function bookmarkStory(int $hackerNewsItemId, int $userId): int
@@ -75,6 +77,7 @@ class BookmarkedStories
      *
      * @param int $hackerNewsItemId The identifier of the story.
      * @param int $userId           The identifier of the user.
+     *
      * @return bool Returns true on success, false otherwise.
      */
     public function destroyBookmarkedStory(
