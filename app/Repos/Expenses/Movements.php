@@ -4,10 +4,17 @@ namespace App\Repos\Expenses;
 
 use App\Models\Account;
 use App\Models\Movement;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use stdClass;
 
 class Movements
 {
+    public const CREDIT = 'CREDIT';
+    public const DEBIT = 'DEBIT';
+
     /**
      * Returns an object with the list of expenses
      *
@@ -38,5 +45,50 @@ class Movements
             $m->total += $movement->amount;
             return $m;
         }, $m);
+    }
+
+    public function add(Collection $validated, int $accountId): bool
+    {
+        $movement = new Movement();
+        $movement->account_id = $accountId;
+        $creditDebit = $validated->get('credit-debit');
+        $amount = $validated->get('amount');
+        if ($creditDebit == static::DEBIT) {
+            $amount = -1 * ($amount);
+        }
+        $movement->amount = $amount;
+        $movement->description = $validated->get('description');
+        $date = $validated->get('date');
+        $time = $validated->get('time');
+        $amountDate = Carbon::createFromFormat(
+            'Y-m-d H:i',
+            "$date $time"
+        );
+        $movement->amount_date = $amountDate;
+
+        $result = false;
+        try {
+            $result = $movement->save();
+        } catch (QueryException $exception) {
+            $result = false;
+            Log::error(
+                "Could not store movement",
+                [
+                    'eMessage' => $exception->getMessage(),
+                    'validated' => print_r($validated, true),
+                    'accountId' => $accountId,
+                ]
+            );
+        } catch (\Exception $exception) {
+            Log::error(
+                "Could not store movement",
+                [
+                    'eMessage' => $exception->getMessage(),
+                    'validated' => print_r($validated, true),
+                    'accountId' => $accountId,
+                ]
+            );
+        }
+        return $result;
     }
 }

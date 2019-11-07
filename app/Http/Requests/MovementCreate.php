@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Controllers\Expenses\MovementsController;
+use App\Repos\Expenses\Movements;
 use Illuminate\Validation\Rule;
 
 class MovementCreate extends BaseFormRequest
@@ -35,8 +35,8 @@ class MovementCreate extends BaseFormRequest
             'credit-debit' => [
                 'required',
                 Rule::in([
-                    MovementsController::CREDIT,
-                    MovementsController::DEBIT
+                    Movements::CREDIT,
+                    Movements::DEBIT
                 ]),
             ]
         ];
