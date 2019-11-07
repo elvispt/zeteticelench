@@ -35,6 +35,7 @@ class Calendarific
      * @param string|null     $year     Optional. The year of the holidays.
      * @param string          $country  Optional. The country code.
      * @param string          $location Optional. The region name.
+     *
      * @return array Returns the holidays
      */
     public function holidays(
@@ -72,6 +73,7 @@ class Calendarific
      *
      * @param array $holidays             The holidays list
      * @param int   $numberOfNextHolidays The number of next holidays to obtain
+     *
      * @return array Returns the next holidays
      */
     public function getNextHolidays($holidays = [], $numberOfNextHolidays = 3)
@@ -94,6 +96,7 @@ class Calendarific
      * @param string $year     Year of the holidays
      * @param string $country  Country of the holidays
      * @param string $location The location of the holidays
+     *
      * @return string Returns the generated cache key.
      */
     protected function cacheKey(

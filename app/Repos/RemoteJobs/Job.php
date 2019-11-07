@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 class Job
 {
     /**
-     * @var
+     * @var int
      */
     public $id;
 

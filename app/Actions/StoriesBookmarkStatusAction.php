@@ -12,6 +12,7 @@ class StoriesBookmarkStatusAction
      * currently logged in user
      *
      * @param array|LengthAwarePaginator $stories The list of stories to process
+     *
      * @return array|LengthAwarePaginator The list of stories with the bookmark
      * status added to each story
      */

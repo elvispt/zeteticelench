@@ -61,9 +61,7 @@ class Note extends Model
         }
 
         $commonMarkConverter = new CommonMarkConverter();
-        $output = $commonMarkConverter->convertToHtml($body);
-
-        return $output;
+        return $commonMarkConverter->convertToHtml($body);
     }
 
     public function extractTitle(): string

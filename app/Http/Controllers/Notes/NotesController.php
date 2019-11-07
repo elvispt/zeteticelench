@@ -24,6 +24,7 @@ class NotesController extends Controller
      * Shows the list of notes
      *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
@@ -40,7 +41,7 @@ class NotesController extends Controller
                 ->orderBy('updated_at', 'DESC')
                 ->get();
         }
-        $notes = $notes->map(function (Note $note) {
+        $notes = $notes->map(static function (Note $note) {
             $note->tags;
             $parsed = (object) $note->toArray();
             $parsed->tags = (new Collection($parsed->tags))
@@ -63,6 +64,7 @@ class NotesController extends Controller
      *
      * @param Request $request
      * @param int     $id The note identifier
+     *
      * @return \Illuminate\Contracts\View\View|void
      */
     public function show(Request $request, $id)
@@ -94,6 +96,7 @@ class NotesController extends Controller
      * Shows the page for editing a note
      *
      * @param int|null $noteId The note identifier
+     *
      * @return \Illuminate\Contracts\View\View|void
      */
     public function edit($noteId = null)
@@ -123,6 +126,7 @@ class NotesController extends Controller
      *
      * @param NotesUpdate $request Validates the data sent
      * @param int|null    $noteId The note identifier
+     *
      * @return RedirectResponse|Redirector|void
      */
     public function update(NotesUpdate $request, $noteId)
@@ -169,6 +173,7 @@ class NotesController extends Controller
      * Adds the new note with the provided information.
      *
      * @param NotesUpdate $request Validates the data sent
+     *
      * @return RedirectResponse|Redirector
      */
     public function add(NotesUpdate $request)
@@ -192,6 +197,7 @@ class NotesController extends Controller
      * Deletes the note identified by the $noteId
      *
      * @param int $noteId The note identifier.
+     *
      * @return RedirectResponse|Redirector|void
      */
     public function destroy($noteId)
@@ -222,6 +228,7 @@ class NotesController extends Controller
      *
      * @param Request  $request
      * @param int|null $tagId Optional. The tag identifier.
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function tags(Request $request, $tagId = null)
@@ -261,6 +268,7 @@ class NotesController extends Controller
      * Creates a tag with the provided information.
      *
      * @param TagCreate $request Validates the tag data provided.
+     *
      * @return RedirectResponse|Redirector
      */
     public function tagAdd(TagCreate $request)

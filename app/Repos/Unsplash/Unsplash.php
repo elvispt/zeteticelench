@@ -28,6 +28,7 @@ class Unsplash
      * @param bool        $forceCacheRefresh Forcefully get a new image. When
      *                                       false it will always attempt to
      *                                       obtain first from cache.
+     *
      * @return object|null Returns the path (url) to the unsplash image and a
      *                     background color to use
      */
@@ -69,6 +70,7 @@ class Unsplash
      *
      * @param UnsplashApi $unsplashApi The unsplash api class, if requires to
      *                                 to make api requests
+     *
      * @return object|null Returns the path (url) to the unsplash image and a
      *                     background color to use
      */

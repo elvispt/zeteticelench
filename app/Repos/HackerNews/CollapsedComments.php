@@ -40,6 +40,7 @@ class CollapsedComments
      * Sets a comment that should be collapsed
      *
      * @param int $commentId The identifier of the comment
+     *
      * @return bool Returns true on success, false otherwise
      */
     public function collapse(int $commentId): bool
@@ -58,6 +59,7 @@ class CollapsedComments
      * Removes comment from the list of collapsed comments
      *
      * @param int $commentId The identifier of the comment
+     *
      * @return bool Returns true on success, false otherwise
      */
     public function removeCollapsed(int $commentId)
@@ -66,7 +68,7 @@ class CollapsedComments
         $collapsed = Cache::get($this->cacheKey);
         if (is_array($collapsed)) {
             $collapsed = (new Collection($collapsed))
-                ->filter(function ($id) use ($commentId) {
+                ->filter(static function ($id) use ($commentId) {
                     return $id !== $commentId;
                 })
                 ->values()

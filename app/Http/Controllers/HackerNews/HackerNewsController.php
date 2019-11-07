@@ -40,6 +40,7 @@ class HackerNewsController extends Controller
      * Shows the top hacker news posts. Has pagination.
      *
      * @param Request                     $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function top(Request $request)
@@ -63,6 +64,7 @@ class HackerNewsController extends Controller
      * Shows the best hacker news posts. Has pagination.
      *
      * @param Request                     $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function best(Request $request)
@@ -86,6 +88,7 @@ class HackerNewsController extends Controller
      * Shows the new hacker news posts. Has pagination.
      *
      * @param Request                     $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function newStories(Request $request)
@@ -109,6 +112,7 @@ class HackerNewsController extends Controller
      * Shows jobs posting from hacker news
      *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function jobs(Request $request)
@@ -132,6 +136,7 @@ class HackerNewsController extends Controller
      * Show bookmarked hacker news post
      *
      * @param Request                     $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function bookmarkList(Request $request)
@@ -161,6 +166,7 @@ class HackerNewsController extends Controller
      * In a POST request bookmarks the story for the currently logged in user
      *
      * @param HnBookmark $request Validates the data sent
+     *
      * @return JsonResponse
      */
     public function bookmarkAdd(HnBookmark $request): JsonResponse
@@ -177,6 +183,7 @@ class HackerNewsController extends Controller
      * In a POST request make a manual import of a story with its comments
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function bookmarkManualAdd(Request $request)
@@ -192,6 +199,7 @@ class HackerNewsController extends Controller
      * In a delete request remove the bookmarks for the currently logged in user
      *
      * @param HnBookmark $request Validates the data sent
+     *
      * @return JsonResponse
      */
     public function bookmarkDestroy(HnBookmark $request)
@@ -210,6 +218,7 @@ class HackerNewsController extends Controller
      * @param int                         $id The identifier of the hacker news story
      * @param AppendDomainAction          $appendDomainAction
      * @param StoriesBookmarkStatusAction $storiesBookmarkStatusAction
+     *
      * @return \Illuminate\Contracts\View\View|void
      */
     public function item(
@@ -244,6 +253,7 @@ class HackerNewsController extends Controller
      *
      * @param HnCollapseComment $request
      * @param int               $id The id of the parent story
+     *
      * @return JsonResponse|void
      */
     public function itemCommentCollapse(HnCollapseComment $request, $id)
@@ -267,6 +277,7 @@ class HackerNewsController extends Controller
      *
      * @param HnCollapseComment $request
      * @param int               $id The id of the parent story
+     *
      * @return JsonResponse|void
      */
     public function itemCommentRemoveCollapse(HnCollapseComment $request, $id)
@@ -290,6 +301,7 @@ class HackerNewsController extends Controller
      * per page.
      *
      * @param int $currentPage The current requested page.
+     *
      * @return int Returns the offset required to make requests to database.
      */
     protected function offset(int $currentPage)

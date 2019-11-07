@@ -111,6 +111,7 @@ class SysInfo
                 "Could not get check for queue worker status",
                 ['eMessage' => $exception->getMessage()]
             );
+            $output = [];
         }
         $outputCollection = new Collection($output);
         return $outputCollection->count();

@@ -32,6 +32,7 @@ class UsersController extends Controller
      * Shows the page for editing a single user
      *
      * @param int $id The user identifier
+     *
      * @return \Illuminate\Contracts\View\View|void
      */
     public function edit($id)
@@ -50,6 +51,7 @@ class UsersController extends Controller
      * Updates the user info according to provided data
      *
      * @param UserUpdate $request Validates the provided data
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UserUpdate $request)
@@ -78,6 +80,7 @@ class UsersController extends Controller
      * Creates a new user according to provided data
      *
      * @param UserCreate $request Validates provided user data
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function add(UserCreate $request)
@@ -96,7 +99,9 @@ class UsersController extends Controller
      * Deletes a single user along with it's associated notes.
      *
      * @param UserDestroy $request Validates that the user request exists.
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
      * @throws \Exception
      */
     public function destroy(UserDestroy $request)

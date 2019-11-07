@@ -76,6 +76,7 @@ class UnsplashApi
      * Parses the response to obtain path and background color
      *
      * @param ResponseInterface $response The response object from the API
+     *
      * @return object|null Returns the path (url) to the unsplash image and a
      *                     background color to use
      */
@@ -94,6 +95,7 @@ class UnsplashApi
      * Defines the headers for the request
      *
      * @param array|null $headers
+     *
      * @return array
      */
     protected function headers(?array $headers = null)
@@ -112,6 +114,7 @@ class UnsplashApi
      * Defines the query params for the request
      *
      * @param array|null $query
+     *
      * @return array
      */
     protected function query(?array $query = null): array

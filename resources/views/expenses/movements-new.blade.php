@@ -1,6 +1,3 @@
-<?php
-use \App\Http\Controllers\Expenses\MovementsController;
-?>
 @extends('layouts/app')
 
 @section('title') @lang($title) @endsection
@@ -29,28 +26,28 @@ use \App\Http\Controllers\Expenses\MovementsController;
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
             @php
             switch (old('credit-debit')) {
-              case MovementsController::CREDIT:
-                $val = MovementsController::CREDIT;
+              case \App\Repos\Expenses\Movements::CREDIT:
+                $val = \App\Repos\Expenses\Movements::CREDIT;
                 break;
-              case MovementsController::DEBIT:
+              case \App\Repos\Expenses\Movements::DEBIT:
               default:
-                $val = MovementsController::DEBIT;
+                $val = \App\Repos\Expenses\Movements::DEBIT;
             }
             @endphp
-            <label class="btn btn-primary {{ $val == MovementsController::DEBIT ? 'active' : '' }}">
+            <label class="btn btn-primary {{ $val == \App\Repos\Expenses\Movements::DEBIT ? 'active' : '' }}">
               <input type="radio"
                      name="credit-debit"
-                     value="{{ MovementsController::DEBIT }}"
+                     value="{{ \App\Repos\Expenses\Movements::DEBIT }}"
                      autocomplete="off"
-                     {{ $val == MovementsController::DEBIT ? 'checked' : '' }}
+                     {{ $val == \App\Repos\Expenses\Movements::DEBIT ? 'checked' : '' }}
               > @lang('expenses.debit')
             </label>
-            <label class="btn btn-primary {{ $val == MovementsController::CREDIT ? 'active' : '' }}">
+            <label class="btn btn-primary {{ $val == \App\Repos\Expenses\Movements::CREDIT ? 'active' : '' }}">
               <input type="radio"
                      name="credit-debit"
-                     value="{{ MovementsController::CREDIT }}"
+                     value="{{ \App\Repos\Expenses\Movements::CREDIT }}"
                      autocomplete="off"
-                     {{ $val == MovementsController::CREDIT ? 'checked' : '' }}
+                     {{ $val == \App\Repos\Expenses\Movements::CREDIT ? 'checked' : '' }}
               > @lang('expenses.credit')
             </label>
           </div>

@@ -39,6 +39,7 @@ class CalendarificApi
      * @param string $year     Year of the holidays
      * @param string $country  Country of the holidays
      * @param string $location Location of the holidays
+     *
      * @return mixed|null
      */
     public function getHolidays(
@@ -57,6 +58,7 @@ class CalendarificApi
      * @param string $year     Year of the holidays
      * @param string $country  Country of the holidays
      * @param string $location The location of the holidays
+     *
      * @return ResponseInterface|null Returns the response from the API
      */
     protected function holidaysApiRequest(
@@ -100,6 +102,7 @@ class CalendarificApi
      * Parses the calendarific api response
      *
      * @param ResponseInterface|null $response The response from the API.
+     *
      * @return mixed|null Returns the parsed response from the API
      */
     protected function parseApiResponse(?ResponseInterface $response = null)

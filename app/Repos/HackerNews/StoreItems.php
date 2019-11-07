@@ -66,6 +66,7 @@ class StoreItems
      * Parses and stores the given stories.
      *
      * @param array $stories The stories parsed from the HN API
+     *
      * @return int Returns the number of updated/created hn story items.
      */
     public function store($stories): int
@@ -118,6 +119,7 @@ class StoreItems
      *
      * @param int $id The id of the story
      * @param object $story The story info
+     *
      * @return HackerNewsItem Returns the model object
      */
     protected function getOrCreateModel($id, $story): HackerNewsItem
@@ -173,6 +175,7 @@ class StoreItems
      * validation rules
      *
      * @param array $data The array of data provided by the api
+     *
      * @return \Illuminate\Contracts\Validation\Validator Returns the validator
      *                                                    object.
      */
@@ -185,6 +188,7 @@ class StoreItems
      * Uses a validator instance to validate against defined validation rules
      *
      * @param Collection $collection
+     *
      * @return Collection Returns the validated data as a Collection.
      */
     protected function validate(Collection $collection): Collection
