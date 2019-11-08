@@ -7,6 +7,7 @@ use App\Http\Requests\NotesUpdate;
 use App\Http\Requests\TagCreate;
 use App\Models\Note;
 use App\Models\Tag;
+use App\Repos\Tags\TagType;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
@@ -113,6 +114,7 @@ class NotesController extends Controller
         }
         $tags = (new Tag())
             ->where('user_id', $userId)
+            ->where('type', TagType::NOTE)
             ->get()
         ;
         return View::make('notes/notes-edit', [
@@ -162,6 +164,7 @@ class NotesController extends Controller
         $userId = Auth::id();
         $tags = (new Tag())
             ->where('user_id', $userId)
+            ->where('type', TagType::NOTE)
             ->get()
         ;
         return View::make('notes/notes-new', [
@@ -237,6 +240,7 @@ class NotesController extends Controller
         $createdTag = $request->get('created');
         $tags = Tag::withCount('notes')
             ->where('user_id', $userId)
+            ->where('type', TagType::NOTE)
             ->orderBy('notes_count', 'desc')
             ->orderBy('id', 'DESC')
             ->get();
@@ -277,6 +281,7 @@ class NotesController extends Controller
         $tagName = Str::lower($validated->get('tag'));
 
         $tag = new Tag();
+        $tag->type = TagType::NOTE;
         $tag->user_id = Auth::id();
         $tag->tag = $tagName;
         $tag->save();
