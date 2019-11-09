@@ -147,4 +147,14 @@ return [
 
     'attributes' => [],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Rules Validation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | Here are language lines for custom rules (on App\Rules\)
+    |
+    */
+
+    'invalid_tag' => "Invalid tag identifier",
 ];
