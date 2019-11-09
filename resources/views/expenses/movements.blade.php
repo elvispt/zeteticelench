@@ -18,15 +18,19 @@
         @if (!empty($movementsGroupedByDate))
           <div class="jumbotron py-4 text-center">
             <h4 class="text-center">€ {{ $movementsGroupedByDate->total }}</h4>
-            <p class="lead">{{ $account->name }}</p>
-            <p>{{ $account->description }}</p>
+            @foreach($movementsGroupedByDate->totalAmountPerTag as $tagName => $total)
+              <div class="row">
+                <div class="col-6 text-right"><span class="badge badge-primary">{{ $tagName }}</span></div>
+                <div class="col-6 text-left">€ {{ $total }}</div>
+              </div>
+            @endforeach
           </div>
           @foreach ($movementsGroupedByDate->movements as $amountDate => $movements)
             <div class="list-group list-group-flush">
               <div class="list-group-item">
                 <div class="row">
-                  <div class="col-sm-2"><b>{{ $amountDate }}</b></div>
-                  <div class="col-sm-10">
+                  <div class="col-sm-3"><b>{{ $amountDate }}</b></div>
+                  <div class="col-sm-9">
                     @foreach($movements->movements as $movement)
                       <div class="row mb-1 {{ $loop->even ? 'bg-light' : '' }}" data-id="{{ $movement->id }}">
                         <div class="col-8">
@@ -37,6 +41,14 @@
                               {{ $movement->description }}
                             @endif
                           </div>
+                          @if ($movement->tags->isNotEmpty())
+                            <div>&nbsp;
+                              @foreach($movement->tags()->orderBy('tag')->get() as $tag)
+                                <span class="badge badge-primary"
+                                >{{ $tag->tag }}</span>
+                              @endforeach
+                            </div>
+                          @endif
                         </div>
                         <div class="col-4">
                           <div class="text-right text-nowrap">€ {{ $movement->amount }}</div>
@@ -46,7 +58,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="offset-sm-2 col-sm-10">
+                  <div class="offset-sm-3 col-sm-9">
                     <div class="text-right"><b>€ {{ $movements->total }}</b></div>
                   </div>
                 </div>

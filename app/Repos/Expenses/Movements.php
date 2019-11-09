@@ -4,6 +4,7 @@ namespace App\Repos\Expenses;
 
 use App\Models\Account;
 use App\Models\Movement;
+use App\Models\Tag;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -32,12 +33,24 @@ class Movements
         $movInfo = new stdClass();
         $movInfo->movements = [];
         $movInfo->total = 0;
+        $movInfo->totalAmountPerTag = [];
 
+        $movInfo = $this->totalAmountPerTag($movementsCollection, $movInfo);
         return $this->parseMovementsByDay($movementsCollection, $movInfo);
     }
 
-    protected function parseMovementsByDay(Collection $movementsCollection, stdClass $movInfo)
-    {
+    /**
+     * Grabs the list of movements and groups them by day
+     *
+     * @param Collection $movementsCollection
+     * @param stdClass   $movInfo
+     *
+     * @return mixed
+     */
+    protected function parseMovementsByDay(
+        Collection $movementsCollection,
+        stdClass $movInfo
+    ) {
         return $movementsCollection->reduce(static function (stdClass $movInfo, Movement $movement) {
             $amountDate = $movement->amount_date->format('Y-m-d');
             if (!array_key_exists($amountDate, $movInfo->movements)) {
@@ -95,5 +108,22 @@ class Movements
             );
         }
         return $result;
+    }
+
+    public function totalAmountPerTag(
+        Collection $movementsCollection,
+        stdClass $movInfo
+    ) {
+        return $movementsCollection->reduce(static function (stdClass $movInfo, Movement $movement) {
+            return $movement->tags->reduce(static function (stdClass$movInfo, Tag $tag) use ($movement) {
+                $tagName = $tag->tag;
+                if (!array_key_exists($tagName, $movInfo->totalAmountPerTag)) {
+                    $movInfo->totalAmountPerTag[$tagName] = 0;
+                }
+                $movInfo->totalAmountPerTag[$tagName] += $movement->amount;
+
+                return $movInfo;
+            }, $movInfo);
+        }, $movInfo);
     }
 }
