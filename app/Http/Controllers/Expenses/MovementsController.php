@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Expenses;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MovementCreate;
+use App\Models\Tag;
 use App\Repos\Expenses\Accounts;
 use App\Repos\Expenses\Movements;
+use App\Repos\Tags\TagType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -42,14 +44,21 @@ class MovementsController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
         $account = (new Accounts())
-            ->get(Auth::user())
+            ->get($user)
             ->first()
+        ;
+        $tags = (new Tag())
+            ->where('type', TagType::EXPENSE)
+            ->where('user_id', $user->id)
+            ->get()
         ;
 
         return View::make('expenses/movements-new', [
             'title' => 'expenses.movements_new',
             'account' => $account,
+            'tags' => $tags,
         ]);
     }
 

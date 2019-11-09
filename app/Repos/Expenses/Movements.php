@@ -107,6 +107,10 @@ class Movements
                 ]
             );
         }
+        $tags = $validated->get('tags', []);
+        if ($result ) {
+            $movement->tags()->sync($tags);
+        }
         return $result;
     }
 

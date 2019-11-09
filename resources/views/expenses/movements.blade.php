@@ -42,7 +42,7 @@
                             @endif
                           </div>
                           @if ($movement->tags->isNotEmpty())
-                            <div>&nbsp;
+                            <div>
                               @foreach($movement->tags()->orderBy('tag')->get() as $tag)
                                 <span class="badge badge-primary"
                                 >{{ $tag->tag }}</span>
