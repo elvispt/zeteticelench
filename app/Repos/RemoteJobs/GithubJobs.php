@@ -53,7 +53,7 @@ class GithubJobs implements RemoteJobsInterface
 
     protected function getFromCache($forceCacheRefresh = null)
     {
-        if ($forceCacheRefresh === static::FORCE_CACHE_REFRESH) {
+        if ($forceCacheRefresh === self::FORCE_CACHE_REFRESH) {
             Cache::forget($this->cacheKey);
             return null;
         }
@@ -94,6 +94,7 @@ class GithubJobs implements RemoteJobsInterface
      * Parses the github api response
      *
      * @param ResponseInterface|null $response The response from the API.
+     *
      * @return mixed|null Returns the parsed response from the API
      */
     protected function parseApiResponse(?ResponseInterface $response = null)
@@ -127,7 +128,7 @@ class GithubJobs implements RemoteJobsInterface
         }
 
         return (new Collection($apiParsedResponse))
-            ->map(function ($ghJob) {
+            ->map(static function ($ghJob) {
                 $job = new Job();
                 $job->source = 'gh';
                 $job->id = data_get($ghJob, 'id');

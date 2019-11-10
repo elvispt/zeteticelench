@@ -81,6 +81,7 @@ class MakeUser extends Command
      * @param string $name The name of the user
      * @param string $email The email of the user
      * @param string $password The password of the user
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(?string $name, ?string $email, ?string $password)
@@ -118,6 +119,7 @@ class MakeUser extends Command
      * @param string $name
      * @param string $email
      * @param string $password
+     *
      * @return User Returns the user model after storing into db.
      */
     protected function createUser(

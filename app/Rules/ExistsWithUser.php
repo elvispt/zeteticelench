@@ -12,15 +12,19 @@ class ExistsWithUser implements Rule
 
     protected $table;
 
+    protected $columnsValues;
+
     /**
      * Create a new rule instance.
      *
      * @param string $table
+     * @param array  $columnsValues Key should be column name
      */
-    public function __construct($table)
+    public function __construct($table, $columnsValues = [])
     {
         $this->table = $table;
         $this->userId = Auth::id();
+        $this->columnsValues = $columnsValues;
     }
 
     /**
@@ -28,14 +32,21 @@ class ExistsWithUser implements Rule
      *
      * @param  string  $attribute
      * @param  mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        return DB::table($this->table)
+        $check = DB::table($this->table)
             ->where('id', $value)
-            ->where('user_id', $this->userId)
-            ->exists();
+            ->where('user_id', $this->userId);
+        if (is_array($this->columnsValues) && count($this->columnsValues)) {
+            foreach ($this->columnsValues as $column => $value) {
+                $check = $check->where($column, $value);
+            }
+        }
+
+        return $check->exists();
     }
 
     /**
@@ -45,6 +56,6 @@ class ExistsWithUser implements Rule
      */
     public function message()
     {
-        return 'Invalid tag identifier';
+        return trans('validation.invalid_tag');
     }
 }

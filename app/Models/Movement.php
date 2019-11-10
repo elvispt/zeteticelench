@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Account $account
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Movement query()
@@ -42,5 +44,10 @@ class Movement extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

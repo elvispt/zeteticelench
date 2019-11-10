@@ -12,6 +12,7 @@ class Utils
      *
      * @param array      $unorderedStories
      * @param array<int> $orderOfStories
+     *
      * @return array Returns the list of stories sorted according to
      * $orderOfStories
      */

@@ -9,12 +9,12 @@ use Illuminate\Support\Str;
 
 class HackerNewsJobs implements RemoteJobsInterface
 {
-    public function jobs($forceCacheRefresh = null)
+    public function jobs($forceCacheRefresh = true)
     {
         $hackerNews = new HackerNews();
-        $hnJobs = $hackerNews->getJobStories(100, 0, true);
+        $hnJobs = $hackerNews->getJobStories(100, 0, $forceCacheRefresh);
         $needles = ['remote', 'Remote'];
-        $jobs = (new Collection($hnJobs->stories))
+        return (new Collection($hnJobs->stories))
             ->filter(static function ($hnJob) use ($needles) {
                 $title = data_get($hnJob, 'title');
                 return Str::contains($title, $needles);
@@ -24,8 +24,6 @@ class HackerNewsJobs implements RemoteJobsInterface
             })
             ->filter()
         ;
-
-        return $jobs;
     }
 
     protected function parseJob($hnJob)

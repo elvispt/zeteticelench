@@ -52,7 +52,7 @@ class Account extends Model
     public function balance()
     {
         $movements = $this->movements()->get();
-        return $movements->reduce(function ($carry, Movement $movement) {
+        return $movements->reduce(static function ($carry, Movement $movement) {
             return $carry + $movement->amount;
         }, 0);
     }
