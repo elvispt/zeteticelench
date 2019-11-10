@@ -10,9 +10,12 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int $user_id
+ * @property string $type
  * @property string $tag
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Movement[] $movements
+ * @property-read int|null $movements_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Note[] $notes
  * @property-read int|null $notes_count
  * @property-read \App\Models\User $user
@@ -22,6 +25,7 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereTag($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereUserId($value)
  * @mixin \Eloquent
@@ -31,6 +35,11 @@ class Tag extends Model
     public function notes()
     {
         return $this->belongsToMany(Note::class);
+    }
+
+    public function movements()
+    {
+        return $this->belongsToMany(Movement::class);
     }
 
     public function user()

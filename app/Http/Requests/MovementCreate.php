@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Repos\Expenses\Movements;
+use App\Repos\Tags\TagType;
+use App\Rules\ExistsWithUser;
 use Illuminate\Validation\Rule;
 
 class MovementCreate extends BaseFormRequest
@@ -38,7 +40,16 @@ class MovementCreate extends BaseFormRequest
                     Movements::CREDIT,
                     Movements::DEBIT
                 ]),
-            ]
+            ],
+            'tags' =>  [
+                'sometimes',
+                'array',
+                'nullable',
+            ],
+            'tags.*' => [
+                'sometimes',
+                new ExistsWithUser('tags', ['type' => TagType::EXPENSE]),
+            ],
         ];
     }
 }

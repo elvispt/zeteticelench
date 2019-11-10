@@ -4,8 +4,10 @@ namespace Tests\Feature\Controllers\HackerNews;
 
 use App\Models\Account;
 use App\Models\Movement;
+use App\Models\Tag;
 use App\Models\User;
 use App\Repos\Expenses\Movements;
+use App\Repos\Tags\TagType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -173,6 +175,26 @@ class MovementsControllerTest extends TestCase
              ->assertStatus(302);
     }
 
+    public function testCreateMovementFailsWithInvalidTags()
+    {
+        $user = factory(User::class)
+            ->create();
+
+        $this->actingAs($user)
+             ->post(
+                 route('movementsAdd'),
+                 [
+                     'date' => '2013-05-06',
+                     'time' => '14:01',
+                     'amount' => 95.32,
+                     'description' => 'Description feature test',
+                     'credit-debit' => Movements::DEBIT,
+                     'tags' => [9999, 2123]
+                 ]
+             )
+             ->assertStatus(302);
+    }
+
     public function testCreateMovement()
     {
         $user = factory(User::class)
@@ -181,6 +203,13 @@ class MovementsControllerTest extends TestCase
             ->create([
                 'deleted_at' => null,
             ]);
+        $tags = factory(Tag::class, 50)
+            ->create()
+            ->where('type', TagType::EXPENSE)
+            ->pluck('id')
+            ->random(2)
+            ->toArray()
+        ;
 
         $date = '2016-06-11';
         $time = '14:01';
@@ -195,6 +224,7 @@ class MovementsControllerTest extends TestCase
                      'amount' => $amount,
                      'description' => $description,
                      'credit-debit' => Movements::DEBIT,
+                     'tags' => $tags,
                  ]
              )
              ->assertRedirect(route('movements'));
@@ -205,5 +235,18 @@ class MovementsControllerTest extends TestCase
             'description' => $description,
             'amount_date' => "$date $time",
         ]);
+        $id = (new Movement())
+            ->select('id')
+            ->where('account_id', $account->id)
+            ->orderBy('id', 'DESC')
+            ->first()
+            ->pluck('id');
+
+        foreach ($tags as $tagId) {
+            $this->assertDatabaseHas('movement_tag', [
+                'movement_id' => $id,
+                'tag_id' => $tagId,
+            ]);
+        }
     }
 }

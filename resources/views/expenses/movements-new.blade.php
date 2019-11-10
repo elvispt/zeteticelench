@@ -12,44 +12,41 @@
           <div class="alert alert-danger" role="alert">
             @lang('expenses.no_accounts_exist')
           </div>
-        @else
-          {{ setlocale(LC_MONETARY, 'pt_PT') }}
-          <h4>{{ $account->name }}
-          <small><span class="text-right">€ {{ number_format($account->balance(), 2, '.', ' ') }}</span></small></h4>
         @endif
 
         <br>
 
         <form method="POST" action="{{ route('movementsAdd') }}">
           @csrf
-
-          <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            @php
-            switch (old('credit-debit')) {
-              case \App\Repos\Expenses\Movements::CREDIT:
-                $val = \App\Repos\Expenses\Movements::CREDIT;
-                break;
-              case \App\Repos\Expenses\Movements::DEBIT:
-              default:
-                $val = \App\Repos\Expenses\Movements::DEBIT;
-            }
-            @endphp
-            <label class="btn btn-primary {{ $val == \App\Repos\Expenses\Movements::DEBIT ? 'active' : '' }}">
-              <input type="radio"
-                     name="credit-debit"
-                     value="{{ \App\Repos\Expenses\Movements::DEBIT }}"
-                     autocomplete="off"
-                     {{ $val == \App\Repos\Expenses\Movements::DEBIT ? 'checked' : '' }}
-              > @lang('expenses.debit')
-            </label>
-            <label class="btn btn-primary {{ $val == \App\Repos\Expenses\Movements::CREDIT ? 'active' : '' }}">
-              <input type="radio"
-                     name="credit-debit"
-                     value="{{ \App\Repos\Expenses\Movements::CREDIT }}"
-                     autocomplete="off"
-                     {{ $val == \App\Repos\Expenses\Movements::CREDIT ? 'checked' : '' }}
-              > @lang('expenses.credit')
-            </label>
+          <div class="form-group text-center">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              @php
+              switch (old('credit-debit')) {
+                case \App\Repos\Expenses\Movements::CREDIT:
+                  $val = \App\Repos\Expenses\Movements::CREDIT;
+                  break;
+                case \App\Repos\Expenses\Movements::DEBIT:
+                default:
+                  $val = \App\Repos\Expenses\Movements::DEBIT;
+              }
+              @endphp
+              <label class="btn px-4 btn-outline-primary {{ $val == \App\Repos\Expenses\Movements::DEBIT ? 'active' : '' }}">
+                <input type="radio"
+                       name="credit-debit"
+                       value="{{ \App\Repos\Expenses\Movements::DEBIT }}"
+                       autocomplete="off"
+                       {{ $val == \App\Repos\Expenses\Movements::DEBIT ? 'checked' : '' }}
+                > @lang('expenses.debit')
+              </label>
+              <label class="btn px-4 btn-outline-primary {{ $val == \App\Repos\Expenses\Movements::CREDIT ? 'active' : '' }}">
+                <input type="radio"
+                       name="credit-debit"
+                       value="{{ \App\Repos\Expenses\Movements::CREDIT }}"
+                       autocomplete="off"
+                       {{ $val == \App\Repos\Expenses\Movements::CREDIT ? 'checked' : '' }}
+                > @lang('expenses.credit')
+              </label>
+            </div>
           </div>
 
           <div class="form-row">
@@ -84,6 +81,24 @@
               name="description"
               rows="3">{{ old('description') }}</textarea>
           </div>
+
+          <div class="form-group">
+            <div class="form-row">
+              @foreach($tags as $tag)
+                <div class="btn-group btn-group-toggle col-6 col-sm-4 col-md-3 col-lg-2 mb-1" data-toggle="buttons">
+                  <label class="btn btn-outline-secondary {{ in_array($tag->id, old('tags', [])) ? 'active' : '' }}">
+                    <input type="checkbox"
+                           name="tags[]"
+                           value="{{$tag->id }}"
+                           autocomplete="off"
+                           {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}
+                    > {{ $tag->tag }}
+                  </label>
+                </div>
+              @endforeach
+            </div>
+          </div>
+
           <div class="form-group">
             <label for="amount">@lang('expenses.amount')</label>
             <input type="number"
