@@ -1,6 +1,17 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.10.0 <2019-11-10>
+- Movements now have a tag.
+  - A total of expenses per tag is now shown on the movements page.
+  - Tags now have a type that can either be: `NOTE` or `EXPENSE`.
+- Rule ExistsWithUser now accepts other columns to check against, and its
+corresponding value.
+- Added feature tests for AccountsController and MovementsController.
+- Updated several php dependencies to most recent versions.
+- Bump phpunit/phpunit from 8.4.2 to 8.4.3
+[#270](https://github.com/elvispt/zeteticelench/pull/270).
+
 ### 1.9.2 <2019-11-06>
 - Now grouping expenses by day.
 - Now showin the total amount of expenses by day.
