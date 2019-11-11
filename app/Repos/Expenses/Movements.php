@@ -5,6 +5,8 @@ namespace App\Repos\Expenses;
 use App\Models\Account;
 use App\Models\Movement;
 use App\Models\Tag;
+use App\Models\User;
+use App\Repos\Tags\TagType;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -142,4 +144,19 @@ class Movements
             ->toArray();
     }
 
+    /**
+     * Get tags for expenses attached to the given user
+     *
+     * @param User $user The user's model
+     *
+     * @return Collection<Tag>
+     */
+    public function getUserTags(User $user): Collection
+    {
+        return (new Tag())
+            ->where('type', TagType::EXPENSE)
+            ->where('user_id', $user->id)
+            ->get()
+        ;
+    }
 }
