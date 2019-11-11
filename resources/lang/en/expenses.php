@@ -20,4 +20,5 @@ return [
     'credit' => "CREDIT",
     'failed_to_add_movement' => "An error occured when storing expense. Please try again",
     'no_accounts_exist' => "No accounts exists for the current user.",
+    'movements_new' => "Add expense",
 ];
