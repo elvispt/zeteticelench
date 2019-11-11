@@ -52,7 +52,7 @@ class Tag extends Model
         return $this
             ->get()
             ->reduce(static function (int $carry, Tag $tag) use ($olderThan) {
-                if ($tag->notes->isEmpty()
+                if ($tag->notes->isEmpty() && $tag->movements->isEmpty()
                     && $tag->created_at->lessThan(Carbon::make($olderThan))) {
                     return $tag->delete() ? $carry + 1 : $carry;
                 }

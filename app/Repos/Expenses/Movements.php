@@ -118,7 +118,7 @@ class Movements
         Collection $movementsCollection,
         stdClass $movInfo
     ) {
-        return $movementsCollection->reduce(static function (stdClass $movInfo, Movement $movement) {
+        $movInfo = $movementsCollection->reduce(static function (stdClass $movInfo, Movement $movement) {
             return $movement->tags->reduce(static function (stdClass$movInfo, Tag $tag) use ($movement) {
                 $tagName = $tag->tag;
                 if (!array_key_exists($tagName, $movInfo->totalAmountPerTag)) {
@@ -129,5 +129,17 @@ class Movements
                 return $movInfo;
             }, $movInfo);
         }, $movInfo);
+
+        $movInfo->totalAmountPerTag = $this->sortTagAmounts($movInfo->totalAmountPerTag);
+
+        return $movInfo;
     }
+
+    protected function sortTagAmounts($totalAmountPerTag)
+    {
+        return (new Collection($totalAmountPerTag))
+            ->sort()
+            ->toArray();
+    }
+
 }
