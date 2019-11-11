@@ -1,6 +1,14 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.10.1 <2019-11-11>
+- Fix issue where the staleTags commands was removing expense tags from the
+database.
+- Sort tag expenses by the highest value
+[#277](https://github.com/elvispt/zeteticelench/issues/277).
+- Add missing translation for expense creation page
+[#276](https://github.com/elvispt/zeteticelench/issues/276).
+
 ### 1.10.0 <2019-11-10>
 - Movements now have a tag.
   - A total of expenses per tag is now shown on the movements page.
