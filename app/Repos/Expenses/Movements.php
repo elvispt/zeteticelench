@@ -30,14 +30,14 @@ class Movements
         $movementsCollection = $account
             ->movements()
             ->orderBy('amount_date', 'DESC')
-            ->get()
-        ;
+            ->get();
         $movInfo = new stdClass();
         $movInfo->movements = [];
         $movInfo->total = 0;
         $movInfo->totalAmountPerTag = [];
 
         $movInfo = $this->totalAmountPerTag($movementsCollection, $movInfo);
+
         return $this->parseMovementsByDay($movementsCollection, $movInfo);
     }
 
@@ -53,9 +53,12 @@ class Movements
         Collection $movementsCollection,
         stdClass $movInfo
     ) {
-        return $movementsCollection->reduce(static function (stdClass $movInfo, Movement $movement) {
+        return $movementsCollection->reduce(static function (
+            stdClass $movInfo,
+            Movement $movement
+        ) {
             $amountDate = $movement->amount_date->format('Y-m-d');
-            if (!array_key_exists($amountDate, $movInfo->movements)) {
+            if ( ! array_key_exists($amountDate, $movInfo->movements)) {
                 $movInfo->movements[$amountDate] = new stdClass();
                 $movInfo->movements[$amountDate]->movements = [];
                 $movInfo->movements[$amountDate]->total = 0;
@@ -63,6 +66,7 @@ class Movements
             $movInfo->movements[$amountDate]->movements[] = $movement;
             $movInfo->movements[$amountDate]->total += $movement->amount;
             $movInfo->total += $movement->amount;
+
             return $movInfo;
         }, $movInfo);
     }
@@ -110,9 +114,10 @@ class Movements
             );
         }
         $tags = $validated->get('tags', []);
-        if ($result ) {
+        if ($result) {
             $movement->tags()->sync($tags);
         }
+
         return $result;
     }
 
@@ -120,10 +125,18 @@ class Movements
         Collection $movementsCollection,
         stdClass $movInfo
     ) {
-        $movInfo = $movementsCollection->reduce(static function (stdClass $movInfo, Movement $movement) {
-            return $movement->tags->reduce(static function (stdClass$movInfo, Tag $tag) use ($movement) {
+        $movInfo = $movementsCollection->reduce(static function (
+            stdClass $movInfo,
+            Movement $movement
+        ) {
+            return $movement->tags->reduce(static function (
+                stdClass $movInfo,
+                Tag $tag
+            ) use ($movement) {
                 $tagName = $tag->tag;
-                if (!array_key_exists($tagName, $movInfo->totalAmountPerTag)) {
+                if ( ! array_key_exists($tagName,
+                    $movInfo->totalAmountPerTag)
+                ) {
                     $movInfo->totalAmountPerTag[$tagName] = 0;
                 }
                 $movInfo->totalAmountPerTag[$tagName] += $movement->amount;
@@ -132,7 +145,8 @@ class Movements
             }, $movInfo);
         }, $movInfo);
 
-        $movInfo->totalAmountPerTag = $this->sortTagAmounts($movInfo->totalAmountPerTag);
+        $movInfo->totalAmountPerTag
+            = $this->sortTagAmounts($movInfo->totalAmountPerTag);
 
         return $movInfo;
     }
@@ -156,7 +170,74 @@ class Movements
         return (new Tag())
             ->where('type', TagType::EXPENSE)
             ->where('user_id', $user->id)
-            ->get()
+            ->get();
+    }
+
+    /**
+     * @param User $user
+     * @param      $id
+     *
+     * @return Movement|null
+     */
+    public function getUserMovement(User $user, $id)
+    {
+        $accountIds = (new Accounts())
+            ->get($user)
+            ->pluck('id')
+            ->toArray();
+
+        return (new Movement())
+            ->where('id', $id)
+            ->whereIn('account_id', $accountIds)
+            ->first();
+    }
+
+    public function update(Collection $validated): bool
+    {
+        $movement = (new Movement())
+            ->where('id', $validated->get('id'))
+            ->first()
         ;
+        if (!$movement) {
+            return false;
+        }
+
+        $movement->amount = $validated->get('amount');
+        $movement->description = $validated->get('description');
+        $date = $validated->get('date');
+        $time = $validated->get('time');
+        $amountDate = Carbon::createFromFormat(
+            'Y-m-d H:i',
+            "$date $time"
+        );
+        $movement->amount_date = $amountDate;
+
+        $result = false;
+        try {
+            $result = $movement->save();
+        } catch (QueryException $exception) {
+            $result = false;
+            Log::error(
+                "Could not store movement",
+                [
+                    'eMessage' => $exception->getMessage(),
+                    'validated' => print_r($validated, true),
+                ]
+            );
+        } catch (\Exception $exception) {
+            Log::error(
+                "Could not store movement",
+                [
+                    'eMessage' => $exception->getMessage(),
+                    'validated' => print_r($validated, true),
+                ]
+            );
+        }
+        $tags = $validated->get('tags', []);
+        if ($result) {
+            $movement->tags()->sync($tags);
+        }
+
+        return $result;
     }
 }
