@@ -55,10 +55,25 @@ class MovementsControllerTest extends TestCase
         $user = factory(User::class)
             ->create();
 
-        factory(Account::class, 10)
+        factory(Account::class, 3)
+            ->create([
+                'deleted_at' => null,
+            ]);
+        $movements = factory(Movement::class, 30)
             ->create();
-        factory(Movement::class, 100)
+        $tags = factory(Tag::class, 20)
             ->create();
+        $expenseTags = $tags->where('type', TagType::EXPENSE);
+
+        $movements
+            ->random(10)
+            ->each(static function (Movement $movement) use ($expenseTags) {
+                $tagIds = $expenseTags
+                    ->random(mt_rand(1, $expenseTags->count()))
+                    ->pluck('id')
+                    ->toArray();
+                $movement->tags()->sync($tagIds);
+            });
 
         $this
             ->actingAs($user)
