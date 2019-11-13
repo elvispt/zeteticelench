@@ -81,6 +81,13 @@ class MovementsController extends Controller
         return redirect(route('movements'));
     }
 
+    /**
+     * Show page for editing a movement
+     *
+     * @param null $id
+     *
+     * @return \Illuminate\Contracts\View\View|void
+     */
     public function edit($id = null)
     {
         $user = Auth::user();
@@ -100,6 +107,13 @@ class MovementsController extends Controller
         ]);
     }
 
+    /**
+     * Update a movement
+     *
+     * @param MovementUpdate $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function update(MovementUpdate $request)
     {
         $validated = new Collection($request->validated());
