@@ -34,12 +34,10 @@
                     @foreach($movements->movements as $movement)
                       <div class="row mb-1 {{ $loop->even ? 'bg-light' : '' }}" data-id="{{ $movement->id }}">
                         <div class="col-8">
-                          <div class="text-truncate text-secondary">
-                            @if (empty($movement->description))
-                              *
-                            @else
-                              {{ $movement->description }}
-                            @endif
+                          <div class="text-truncate">
+                            <a class="d-block text-decoration-none"
+                               href="{{ route('movementsEdit', ['id' => $movement->id]) }}"
+                            >{{ $movement->description ?? '*'  }}</a>
                           </div>
                           @if ($movement->tags->isNotEmpty())
                             <div>
