@@ -1,6 +1,22 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.11.0 <2019-11-14>
+- Now able to edit a movement
+[#279](https://github.com/elvispt/zeteticelench/issues/279).
+- Updated `movements` table so that an update would not change the
+`amount_date` field automatically.
+- Updated feature tests for movements controller.
+- Refactored to reduce code duplication.
+- Bump laravel/framework from 6.5.0 to 6.5.1
+[#283](https://github.com/elvispt/zeteticelench/pull/283).
+- Bump sentry/sentry-laravel from 1.4.1 to 1.5.0
+[#280](https://github.com/elvispt/zeteticelench/pull/280).
+- Bump league/commonmark from 1.1.0 to 1.1.1
+[#281](https://github.com/elvispt/zeteticelench/pull/281).
+- [Security] Bump symfony/cache from 4.3.6 to 4.3.8
+[#284](https://github.com/elvispt/zeteticelench/pull/284).
+
 ### 1.10.1 <2019-11-11>
 - Fix issue where the staleTags commands was removing expense tags from the
 database.
