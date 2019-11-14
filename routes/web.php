@@ -147,6 +147,11 @@ Route::namespace('Expenses')
          Route::post('/create', [MovementsController::class, 'add'])
               ->name('movementsAdd');
 
+         Route::get('/edit/{id}', [MovementsController::class, 'edit'])
+              ->name('movementsEdit');
+
+         Route::put('/update', [MovementsController::class, 'update'])
+              ->name('movementsUpdate');
      });
 
 Auth::routes(['register' => false]);

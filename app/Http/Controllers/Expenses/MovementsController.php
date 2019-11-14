@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Expenses;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MovementCreate;
-use App\Models\Tag;
+use App\Http\Requests\MovementUpdate;
 use App\Repos\Expenses\Accounts;
 use App\Repos\Expenses\Movements;
-use App\Repos\Tags\TagType;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -49,11 +48,8 @@ class MovementsController extends Controller
             ->get($user)
             ->first()
         ;
-        $tags = (new Tag())
-            ->where('type', TagType::EXPENSE)
-            ->where('user_id', $user->id)
-            ->get()
-        ;
+        $movements = new Movements();
+        $tags = $movements->getUserTags($user);
 
         return View::make('expenses/movements-new', [
             'title' => 'expenses.movements_new',
@@ -81,6 +77,51 @@ class MovementsController extends Controller
         if (!$success) {
             return back()
                 ->withErrors([trans('expenses.failed_to_add_movement')]);
+        }
+        return redirect(route('movements'));
+    }
+
+    /**
+     * Show page for editing a movement
+     *
+     * @param null $id
+     *
+     * @return \Illuminate\Contracts\View\View|void
+     */
+    public function edit($id = null)
+    {
+        $user = Auth::user();
+        $movements = new Movements();
+        $movement = $movements->getUserMovement($user, $id);
+        if (!$movement) {
+            return abort(404);
+        }
+        $tags = $movements->getUserTags($user);
+        $movementTags = $movement->tags->pluck('id')->toArray();
+
+        return View::make('expenses/movements-edit', [
+            'title' => 'expenses.movements_edit',
+            'movement' => $movement,
+            'movementTags' => $movementTags,
+            'tags' => $tags,
+        ]);
+    }
+
+    /**
+     * Update a movement
+     *
+     * @param MovementUpdate $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update(MovementUpdate $request)
+    {
+        $validated = new Collection($request->validated());
+        $movements = new Movements();
+        $success = $movements->update($validated);
+        if (!$success) {
+            return back()
+                ->withErrors([trans('expenses.failed_to_update_movement')]);
         }
         return redirect(route('movements'));
     }
