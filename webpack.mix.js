@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
 
 mix.js('resources/js/mods/bookmark.js', 'public/js/mods');
 mix.js('resources/js/mods/collapse.js', 'public/js/mods');
+mix.js('resources/js/mods/expenses-tags.js', 'public/js/mods');
 
 if (mix.inProduction()) {
   mix.version();

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Expenses;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MovementCreate;
+use App\Http\Requests\MovementListing;
 use App\Http\Requests\MovementUpdate;
 use App\Repos\Expenses\Accounts;
 use App\Repos\Expenses\Movements;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -16,10 +18,13 @@ class MovementsController extends Controller
     /**
      * Shows page with movements for the first account
      *
+     * @param MovementListing $request
+     *
      * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(MovementListing $request)
     {
+        $filters = new Collection($request->validated());
         $account = (new Accounts())
             ->get(Auth::user())
             ->first()
@@ -27,13 +32,45 @@ class MovementsController extends Controller
         $movementsGroupedByDate = null;
         if ($account) {
             $movements = new Movements();
-            $movementsGroupedByDate = $movements->movementsGroupedByDay($account);
+            $movementsGroupedByDate = $movements
+                ->movementsGroupedByDay(
+                    $account,
+                    $filters
+                );
         }
+
+        $filters = $this->filtersDefauls($filters);
         return View::make('expenses/movements', [
             'title' => 'expenses.movements_list',
             'account' => $account,
             'movementsGroupedByDate' => $movementsGroupedByDate,
+            'filters' => $filters,
         ]);
+    }
+
+    protected function filtersDefauls(Collection $filters): Collection
+    {
+        $from = $filters->get('fromDate');
+        if (!$from) {
+            $from = Carbon::now()
+                ->startOfDay()
+                ->startOfMonth()
+                ->format('Y-m-d')
+            ;
+        }
+        $filters->put('fromDate', $from);
+
+        $to = $filters->get('toDate');
+        if (!$to) {
+            $to = Carbon::now()
+                ->endOfDay()
+                ->endOfMonth()
+                ->format('Y-m-d')
+            ;
+        }
+        $filters->put('toDate', $to);
+
+        return $filters;
     }
 
     /**
