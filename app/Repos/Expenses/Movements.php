@@ -7,6 +7,7 @@ use App\Models\Movement;
 use App\Models\Tag;
 use App\Models\User;
 use App\Repos\Tags\TagType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -21,16 +22,34 @@ class Movements
     /**
      * Returns an object with the list of expenses
      *
-     * @param Account $account The account from which to get the expenses from
+     * @param Account    $account The account from which to get the expenses from
+     * @param Collection $filters
      *
      * @return mixed
      */
-    public function movementsGroupedByDay(Account $account)
-    {
-        $movementsCollection = $account
-            ->movements()
+    public function movementsGroupedByDay(
+        Account $account,
+        Collection $filters
+    ) {
+        $tags = $filters->get('tags');
+        if ($tags) {
+            $movements = Movement::whereHas(
+                'tags',
+                function (Builder $query) use ($tags) {
+                    $query->whereIn('movement_tag.tag_id', $tags);
+                });
+        } else {
+            $movements = Movement::with('tags');
+        }
+        [$fromDate, $toDate] = $this->parseDates($filters);
+        $movements
+            ->where('account_id', $account->id)
+            ->whereBetween('amount_date', [$fromDate, $toDate])
             ->orderBy('amount_date', 'DESC')
-            ->get();
+        ;
+
+        $movementsCollection = $movements->get();
+
         $movInfo = new stdClass();
         $movInfo->movements = [];
         $movInfo->total = 0;
@@ -39,6 +58,29 @@ class Movements
         $movInfo = $this->totalAmountPerTag($movementsCollection, $movInfo);
 
         return $this->parseMovementsByDay($movementsCollection, $movInfo);
+    }
+
+    protected function parseDates(Collection $filters): array {
+        $fromDate = $filters->get('fromDate');
+        $toDate = $filters->get('toDate');
+        if ($fromDate) {
+            $from = Carbon::createFromFormat('Y-m-d', $fromDate)
+                ->startOfDay();
+        } else {
+            $from = Carbon::now()
+                ->startOfDay()
+                ->startOfMonth();
+        }
+        if ($toDate) {
+            $to = Carbon::createFromFormat('Y-m-d', $toDate)
+                ->endOfDay();
+        } else {
+            $to = Carbon::now()
+                ->endOfDay()
+                ->endOfMonth();
+        }
+
+        return [$from, $to];
     }
 
     /**
@@ -108,7 +150,7 @@ class Movements
      *
      * @return mixed|stdClass
      */
-    public function totalAmountPerTag(
+    protected function totalAmountPerTag(
         Collection $movementsCollection,
         stdClass $movInfo
     ) {
@@ -120,13 +162,15 @@ class Movements
                 stdClass $movInfo,
                 Tag $tag
             ) use ($movement) {
-                $tagName = $tag->tag;
-                if ( ! array_key_exists($tagName,
-                    $movInfo->totalAmountPerTag)
-                ) {
-                    $movInfo->totalAmountPerTag[$tagName] = 0;
+                $id = $tag->id;
+                if (!array_key_exists($id, $movInfo->totalAmountPerTag)) {
+                    $movInfo->totalAmountPerTag[$id] = (object) [
+                        'id' => $id,
+                        'name' => $tag->tag,
+                        'amount' => 0,
+                    ];
                 }
-                $movInfo->totalAmountPerTag[$tagName] += $movement->amount;
+                $movInfo->totalAmountPerTag[$id]->amount += $movement->amount;
 
                 return $movInfo;
             }, $movInfo);
@@ -148,7 +192,8 @@ class Movements
     protected function sortTagAmounts($totalAmountPerTag)
     {
         return (new Collection($totalAmountPerTag))
-            ->sort()
+            ->sortBy('amount')
+            ->values()
             ->toArray();
     }
 
