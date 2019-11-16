@@ -1,5 +1,7 @@
-FROM php:7.2-apache
+FROM php:7.3-apache
 ADD vhost.conf /var/www/vhost.conf
+# give preference to node8 instead of node10
+ADD nodejs /etc/apt/preferences.d/nodejs
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         git \
@@ -21,16 +23,17 @@ RUN apt-get update \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-install bcmath \
-    && pecl install xdebug-2.6.1 \
+    && pecl install xdebug-2.8.0 \
     && docker-php-ext-enable xdebug \
     && echo "### OPCACHE CONFIGURATION. YOU SHOULD DISABLE OPCACHE ON DEV ENV ###" \
     && echo "opcache.max_accelerated_files=16229" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
     && echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
     && echo "opcache.revalidate_freq=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
     && echo "opcache.save_comments=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
+    && echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/zzz_custom.ini \
     && mv /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini.BAK \
-    && echo "### INSTALL COMPOSER (1.8.0) ###" \
-    && php -r "copy('https://raw.githubusercontent.com/composer/getcomposer.org/5eb0614d3fa7130b363698d3dca52c619b463615/web/installer', 'composer-setup.php');" \
+    && echo "### INSTALL COMPOSER (1.9.1) ###" \
+    && php -r "copy('https://raw.githubusercontent.com/composer/getcomposer.org/6e5e46fc7cab0015d5961f54bb39be1f4b330093/web/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
