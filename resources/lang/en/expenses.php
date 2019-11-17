@@ -23,4 +23,6 @@ return [
     'no_accounts_exist' => "No accounts exists for the current user.",
     'movements_new' => "Add expense",
     'movements_edit' => "Edit expense",
+    'from' => "From",
+    'to' => "To",
 ];
