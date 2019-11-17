@@ -1,6 +1,25 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.12.0 <2019-11-17>
+- Filter movements/expenses by dates and tag
+[#282](https://github.com/elvispt/zeteticelench/issues/282).
+- New docker image with php-7.3.
+  - Composer updated to 1.9.1.
+  - The base image for php-7.3 uses Debian 10 instead of Debian 9 where the
+  nodejs version, in the official package repo, is v10+. For some reason the
+  installation for this version does not include npm (maybe instalation bug).
+  To force the system to use nodejs v8 we had to include a new file that gives
+  priority to the node version for deb.nodesource.com
+  [#290](https://github.com/elvispt/zeteticelench/issues/290).
+  - PHP scripts now have 256MB of memory. This is because unit/feature tests
+  were failing due to insufficient memory
+  [#289](https://github.com/elvispt/zeteticelench/issues/289).
+- Bump facade/ignition from 1.11.2 to 1.12.0
+[#291](https://github.com/elvispt/zeteticelench/pull/291).
+- Bump fzaninotto/faker from 1.8.0 to 1.9.0
+[#292](https://github.com/elvispt/zeteticelench/pull/292).
+
 ### 1.11.0 <2019-11-14>
 - Now able to edit a movement
 [#279](https://github.com/elvispt/zeteticelench/issues/279).
