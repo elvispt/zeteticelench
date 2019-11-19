@@ -85,12 +85,12 @@ class CalendarificApi
             ]);
         } catch (ClientException $exception) {
             Log::warning(
-                "Failed to make request to Calendarific endpoint",
+                'Failed to make request to Calendarific endpoint',
                 ['message' => $exception->getMessage()]
             );
         } catch (ServerException $exception) {
             Log::warning(
-                "Failed to make request to Calendarific endpoint",
+                'Failed to make request to Calendarific endpoint',
                 ['message' => $exception->getMessage()]
             );
         }
@@ -116,7 +116,7 @@ class CalendarificApi
             $holidays = \GuzzleHttp\json_decode($json);
         } catch (InvalidArgumentException $exception) {
             Log::warning(
-                "Could not parse Calendarific response",
+                'Could not parse Calendarific response',
                 ['eMessage' => $exception->getMessage()]
             );
         }

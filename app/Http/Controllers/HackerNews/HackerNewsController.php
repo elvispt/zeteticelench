@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\View;
 
 class HackerNewsController extends Controller
 {
-
     protected $perPage;
     protected $hnPostUrlFormat;
 
@@ -236,8 +235,7 @@ class HackerNewsController extends Controller
         $story = Arr::first($storiesBookmarkStatusAction->execute([$story]));
         $collapsedComments = (new CollapsedComments($userId, $id))
             ->getCollapsedComments();
-        $nBookmarkedStories = HackerNewsItemsBookmark
-            ::where('user_id', $userId)
+        $nBookmarkedStories = HackerNewsItemsBookmark::where('user_id', $userId)
             ->count();
 
         return View::make('hackernews/story', [

@@ -59,7 +59,7 @@ class BookmarkedStories
                 $hackerNewsItemsBookmark->save();
             } catch (QueryException $exception) {
                 Log::error(
-                    "Failed to bookmark story",
+                    'Failed to bookmark story',
                     [
                         'eMessage' => $exception->getMessage(),
                         'userId' => $userId,
@@ -94,7 +94,7 @@ class BookmarkedStories
                 $isDeleted = $hackerNewsItemsBookmark->delete();
             } catch (Exception $exception) {
                 Log::error(
-                    "Failed to destroy bookmark",
+                    'Failed to destroy bookmark',
                     [
                         'eMessage' => $exception->getMessage(),
                         'userId' => $userId,
@@ -104,6 +104,6 @@ class BookmarkedStories
             }
         }
 
-        return !!$isDeleted;
+        return (bool) $isDeleted;
     }
 }

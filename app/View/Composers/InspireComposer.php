@@ -39,7 +39,7 @@ class InspireComposer
                 $response = $client->get($this->adviceSlipUrl);
             } catch (ConnectException $exception) {
                 Log::warning(
-                    "Could not connect to advice slip api.",
+                    'Could not connect to advice slip api.',
                     ['eMessage' => $exception->getMessage()]
                 );
             }
@@ -56,13 +56,14 @@ class InspireComposer
      *
      * @return mixed
      */
-    protected function parseResponse(?ResponseInterface $response) {
+    protected function parseResponse(?ResponseInterface $response)
+    {
         $json = $response->getBody()->getContents();
         try {
             $obj = \GuzzleHttp\json_decode($json);
         } catch (\InvalidArgumentException $exception) {
             Log::warning(
-                "Failed to parse json on Inspire quote",
+                'Failed to parse json on Inspire quote',
                 ['eMessage' => $exception->getMessage()]
             );
             $obj = null;
@@ -72,11 +73,11 @@ class InspireComposer
             Cache::set($this->cacheKey, $advice, $this->cacheExpiration);
         } catch (InvalidArgumentException $exception) {
             Log::warning(
-                "Could not store advice slip into cache",
+                'Could not store advice slip into cache',
                 ['eMessage' => $exception->getMessage()]
             );
         }
 
         return $advice;
-}
+    }
 }

@@ -22,7 +22,7 @@ class SysInfo
             $up = exec('uptime -p');
         } catch (Exception $exception) {
             Log::error(
-                "Could not get uptime with command: uptime -p",
+                'Could not get uptime with command: uptime -p',
                 ['eMessage' => $exception->getMessage()]
             );
         }
@@ -43,7 +43,7 @@ class SysInfo
             $systemUpSince = exec('uptime -s');
         } catch (Exception $exception) {
             Log::error(
-                "Could not get uptime with command: uptime -p",
+                'Could not get uptime with command: uptime -p',
                 ['eMessage' => $exception->getMessage()]
             );
             $systemUpSince = null;
@@ -59,7 +59,7 @@ class SysInfo
                 $since->setTimezone(new DateTimeZone('Europe/Lisbon'));
             } catch (Exception $exception) {
                 Log::error(
-                    "Failed to create dt object on system uptime",
+                    'Failed to create dt object on system uptime',
                     ['eMessage' => $exception->getMessage()]
                 );
                 $since = null;
@@ -108,7 +108,7 @@ class SysInfo
             exec($command, $output);
         } catch (Exception $exception) {
             Log::error(
-                "Could not get check for queue worker status",
+                'Could not get check for queue worker status',
                 ['eMessage' => $exception->getMessage()]
             );
             $output = [];

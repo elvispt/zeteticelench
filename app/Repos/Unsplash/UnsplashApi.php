@@ -2,7 +2,6 @@
 
 namespace App\Repos\Unsplash;
 
-use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
@@ -53,15 +52,15 @@ class UnsplashApi
                 'query' => $this->query,
             ]);
         } catch (ClientException $exception) {
-            Log::warning("Failed to get image from unsplash api",
+            Log::warning('Failed to get image from unsplash api',
                 ['eMessage' => $exception->getMessage()]
             );
         } catch (ConnectException $exception) {
-            Log::warning("Cannot connect to unsplash api",
+            Log::warning('Cannot connect to unsplash api',
                 ['eMessage' => $exception->getMessage()]
             );
         } catch (ServerException $exception) {
-            Log::warning("Issue with Unsplash API",
+            Log::warning('Issue with Unsplash API',
                 ['eMessage' => $exception->getMessage()]
             );
         }
