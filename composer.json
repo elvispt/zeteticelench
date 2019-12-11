@@ -14,7 +14,7 @@
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
-        "laravel/framework": "6.5.*",
+        "laravel/framework": "6.7.*",
         "laravel/scout": "^7.1",
         "laravel/telescope": "^2.0",
         "laravel/tinker": "^1.0",
