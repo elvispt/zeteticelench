@@ -80,7 +80,7 @@ class Unsplash
         try {
             Cache::set($this->cacheKey, $photoUrl, $this->cacheExpiration);
         } catch (InvalidArgumentException $exception) {
-            Log::warning("Could not store photoUrl into cache");
+            Log::warning('Could not store photoUrl into cache');
         }
         return $photoUrl;
     }

@@ -24,7 +24,7 @@ class PruneLogs
      */
     public function filesToBeDeleted($daysOld = 2): Collection
     {
-        $timeBoundary = Carbon::now()->subtract("$daysOld Days");
+        $timeBoundary = Carbon::now()->subtract("${daysOld} Days");
         $files = Storage::disk($this->storageDisk)->listContents();
         return (new Collection($files))
             ->filter(static function (array $file) {

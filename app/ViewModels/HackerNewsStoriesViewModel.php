@@ -14,6 +14,16 @@ class HackerNewsStoriesViewModel extends ViewModel
     public const SHOW_MANUAL_BOOKMARK_FORM = 1;
 
     /**
+     * @var string
+     */
+    public $title;
+
+    /**
+     * @var string
+     */
+    public $hnPostUrlFormat;
+
+    /**
      * @var User
      */
     protected $user;
@@ -32,16 +42,6 @@ class HackerNewsStoriesViewModel extends ViewModel
      * @var int
      */
     protected $showManualBookmarkForm;
-
-    /**
-     * @var string
-     */
-    public $title;
-
-    /**
-     * @var string
-     */
-    public $hnPostUrlFormat;
 
     /**
      * @var string
@@ -86,8 +86,7 @@ class HackerNewsStoriesViewModel extends ViewModel
 
     public function nBookmarkedStories(): int
     {
-        return HackerNewsItemsBookmark
-            ::where('user_id', $this->user->id)
+        return HackerNewsItemsBookmark::where('user_id', $this->user->id)
             ->count();
     }
 

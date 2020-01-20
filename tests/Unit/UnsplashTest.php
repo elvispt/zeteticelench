@@ -5,8 +5,6 @@ namespace Tests\Unit;
 use App\Repos\Unsplash\Unsplash;
 use App\Repos\Unsplash\UnsplashApi;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\Cache\Exception\InvalidArgumentException;
 use Tests\TestCase;
 
 class UnsplashTest extends TestCase
@@ -86,27 +84,5 @@ class UnsplashTest extends TestCase
         $this->assertObjectHasAttribute('bg', $featuredImage);
         $this->assertEquals($dataFromApi->url, $featuredImage->url);
         $this->assertEquals($dataFromApi->bg, $featuredImage->bg);
-    }
-
-    public function testGetUnsplashFeaturedImageFromApiWithCacheSetFailure()
-    {
-        Cache::shouldReceive('get')
-             ->once()
-             ->with(Unsplash::class)
-             ->andReturnNull();
-        Cache::shouldReceive('set')
-             ->once()
-             ->andThrowExceptions([new InvalidArgumentException("invalid key", 666)]);
-        Log::shouldReceive('warning')
-           ->with("Could not store photoUrl into cache");
-        $mock = $this->getMockBuilder(UnsplashApi::class)
-                     ->getMock();
-        $mock
-            ->expects($this->once())
-            ->method('getFeaturedImage')
-            ->will($this->returnValue(new \stdClass()));
-        $unsplash = new Unsplash(null, 666);
-        $featuredImage = $unsplash->getUnsplashFeaturedImage($mock);
-        $this->assertIsObject($featuredImage);
     }
 }

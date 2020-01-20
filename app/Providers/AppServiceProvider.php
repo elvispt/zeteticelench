@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Register any application services
     }
 
     /**
@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::directive('submenuactive', function ($expression) {
-            return "<?php echo Route::currentRouteName() === $expression ? 'btn-primary' : 'btn-secondary'; ?>";
+        Blade::directive('submenuactive', static function ($expression) {
+            return "<?php echo Route::currentRouteName() === ${expression} ? 'btn-primary' : 'btn-secondary'; ?>";
         });
     }
 }

@@ -113,6 +113,27 @@ class HackerNews
     }
 
     /**
+     * Get details of a single story and it's corresponding comments
+     * from local db.
+     *
+     * @param int|null $id The story identifier
+     *
+     * @return object|null Returns and object containing the story details and
+     * comments
+     */
+    public function getStory($id)
+    {
+        $storyModel = HackerNewsItem::find($id);
+        if ($storyModel) {
+            $story = $storyModel->toArray();
+        } else {
+            return null;
+        }
+
+        return $this->addCommentsToStory((object) $story);
+    }
+
+    /**
      * Gets hacker news top stories either from DB or cache.
      *
      * @param string $uri               From which uri to obtain the list of
@@ -140,7 +161,7 @@ class HackerNews
                     Cache::set($cacheKey, $stories, $this->cacheExpiration);
                 } catch (InvalidArgumentException $exception) {
                     Log::error(
-                        "Failed to store story list on cache. Key: $cacheKey",
+                        "Failed to store story list on cache. Key: ${cacheKey}",
                         ['exceptionMessage' => $exception->getMessage()]
                     );
                 }
@@ -171,27 +192,6 @@ class HackerNews
         $fullIdList = $hnApi->getLiveStoriesIdList($uri);
 
         return Utils::storiesListFromDb($fullIdList, $limit, $offset);
-    }
-
-    /**
-     * Get details of a single story and it's corresponding comments
-     * from local db.
-     *
-     * @param int|null $id The story identifier
-     *
-     * @return object|null Returns and object containing the story details and
-     * comments
-     */
-    public function getStory($id)
-    {
-        $storyModel = HackerNewsItem::find($id);
-        if ($storyModel) {
-            $story = $storyModel->toArray();
-        } else {
-            return null;
-        }
-
-        return $this->addCommentsToStory((object) $story);
     }
 
     /**
@@ -238,8 +238,6 @@ class HackerNews
                 $comment->sub = $this->comments($kids);
             }
         }
-        $comments = Utils::sortStoriesList($comments, $ids);
-
-        return $comments;
+        return Utils::sortStoriesList($comments, $ids);
     }
 }

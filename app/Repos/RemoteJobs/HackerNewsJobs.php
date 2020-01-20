@@ -34,7 +34,7 @@ class HackerNewsJobs implements RemoteJobsInterface
         $job->title = data_get($hnJob, 'title');
         $job->text = data_get($hnJob, 'text');
         $job->url =
-            config('hackernews.site_url') . "/item?id=$job->id";
+            config('hackernews.site_url') . "/item?id={$job->id}";
         $url = data_get($hnJob, 'url');
         $text = trans('jobs.apply');
         $howToApply =

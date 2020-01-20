@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Repos\RemoteJobs;
 
 use Exception;
@@ -82,13 +81,12 @@ class GithubJobs implements RemoteJobsInterface
             ]);
         } catch (Exception $exception) {
             Log::alert(
-                "Failed to make request to Github Jobs",
+                'Failed to make request to Github Jobs',
                 ['eMessage' => $exception->getMessage()]
             );
         }
         return $response;
     }
-
 
     /**
      * Parses the github api response
@@ -108,7 +106,7 @@ class GithubJobs implements RemoteJobsInterface
             $jobs = \GuzzleHttp\json_decode($json);
         } catch (InvalidArgumentException $exception) {
             Log::warning(
-                "Could not parse Github Jobs response",
+                'Could not parse Github Jobs response',
                 ['eMessage' => $exception->getMessage()]
             );
         }
@@ -121,7 +119,7 @@ class GithubJobs implements RemoteJobsInterface
      *
      * @return Collection
      */
-    protected function parse(array $apiParsedResponse = null)
+    protected function parse(?array $apiParsedResponse = null)
     {
         if (is_null($apiParsedResponse)) {
             return new Collection();
