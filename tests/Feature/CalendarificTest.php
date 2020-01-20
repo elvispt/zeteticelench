@@ -53,7 +53,7 @@ class CalendarificTest extends TestCase
                 'states' => "All",
             ],
         ];
-        $year = '2019';
+        $year = date('Y');
         $country = 'pt';
         $location = 'Madeira';
         $cacheKey = Calendarific::class . $year . $country . $location;
@@ -107,7 +107,7 @@ class CalendarificTest extends TestCase
                 'holidays' => $data
             ],
         ];
-        $year = '2019';
+        $year = date('Y');
         $country = 'pt';
         $location = 'Madeira';
         $cacheExpiration = 666;
@@ -205,7 +205,7 @@ class CalendarificTest extends TestCase
                 'states' => "All",
             ],
         ];
-        $year = '2019';
+        $year = date('Y');
         $country = 'pt';
         $location = 'Madeira';
         $cacheKey = Calendarific::class . $year . $country . $location;
