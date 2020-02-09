@@ -9,7 +9,6 @@ use App\Models\Note;
 use App\Models\Tag;
 use App\Repos\Tags\TagType;
 use Exception;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
