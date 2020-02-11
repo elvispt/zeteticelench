@@ -1,6 +1,54 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.13.0 <2020-02-11>
+- Every friday a script will run to check on reddit/r/GameDeals if there are
+new EGS games available. If yes, then an email will be sent.
+[#347](https://github.com/elvispt/zeteticelench/issues/347)
+[#348](https://github.com/elvispt/zeteticelench/pull/348).
+- Fixe issue with tests when using dates.
+- Refactor code based on feedback from phpinsights.
+- Bump laravel/framework from 6.5.1 to 6.14.0
+[#344](https://github.com/elvispt/zeteticelench/pull/344).
+- Bump laravel/tinker from 2.1.0 to 2.2.0
+[#345](https://github.com/elvispt/zeteticelench/pull/345).
+- Bump nunomaduro/larastan from 0.4.3 to 0.5.2
+[#343](https://github.com/elvispt/zeteticelench/pull/343)
+[#349](https://github.com/elvispt/zeteticelench/pull/349).
+- Bump sentry/sentry-laravel from 1.5.0 to 1.6.1
+[#337](https://github.com/elvispt/zeteticelench/pull/337).
+- Bump algolia/algoliasearch-client-php from 2.5.0 to 2.5.1
+[#336](https://github.com/elvispt/zeteticelench/pull/336).
+- Bump fzaninotto/faker from 1.9.0 to 1.9.1
+[#335](https://github.com/elvispt/zeteticelench/pull/335).
+- Bump facade/ignition from 1.12.0 to 1.16.0
+[#334](https://github.com/elvispt/zeteticelench/pull/334).
+- Bump doctrine/dbal from 2.10.0 to 2.10.1
+[#332](https://github.com/elvispt/zeteticelench/pull/332).
+- Bump fideloper/proxy from 4.2.1 to 4.2.2
+[#330](https://github.com/elvispt/zeteticelench/pull/330).
+- Bump league/commonmark from 1.1.1 to 1.3.0
+[#328](https://github.com/elvispt/zeteticelench/pull/328)
+[#346](https://github.com/elvispt/zeteticelench/pull/346).
+- Bump laravel/tinker from 1.0.10 to 2.1.0
+[#327](https://github.com/elvispt/zeteticelench/pull/327).
+- Bump phpunit/phpunit from 8.4.3 to 8.5.2
+[#322](https://github.com/elvispt/zeteticelench/pull/322).
+- Bump mockery/mockery from 1.2.4 to 1.3.1
+[#318](https://github.com/elvispt/zeteticelench/pull/318).
+- Bump guzzlehttp/guzzle from 6.4.1 to 6.5.2
+[#316](https://github.com/elvispt/zeteticelench/pull/316).
+- Bump laravel/telescope from 2.1 to 2.1.5
+[#314](https://github.com/elvispt/zeteticelench/pull/314)
+[#338](https://github.com/elvispt/zeteticelench/pull/338)
+[#342](https://github.com/elvispt/zeteticelench/pull/342).
+- Bump barryvdh/laravel-ide-helper from 2.6.5 to 2.6.6
+[#303](https://github.com/elvispt/zeteticelench/pull/303).
+- Bump nunomaduro/phpinsights from 1.9.0 to 1.12.0
+[#294](https://github.com/elvispt/zeteticelench/pull/294)
+[#302](https://github.com/elvispt/zeteticelench/pull/302)
+[#341](https://github.com/elvispt/zeteticelench/pull/341).
+
 ### 1.12.0 <2019-11-17>
 - Filter movements/expenses by dates and tag
 [#282](https://github.com/elvispt/zeteticelench/issues/282).
