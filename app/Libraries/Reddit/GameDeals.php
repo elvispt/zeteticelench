@@ -50,7 +50,7 @@ class GameDeals
             ->filter(function ($deal) {
                 $title = $deal->data->title;
 
-                return Str::contains(Str::lower($title), ['free']);
+                return Str::contains(Str::lower($title), ['free', '100%']);
             });
     }
 

@@ -1,6 +1,10 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.13.1 <2020-02-11>
+- Fixed issue where free game was not detected properly
+[#350](https://github.com/elvispt/zeteticelench/issues/350)
+
 ### 1.13.0 <2020-02-11>
 - Every friday a script will run to check on reddit/r/GameDeals if there are
 new EGS games available. If yes, then an email will be sent.
