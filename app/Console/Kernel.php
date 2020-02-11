@@ -78,7 +78,7 @@ class Kernel extends ConsoleKernel
                 $gameDeals = new GameDeals();
                 $gameDeals->get();
             })
-            ->weekly()->fridays()->at('18:00')
+            ->daily()->at('20:00')
             ->environments(['production'])
         ;
     }
