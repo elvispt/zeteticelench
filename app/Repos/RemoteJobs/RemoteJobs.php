@@ -24,16 +24,16 @@ class RemoteJobs
         $jobs = new Collection();
         foreach ($this->sources as $sourceClassPath) {
             /**
-             * @var $sourceObject RemoteJobsInterface
+             * @var RemoteJobsInterface $sourceObject
              */
             try {
                 $sourceObject = new $sourceClassPath();
             } catch (Exception $exception) {
                 $sourceObject = [];
                 Log::error(
-                    "Could not instantiate class with provided path",
+                    'Could not instantiate class with provided path',
                     [
-                        "eMessage" => $exception->getMessage(),
+                        'eMessage' => $exception->getMessage(),
                         '$sourceClassPath' => $sourceClassPath,
                     ]
                 );

@@ -49,7 +49,7 @@ class MovementUpdate extends BaseFormRequest
                 'string',
                 'nullable',
             ],
-            'tags' =>  [
+            'tags' => [
                 'sometimes',
                 'array',
                 'nullable',

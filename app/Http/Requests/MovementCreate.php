@@ -41,7 +41,7 @@ class MovementCreate extends BaseFormRequest
                     Movements::DEBIT
                 ]),
             ],
-            'tags' =>  [
+            'tags' => [
                 'sometimes',
                 'array',
                 'nullable',

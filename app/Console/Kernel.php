@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\PruneLogs;
 use App\Console\Commands\StaleTags;
+use App\Libraries\Reddit\GameDeals;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
 use App\Repos\HackerNews\HnApi;
@@ -19,9 +20,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        //
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -67,12 +66,21 @@ class Kernel extends ConsoleKernel
         $schedule
             ->command(StaleTags::class, ['--force'])
             ->everyThirtyMinutes()
-            ->appendOutputTo(storage_path("logs/scheduler-$logDate.log"));
+            ->appendOutputTo(storage_path("logs/scheduler-${logDate}.log"));
 
         $schedule
             ->command(PruneLogs::class, ['--force'])
             ->daily()
-            ->appendOutputTo(storage_path("logs/scheduler-$logDate.log"));
+            ->appendOutputTo(storage_path("logs/scheduler-${logDate}.log"));
+
+        $schedule
+            ->call(static function () {
+                $gameDeals = new GameDeals();
+                $gameDeals->get();
+            })
+            ->weekly()->fridays()->at('18:00')
+            ->environments(['production'])
+        ;
     }
 
     /**

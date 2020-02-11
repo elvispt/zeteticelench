@@ -66,7 +66,7 @@ class Note extends Model
 
     public function extractTitle(): string
     {
-        $title = "";
+        $title = '';
         $output = $this->bodyToHtml();
         $exploded = explode("\n", $output);
         if (is_array($exploded) && count($exploded) > 0) {
@@ -79,7 +79,7 @@ class Note extends Model
 
     public function extractDescription()
     {
-        $description = "";
+        $description = '';
         $output = $this->bodyToHtml();
         $exploded = explode("\n", $output);
         if (is_array($exploded) && count($exploded) > 0) {

@@ -40,16 +40,16 @@ class PruneLogs extends Command
         $pruneLogs = new \App\Libraries\PruneLogs\PruneLogs();
         $files = $pruneLogs->filesToBeDeleted($days);
         if ($files->isEmpty()) {
-            $this->info("No files found older than $days days.");
+            $this->info("No files found older than ${days} days.");
             return;
         }
-        $this->info("");
-        $this->warn("Files older than $days day(s) to be deleted:");
+        $this->info('');
+        $this->warn("Files older than ${days} day(s) to be deleted:");
         $this->outputFileList($files);
         if ($this->shouldRun()) {
             $pruneLogs->deleteFiles($files);
-            $this->warn("Files where deleted.");
-            $this->info("");
+            $this->warn('Files where deleted.');
+            $this->info('');
         }
     }
 
@@ -64,8 +64,8 @@ class PruneLogs extends Command
             return [
                 $file['path'],
                 Carbon::createFromTimestamp($file['timestamp'])
-                      ->format('Y-m-d H:i:s'),
-                str_pad(round($file['size'] / 1024, 2) . 'KB', 10, ' ', STR_PAD_LEFT),
+                    ->format('Y-m-d H:i:s'),
+                    str_pad(round($file['size'] / 1024, 2) . 'KB', 10, ' ', STR_PAD_LEFT),
             ];
         });
         $this->table([
@@ -80,7 +80,7 @@ class PruneLogs extends Command
      */
     protected function shouldRun()
     {
-        $question = "This is a destructive command. Continue?";
+        $question = 'This is a destructive command. Continue?';
         return $this->option('force') || $this->confirm($question);
     }
 }

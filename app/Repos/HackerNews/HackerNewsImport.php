@@ -12,7 +12,6 @@ use Psr\SimpleCache\InvalidArgumentException;
 
 class HackerNewsImport
 {
-
     protected $cacheKey;
 
     protected $expiration;
@@ -77,7 +76,7 @@ class HackerNewsImport
         $storeItems = new StoreItems();
         $storeItems->store($stories);
         Log::debug(
-            "Update import result",
+            'Update import result',
             ['changes' => $storeItems->getChanges()]
         );
     }
@@ -93,6 +92,30 @@ class HackerNewsImport
         ?int $bookmarkUserId = null
     ): void {
         HnImportStoryWithComments::dispatch($storyId, $bookmarkUserId);
+    }
+
+    /**
+     * @param mixed $cacheKey
+     *
+     * @return HackerNewsImport
+     */
+    public function setCacheKey($cacheKey)
+    {
+        $this->cacheKey = $cacheKey;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $expiration
+     *
+     * @return HackerNewsImport
+     */
+    public function setExpiration($expiration)
+    {
+        $this->expiration = $expiration;
+
+        return $this;
     }
 
     /**
@@ -119,7 +142,7 @@ class HackerNewsImport
             Cache::set($cacheKey, $storyIdsToImport, $expiration);
         } catch (InvalidArgumentException $exception) {
             Log::error(
-                "Cache: settting ids list when importing stories",
+                'Cache: settting ids list when importing stories',
                 ['eMesssage' => $exception->getMessage()]
             );
         }
@@ -182,29 +205,5 @@ class HackerNewsImport
                 $list = [];
             }
         }
-    }
-
-    /**
-     * @param mixed $cacheKey
-     *
-     * @return HackerNewsImport
-     */
-    public function setCacheKey($cacheKey)
-    {
-        $this->cacheKey = $cacheKey;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $expiration
-     *
-     * @return HackerNewsImport
-     */
-    public function setExpiration($expiration)
-    {
-        $this->expiration = $expiration;
-
-        return $this;
     }
 }

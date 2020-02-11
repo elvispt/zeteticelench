@@ -48,7 +48,7 @@ class MakeUser extends Command
         try {
             $user = $this->createUser($name, $email, $password);
         } catch (QueryException $exception) {
-            $errorMessage = "Failed to create user when storing into DB.";
+            $errorMessage = 'Failed to create user when storing into DB.';
             Log::error(
                 $errorMessage,
                 ['message' => $exception->getMessage()]
@@ -57,8 +57,8 @@ class MakeUser extends Command
             return;
         }
 
-        $this->info("User $user->name created with id $user->id");
-        $this->info("Login with: $user->email / <PASSWORD>");
+        $this->info("User {$user->name} created with id {$user->id}");
+        $this->info("Login with: {$user->email} / <PASSWORD>");
     }
 
     /**
@@ -68,9 +68,9 @@ class MakeUser extends Command
      */
     protected function askUserData()
     {
-        $name = $this->ask("Type name");
-        $email = $this->ask("Type email (it will also be the username).");
-        $password = $this->secret("Type your password");
+        $name = $this->ask('Type name');
+        $email = $this->ask('Type email (it will also be the username).');
+        $password = $this->secret('Type your password');
 
         return [$name, $email, $password];
     }

@@ -79,21 +79,6 @@ class CollapsedComments
         return $result;
     }
 
-    protected function setCache($collapsed): bool
-    {
-        $result = false;
-        try {
-            $result = Cache::set($this->cacheKey, $collapsed, $this->cacheTtl);
-        } catch (InvalidArgumentException $exception) {
-            Log::warning(
-                "Could not store collapsed comments",
-                ['eMessage' => $exception->getMessage()]
-            );
-        }
-
-        return $result;
-    }
-
     public function getCacheKey()
     {
         return $this->cacheKey;
@@ -102,5 +87,20 @@ class CollapsedComments
     public function getCacheTtl()
     {
         return $this->cacheTtl;
+    }
+
+    protected function setCache($collapsed): bool
+    {
+        $result = false;
+        try {
+            $result = Cache::set($this->cacheKey, $collapsed, $this->cacheTtl);
+        } catch (InvalidArgumentException $exception) {
+            Log::warning(
+                'Could not store collapsed comments',
+                ['eMessage' => $exception->getMessage()]
+            );
+        }
+
+        return $result;
     }
 }

@@ -9,7 +9,6 @@ use App\Models\Note;
 use App\Models\Tag;
 use App\Repos\Tags\TagType;
 use Exception;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -216,10 +215,11 @@ class NotesController extends Controller
 
         try {
             $note->delete();
-        } catch (QueryException $exception) {
-            Log::error("Could not delete note with id: $noteId.");
         } catch (Exception $exception) {
-            Log::error("Could not delete note with id: $noteId.");
+            Log::error(
+                "Could not delete note with id: ${noteId}.",
+                ['eMessage' => $exception->getMessage()]
+            );
         }
 
         return redirect(route('notes'));

@@ -27,37 +27,37 @@ Route::namespace('Notes')
     ->middleware('auth')
     ->group(static function () {
         Route::get('', [NotesController::class, 'index'])
-             ->name('notes');
+            ->name('notes');
 
         Route::get('/create', [NotesController::class, 'create'])
-             ->name('notesCreate');
+            ->name('notesCreate');
 
         Route::post('/create', [NotesController::class, 'add'])
-             ->name('notesAdd');
+            ->name('notesAdd');
 
         Route::get('/tags', [NotesController::class, 'tags'])
-             ->name('notesTags');
+            ->name('notesTags');
 
         Route::get('/tags/create', [NotesController::class, 'tagCreate'])
-             ->name('notesTagsCreate');
+            ->name('notesTagsCreate');
 
         Route::post('/tags/create', [NotesController::class, 'tagAdd'])
-             ->name('notesTagsAdd');
+            ->name('notesTagsAdd');
 
         Route::get('/tags/{tagId?}', [NotesController::class, 'tags'])
-             ->name('notesTags');
+            ->name('notesTags');
 
         Route::get('/{noteId}', [NotesController::class, 'show'])
-             ->name('notesShow');
+            ->name('notesShow');
 
         Route::get('/edit/{noteId}', [NotesController::class, 'edit'])
-             ->name('notesEdit');
+            ->name('notesEdit');
 
         Route::put('/{noteId}', [NotesController::class, 'update'])
             ->name('notesUpdate');
 
         Route::delete('/{noteId}', [NotesController::class, 'destroy'])
-             ->name('notesDestroy');
+            ->name('notesDestroy');
     });
 
 Route::namespace('HackerNews')
@@ -65,47 +65,49 @@ Route::namespace('HackerNews')
     ->middleware('auth')
     ->group(static function () {
         Route::get('top', [HackerNewsController::class, 'top'])
-             ->name('hackernews-top');
+            ->name('hackernews-top');
 
         Route::get('best', [HackerNewsController::class, 'best'])
-             ->name('hackernews-best');
+            ->name('hackernews-best');
 
         Route::get('new', [HackerNewsController::class, 'newStories'])
-             ->name('hackernews-new');
+            ->name('hackernews-new');
 
         Route::get('jobs', [HackerNewsController::class, 'jobs'])
-             ->name('hackernews-jobs');
+            ->name('hackernews-jobs');
 
         Route::get('bookmarks', [HackerNewsController::class, 'bookmarkList'])
-             ->name('hackernews-bookmark-list');
+            ->name('hackernews-bookmark-list');
 
         Route::post('bookmarks', [HackerNewsController::class, 'bookmarkAdd'])
-             ->name('hackernews-bookmark-add');
+            ->name('hackernews-bookmark-add');
 
         Route::post(
             'bookmarks/manual',
             [HackerNewsController::class, 'bookmarkManualAdd']
         )
-             ->name('hackernews-bookmark-manual-add');
+            ->name('hackernews-bookmark-manual-add');
 
         Route::delete(
             'bookmarks',
             [HackerNewsController::class, 'bookmarkDestroy']
         )
-             ->name('hackernews-bookmark-destroy');
+            ->name('hackernews-bookmark-destroy');
 
         Route::get('item/{id}', [HackerNewsController::class, 'item'])
-             ->name('hackernews-item');
+            ->name('hackernews-item');
 
         Route::post(
             'item/{id}/comments/collapse',
             [HackerNewsController::class, 'itemCommentCollapse']
-        )->name('hackernews-item-comments-collapse');
+        )
+            ->name('hackernews-item-comments-collapse');
 
         Route::delete(
             'item/{id}/comments/collapse',
             [HackerNewsController::class, 'itemCommentRemoveCollapse']
-        )->name('hackernews-item-comments-remove-collapse');
+        )
+            ->name('hackernews-item-comments-remove-collapse');
     });
 
 Route::namespace('Users')
@@ -113,46 +115,46 @@ Route::namespace('Users')
     ->middleware('auth')
     ->group(static function () {
         Route::get('', [UsersController::class, 'index'])
-             ->name('users-list');
+            ->name('users-list');
 
         Route::get('edit/{id}', [UsersController::class, 'edit'])
-             ->name('users-edit');
+            ->name('users-edit');
 
         Route::put('update', [UsersController::class, 'update'])
-             ->name('users-update');
+            ->name('users-update');
 
         Route::get('create', [UsersController::class, 'create'])
-             ->name('users-create');
+            ->name('users-create');
 
         Route::post('create', [UsersController::class, 'add'])
-             ->name('users-add');
+            ->name('users-add');
 
         Route::delete('destroy', [UsersController::class, 'destroy'])
-             ->name('users-destroy');
+            ->name('users-destroy');
     });
 
 Route::namespace('Expenses')
-     ->prefix('expenses')
-     ->middleware('auth')
-     ->group(static function () {
-         Route::get('/accounts', [AccountsController::class, 'index'])
-              ->name('expensesAccounts');
+    ->prefix('expenses')
+    ->middleware('auth')
+    ->group(static function () {
+        Route::get('/accounts', [AccountsController::class, 'index'])
+            ->name('expensesAccounts');
 
-         Route::get('', [MovementsController::class, 'index'])
-              ->name('movements');
+        Route::get('', [MovementsController::class, 'index'])
+            ->name('movements');
 
-         Route::get('/create', [MovementsController::class, 'create'])
-              ->name('movementsCreate');
+        Route::get('/create', [MovementsController::class, 'create'])
+            ->name('movementsCreate');
 
-         Route::post('/create', [MovementsController::class, 'add'])
-              ->name('movementsAdd');
+        Route::post('/create', [MovementsController::class, 'add'])
+            ->name('movementsAdd');
 
-         Route::get('/edit/{id}', [MovementsController::class, 'edit'])
-              ->name('movementsEdit');
+        Route::get('/edit/{id}', [MovementsController::class, 'edit'])
+            ->name('movementsEdit');
 
-         Route::put('/update', [MovementsController::class, 'update'])
-              ->name('movementsUpdate');
-     });
+        Route::put('/update', [MovementsController::class, 'update'])
+            ->name('movementsUpdate');
+    });
 
 Auth::routes(['register' => false]);
 

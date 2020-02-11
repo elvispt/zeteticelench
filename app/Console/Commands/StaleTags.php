@@ -36,9 +36,9 @@ class StaleTags extends Command
         if ($this->shouldRun()) {
             $tag = new Tag();
             $staleTags = $tag->clearStale();
-            $this->info("Removed $staleTags stale tags.");
+            $this->info("Removed ${staleTags} stale tags.");
         } else {
-            $this->info("Canceled!");
+            $this->info('Canceled!');
         }
     }
 
@@ -49,7 +49,7 @@ class StaleTags extends Command
      */
     protected function shouldRun()
     {
-        $question = "This is a destructive command. Continue?";
+        $question = 'This is a destructive command. Continue?';
         return $this->option('force') || $this->confirm($question);
     }
 }

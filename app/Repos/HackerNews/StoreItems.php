@@ -89,7 +89,7 @@ class StoreItems
                 } catch (Exception $exception) {
                     $this->changes['failed'] += 1;
                     Log::error(
-                        "Could not save story to DB",
+                        'Could not save story to DB',
                         [
                             'exceptionMessage' => $exception->getMessage(),
                             'data' => print_r($story, true),
@@ -202,7 +202,7 @@ class StoreItems
                         $errors[] = $error;
                     }
                     Log::error(
-                        "Error when validating story",
+                        'Error when validating story',
                         ['errors' => $errors]
                     );
                     return null;

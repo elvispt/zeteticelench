@@ -59,7 +59,7 @@ class Calendarific
                 Cache::set($cacheKey, $holidays, $this->cacheExpiration);
             } catch (SimpleCacheInvalidArgumentException $exception) {
                 Log::error(
-                    "Failed to store holidays on cache",
+                    'Failed to store holidays on cache',
                     ['eMessage' => $exception->getMessage()]
                 );
             }

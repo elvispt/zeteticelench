@@ -6,8 +6,6 @@ use App\Repos\Calendarific\Calendarific;
 use App\Repos\Calendarific\CalendarificApi;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\Cache\Exception\InvalidArgumentException;
 use Tests\TestCase;
 
 class CalendarificTest extends TestCase
@@ -55,7 +53,7 @@ class CalendarificTest extends TestCase
                 'states' => "All",
             ],
         ];
-        $year = '2019';
+        $year = date('Y');
         $country = 'pt';
         $location = 'Madeira';
         $cacheKey = Calendarific::class . $year . $country . $location;
@@ -109,7 +107,7 @@ class CalendarificTest extends TestCase
                 'holidays' => $data
             ],
         ];
-        $year = '2019';
+        $year = date('Y');
         $country = 'pt';
         $location = 'Madeira';
         $cacheExpiration = 666;
@@ -207,7 +205,7 @@ class CalendarificTest extends TestCase
                 'states' => "All",
             ],
         ];
-        $year = '2019';
+        $year = date('Y');
         $country = 'pt';
         $location = 'Madeira';
         $cacheKey = Calendarific::class . $year . $country . $location;
@@ -223,72 +221,5 @@ class CalendarificTest extends TestCase
         $nextHolidays = $calendarific->getNextHolidays($holidays);
         $this->assertIsArray($nextHolidays);
         $this->assertCount(2, $nextHolidays);
-    }
-
-    public function testGetHolidaysWithCacheSetFailure()
-    {
-        $data = [
-            (object) [
-                'name' => "Holiday 1",
-                'description' => "Holiday description 1",
-                'date' => (object) [
-                    'iso' => "2019-01-01",
-                    'datetime' => (object) [
-                        'year' => 2019,
-                        'month' => 1,
-                        'day' => 1,
-                    ],
-                ],
-                'type' => ["National Holiday"],
-                'locations' => "All",
-                'states' => "All",
-            ],
-            (object) [
-                'name' => "Holiday 2",
-                'description' => "Holiday description 2",
-                'date' => (object) [
-                    'iso' => "2019-03-06",
-                    'datetime' => (object) [
-                        'year' => 2019,
-                        'month' => 3,
-                        'day' => 6,
-                    ],
-                ],
-                'type' => ["National Holiday"],
-                'locations' => "All",
-                'states' => "All",
-            ],
-        ];
-        $dataFromApi = (object) [
-            'response' => (object) [
-                'holidays' => $data
-            ],
-        ];
-        $year = '2019';
-        $country = 'pt';
-        $location = 'Madeira';
-        $cacheKey = Calendarific::class . $year . $country . $location;
-        Cache::shouldReceive('get')
-             ->once()
-             ->with($cacheKey)
-             ->andReturnNull();
-        Cache::shouldReceive('set')
-             ->once()
-             ->andThrowExceptions([new InvalidArgumentException("invalid key", 666)]);
-        Log::shouldReceive('error')
-           ->with(
-               "Failed to store holidays on cache",
-               ['eMessage'=> "invalid key"]
-           );
-        $mock = $this->getMockBuilder(CalendarificApi::class)
-                     ->getMock();
-        $mock
-            ->expects($this->once())
-            ->method('getHolidays')
-            ->will($this->returnValue($dataFromApi));
-        $calendarific = new Calendarific();
-        $holidays = $calendarific->holidays($mock);
-        $this->assertIsArray($holidays);
-        $this->assertTrue(count($holidays) > 0);
     }
 }
