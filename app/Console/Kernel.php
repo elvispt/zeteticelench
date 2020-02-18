@@ -8,8 +8,6 @@ use App\Libraries\Reddit\GameDeals;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
 use App\Repos\HackerNews\HnApi;
-use App\Repos\Unsplash\Unsplash;
-use App\Repos\Unsplash\UnsplashApi;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -55,11 +53,6 @@ class Kernel extends ConsoleKernel
             $hackerNewsImport->importBest(new HnApi());
             $hackerNewsImport->importJobs(new HnApi());
         })->everyMinute();
-
-        $schedule->call(static function () {
-            $unsplash = new Unsplash();
-            $unsplash->getUnsplashFeaturedImage(new UnsplashApi(), true);
-        })->everyFiveMinutes();
 
         $schedule->command('telescope:prune')->everyFifteenMinutes();
 

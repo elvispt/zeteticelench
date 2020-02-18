@@ -1,6 +1,10 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.14.0
+- Removed unsplash background image feature. Was making the dashboard slow
+[#357](https://github.com/elvispt/zeteticelench/issues/357).
+
 ### 1.13.1 <2020-02-11>
 - Fixed issue where free game was not detected properly
 [#350](https://github.com/elvispt/zeteticelench/issues/350)
