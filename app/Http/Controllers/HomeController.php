@@ -6,8 +6,6 @@ use App\Libraries\SysInfo\SysInfo;
 use App\Repos\Calendarific\Calendarific;
 use App\Repos\Calendarific\CalendarificApi;
 use App\Repos\RemoteJobs\RemoteJobs;
-use App\Repos\Unsplash\Unsplash;
-use App\Repos\Unsplash\UnsplashApi;
 
 class HomeController extends Controller
 {
@@ -33,11 +31,9 @@ class HomeController extends Controller
         $calendarificApi = new CalendarificApi();
         $holidays = $calendarific->holidays($calendarificApi);
         $nextHolidays = $calendarific->getNextHolidays($holidays);
-        $unsplash = new Unsplash();
 
         $remoteJobs = new RemoteJobs();
         return view('home', [
-            'unsplash' => $unsplash->getUnsplashFeaturedImage(new UnsplashApi()),
             'nextHolidays' => $nextHolidays,
             'sysInfo' => $sysInfo->all(),
             'jobs' => $remoteJobs->jobs(),
