@@ -1,6 +1,20 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.14.0 <2020-02-19>
+- Removed unsplash background image feature. Was making the dashboard slow
+[#357](https://github.com/elvispt/zeteticelench/issues/357).
+- Bump laravel/framework from 6.14.0 to 6.16.0
+[#353](https://github.com/elvispt/zeteticelench/pull/353)
+[#359](https://github.com/elvispt/zeteticelench/pull/359).
+- Bump laravel/telescope from 2.1.5 to 3.0.0
+[#354](https://github.com/elvispt/zeteticelench/pull/354)
+[#360](https://github.com/elvispt/zeteticelench/pull/360).
+- Bump nunomaduro/phpinsights from 1.12.0 to 1.13.0
+[#355](https://github.com/elvispt/zeteticelench/pull/355).
+- Bump sentry/sentry-laravel from 1.6.1 to 1.6.2
+[#356](https://github.com/elvispt/zeteticelench/pull/356).
+
 ### 1.13.1 <2020-02-11>
 - Fixed issue where free game was not detected properly
 [#350](https://github.com/elvispt/zeteticelench/issues/350)

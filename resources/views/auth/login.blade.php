@@ -73,7 +73,3 @@
     </div>
   </div>
 @endsection
-
-@section('headers')
-  @includeWhen(!empty($unsplash), 'common.unsplash')
-@endsection
