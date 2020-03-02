@@ -1373,16 +1373,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v3.0.0",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "53c40e89f0de45d878665f17f2da02a05c18a394"
+                "reference": "ba5316b95f44e1cbb3dddd3ab83a532c100f4ad6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/53c40e89f0de45d878665f17f2da02a05c18a394",
-                "reference": "53c40e89f0de45d878665f17f2da02a05c18a394",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/ba5316b95f44e1cbb3dddd3ab83a532c100f4ad6",
+                "reference": "ba5316b95f44e1cbb3dddd3ab83a532c100f4ad6",
                 "shasum": ""
             },
             "require": {
@@ -1432,7 +1432,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2020-02-18T19:45:56+00:00"
+            "time": "2020-02-28T06:22:11+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2600,16 +2600,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.23",
+            "version": "2.0.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "c78eb5058d5bb1a183133c36d4ba5b6675dfa099"
+                "reference": "c18159618ed7cd7ff721ac1a8fec7860a475d2f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c78eb5058d5bb1a183133c36d4ba5b6675dfa099",
-                "reference": "c78eb5058d5bb1a183133c36d4ba5b6675dfa099",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c18159618ed7cd7ff721ac1a8fec7860a475d2f0",
+                "reference": "c18159618ed7cd7ff721ac1a8fec7860a475d2f0",
                 "shasum": ""
             },
             "require": {
@@ -2688,7 +2688,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2019-09-17T03:41:22+00:00"
+            "time": "2020-02-25T04:16:50+00:00"
         },
         {
             "name": "psr/container",
