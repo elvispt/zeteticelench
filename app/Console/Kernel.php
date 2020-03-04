@@ -6,6 +6,8 @@ use App\Console\Commands\PruneLogs;
 use App\Console\Commands\StaleTags;
 use App\Libraries\Inspire\Inspire;
 use App\Libraries\Reddit\GameDeals;
+use App\Repos\Calendarific\Calendarific;
+use App\Repos\Calendarific\CalendarificApi;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
 use App\Repos\HackerNews\HnApi;
@@ -65,6 +67,12 @@ class Kernel extends ConsoleKernel
             ->command(StaleTags::class, ['--force'])
             ->everyThirtyMinutes()
             ->appendOutputTo(storage_path("logs/scheduler-${logDate}.log"));
+
+        $schedule->call(static function () {
+            $calendarific = new Calendarific();
+            $calendarificApi = new CalendarificApi();
+            $calendarific->holidays($calendarificApi);
+        })->twiceDaily(3, 15);
 
         $schedule
             ->command(PruneLogs::class, ['--force'])
