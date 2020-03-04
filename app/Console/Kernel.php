@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\PruneLogs;
 use App\Console\Commands\StaleTags;
+use App\Libraries\Inspire\Inspire;
 use App\Libraries\Reddit\GameDeals;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
@@ -53,6 +54,10 @@ class Kernel extends ConsoleKernel
             $hackerNewsImport->importBest(new HnApi());
             $hackerNewsImport->importJobs(new HnApi());
         })->everyMinute();
+
+        $schedule->call(static function () {
+            (new Inspire())->adviceSlip();
+        })->everyFiveMinutes();
 
         $schedule->command('telescope:prune')->everyFifteenMinutes();
 
