@@ -13,7 +13,7 @@
 
           <div class="card p-3 mt-3 shadow">
             <div class="text-right">
-              <small class="text-muted">@lang('notes.updated') {{ $currentNote->updated_at->diffForHumans() }}</small>
+              <small class="text-muted">{{ $currentNote->updated_at->diffForHumans() }}</small>
               <small class="text-muted">|</small>
               <small class="text-muted">@lang('notes.created') {{ $currentNote->created_at->diffForHumans() }}</small>
             </div>

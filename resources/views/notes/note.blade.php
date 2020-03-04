@@ -17,7 +17,7 @@
       <div class="col-12">
         <div class="mt-3">
           <a href="{{ route('notesEdit', ['noteId' => $note->id]) }}"
-             class="btn btn-link"
+             class="btn btn-primary"
           >@lang('notes.edit')</a>
         </div>
       </div>

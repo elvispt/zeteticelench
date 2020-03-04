@@ -30,7 +30,7 @@
                 <h5 class="card-title"><a href="{{ route('notesShow', ['noteId' => $note->id]) }}">{{ $note->extractTitle() }}</a></h5>
                 <h6 class="card-subtitle mb-2 text-muted">
                   <small>#{{ $note->id }}</small>
-                  <small>@lang('notes.updated') {{ \Illuminate\Support\Carbon::make($note->updated_at)->diffForHumans() }}</small>
+                  <small>{{ \Illuminate\Support\Carbon::make($note->updated_at)->diffForHumans() }}</small>
                 </h6>
                 <p class="card-text">{{ $note->extractDescription() }}</p>
                 <a href="{{ route('notesEdit', ['noteId' => $note->id]) }}"

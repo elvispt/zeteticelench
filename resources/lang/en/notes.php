@@ -6,7 +6,6 @@ return [
     'new-tag' => "New Tag",
     'save' => "Save",
     'delete' => "Delete",
-    'updated' => "Updated",
     'created' => "Created",
     'title' => "Title",
     'note' => "Note",
