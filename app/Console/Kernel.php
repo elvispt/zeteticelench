@@ -4,10 +4,14 @@ namespace App\Console;
 
 use App\Console\Commands\PruneLogs;
 use App\Console\Commands\StaleTags;
+use App\Libraries\Inspire\Inspire;
 use App\Libraries\Reddit\GameDeals;
+use App\Repos\Calendarific\Calendarific;
+use App\Repos\Calendarific\CalendarificApi;
 use App\Repos\HackerNews\HackerNews;
 use App\Repos\HackerNews\HackerNewsImport;
 use App\Repos\HackerNews\HnApi;
+use App\Repos\RemoteJobs\RemoteJobs;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -54,12 +58,26 @@ class Kernel extends ConsoleKernel
             $hackerNewsImport->importJobs(new HnApi());
         })->everyMinute();
 
+        $schedule->call(static function () {
+            (new Inspire())->adviceSlip();
+        })->everyFiveMinutes();
+
         $schedule->command('telescope:prune')->everyFifteenMinutes();
 
         $schedule
             ->command(StaleTags::class, ['--force'])
             ->everyThirtyMinutes()
             ->appendOutputTo(storage_path("logs/scheduler-${logDate}.log"));
+
+        $schedule->call(static function () {
+            $calendarific = new Calendarific();
+            $calendarificApi = new CalendarificApi();
+            $calendarific->holidays($calendarificApi);
+        })->twiceDaily(3, 15);
+
+        $schedule->call(static function () {
+            (new RemoteJobs())->jobs();
+        })->hourly();
 
         $schedule
             ->command(PruneLogs::class, ['--force'])
