@@ -1,6 +1,35 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 1.14.1 <2020-03-06>
+- Moved hn comment collapse button to right side of screen for use with xs
+screens.
+- Improved notes listing on xs screens.
+- Improve dashboard loading time
+[#374](https://github.com/elvispt/zeteticelench/pull/374):
+  - Advice splip api requests are now on a Task Schedule.
+  - Calendarific api requests are now on a Task Schedule.
+  - RemoteJobs listing is now stored to cache.
+- Improved note edit sytling screen
+[#376](https://github.com/elvispt/zeteticelench/pull/376).
+- Bump fideloper/proxy from 4.2.2 to 4.3.0
+[#362](https://github.com/elvispt/zeteticelench/pull/362).
+- Bump barryvdh/laravel-ide-helper from 2.6.6 to 2.6.7
+[#364](https://github.com/elvispt/zeteticelench/pull/364).
+- Bump laravel/framework from 6.16.0 to 6.18.0
+[#366](https://github.com/elvispt/zeteticelench/pull/366)
+[#370](https://github.com/elvispt/zeteticelench/pull/370).
+- Bump sentry/sentry-laravel from 1.6.2 to 1.7.0
+[#367](https://github.com/elvispt/zeteticelench/pull/367).
+- Bump laravel/telescope from 3.0.0 to 3.1.1
+[#368](https://github.com/elvispt/zeteticelench/pull/368).
+- Bump league/commonmark from 1.3.0 to 1.3.1
+[#369](https://github.com/elvispt/zeteticelench/pull/369).
+- Bump spatie/laravel-view-models from 1.2.0 to 1.3.0
+[#371](https://github.com/elvispt/zeteticelench/pull/371).
+- Bump facade/ignition from 1.16.0 to 1.16.1
+[#375](https://github.com/elvispt/zeteticelench/pull/375).
+
 ### 1.14.0 <2020-02-19>
 - Removed unsplash background image feature. Was making the dashboard slow
 [#357](https://github.com/elvispt/zeteticelench/issues/357).
