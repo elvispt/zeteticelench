@@ -37,3 +37,13 @@ em.algolia {
 .pointer {
   cursor: pointer;
 }
+
+.note-change {
+  .textarea-container {
+    border-bottom: $gray-400 1px solid;
+
+    textarea {
+      border-color: transparent;
+    }
+  }
+}
