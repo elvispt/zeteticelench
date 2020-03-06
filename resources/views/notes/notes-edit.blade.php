@@ -3,7 +3,7 @@
 @section('title') @lang('notes.edit') @endsection
 
 @section('content')
-  <div class="container">
+  <div class="container note-change">
 
     @include('notes.top-submenu')
 
@@ -11,7 +11,7 @@
       <div class="col-sm">
         @if ($currentNote)
 
-          <div class="card p-3 mt-3 shadow">
+          <div class="card shadow">
             <div class="text-right">
               <small class="text-muted">{{ $currentNote->updated_at->diffForHumans() }}</small>
               <small class="text-muted">|</small>
@@ -29,7 +29,7 @@
               @error('body')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
-              <div>
+              <div class="textarea-container">
                 <textarea
                   id="note-body"
                   name="body"
@@ -37,16 +37,16 @@
                   cols="100"
                   rows="15"
                 >{{ $currentNote->body }}</textarea>
-                <small class="form-text text-muted">
-                  <a class="text-muted" href="https://commonmark.org/help/" target="_CommonMark">CommonMark</a>
-                </small>
               </div>
+              <small class="form-text text-muted ml-3">
+                <a class="text-muted" href="https://commonmark.org/help/" target="_CommonMark">CommonMark</a>
+              </small>
               @if ($errors->has('tags.*'))
                 @foreach($errors->get('tags.*') as $msg)
                   <div class="alert alert-danger">{{ Arr::first($msg) }}</div>
                 @endforeach
               @endif
-              <div class="mt-3">
+              <div class="p-3 mt-3">
                 <legend class="col-form-label pt-0">@lang('notes.tags')</legend>
                 @foreach($tags as $tag)
                   <div class="form-check form-check-inline">
@@ -63,7 +63,9 @@
                   </div>
                 @endforeach
               </div>
-              <button type="submit" class="btn btn-primary">@lang('notes.save')</button>
+              <div class="px-3 pb-3">
+                <button type="submit" class="btn btn-primary">@lang('notes.save')</button>
+              </div>
             </form>
 
             <div class="mt-3 text-right">
