@@ -1,6 +1,5 @@
 <?php
 
-use App\Repos\Tags\TagType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +15,7 @@ class AddTagTypeToTagsTable extends Migration
     {
         Schema::table('tags', function (Blueprint $table) {
             $table
-                ->enum('type', TagType::all())
+                ->enum('type', ['NOTE', 'EXPENSE'])
                 ->after('user_id')
             ;
             $table->index('type');

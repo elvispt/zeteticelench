@@ -210,8 +210,6 @@ class HackerNewsImportTest extends TestCase
             ->expects($this->once())
             ->method('concurrentRequestsForItems')
             ->will($this->returnValue($data));
-        Log::shouldReceive('debug')
-            ->once();
         $hackerNewsImport = new HackerNewsImport();
         $hackerNewsImport->importUpdatedStories($hnApiMock);
         $this->assertDatabaseHas('hacker_news_items', [

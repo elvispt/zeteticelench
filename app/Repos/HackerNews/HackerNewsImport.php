@@ -75,10 +75,6 @@ class HackerNewsImport
         $stories = $hnApi->concurrentRequestsForItems($updatedIdsList);
         $storeItems = new StoreItems();
         $storeItems->store($stories);
-        Log::debug(
-            'Update import result',
-            ['changes' => $storeItems->getChanges()]
-        );
     }
 
     /**
