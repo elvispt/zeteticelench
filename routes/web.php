@@ -11,8 +11,6 @@
 |
 */
 
-use App\Http\Controllers\Expenses\AccountsController;
-use App\Http\Controllers\Expenses\MovementsController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Notes\NotesController;
@@ -131,29 +129,6 @@ Route::namespace('Users')
 
         Route::delete('destroy', [UsersController::class, 'destroy'])
             ->name('users-destroy');
-    });
-
-Route::namespace('Expenses')
-    ->prefix('expenses')
-    ->middleware('auth')
-    ->group(static function () {
-        Route::get('/accounts', [AccountsController::class, 'index'])
-            ->name('expensesAccounts');
-
-        Route::get('', [MovementsController::class, 'index'])
-            ->name('movements');
-
-        Route::get('/create', [MovementsController::class, 'create'])
-            ->name('movementsCreate');
-
-        Route::post('/create', [MovementsController::class, 'add'])
-            ->name('movementsAdd');
-
-        Route::get('/edit/{id}', [MovementsController::class, 'edit'])
-            ->name('movementsEdit');
-
-        Route::put('/update', [MovementsController::class, 'update'])
-            ->name('movementsUpdate');
     });
 
 Auth::routes(['register' => false]);

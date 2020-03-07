@@ -5,7 +5,6 @@ namespace Tests\Feature\Controllers\Notes;
 use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
-use App\Repos\Tags\TagType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -201,7 +200,6 @@ class NotesControllerTest extends TestCase
             ->create([
                 'user_id' => $user->id,
             ])
-            ->where('type', TagType::NOTE)
             ->pluck('id')
             ->random(2)
             ->toArray();
@@ -282,7 +280,6 @@ class NotesControllerTest extends TestCase
             ->create([
                 'user_id' => $user->id,
             ])
-            ->where('type', TagType::NOTE)
             ->pluck('id')
             ->random(2)
             ->toArray();
