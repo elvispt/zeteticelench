@@ -11,10 +11,10 @@ class GameDeals
 {
     public function get()
     {
-        $gamedeals = new Collection($this->getDeals());
-        $epicGamesDeals = $this->filterForFreeDeals($gamedeals);
+        $unfilteredGamedeals = new Collection($this->getDeals());
+        $gameDealsList = $this->filterForFreeDeals($unfilteredGamedeals);
 
-        $notifiables = $this->storeAndGetNotifiables($epicGamesDeals);
+        $notifiables = $this->storeAndGetNotifiables($gameDealsList);
         $notifiables->each(function ($deal) {
             $notifyOfNewGameAction = new NotifyOfNewGameAction();
             $notifyOfNewGameAction->execute((object) $deal);
@@ -43,20 +43,15 @@ class GameDeals
     {
         return $gamedeals
             ->filter(function ($deal) {
-                $link_flair_text = $deal->data->link_flair_text;
-
-                return is_null($link_flair_text);
-            })
-            ->filter(function ($deal) {
                 $title = $deal->data->title;
 
-                return Str::contains(Str::lower($title), ['free', '100%']);
+                return Str::contains(Str::lower($title), ['free', '100%', '0.00']);
             });
     }
 
     protected function getDeals()
     {
-        $gamesDealsEpicGamesStore = new GameDealsEpicGamesStore();
-        return $gamesDealsEpicGamesStore->getDeals();
+        $gameDealsFree = new GameDealsFree();
+        return $gameDealsFree->getDeals();
     }
 }
