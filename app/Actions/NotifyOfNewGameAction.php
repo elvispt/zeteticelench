@@ -14,7 +14,7 @@ class NotifyOfNewGameAction
         ];
         Mail::send('emails.mail', $data, function (Message $message) use ($deal) {
             $message
-                ->from('elvispt@gmail.com', 'ZeteticElench: EGS Free Game Notifier')
+                ->from('elvispt@gmail.com', 'ZeteticElench: /r/GameDeals Free Game Notifier')
                 ->to('elvispt@gmail.com', 'Elvis Pestana')
                 ->subject($deal->title)
             ;
