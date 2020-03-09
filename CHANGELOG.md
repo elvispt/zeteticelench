@@ -1,6 +1,15 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 2.0.0 <2020-03-09>
+- Remove expenses feature. This feature was not being used and part of the
+project goal of having minimal bloat.
+[#378](https://github.com/elvispt/zeteticelench/pull/378).
+- Free games notifier now includes all sources on /r/GameDeals, instead of just
+Epic Games [#380](https://github.com/elvispt/zeteticelench/pull/380).
+- General update to php dependencies. This is to prepare update of Laravel to
+v7.
+
 ### 1.14.1 <2020-03-06>
 - Moved hn comment collapse button to right side of screen for use with xs
 screens.
