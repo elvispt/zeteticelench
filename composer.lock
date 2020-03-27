@@ -6546,16 +6546,16 @@
         },
         {
             "name": "nunomaduro/larastan",
-            "version": "v0.5.4",
+            "version": "v0.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/larastan.git",
-                "reference": "d5ef8812cefb4ef951f18f27e70e5fd8a81cd2bf"
+                "reference": "0a24d9c809185b04d00d8b8c1b58a6581cae6c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/d5ef8812cefb4ef951f18f27e70e5fd8a81cd2bf",
-                "reference": "d5ef8812cefb4ef951f18f27e70e5fd8a81cd2bf",
+                "url": "https://api.github.com/repos/nunomaduro/larastan/zipball/0a24d9c809185b04d00d8b8c1b58a6581cae6c40",
+                "reference": "0a24d9c809185b04d00d8b8c1b58a6581cae6c40",
                 "shasum": ""
             },
             "require": {
@@ -6614,7 +6614,7 @@
                 "php",
                 "static analysis"
             ],
-            "time": "2020-03-22T21:22:21+00:00"
+            "time": "2020-03-26T18:13:35+00:00"
         },
         {
             "name": "nunomaduro/phpinsights",
