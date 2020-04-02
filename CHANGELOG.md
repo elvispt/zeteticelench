@@ -1,6 +1,14 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 2.0.1 <2020-04-02>
+- Bump laravel/framework from 6.18.0 to 6.18.3
+[#382](https://github.com/elvispt/zeteticelench/pull/382)
+[#388](https://github.com/elvispt/zeteticelench/pull/388).
+- Note that from now on only packages that introduce major changes will be
+refered in this changelog, with the exception being the laravel framework that
+will always be mentioned.
+
 ### 2.0.0 <2020-03-09>
 - Remove expenses feature. This feature was not being used and part of the
 project goal of having minimal bloat.
