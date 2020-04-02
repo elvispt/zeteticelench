@@ -1913,35 +1913,34 @@
         },
         {
             "name": "ocramius/package-versions",
-            "version": "1.5.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "1d32342b8c1eb27353c8887c366147b4c2da673c"
+                "reference": "44af6f3a2e2e04f2af46bcb302ad9600cba41c7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/1d32342b8c1eb27353c8887c366147b4c2da673c",
-                "reference": "1d32342b8c1eb27353c8887c366147b4c2da673c",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/44af6f3a2e2e04f2af46bcb302ad9600cba41c7d",
+                "reference": "44af6f3a2e2e04f2af46bcb302ad9600cba41c7d",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.0.0",
-                "php": "^7.3.0"
+                "php": "^7.1.0"
             },
             "require-dev": {
-                "composer/composer": "^1.8.6",
-                "doctrine/coding-standard": "^6.0.0",
+                "composer/composer": "^1.6.3",
+                "doctrine/coding-standard": "^5.0.1",
                 "ext-zip": "*",
-                "infection/infection": "^0.13.4",
-                "phpunit/phpunit": "^8.2.5",
-                "vimeo/psalm": "^3.4.9"
+                "infection/infection": "^0.7.1",
+                "phpunit/phpunit": "^7.5.17"
             },
             "type": "composer-plugin",
             "extra": {
                 "class": "PackageVersions\\Installer",
                 "branch-alias": {
-                    "dev-master": "1.6.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -1960,7 +1959,7 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2019-07-17T15:49:50+00:00"
+            "time": "2019-11-15T16:17:10+00:00"
         },
         {
             "name": "opis/closure",
@@ -3358,16 +3357,16 @@
         },
         {
             "name": "sentry/sentry-laravel",
-            "version": "1.7.0",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-laravel.git",
-                "reference": "72684758f15aae4562149460b70fea81e9a06a25"
+                "reference": "8ec4695c5c6fa28d952c0f361e02997e84920354"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/72684758f15aae4562149460b70fea81e9a06a25",
-                "reference": "72684758f15aae4562149460b70fea81e9a06a25",
+                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/8ec4695c5c6fa28d952c0f361e02997e84920354",
+                "reference": "8ec4695c5c6fa28d952c0f361e02997e84920354",
                 "shasum": ""
             },
             "require": {
@@ -3423,7 +3422,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2020-02-26T09:01:08+00:00"
+            "time": "2020-04-01T10:30:44+00:00"
         },
         {
             "name": "spatie/laravel-view-models",
@@ -4168,16 +4167,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v5.0.5",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "b1ab86ce52b0c0abe031367a173005a025e30e04"
+                "reference": "09dccfffd24b311df7f184aa80ee7b61ad61ed8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/b1ab86ce52b0c0abe031367a173005a025e30e04",
-                "reference": "b1ab86ce52b0c0abe031367a173005a025e30e04",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/09dccfffd24b311df7f184aa80ee7b61ad61ed8d",
+                "reference": "09dccfffd24b311df7f184aa80ee7b61ad61ed8d",
                 "shasum": ""
             },
             "require": {
@@ -4218,7 +4217,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2020-01-04T14:08:26+00:00"
+            "time": "2020-03-27T16:56:45+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -4573,16 +4572,16 @@
         },
         {
             "name": "symfony/polyfill-uuid",
-            "version": "v1.14.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-uuid.git",
-                "reference": "80781e68dbd85373eb36a1b67608b1a731931000"
+                "reference": "2318f7f470a892867f3de602e403d006b1b9c9aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-uuid/zipball/80781e68dbd85373eb36a1b67608b1a731931000",
-                "reference": "80781e68dbd85373eb36a1b67608b1a731931000",
+                "url": "https://api.github.com/repos/symfony/polyfill-uuid/zipball/2318f7f470a892867f3de602e403d006b1b9c9aa",
+                "reference": "2318f7f470a892867f3de602e403d006b1b9c9aa",
                 "shasum": ""
             },
             "require": {
@@ -4595,7 +4594,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.14-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -4628,7 +4627,7 @@
                 "portable",
                 "uuid"
             ],
-            "time": "2020-01-13T11:15:53+00:00"
+            "time": "2020-03-23T13:44:10+00:00"
         },
         {
             "name": "symfony/process",
@@ -8594,16 +8593,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v5.0.5",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "2edd40250649944775aad5d6b4cc8e164c1e9d72"
+                "reference": "14d386ae55b699ea9a0ddb872fa5f3e35219bba8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/2edd40250649944775aad5d6b4cc8e164c1e9d72",
-                "reference": "2edd40250649944775aad5d6b4cc8e164c1e9d72",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/14d386ae55b699ea9a0ddb872fa5f3e35219bba8",
+                "reference": "14d386ae55b699ea9a0ddb872fa5f3e35219bba8",
                 "shasum": ""
             },
             "require": {
@@ -8658,7 +8657,7 @@
             ],
             "description": "Symfony HttpClient component",
             "homepage": "https://symfony.com",
-            "time": "2020-02-26T22:30:10+00:00"
+            "time": "2020-03-27T16:56:45+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
