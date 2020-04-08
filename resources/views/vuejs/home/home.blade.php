@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('vuejs/layouts.app')
 
 @section('title') @lang('common.dashboard') @endsection
 
@@ -7,49 +7,15 @@
     <div class="row justify-content-center">
 
       <div class="col-sm-6">
-        <div class="card mb-3 shadow">
-          <div class="card-body">
-            @include('common/inspire')
-          </div>
-        </div>
-
-        <div class="card mb-3 shadow">
-          <div class="card-header">@lang('system.info')</div>
-          <div class="card-body">
-            <p class="alert-info">
-              @lang('system.uptime', [
-                'up' => ucfirst($sysInfo['up']),
-                'since' => $sysInfo['upSince'],
-              ])
-            </p>
-
-            <p class="{{ $sysInfo['nQueueWorkersRunning'] === 0 ? 'alert-danger' : 'alert-success' }}">
-              @lang('system.number_queue_workers', [
-                'number' => $sysInfo['nQueueWorkersRunning']
-              ])
-            </p>
-
-            <div class="pt-4">
-              <table class="table table-sm">
-                <caption>@lang('system.memory_info')</caption>
-                <thead>
-                  <tr>
-                    <th>@lang('system.used')</th>
-                    <th>@lang('system.free')</th>
-                    <th>@lang('system.total')</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{{ $sysInfo['memory']['used'] }}</td>
-                    <td>{{ $sysInfo['memory']['free'] }}</td>
-                    <td>{{ $sysInfo['memory']['total'] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <inspire></inspire>
+        <system-info lang-system-info="@lang('system.info')"
+                     lang-since="@lang('system.since')"
+                     lang-number-queue-workers="@lang('system.number_queue_workers')"
+                     lang-memory-info="@lang('system.memory_info')"
+                     lang-used="@lang('system.used')"
+                     lang-free="@lang('system.free')"
+                     lang-total="@lang('system.total')"
+        ></system-info>
       </div>
 
       <div class="col-sm-6">
