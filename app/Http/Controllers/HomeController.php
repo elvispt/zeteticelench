@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Repos\Calendarific\Calendarific;
-use App\Repos\Calendarific\CalendarificApi;
 use App\Repos\RemoteJobs\RemoteJobs;
 
 class HomeController extends Controller
@@ -25,14 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $calendarific = new Calendarific();
-        $calendarificApi = new CalendarificApi();
-        $holidays = $calendarific->holidays($calendarificApi);
-        $nextHolidays = $calendarific->getNextHolidays($holidays);
-
         $remoteJobs = new RemoteJobs();
         return view("vuejs/home/home", [
-            'nextHolidays' => $nextHolidays,
             'jobs' => $remoteJobs->jobs(),
         ]);
     }

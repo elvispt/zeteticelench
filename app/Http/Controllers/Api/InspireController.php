@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\ApiResponse;
 use App\Libraries\Inspire\Inspire;
 
 class InspireController extends Controller
@@ -21,10 +22,6 @@ class InspireController extends Controller
     {
         $inspire = new Inspire();
 
-        $data = (object) [
-            'data' => $inspire->adviceSlip()
-        ];
-
-        return response()->json($data);
+        return ApiResponse::response($inspire->adviceSlip());
     }
 }

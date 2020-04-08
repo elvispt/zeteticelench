@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\Api\InspireController;
+use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\SystemInfoController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\HomeController;
@@ -141,3 +142,4 @@ Route::get('/home', [HomeController::class, 'index'])
 // move to api namespace
 Route::get('/api/inspire', [InspireController::class, 'index']);
 Route::get('/api/system-info', [SystemInfoController::class, 'index']);
+Route::get('/api/next-holidays', [NextHolidaysController::class, 'index']);

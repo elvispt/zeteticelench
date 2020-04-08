@@ -22,6 +22,7 @@ window.Vue = require('vue');
 
 Vue.component('inspire', require('./components/Inspire.vue').default);
 Vue.component('system-info', require('./components/SystemInfo.vue').default);
+Vue.component('next-holidays', require('./components/NextHolidays').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

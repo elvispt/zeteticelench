@@ -26,12 +26,7 @@
           <tbody>
             <transition name="slide-fade" mode="out-in">
               <tr :key="memory.used">
-                <td>
-
-                    <span>{{ memory.used }}</span>
-
-
-                </td>
+                <td>{{ memory.used }}</td>
                 <td>{{ memory.free }}</td>
                 <td>{{ memory.total }}</td>
               </tr>

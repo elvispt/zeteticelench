@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\ApiResponse;
 use App\Libraries\SysInfo\SysInfo;
 use Illuminate\Http\JsonResponse;
 
@@ -22,10 +23,6 @@ class SystemInfoController extends Controller
     {
         $sysInfo = new SysInfo();
 
-        $data = (object) [
-            'data' => $sysInfo->all(),
-        ];
-
-        return response()->json($data);
+        return ApiResponse::response($sysInfo->all());
     }
 }
