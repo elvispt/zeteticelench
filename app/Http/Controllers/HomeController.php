@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Repos\RemoteJobs\RemoteJobs;
-
 class HomeController extends Controller
 {
     /**
@@ -23,9 +21,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $remoteJobs = new RemoteJobs();
-        return view("vuejs/home/home", [
-            'jobs' => $remoteJobs->jobs(),
-        ]);
+        return view("vuejs/home/home");
     }
 }
