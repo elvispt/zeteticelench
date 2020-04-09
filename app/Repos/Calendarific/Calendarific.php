@@ -87,6 +87,7 @@ class Calendarific
                 return $currentDateTime->lte($holidayDateTime);
             })
             ->slice(0, $numberOfNextHolidays)
+            ->values()
             ->toArray();
     }
 

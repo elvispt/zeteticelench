@@ -11,6 +11,10 @@
 |
 */
 
+use App\Http\Controllers\Api\InspireController;
+use App\Http\Controllers\Api\NextHolidaysController;
+use App\Http\Controllers\Api\RemoteJobsController;
+use App\Http\Controllers\Api\SystemInfoController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Notes\NotesController;
@@ -135,3 +139,9 @@ Auth::routes(['register' => false]);
 
 Route::get('/home', [HomeController::class, 'index'])
     ->name('home');
+
+// move to api namespace
+Route::get('/api/inspire', [InspireController::class, 'index']);
+Route::get('/api/system-info', [SystemInfoController::class, 'index']);
+Route::get('/api/next-holidays', [NextHolidaysController::class, 'index']);
+Route::get('/api/remote-jobs', [RemoteJobsController::class, 'index']);
