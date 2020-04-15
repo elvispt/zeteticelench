@@ -140,7 +140,6 @@ Auth::routes(['register' => false]);
 Route::get('/home', [HomeController::class, 'index'])
     ->name('home');
 
-// move to api namespace
 Route::get('/api/inspire', [InspireController::class, 'index']);
 Route::get('/api/system-info', [SystemInfoController::class, 'index']);
 Route::get('/api/next-holidays', [NextHolidaysController::class, 'index']);
