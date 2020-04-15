@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Libraries\ApiResponse;
+use App\Http\Responses\ApiResponse;
 use App\Repos\RemoteJobs\RemoteJobs;
 use Illuminate\Http\JsonResponse;
 
