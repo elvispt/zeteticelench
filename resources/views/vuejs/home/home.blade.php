@@ -2,6 +2,8 @@
 
 @section('title') @lang('common.dashboard') @endsection
 
+@section('scripts')<script src="{{ mix('js/app.js') }}" defer></script>@endsection
+
 @section('content')
   <div class="container pt-4">
     <div class="row justify-content-center">
