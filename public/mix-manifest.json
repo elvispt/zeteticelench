@@ -1,6 +1,7 @@
 {
-    "/js/app.js": "/js/app.js?id=5390903b05c27910b8c7",
+    "/js/app.js": "/js/app.js?id=d48f63e00aa0b180bcef",
     "/css/app.css": "/css/app.css?id=0c6375e30407af8706b5",
-    "/js/mods/bookmark.js": "/js/mods/bookmark.js?id=b9d0ac892ec178bd157d",
-    "/js/mods/collapse.js": "/js/mods/collapse.js?id=728f7771fbdeab8aa990"
+    "/js/mods/bookmark.js": "/js/mods/bookmark.js?id=26cb6bb03ced1008051c",
+    "/js/mods/collapse.js": "/js/mods/collapse.js?id=7e99f445b7ed4bf0c4ac",
+    "/js/notes/app.js": "/js/notes/app.js?id=6aab13780bb317de91e0"
 }

@@ -28,34 +28,7 @@ class NotesController extends Controller
      */
     public function index(Request $request)
     {
-        $query = $request->get('query');
-        $userId = Auth::id();
-        if ($query) {
-            $notes = Note::search($query)
-                ->where('user_id', $userId)
-                ->get();
-        } else {
-            $notes = (new Note())
-                ->where('user_id', $userId)
-                ->orderBy('updated_at', 'DESC')
-                ->get();
-        }
-        $notes = $notes->map(static function (Note $note) {
-            $note->tags;
-            $parsed = (object) $note->toArray();
-            $parsed->tags = (new Collection($parsed->tags))
-                ->pluck('tag')
-                ->toArray();
-            $parsed->title = $note->extractTitle();
-            $parsed->description = $note->extractDescription();
-
-            return (object) $parsed;
-        });
-
-        return View::make('notes/notes', [
-            'notes' => $notes,
-            'query' => $query,
-        ]);
+        return View::make('vuejs/notes/notes');
     }
 
     /**
