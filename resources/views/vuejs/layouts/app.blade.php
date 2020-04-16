@@ -34,7 +34,7 @@
 
   @yield('headers')
 
-  @stack('scripts')
+  @stack('headscripts')
 </head>
 <body>
 <div id="app">
@@ -123,6 +123,6 @@
   </main>
 </div>
 <!-- Scripts -->
-<script src="{{ mix('js/app.js') }}" defer></script>
+@stack('scripts')
 </body>
 </html>

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiResponse;
-use App\Repos\RemoteJobs\RemoteJobs;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-class RemoteJobsController extends Controller
+class TranslationsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -19,10 +18,13 @@ class RemoteJobsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request)
     {
-        $remoteJobs = new RemoteJobs();
+        $group = $request->get('group');
+        $translations = __($group);
 
-        return ApiResponse::response($remoteJobs->jobs());
+        return ApiResponse::response((object) [
+            $group => $translations,
+        ]);
     }
 }
