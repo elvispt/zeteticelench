@@ -2,7 +2,7 @@
   <div class="card mb-3 shadow">
     <div class="card-header">{{ langSystemInfo }}</div>
 
-    <div class="card-body">
+    <div class="card-body" v-loading="loading">
       <transition name="slide-fade" mode="out-in">
         <p class="alert-info" :key="up">
           {{ up | capitalize }} {{ langSince }} {{ upSince }}
@@ -26,7 +26,7 @@
           <tbody>
             <transition name="slide-fade" mode="out-in">
               <tr :key="memory.used">
-                <td>{{ memory.used }}</td>
+                <td><span v-if="!memory.used">&nbsp;</span>{{ memory.used }}</td>
                 <td>{{ memory.free }}</td>
                 <td>{{ memory.total }}</td>
               </tr>
@@ -54,6 +54,7 @@
 
     data() {
       return {
+        loading: true,
         memory: {
           free: '',
           used: '',
@@ -83,6 +84,7 @@
             this.nQueueWorkersRunning = data.nQueueWorkersRunning;
             this.up = data.up;
             this.upSince = data.upSince;
+            setTimeout(() => this.loading = false, 500);
           })
           .catch(err => console.error(err))
         ;
@@ -105,7 +107,7 @@
     transition: all .3s ease;
   }
   .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
   .slide-fade-enter, .slide-fade-leave-to {
     background-color: #ffef0029;

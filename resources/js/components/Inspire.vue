@@ -1,7 +1,7 @@
 <template>
   <div class="card mb-3 shadow">
     <div class="card-body">
-      <small>{{ inspire }}</small>
+      <small><span v-if="!inspire">&nbsp;</span>{{ inspire }}</small>
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 
     data() {
       return {
-        inspire: ' ',
+        inspire: null,
       };
     },
 

@@ -1,7 +1,7 @@
 <template>
   <div class="card shadow mb-3">
     <div class="card-header">{{ langNextHoliday }}</div>
-    <div class="card-body">
+    <div class="card-body" v-loading="loading">
       <div v-for="holiday in nextHolidays">
         <p>
           <span class="badge badge-dark">#</span>
@@ -10,7 +10,10 @@
           at {{ holiday.date }}
           <small>{{ holiday.type }}</small>
         </p>
-        <p><small>{{ holiday.description }}</small></p>
+        <p>
+          <span v-if="!holiday.description">&nbsp;</span>
+          <small>{{ holiday.description }}</small>
+        </p>
       </div>
     </div>
 
@@ -29,7 +32,12 @@ export default {
 
   data() {
     return {
-      nextHolidays: [],
+      loading: true,
+      nextHolidays: [
+        { name: '', date: '', type: '', description: '' },
+        { name: '', date: '', type: '', description: '' },
+        { name: '', date: '', type: '', description: '' },
+      ],
     };
   },
 
@@ -47,6 +55,7 @@ export default {
               'type': Array.isArray(holiday.type) ? holiday.type[0] : '',
             };
           });
+          this.loading = false;
         }
         return true;
       },
@@ -54,6 +63,9 @@ export default {
 
   filters: {
     diffForHumans(value) {
+      if (!value) {
+        return '';
+      }
       return moment(value, 'YYYY-MM-DD')
         .fromNow();
     },
