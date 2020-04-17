@@ -11,4 +11,6 @@ class SimpleNoteResponse
     public string $updated_at;
 
     public array $tags = [];
+
+    public string $body;
 }

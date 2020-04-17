@@ -7,22 +7,22 @@
             to="/"
             class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('Notes')"
-          >{{ translations.notes.notes }}</router-link>
+          >Notes</router-link>
           <router-link
             to="/"
-            class="btn btn-group-sm w-100 @submenuactive('notesCreate')"
+            class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('NotesCreate')"
-          >{{ translations.notes['new-note'] }}</router-link>
+          >New Note</router-link>
           <router-link
             to="/"
-            class="btn btn-group-sm w-100 @submenuactive('notesTags')"
+            class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('NotesTags')"
-          >{{ translations.notes.tags }}</router-link>
+          >Tags</router-link>
           <router-link
             to="/"
-            class="btn btn-group-sm w-100 @submenuactive('notesTagsCreate')"
+            class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('NotesTagsCreate')"
-          >{{ translations.notes['new-tag'] }}</router-link>
+          >New Tag</router-link>
         </div>
       </div>
     </div>
@@ -34,30 +34,7 @@
 export default {
   name: "Navigation",
 
-  data() {
-    return {
-      translations: {
-        notes: {},
-      },
-    };
-  },
-
-  created() {
-    this.fetchTranslations('notes');
-  },
-
   methods: {
-    async fetchTranslations(group = '') {
-      const request = await fetch(`/api/translations/?group=${group}`);
-      let response = {};
-      try {
-        response = await request.json();
-      } catch (err) {
-        console.error(err);
-      }
-      this.translations[group] = response.data[group];
-    },
-
     activeSubmenu(routeName) {
       return this.$route.name === routeName ? 'btn-primary' : 'btn-secondary';
     }

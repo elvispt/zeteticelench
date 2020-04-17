@@ -24,8 +24,6 @@ import NotesList from "../components/notes/NotesList";
 export default {
   name: "Notes",
 
-  props: ["langs"],
-
   data() {
     return {
       searchQuery: '',

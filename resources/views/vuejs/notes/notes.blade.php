@@ -7,6 +7,6 @@
 @section('content')
   <div class="container">
     <!-- views are injected here -->
-    <router-view langs="{{ \GuzzleHttp\json_encode(__('notes')) }} "/>
+    <router-view/>
   </div>
 @endsection

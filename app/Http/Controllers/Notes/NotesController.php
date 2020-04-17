@@ -32,39 +32,6 @@ class NotesController extends Controller
     }
 
     /**
-     * Shows a note converted according to CommonMark
-     *
-     * @param Request $request
-     * @param int     $id The note identifier
-     *
-     * @return \Illuminate\Contracts\View\View|void
-     */
-    public function show(Request $request, $id)
-    {
-        $userId = Auth::id();
-        $query = $request->get('query');
-        if ($query) {
-            $note = Note::search($query)
-                ->where('id', $id)
-                ->where('user_id', $userId)
-                ->first();
-        } else {
-            $note = (new Note())
-                ->where('id', $id)
-                ->where('user_id', $userId)
-                ->first();
-        }
-
-        if (! $note) {
-            return abort(404);
-        }
-
-        return View::make('notes/note', [
-            'note' => $note,
-        ]);
-    }
-
-    /**
      * Shows the page for editing a note
      *
      * @param int|null $noteId The note identifier

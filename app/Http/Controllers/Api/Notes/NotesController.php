@@ -47,4 +47,35 @@ class NotesController extends Controller
 
         return ApiResponse::response($notes);
     }
+
+    /**
+     * Shows a note converted according to CommonMark
+     *
+     * @param Request $request
+     * @param int     $id The note identifier
+     *
+     * @return JsonResponse
+     */
+    public function show(Request $request, $id): JsonResponse
+    {
+        $userId = Auth::id();
+        $note = (new Note())
+            ->where('id', $id)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (! $note) {
+            return abort(404);
+        }
+
+        $simpleNoteResponse = new SimpleNoteResponse();
+        $simpleNoteResponse->id = $note->id;
+        $simpleNoteResponse->tags = $note->tags()
+                                         ->pluck('tag')
+                                         ->toArray();
+        $simpleNoteResponse->updated_at = $note->updated_at->format('Y-m-d H:i:s');
+        $simpleNoteResponse->body = $note->bodyToHtml();
+
+        return ApiResponse::response($simpleNoteResponse);
+    }
 }

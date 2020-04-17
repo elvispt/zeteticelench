@@ -11,7 +11,7 @@
       ></el-alert>
 
       <li v-for="note in notes" class="list-group-item list-group-item-action p-2 p-sm-3">
-        <router-link to="/" class="text-secondary">
+        <router-link :to="`/${note.id}`" class="text-secondary">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ note.title }}</h5>
             <small class="d-none d-sm-block">{{ note.updated_at | diffForHumans }}</small>
