@@ -33,12 +33,6 @@ Route::namespace('Notes')
         Route::get('', [NotesController::class, 'index'])
             ->name('notes');
 
-        Route::get('/create', [NotesController::class, 'create'])
-            ->name('notesCreate');
-
-        Route::post('/create', [NotesController::class, 'add'])
-            ->name('notesAdd');
-
         Route::get('/tags', [NotesController::class, 'tags'])
             ->name('notesTags');
 
@@ -146,4 +140,6 @@ Route::get('/api/next-holidays', [NextHolidaysController::class, 'index']);
 Route::get('/api/remote-jobs', [RemoteJobsController::class, 'index']);
 
 Route::get('/api/notes', [NotesApiController::class, 'index']);
+Route::get('/api/notes/tags', [NotesApiController::class, 'tags']);
 Route::get('/api/notes/{noteId}', [NotesApiController::class, 'show']);
+Route::post('/api/notecreate', [NotesApiController::class, 'add']);

@@ -9,9 +9,9 @@
             v-bind:class="activeSubmenu('Notes')"
           >Notes</router-link>
           <router-link
-            to="/"
+            to="/new"
             class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('NotesCreate')"
+            v-bind:class="activeSubmenu('NoteCreate')"
           >New Note</router-link>
           <router-link
             to="/"

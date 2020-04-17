@@ -18,7 +18,12 @@
           </div>
         </router-link>
         <div>
-          <span v-for="tag in note.tags" class="badge badge-secondary mr-1">{{ tag }}</span>
+          <el-tag
+            v-for="tag in note.tags"
+            v-bind:key="tag"
+            size="big"
+            class=""
+          >{{ tag }}</el-tag>
         </div>
       </li>
     </ul>
@@ -78,3 +83,19 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.el-tag {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.el-tag + .el-tag {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+}
+.el-tag:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+</style>
