@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Api\Notes;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotesUpdate;
+use App\Http\Requests\TagCreate;
 use App\Http\Responses\ApiIdNameResponse;
 use App\Http\Responses\ApiResponse;
 use App\Http\Responses\Notes\SimpleNoteResponse;
 use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class NotesController extends Controller
 {
@@ -180,6 +180,29 @@ class NotesController extends Controller
 
         return ApiResponse::response([
             "id" => $note->id,
+            "success" => true
+        ]);
+    }
+
+    /**
+     * Creates a tag with the provided information.
+     *
+     * @param TagCreate $request Validates the tag data provided.
+     *
+     * @return JsonResponse
+     */
+    public function tagAdd(TagCreate $request): JsonResponse
+    {
+        $validated = new Collection($request->validated());
+        $tagName = Str::lower($validated->get('tag'));
+
+        $tag = new Tag();
+        $tag->user_id = Auth::id();
+        $tag->tag = $tagName;
+        $tag->save();
+
+        return ApiResponse::response([
+            "id" => $tag->id,
             "success" => true
         ]);
     }

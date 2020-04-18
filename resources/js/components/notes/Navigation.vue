@@ -13,11 +13,6 @@
             class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('NoteCreate')"
           >New Note</router-link>
-          <router-link
-            to="/"
-            class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('NotesTags')"
-          >Tags</router-link>
         </div>
       </div>
     </div>

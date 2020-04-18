@@ -35,13 +35,32 @@
 
             <div class="mt-3 ml-3">
               <p>Tags:</p>
-              <el-checkbox-group v-model="selectedTags" size="small">
+              <el-checkbox-group v-model="selectedTags" size="small" class="d-inline-block">
                 <el-checkbox-button
                   v-for="tag in tags"
                   v-bind:key="tag.id"
                   :label="tag.id"
                 >{{ tag.name }}</el-checkbox-button >
               </el-checkbox-group>
+              <div class="d-inline-block new-tag-group">
+                <el-input
+                  class="input-new-tag"
+                  v-if="newTagInputVisible"
+                  v-model="newTag"
+                  ref="saveTagInput"
+                  size="small"
+                  @keyup.enter.native="addNewTag"
+                  @blur="addNewTag"
+                ></el-input>
+                <el-button
+                  v-else
+                  type="info"
+                  plain
+                  class="button-new-tag"
+                  size="small"
+                  @click="showInput"
+                >+ New Tag</el-button>
+              </div>
             </div>
 
             <div class="px-3 pb-3 pt-3">
@@ -79,6 +98,8 @@ export default {
   data() {
     return {
       loading: true,
+      newTagInputVisible: false,
+      newTag: '',
       errors: [],
       success: false,
       note: {},
@@ -90,6 +111,33 @@ export default {
   },
 
   methods: {
+    addNewTag() {
+      if (this.newTag) {
+        this.errors = [];
+        axios.post('/api/notetagcreate', {
+          tag: this.newTag
+        })
+          .then(response => {
+            const success = _get(response, 'data.data.success');
+            const id = _get(response, 'data.data.id');
+            if (success && id) {
+              this.tags.push({id: id, 'name': this.newTag});
+              this.newTagInputVisible = false;
+              this.newTag = '';
+            }
+          })
+          .catch(err => {
+            const msg = _get(err, 'response.data.errors.tag[0]');
+            this.errors.push({ field: 'tagCreate', text: msg });
+          });
+      }
+    },
+    showInput() {
+      this.newTagInputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
     async fetchNote(id) {
       if (!id) {
         return false;
@@ -108,6 +156,9 @@ export default {
     },
     submitForm(event) {
       event.preventDefault();
+      if (this.newTagInputVisible) {
+        return false;
+      }
       this.errors = [];
       if (!this.note.body) {
         this.errors.push({ field: 'body', text: "Note text is empty."});
@@ -156,5 +207,12 @@ export default {
     outline: 0;
     background: #f4f4f4;
     border-color: transparent;
+  }
+  .new-tag-group {
+    font-size: 0;
+  }
+  .new-tag-group .input-new-tag, .new-tag-group .button-new-tag {
+    vertical-align: middle;
+    width: 120px;
   }
 </style>

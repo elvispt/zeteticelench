@@ -33,18 +33,6 @@ Route::namespace('Notes')
         Route::get('', [NotesController::class, 'index'])
             ->name('notes');
 
-        Route::get('/tags', [NotesController::class, 'tags'])
-            ->name('notesTags');
-
-        Route::get('/tags/create', [NotesController::class, 'tagCreate'])
-            ->name('notesTagsCreate');
-
-        Route::post('/tags/create', [NotesController::class, 'tagAdd'])
-            ->name('notesTagsAdd');
-
-        Route::get('/tags/{tagId?}', [NotesController::class, 'tags'])
-            ->name('notesTags');
-
         Route::delete('/{noteId}', [NotesController::class, 'destroy'])
             ->name('notesDestroy');
     });
@@ -147,4 +135,6 @@ Route::namespace('Api')
             ->name('apiNoteAdd');
         Route::put('noteupdate/{noteId}', [NotesApiController::class, 'update'])
             ->name('apiNoteUpdate');
+        Route::post('notetagcreate', [NotesApiController::class, 'tagAdd'])
+             ->name('apiNotesTagAdd');
     });
