@@ -33,24 +33,6 @@ Route::namespace('Notes')
         Route::get('', [NotesController::class, 'index'])
             ->name('notes');
 
-        Route::get('/tags', [NotesController::class, 'tags'])
-            ->name('notesTags');
-
-        Route::get('/tags/create', [NotesController::class, 'tagCreate'])
-            ->name('notesTagsCreate');
-
-        Route::post('/tags/create', [NotesController::class, 'tagAdd'])
-            ->name('notesTagsAdd');
-
-        Route::get('/tags/{tagId?}', [NotesController::class, 'tags'])
-            ->name('notesTags');
-
-        Route::get('/edit/{noteId}', [NotesController::class, 'edit'])
-            ->name('notesEdit');
-
-        Route::put('/{noteId}', [NotesController::class, 'update'])
-            ->name('notesUpdate');
-
         Route::delete('/{noteId}', [NotesController::class, 'destroy'])
             ->name('notesDestroy');
     });
@@ -139,7 +121,20 @@ Route::get('/api/system-info', [SystemInfoController::class, 'index']);
 Route::get('/api/next-holidays', [NextHolidaysController::class, 'index']);
 Route::get('/api/remote-jobs', [RemoteJobsController::class, 'index']);
 
-Route::get('/api/notes', [NotesApiController::class, 'index']);
-Route::get('/api/notes/tags', [NotesApiController::class, 'tags']);
-Route::get('/api/notes/{noteId}', [NotesApiController::class, 'show']);
-Route::post('/api/notecreate', [NotesApiController::class, 'add']);
+Route::namespace('Api')
+    ->prefix('api')
+    ->middleware('auth')
+    ->group(static function () {
+        Route::get('notes', [NotesApiController::class, 'index'])
+            ->name('apiNotesList');
+        Route::get('notes/tags', [NotesApiController::class, 'tags'])
+            ->name('apiNotesTagsList');
+        Route::get('notes/{noteId}', [NotesApiController::class, 'show'])
+            ->name('apiNote');
+        Route::post('notecreate', [NotesApiController::class, 'add'])
+            ->name('apiNoteAdd');
+        Route::put('noteupdate/{noteId}', [NotesApiController::class, 'update'])
+            ->name('apiNoteUpdate');
+        Route::post('notetagcreate', [NotesApiController::class, 'tagAdd'])
+             ->name('apiNotesTagAdd');
+    });

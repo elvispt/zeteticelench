@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Api\Notes;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NotesUpdate;
+use App\Http\Requests\TagCreate;
+use App\Http\Responses\ApiIdNameResponse;
 use App\Http\Responses\ApiResponse;
 use App\Http\Responses\Notes\SimpleNoteResponse;
-use App\Http\Responses\Notes\TagResponse;
 use App\Models\Note;
 use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class NotesController extends Controller
 {
@@ -43,9 +43,16 @@ class NotesController extends Controller
             $simpleNoteResponse = new SimpleNoteResponse();
             $simpleNoteResponse->id = $note->id;
             $simpleNoteResponse->title = $note->extractTitle();
-            $simpleNoteResponse->tags = $note->tags()
-                                             ->pluck('tag')
-                                             ->toArray();
+            $simpleNoteResponse->tags = $note
+                ->tags()
+                ->get()
+                ->map(static function (Tag $tag) {
+                    $idNameResponse = new ApiIdNameResponse();
+                    $idNameResponse->id = $tag->id;
+                    $idNameResponse->name = $tag->tag;
+                    return $idNameResponse;
+                })
+                ->toArray();
             $simpleNoteResponse->updated_at = $note->updated_at->format('Y-m-d H:i:s');
 
             return $simpleNoteResponse;
@@ -76,11 +83,24 @@ class NotesController extends Controller
 
         $simpleNoteResponse = new SimpleNoteResponse();
         $simpleNoteResponse->id = $note->id;
-        $simpleNoteResponse->tags = $note->tags()
-                                         ->pluck('tag')
-                                         ->toArray();
+        $simpleNoteResponse->tags = $note
+            ->tags()
+            ->get()
+            ->map(static function (Tag $tag) {
+               $idNameResponse = new ApiIdNameResponse();
+               $idNameResponse->id = $tag->id;
+               $idNameResponse->name = $tag->tag;
+               return $idNameResponse;
+            })
+            ->toArray();
+
         $simpleNoteResponse->updated_at = $note->updated_at->format('Y-m-d H:i:s');
-        $simpleNoteResponse->body = $note->bodyToHtml();
+        if ($request->get('html')) {
+            $simpleNoteResponse->body = $note->bodyToHtml();
+        } else {
+            $simpleNoteResponse->body = $note->body;
+        }
+
 
         return ApiResponse::response($simpleNoteResponse);
     }
@@ -92,9 +112,9 @@ class NotesController extends Controller
             ->where('user_id', $userId)
             ->get()
             ->map(static function ($tag) {
-                $tagResponse = new TagResponse();
+                $tagResponse = new ApiIdNameResponse();
                 $tagResponse->id = $tag->id;
-                $tagResponse->tag = $tag->tag;
+                $tagResponse->name = $tag->tag;
 
                 return $tagResponse;
             })
@@ -124,6 +144,66 @@ class NotesController extends Controller
         $tags = $validated->get('tags', []);
         $note->tags()->sync($tags);
 
-        return ApiResponse::response(["success" => true]);
+        return ApiResponse::response([
+            "id" => $note->id,
+            "success" => true
+        ]);
+    }
+
+    /**
+     * Updates the notes with the provided data on the request.
+     *
+     * @param NotesUpdate $request Validates the data sent
+     * @param int|null    $noteId  The note identifier
+     *
+     * @return JsonResponse
+     */
+    public function update(NotesUpdate $request, $noteId): JsonResponse
+    {
+        $validated = new Collection($request->validated());
+        $note = (new Note())
+            ->where('id', $noteId)
+            ->where('user_id', Auth::id())
+            ->first();
+        if (! $note) {
+            return abort(404);
+        }
+
+        $note->body = $validated->get('body', '');
+        $note->save();
+
+        $tags = $validated->get('tags', []);
+        $result = $note->tags()->sync($tags);
+        if (count(array_filter($result)) > 0) {
+            $note->touch();
+        }
+
+        return ApiResponse::response([
+            "id" => $note->id,
+            "success" => true
+        ]);
+    }
+
+    /**
+     * Creates a tag with the provided information.
+     *
+     * @param TagCreate $request Validates the tag data provided.
+     *
+     * @return JsonResponse
+     */
+    public function tagAdd(TagCreate $request): JsonResponse
+    {
+        $validated = new Collection($request->validated());
+        $tagName = Str::lower($validated->get('tag'));
+
+        $tag = new Tag();
+        $tag->user_id = Auth::id();
+        $tag->tag = $tagName;
+        $tag->save();
+
+        return ApiResponse::response([
+            "id" => $tag->id,
+            "success" => true
+        ]);
     }
 }

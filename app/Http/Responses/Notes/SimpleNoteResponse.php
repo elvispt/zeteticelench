@@ -2,6 +2,8 @@
 
 namespace App\Http\Responses\Notes;
 
+use App\Http\Responses\ApiIdNameResponse;
+
 class SimpleNoteResponse
 {
     public int $id;
@@ -10,6 +12,9 @@ class SimpleNoteResponse
 
     public string $updated_at;
 
+    /**
+     * @var ApiIdNameResponse[]
+     */
     public array $tags = [];
 
     public string $body;

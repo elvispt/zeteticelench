@@ -1,10 +1,10 @@
 <template>
-  <div id="note-create">
+  <div id="note-update">
     <navigation></navigation>
 
     <div class="row justify-content-center">
       <div class="col-sm">
-        <div class="card shadow">
+        <div class="card shadow" v-loading="loading">
           <div class="p-1" v-if="errors.length">
             <el-alert v-for="error in errors" v-bind:key="error.field"
               :title="error.text"
@@ -17,7 +17,7 @@
           >
             <div class="textarea-container">
               <textarea
-                v-model.trim="body"
+                v-model.trim="note.body"
                 name="body"
                 class="form-control form-text m-0"
                 cols="100"
@@ -67,8 +67,7 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-
-              >Create Note</button>
+              >Update Note</button>
               <el-alert
                 v-if="success"
                 class="mt-3"
@@ -88,20 +87,25 @@ import _get from "lodash.get";
 import Navigation from "../components/notes/Navigation";
 
 export default {
-  name: "NoteCreate",
+  name: "NoteUpdate",
 
   components: {
     Navigation,
   },
 
+  props: ['id'],
+
   data() {
     return {
+      loading: true,
       newTagInputVisible: false,
       newTag: '',
       errors: [],
       success: false,
-      body: '',
-      tags: [],
+      note: {},
+      tags: [
+        {id: 1, name: 'x'}
+      ],
       selectedTags: [],
     };
   },
@@ -134,6 +138,17 @@ export default {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
+    async fetchNote(id) {
+      if (!id) {
+        return false;
+      }
+
+      const response = await fetch(`/api/notes/${id}?html=0`);
+      const json = await response.json();
+      this.note = json.data;
+      this.selectedTags = this.note.tags.map(tag => tag.id);
+      setTimeout(() => this.loading = false, 400);
+    },
     async fetchTags() {
       const response = await fetch('/api/notes/tags');
       const json = await response.json();
@@ -145,36 +160,36 @@ export default {
         return false;
       }
       this.errors = [];
-      if (!this.body) {
+      if (!this.note.body) {
         this.errors.push({ field: 'body', text: "Note text is empty."});
-        this.body = null;
         return;
       }
 
-      axios.post('/api/notecreate', {
-        body: this.body,
+      axios.put(`/api/noteupdate/${this.note.id}`, {
+        body: this.note.body,
         tags: this.selectedTags,
+        _method: 'put',
       })
-      .then(response => {
-        const id = _get(response, 'data.data.id');
-        const success = _get(response, 'data.data.success');
-        if (id && success) {
-          this.success = true;
-          this.body = '';
-          this.selectedTags = [];
-          this.$router.push({name: 'Note', params: { id: id}});
-        } else {
-          this.errors.push({ field: 'na', text: "Failed to create the note."});
-        }
-      })
-      .catch(err => {
-        this.errors.push({ field: 'submit', text: err.message });
-      });
+        .then(response => {
+          if (_get(response, 'data.data.success')) {
+            this.success = true;
+            this.selectedTags = [];
+            this.$router.push({name: 'Note', params: {id: this.note.id}})
+          } else {
+            this.errors.push({ field: 'na', text: "Failed to update note."});
+          }
+        })
+        .catch(err => {
+          this.errors.push({ field: 'submit', text: err.message });
+        });
     },
   },
 
   created() {
-    this.fetchTags();
+    this.fetchTags()
+      .then(() => {
+        this.fetchNote(this.id);
+      });
   },
 }
 </script>
