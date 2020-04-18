@@ -32,66 +32,6 @@ class NotesController extends Controller
     }
 
     /**
-     * Shows the page for editing a note
-     *
-     * @param int|null $noteId The note identifier
-     *
-     * @return \Illuminate\Contracts\View\View|void
-     */
-    public function edit($noteId = null)
-    {
-        $userId = Auth::id();
-
-        $currentNote = (new Note())
-            ->where('id', $noteId)
-            ->where('user_id', $userId)
-            ->first()
-        ;
-        if (!$currentNote) {
-            return abort(404);
-        }
-        $tags = (new Tag())
-            ->where('user_id', $userId)
-            ->get()
-        ;
-        return View::make('notes/notes-edit', [
-            'currentNote' => $currentNote,
-            'tags' => $tags,
-        ]);
-    }
-
-    /**
-     * Updates the notes with the provided data on the request.
-     *
-     * @param NotesUpdate $request Validates the data sent
-     * @param int|null    $noteId The note identifier
-     *
-     * @return RedirectResponse|Redirector|void
-     */
-    public function update(NotesUpdate $request, $noteId)
-    {
-        $validated = new Collection($request->validated());
-        $note = (new Note())
-            ->where('id', $noteId)
-            ->where('user_id', Auth::id())
-            ->first();
-        if (! $note) {
-            return abort(404);
-        }
-
-        $note->body = $validated->get('body', '');
-        $note->save();
-
-        $tags = $validated->get('tags', []);
-        $result = $note->tags()->sync($tags);
-        if (count(array_filter($result)) > 0) {
-            $note->touch();
-        }
-
-        return redirect(route('notesShow', ['noteId' => $noteId]));
-    }
-
-    /**
      * Deletes the note identified by the $noteId
      *
      * @param int $noteId The note identifier.

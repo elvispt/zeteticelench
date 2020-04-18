@@ -20,10 +20,9 @@
         <div>
           <el-tag
             v-for="tag in note.tags"
-            v-bind:key="tag"
-            size="big"
-            class=""
-          >{{ tag }}</el-tag>
+            v-bind:key="tag.id"
+            size="small"
+          >{{ tag.name }}</el-tag>
         </div>
       </li>
     </ul>

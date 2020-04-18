@@ -14,9 +14,9 @@
         <div>
           <el-tag
             v-for="tag in note.tags"
-            v-bind:key="tag"
+            v-bind:key="tag.id"
             size="big"
-          >{{ tag }}</el-tag>
+          >{{ tag.name }}</el-tag>
         </div>
       </div>
     </div>
@@ -24,9 +24,10 @@
     <div class="row">
       <div class="col-12">
         <div class="mt-3">
-          <a href="#"
-             class="btn btn-primary"
-          >Edit</a>
+          <router-link
+            :to="`/edit/${note.id}`"
+            class="btn btn-primary"
+          >Edit</router-link>
         </div>
       </div>
     </div>
@@ -62,7 +63,7 @@ export default {
         return false;
       }
 
-      const response = await fetch(`/api/notes/${id}`);
+      const response = await fetch(`/api/notes/${id}?html=1`);
       const json = await response.json();
       this.note = json.data;
       setTimeout(() => this.loading = false, 400);
