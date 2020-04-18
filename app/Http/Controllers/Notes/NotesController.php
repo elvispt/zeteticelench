@@ -92,47 +92,6 @@ class NotesController extends Controller
     }
 
     /**
-     * Shows the page for creating a new note
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function create()
-    {
-        $userId = Auth::id();
-        $tags = (new Tag())
-            ->where('user_id', $userId)
-            ->get()
-        ;
-        return View::make('notes/notes-new', [
-            'tags' => $tags,
-        ]);
-    }
-
-    /**
-     * Adds the new note with the provided information.
-     *
-     * @param NotesUpdate $request Validates the data sent
-     *
-     * @return RedirectResponse|Redirector
-     */
-    public function add(NotesUpdate $request)
-    {
-        $validated = new Collection($request->validated());
-
-        $note = new Note();
-
-        $note->user_id = Auth::id();
-        $note->body = $validated->get('body', '');
-
-        $note->save();
-
-        $tags = $validated->get('tags', []);
-        $note->tags()->sync($tags);
-
-        return redirect(route('notes'));
-    }
-
-    /**
      * Deletes the note identified by the $noteId
      *
      * @param int $noteId The note identifier.

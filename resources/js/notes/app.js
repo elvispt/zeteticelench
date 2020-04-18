@@ -20,8 +20,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('notes', require('../views/Notes.vue').default);
-Vue.component('notes-list', require('../components/notes/NotesList.vue').default);
+// You only need to register components that are injected into a Blade template
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

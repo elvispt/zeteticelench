@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+// You only need to register components that are injected into a Blade template
 Vue.component('inspire', require('./components/Inspire.vue').default);
 Vue.component('system-info', require('./components/SystemInfo.vue').default);
 Vue.component('next-holidays', require('./components/NextHolidays.vue').default);

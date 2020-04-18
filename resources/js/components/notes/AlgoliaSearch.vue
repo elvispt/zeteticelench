@@ -1,7 +1,7 @@
 <template>
   <div class="col-12" id="algolia-search">
     <div class="justify-content-center form-inline">
-      <label class="sr-only" for="query">SEARCH HERE</label>
+      <label class="sr-only" for="query">Search here</label>
       <input type="text"
              class="form-control w-50"
              id="query"

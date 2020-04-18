@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Api\Notes;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NotesUpdate;
 use App\Http\Responses\ApiResponse;
 use App\Http\Responses\Notes\SimpleNoteResponse;
+use App\Http\Responses\Notes\TagResponse;
 use App\Models\Note;
+use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class NotesController extends Controller
@@ -77,5 +83,47 @@ class NotesController extends Controller
         $simpleNoteResponse->body = $note->bodyToHtml();
 
         return ApiResponse::response($simpleNoteResponse);
+    }
+
+    public function tags()
+    {
+        $userId = Auth::id();
+        $tags = (new Tag())
+            ->where('user_id', $userId)
+            ->get()
+            ->map(static function ($tag) {
+                $tagResponse = new TagResponse();
+                $tagResponse->id = $tag->id;
+                $tagResponse->tag = $tag->tag;
+
+                return $tagResponse;
+            })
+        ;
+
+        return ApiResponse::response($tags);
+    }
+
+    /**
+     * Adds the new note with the provided information.
+     *
+     * @param NotesUpdate $request Validates the data sent
+     *
+     * @return JsonResponse
+     */
+    public function add(NotesUpdate $request): JsonResponse
+    {
+        $validated = new Collection($request->validated());
+
+        $note = new Note();
+
+        $note->user_id = Auth::id();
+        $note->body = $validated->get('body', '');
+
+        $note->save();
+
+        $tags = $validated->get('tags', []);
+        $note->tags()->sync($tags);
+
+        return ApiResponse::response(["success" => true]);
     }
 }

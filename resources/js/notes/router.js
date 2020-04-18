@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Notes from "../views/Notes";
 import Note from "../views/Note"
+import NoteCreate from "../views/NoteCreate";
 
 Vue.use(Router);
 
@@ -11,6 +12,11 @@ export default new Router({
       path: '/',
       name: 'Notes',
       component: Notes,
+    },
+    {
+      path: '/new',
+      name: 'NoteCreate',
+      component: NoteCreate,
     },
     {
       path: '/:id',
