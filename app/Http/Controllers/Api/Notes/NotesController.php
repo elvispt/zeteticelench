@@ -10,10 +10,14 @@ use App\Http\Responses\ApiResponse;
 use App\Http\Responses\Notes\SimpleNoteResponse;
 use App\Models\Note;
 use App\Models\Tag;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class NotesController extends Controller
@@ -181,6 +185,40 @@ class NotesController extends Controller
         return ApiResponse::response([
             "id" => $note->id,
             "success" => true
+        ]);
+    }
+
+    /**
+     * Deletes the note identified by the $noteId
+     *
+     * @param int $noteId The note identifier.
+     *
+     * @return JsonResponse
+     */
+    public function destroy($noteId): JsonResponse
+    {
+        $note = (new Note())
+            ->where('id', $noteId)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if (! $note) {
+            return abort(404);
+        }
+
+        try {
+            $note->delete();
+        } catch (Exception $exception) {
+            Log::error(
+                "Could not delete note with id: ${noteId}.",
+                ['eMessage' => $exception->getMessage()]
+            );
+            return abort(500);
+        }
+
+        return ApiResponse::response([
+            'id' => $noteId,
+            'success' => true,
         ]);
     }
 

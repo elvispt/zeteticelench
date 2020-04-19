@@ -28,6 +28,10 @@
             :to="`/edit/${note.id}`"
             class="btn btn-primary"
           >Edit</router-link>
+          <button
+            @click="confirmDelete(note.id)"
+            class="btn btn-danger ml-3"
+          >Delete Note</button>
         </div>
       </div>
     </div>
@@ -36,6 +40,7 @@
 
 <script>
 import Navigation from "../components/notes/Navigation";
+import _get from "lodash.get";
 
 export default {
   name: "Note",
@@ -68,6 +73,49 @@ export default {
       this.note = json.data;
       setTimeout(() => this.loading = false, 400);
     },
+    confirmDelete: function (noteId) {
+      this.$confirm(`This will permanently delete the note (${noteId}). Continue?`, 'Warning', {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: "warning",
+        center: true,
+      }).then(() => {
+        this.deleteNote(noteId)
+          .then(result => {
+            if (result) {
+              this.$message({
+                type: 'success',
+                message: `Note (${noteId}) was deleted.`,
+                center: true,
+              });
+              setTimeout(() => this.$router.push({name: 'Notes'}), 400);
+            }
+          })
+          .catch(err => {
+            this.$message({
+              type: 'warning',
+              message: `Failed to delete note (${noteId}).`,
+              center: true,
+            });
+          })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Delete canceled.',
+          center: true,
+        });
+      });
+    },
+    async deleteNote(noteId) {
+      const response = await axios.delete(`/api/notedestroy/${noteId}`, {
+        _method: 'delete'
+      });
+      const success = _get(response, 'data.data.success', false);
+      if (success) {
+        return success;
+      }
+      throw `Delete failed`;
+    }
   },
 }
 </script>
