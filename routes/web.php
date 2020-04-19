@@ -32,9 +32,6 @@ Route::namespace('Notes')
     ->group(static function () {
         Route::get('', [NotesController::class, 'index'])
             ->name('notes');
-
-        Route::delete('/{noteId}', [NotesController::class, 'destroy'])
-            ->name('notesDestroy');
     });
 
 Route::namespace('HackerNews')
@@ -135,6 +132,8 @@ Route::namespace('Api')
             ->name('apiNoteAdd');
         Route::put('noteupdate/{noteId}', [NotesApiController::class, 'update'])
             ->name('apiNoteUpdate');
+        Route::delete('notedestroy/{noteId}', [NotesApiController::class, 'destroy'])
+             ->name('apiNoteDestroy');
         Route::post('notetagcreate', [NotesApiController::class, 'tagAdd'])
              ->name('apiNotesTagAdd');
     });
