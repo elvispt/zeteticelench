@@ -8,6 +8,7 @@
              name="query"
              v-model="searchQuery"
              @keyup.esc="clearSearch"
+             placeholder="2 chars minimum"
       >
       &nbsp;
       <img src="search-by-algolia.svg" alt="search by algolia">
@@ -35,7 +36,9 @@ export default {
 
   methods: {
     submit: debounce(function () {
-      this.$emit("inputData", this.searchQuery);
+      if (this.searchQuery.length > 1) {
+        this.$emit("inputData", this.searchQuery);
+      }
     }, 400),
     clearSearch() {
       this.searchQuery = '';
