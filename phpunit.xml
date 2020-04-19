@@ -34,6 +34,7 @@
         <server name="SESSION_DRIVER" value="array"/>
         <server name="DB_DATABASE" value="zeteticelench_test"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="SCOUT_PREFIX" value="testing_"/>
         <server name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
         <server name="APP_SERVICES_CACHE" value="bootstrap/cache/services.phpunit.php"/>
         <server name="APP_PACKAGES_CACHE" value="bootstrap/cache/packages.phpunit.php"/>
