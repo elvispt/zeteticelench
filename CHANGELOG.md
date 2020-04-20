@@ -1,6 +1,9 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 3.0.1 <2020-04-20>
+- Docker image now used php 7.4 and node v10.
+
 ### 3.0.0 <2020-04-20>
 - Frontend sections Dashboard and Notes have been rewritten using Vue.js. Each
 section is a separate Vue.js application.
