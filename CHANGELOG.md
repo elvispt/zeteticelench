@@ -1,6 +1,14 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 3.0.0 <2020-04-20>
+- Frontend sections Dashboard and Notes have been rewritten using Vue.js. Each
+section is a separate Vue.js application.
+  - Removed Tag listing page.
+  - Users now create tags on the edit/create note page.
+- Added a current weather widget to Dashboard
+[#327](https://github.com/elvispt/zeteticelench/pull/427).
+
 ### 2.0.1 <2020-04-02>
 - Bump laravel/framework from 6.18.0 to 6.18.3
 [#382](https://github.com/elvispt/zeteticelench/pull/382)
