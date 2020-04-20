@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require('../bootstrap');
 
 window.Vue = require('vue');
 
@@ -21,11 +21,6 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 // You only need to register components that are injected into a Blade template
-Vue.component('inspire', require('./components/Inspire.vue').default);
-Vue.component('system-info', require('./components/SystemInfo.vue').default);
-Vue.component('next-holidays', require('./components/NextHolidays.vue').default);
-Vue.component('remote-jobs', require('./components/RemoteJobs.vue').default);
-Vue.component('weather', require('./components/Weather').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,11 +28,13 @@ Vue.component('weather', require('./components/Weather').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import router from './router';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(ElementUI);
 
 const app = new Vue({
+  router,
   el: '#app'
 });

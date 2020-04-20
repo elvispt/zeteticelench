@@ -17,7 +17,7 @@ class NotesUpdate extends BaseFormRequest
             'body' => [
                 'required',
                 'string',
-                'max:10000',
+                'max:100000',
             ],
             'tags' => [
                 'sometimes',

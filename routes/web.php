@@ -11,14 +11,22 @@
 |
 */
 
+use App\Http\Controllers\Api\InspireController;
+use App\Http\Controllers\Api\NextHolidaysController;
+use App\Http\Controllers\Api\RemoteJobsController;
+use App\Http\Controllers\Api\SystemInfoController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Notes\NotesController;
+use App\Http\Controllers\Api\Notes\NotesController as NotesApiController;
 use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::middleware('auth')->group(static function () {
+    Route::get('/', [HomeController::class, 'index'])
+        ->name('home');
+});
 
 Route::namespace('Notes')
     ->prefix('notes')
@@ -26,36 +34,6 @@ Route::namespace('Notes')
     ->group(static function () {
         Route::get('', [NotesController::class, 'index'])
             ->name('notes');
-
-        Route::get('/create', [NotesController::class, 'create'])
-            ->name('notesCreate');
-
-        Route::post('/create', [NotesController::class, 'add'])
-            ->name('notesAdd');
-
-        Route::get('/tags', [NotesController::class, 'tags'])
-            ->name('notesTags');
-
-        Route::get('/tags/create', [NotesController::class, 'tagCreate'])
-            ->name('notesTagsCreate');
-
-        Route::post('/tags/create', [NotesController::class, 'tagAdd'])
-            ->name('notesTagsAdd');
-
-        Route::get('/tags/{tagId?}', [NotesController::class, 'tags'])
-            ->name('notesTags');
-
-        Route::get('/{noteId}', [NotesController::class, 'show'])
-            ->name('notesShow');
-
-        Route::get('/edit/{noteId}', [NotesController::class, 'edit'])
-            ->name('notesEdit');
-
-        Route::put('/{noteId}', [NotesController::class, 'update'])
-            ->name('notesUpdate');
-
-        Route::delete('/{noteId}', [NotesController::class, 'destroy'])
-            ->name('notesDestroy');
     });
 
 Route::namespace('HackerNews')
@@ -133,5 +111,33 @@ Route::namespace('Users')
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', [HomeController::class, 'index'])
-    ->name('home');
+Route::namespace('Api')
+    ->prefix('api')
+    ->middleware('auth')
+    ->group(static function () {
+        // dashboard
+        Route::get('inspire', [InspireController::class, 'index'])
+            ->name('apiInspire');
+        Route::get('system-info', [SystemInfoController::class, 'index'])
+            ->name('apiSystemInfo');
+        Route::get('next-holidays', [NextHolidaysController::class, 'index'])
+            ->name('apiNextHolidays');
+        Route::get('remote-jobs', [RemoteJobsController::class, 'index'])
+            ->name('apiRemoteJobs');
+
+        // notes
+        Route::get('notes', [NotesApiController::class, 'index'])
+            ->name('apiNotesList');
+        Route::get('notes/tags', [NotesApiController::class, 'tags'])
+            ->name('apiNotesTagsList');
+        Route::get('notes/{noteId}', [NotesApiController::class, 'show'])
+            ->name('apiNote');
+        Route::post('notecreate', [NotesApiController::class, 'add'])
+            ->name('apiNoteAdd');
+        Route::put('noteupdate/{noteId}', [NotesApiController::class, 'update'])
+            ->name('apiNoteUpdate');
+        Route::delete('notedestroy/{noteId}', [NotesApiController::class, 'destroy'])
+             ->name('apiNoteDestroy');
+        Route::post('notetagcreate', [NotesApiController::class, 'tagAdd'])
+             ->name('apiNotesTagAdd');
+    });
