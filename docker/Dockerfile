@@ -1,7 +1,5 @@
-FROM php:7.3-apache
+FROM php:7.4-apache
 ADD vhost.conf /var/www/vhost.conf
-# give preference to node8 instead of node10
-ADD nodejs /etc/apt/preferences.d/nodejs
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         git \
@@ -38,7 +36,7 @@ RUN apt-get update \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
     && echo "### INSTALL nodejs ###" \
-    && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt-get install -y nodejs \
     && echo "### ACTIVATE APACHE mod_rewrite ###" \
     && a2enmod rewrite \
