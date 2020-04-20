@@ -15,7 +15,6 @@ use App\Http\Controllers\Api\InspireController;
 use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\RemoteJobsController;
 use App\Http\Controllers\Api\SystemInfoController;
-use App\Http\Controllers\Api\TranslationsController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Notes\NotesController;
@@ -24,7 +23,10 @@ use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::middleware('auth')->group(static function () {
+    Route::get('/', [HomeController::class, 'index'])
+        ->name('home');
+});
 
 Route::namespace('Notes')
     ->prefix('notes')
@@ -109,19 +111,21 @@ Route::namespace('Users')
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', [HomeController::class, 'index'])
-    ->name('home');
-
-Route::get('/api/translations', [TranslationsController::class, 'index']);
-Route::get('/api/inspire', [InspireController::class, 'index']);
-Route::get('/api/system-info', [SystemInfoController::class, 'index']);
-Route::get('/api/next-holidays', [NextHolidaysController::class, 'index']);
-Route::get('/api/remote-jobs', [RemoteJobsController::class, 'index']);
-
 Route::namespace('Api')
     ->prefix('api')
     ->middleware('auth')
     ->group(static function () {
+        // dashboard
+        Route::get('inspire', [InspireController::class, 'index'])
+            ->name('apiInspire');
+        Route::get('system-info', [SystemInfoController::class, 'index'])
+            ->name('apiSystemInfo');
+        Route::get('next-holidays', [NextHolidaysController::class, 'index'])
+            ->name('apiNextHolidays');
+        Route::get('remote-jobs', [RemoteJobsController::class, 'index'])
+            ->name('apiRemoteJobs');
+
+        // notes
         Route::get('notes', [NotesApiController::class, 'index'])
             ->name('apiNotesList');
         Route::get('notes/tags', [NotesApiController::class, 'tags'])
