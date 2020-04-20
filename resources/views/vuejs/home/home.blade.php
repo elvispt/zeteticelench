@@ -21,6 +21,7 @@
       </div>
 
       <div class="col-sm-6">
+        <weather></weather>
         <next-holidays
           lang-next-holiday="@lang('holidays.next_holidays')"
         ></next-holidays>
