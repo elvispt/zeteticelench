@@ -30,18 +30,19 @@ export default {
 
   watch: {
     searchQuery() {
-      this.submit();
+      if (this.searchQuery.length === 0 || this.searchQuery.length > 1) {
+        this.submit();
+      }
     }
   },
 
   methods: {
-    submit: debounce(function () {
-      if (this.searchQuery.length > 1) {
-        this.$emit("inputData", this.searchQuery);
-      }
+    submit: debounce(function() {
+      this.$emit("inputData", this.searchQuery)
     }, 400),
     clearSearch() {
       this.searchQuery = '';
+      this.submit();
     },
   },
 }
