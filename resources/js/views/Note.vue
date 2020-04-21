@@ -41,6 +41,7 @@
 <script>
 import Navigation from "../components/notes/Navigation";
 import _get from "lodash.get";
+import "highlight.js/styles/darkula.css";
 
 export default {
   name: "Note",
