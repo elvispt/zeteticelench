@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Laravel\Scout\Searchable;
+use League\CommonMark\Block\Element\FencedCode;
+use League\CommonMark\Block\Element\IndentedCode;
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\Environment;
+use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
+use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 
 /**
  * App\Models\Note
@@ -38,6 +43,8 @@ use League\CommonMark\CommonMarkConverter;
  */
 class Note extends Model
 {
+    public const WITH_SYNTAX_HIGHLIGHTING = 1;
+
     use SoftDeletes;
 
     use Searchable;
@@ -52,7 +59,7 @@ class Note extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function bodyToHtml()
+    public function bodyToHtml($withSyntaxHighlight = null): string
     {
         $scoutMetadata = $this->scoutMetadata();
         $body = data_get($scoutMetadata, '_highlightResult.body.value');
@@ -60,7 +67,30 @@ class Note extends Model
             $body = $this->body;
         }
 
-        $commonMarkConverter = new CommonMarkConverter();
+        $environment = null;
+        if ($withSyntaxHighlight === self::WITH_SYNTAX_HIGHLIGHTING) {
+            $languagesSupported = [
+                'html',
+                'php',
+                'js',
+                'ts',
+                'sql',
+                'markdown',
+                'java',
+                'yaml',
+                'ini',
+            ];
+            $environment = Environment::createCommonMarkEnvironment();
+            $environment->addBlockRenderer(
+                FencedCode::class,
+                new FencedCodeRenderer($languagesSupported)
+            );
+            $environment->addBlockRenderer(
+                IndentedCode::class,
+                new IndentedCodeRenderer($languagesSupported)
+            );
+        }
+        $commonMarkConverter = new CommonMarkConverter([], $environment);
         return $commonMarkConverter->convertToHtml($body);
     }
 
