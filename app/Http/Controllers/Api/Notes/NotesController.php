@@ -98,7 +98,7 @@ class NotesController extends Controller
 
         $simpleNoteResponse->updated_at = $note->updated_at->format('Y-m-d H:i:s');
         if ($request->get('html')) {
-            $simpleNoteResponse->body = $note->bodyToHtml();
+            $simpleNoteResponse->body = $note->bodyToHtml(NOTE::WITH_SYNTAX_HIGHLIGHTING);
         } else {
             $simpleNoteResponse->body = $note->body;
         }

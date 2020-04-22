@@ -13,7 +13,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
   @endif
 
-  <!-- Fonts -->
+<!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
@@ -31,10 +31,6 @@
   @hasSection('meta')
     @yield('meta')
   @endif
-
-  @yield('headers')
-
-  @stack('headscripts')
 </head>
 <body>
 <div id="app">
@@ -73,24 +69,16 @@
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
-
-          <li class="nav-item">
-            <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'users') ? 'text-primary' : '' }}"
-               href="{{ route('users-list') }}"
-            >@lang('users.users')</a>
-          </li>
-
-          <!-- Authentication Links -->
-          @guest
+          @if (\Illuminate\Support\Facades\Auth::check())
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'users') ? 'text-primary' : '' }}"
+                 href="{{ route('users-list') }}"
+              >@lang('users.users')</a>
             </li>
-            @if (Route::has('register'))
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-              </li>
-            @endif
-          @else
+          @endif
+
+        <!-- Authentication Links -->
+          @if (\Illuminate\Support\Facades\Auth::check())
             <li class="nav-item dropdown">
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false" v-pre>
@@ -111,7 +99,7 @@
                 </form>
               </div>
             </li>
-          @endguest
+          @endif
         </ul>
       </div>
     </div>

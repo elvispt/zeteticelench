@@ -22,6 +22,7 @@
 
 <script>
 import moment from 'moment';
+import _get from "lodash.get";
 
 export default {
   name: "NextHolidays",
@@ -43,9 +44,8 @@ export default {
 
   methods: {
       async fetchNextHolidays() {
-        const response = await fetch('/api/next-holidays');
-        const json = await response.json();
-        const data = json.data || [];
+        const response = await axios.get('/api/next-holidays');
+        const data = _get(response, 'data.data', []);
         if (data.length) {
           this.nextHolidays = data.map(holiday => {
             return {
