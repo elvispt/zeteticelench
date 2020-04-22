@@ -1,6 +1,17 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 3.1.0 <2020-04-22>
+- Added Syntax Highligthing to notes
+[#434](https://github.com/elvispt/zeteticelench/pull/434).
+- Fixed issue with searching notes when clearing field
+[#432](https://github.com/elvispt/zeteticelench/pull/432).
+- Replaced most usages of native Fetch with Axios library so that a global
+interceptor could be added to check if the user has lost authentication. If
+the user has lost it, then it will be automatically redirected to the login
+page. [#438](https://github.com/elvispt/zeteticelench/pull/438).
+- Removed scripts from the login page since those are unnecessary.
+
 ### 3.0.1 <2020-04-20>
 - Docker image now used php 7.4 and node v10.
 
@@ -10,7 +21,7 @@ section is a separate Vue.js application.
   - Removed Tag listing page.
   - Users now create tags on the edit/create note page.
 - Added a current weather widget to Dashboard
-[#327](https://github.com/elvispt/zeteticelench/pull/427).
+[#427](https://github.com/elvispt/zeteticelench/pull/427).
 
 ### 2.0.1 <2020-04-02>
 - Bump laravel/framework from 6.18.0 to 6.18.3
