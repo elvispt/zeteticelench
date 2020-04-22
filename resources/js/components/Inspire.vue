@@ -7,33 +7,26 @@
 </template>
 
 <script>
-  export default {
-    name: "Inspire",
+import _get from "lodash.get";
 
-    data() {
-      return {
-        inspire: null,
-      };
-    },
+export default {
+  name: "Inspire",
 
-    created() {
-      this.fetchInspire();
-    },
+  data() {
+    return {
+      inspire: null,
+    };
+  },
 
-    methods: {
-      fetchInspire() {
-        fetch('api/inspire')
-          .then(response => response.json())
-          .then(data => {
-            if (!data) {
-              return
-            }
-            this.inspire = data.data;
-          })
-          .catch(err => console.error(err))
-        ;
-      }
-    },
+  created() {
+    this.fetchInspire();
+  },
 
-  }
+  methods: {
+    async fetchInspire() {
+      const response = await axios.get('/api/inspire');
+      this.inspire = _get(response, 'data.data');
+    }
+  },
+}
 </script>

@@ -107,25 +107,28 @@ export default {
   },
 
   methods: {
-    addNewTag() {
+    async addNewTag() {
       if (this.newTag) {
         this.errors = [];
-        axios.post('/api/notetagcreate', {
-          tag: this.newTag
-        })
-          .then(response => {
-            const success = _get(response, 'data.data.success');
-            const id = _get(response, 'data.data.id');
-            if (success && id) {
-              this.tags.push({id: id, 'name': this.newTag});
-              this.newTagInputVisible = false;
-              this.newTag = '';
-            }
+
+        try {
+          const response = await axios.post('/api/notetagcreate', {
+            tag: this.newTag
           })
-          .catch(err => {
-            const msg = _get(err, 'response.data.errors.tag[0]');
-            this.errors.push({ field: 'tagCreate', text: msg });
-          });
+          const success = _get(response, 'data.data.success');
+          const id = _get(response, 'data.data.id');
+          if (success && id) {
+            this.tags.push({
+              id: id,
+              name: this.newTag,
+            });
+            this.newTagInputVisible = false;
+            this.newTag = '';
+          }
+        } catch (err) {
+          const msg = _get(err, 'response.data.errors.tag[0]');
+          this.errors.push({ field: 'tagCreate', text: msg });
+        }
       }
     },
     showInput() {
@@ -135,11 +138,10 @@ export default {
       });
     },
     async fetchTags() {
-      const response = await fetch('/api/notes/tags');
-      const json = await response.json();
-      this.tags = _get(json, 'data', []);
+      const response = await axios.get('/api/notes/tags');
+      this.tags = _get(response, 'data.data', []);
     },
-    submitForm(event) {
+    async submitForm(event) {
       event.preventDefault();
       if (this.newTagInputVisible) {
         return false;
@@ -151,25 +153,25 @@ export default {
         return;
       }
 
-      axios.post('/api/notecreate', {
-        body: this.body,
-        tags: this.selectedTags,
-      })
-      .then(response => {
+      try {
+        const response = await axios.post('/api/notecreate', {
+          body: this.body,
+          tags: this.selectedTags,
+        });
+
         const id = _get(response, 'data.data.id');
         const success = _get(response, 'data.data.success');
         if (id && success) {
           this.success = true;
           this.body = '';
           this.selectedTags = [];
-          this.$router.push({name: 'Note', params: { id: id}});
+          await this.$router.push({name: 'Note', params: { id: id}});
         } else {
           this.errors.push({ field: 'na', text: "Failed to create the note."});
         }
-      })
-      .catch(err => {
+      } catch (err) {
         this.errors.push({ field: 'submit', text: err.message });
-      });
+      }
     },
   },
 

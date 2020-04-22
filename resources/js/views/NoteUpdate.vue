@@ -111,25 +111,25 @@ export default {
   },
 
   methods: {
-    addNewTag() {
+    async addNewTag() {
       if (this.newTag) {
         this.errors = [];
-        axios.post('/api/notetagcreate', {
-          tag: this.newTag
-        })
-          .then(response => {
-            const success = _get(response, 'data.data.success');
-            const id = _get(response, 'data.data.id');
-            if (success && id) {
-              this.tags.push({id: id, 'name': this.newTag});
-              this.newTagInputVisible = false;
-              this.newTag = '';
-            }
-          })
-          .catch(err => {
-            const msg = _get(err, 'response.data.errors.tag[0]');
-            this.errors.push({ field: 'tagCreate', text: msg });
+
+        try {
+          const response = await axios.post('/api/notetagcreate', {
+            tag: this.newTag
           });
+          const success = _get(response, 'data.data.success');
+          const id = _get(response, 'data.data.id');
+          if (success && id) {
+            this.tags.push({id: id, 'name': this.newTag});
+            this.newTagInputVisible = false;
+            this.newTag = '';
+          }
+        } catch (err) {
+          const msg = _get(err, 'response.data.errors.tag[0]');
+          this.errors.push({ field: 'tagCreate', text: msg });
+        }
       }
     },
     showInput() {
@@ -143,18 +143,16 @@ export default {
         return false;
       }
 
-      const response = await fetch(`/api/notes/${id}?html=0`);
-      const json = await response.json();
-      this.note = json.data;
+      const response = await axios.get(`/api/notes/${id}?html=0`);
+      this.note = _get(response, 'data.data', []);
       this.selectedTags = this.note.tags.map(tag => tag.id);
       setTimeout(() => this.loading = false, 400);
     },
     async fetchTags() {
-      const response = await fetch('/api/notes/tags');
-      const json = await response.json();
-      this.tags = _get(json, 'data', []);
+      const response = await axios.get('/api/notes/tags');
+      this.tags = _get(response, 'data.data', []);
     },
-    submitForm(event) {
+    async submitForm(event) {
       event.preventDefault();
       if (this.newTagInputVisible) {
         return false;
@@ -165,23 +163,22 @@ export default {
         return;
       }
 
-      axios.put(`/api/noteupdate/${this.note.id}`, {
-        body: this.note.body,
-        tags: this.selectedTags,
-        _method: 'put',
-      })
-        .then(response => {
-          if (_get(response, 'data.data.success')) {
-            this.success = true;
-            this.selectedTags = [];
-            this.$router.push({name: 'Note', params: {id: this.note.id}})
-          } else {
-            this.errors.push({ field: 'na', text: "Failed to update note."});
-          }
-        })
-        .catch(err => {
-          this.errors.push({ field: 'submit', text: err.message });
+      try {
+        const response = await axios.put(`/api/noteupdate/${this.note.id}`, {
+          body: this.note.body,
+          tags: this.selectedTags,
+          _method: 'put',
         });
+        if (_get(response, 'data.data.success')) {
+          this.success = true;
+          this.selectedTags = [];
+          await this.$router.push({name: 'Note', params: {id: this.note.id}})
+        } else {
+          this.errors.push({ field: 'na', text: "Failed to update note."});
+        }
+      } catch (err) {
+        this.errors.push({ field: 'submit', text: err.message });
+      }
     },
   },
 

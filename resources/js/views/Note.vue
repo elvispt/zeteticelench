@@ -69,9 +69,8 @@ export default {
         return false;
       }
 
-      const response = await fetch(`/api/notes/${id}?html=1`);
-      const json = await response.json();
-      this.note = json.data;
+      const response = await axios.get(`/api/notes/${id}?html=1`);
+      this.note = _get(response, 'data.data');
       setTimeout(() => this.loading = false, 400);
     },
     confirmDelete: function (noteId) {

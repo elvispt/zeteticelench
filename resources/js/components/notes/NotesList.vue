@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import moment from 'moment';
+import moment from "moment";
+import _get from "lodash.get";
 
 export default {
   name: "NotesList",
@@ -59,11 +60,8 @@ export default {
 
   methods: {
     async fetchNotes(searchQuery) {
-      const request = await fetch(`/api/notes?query=${searchQuery}`);
-      const response = await request.json();
-      if (response && response.data && Array.isArray(response.data)) {
-        this.notes = response.data;
-      }
+      const response = await axios.get(`/api/notes?query=${searchQuery}`);
+      this.notes = _get(response, 'data.data', []);
       return true;
     },
     close() {
