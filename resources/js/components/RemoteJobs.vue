@@ -33,6 +33,7 @@
 
 <script>
 import moment from "moment";
+import _get from "lodash.get";
 
 export default {
   name: "RemoteJobs",
@@ -55,9 +56,8 @@ export default {
 
   methods: {
     async fetchRemoteJobs() {
-      const response = await fetch('/api/remote-jobs');
-      const json = await response.json();
-      this.jobs = json.data || [];
+      const response = await axios.get('/api/remote-jobs');
+      this.jobs = _get(response, 'data.data', []);
       this.loading = false;
     },
   },

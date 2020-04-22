@@ -39,68 +39,67 @@
 </template>
 
 <script>
-  export default {
-    name: "SystemInfo",
+import _get from "lodash.get";
 
-    props: [
-      'langSystemInfo',
-      'langSince',
-      'langNumberQueueWorkers',
-      'langMemoryInfo',
-      'langUsed',
-      'langFree',
-      'langTotal',
-    ],
+export default {
+  name: "SystemInfo",
 
-    data() {
-      return {
-        loading: true,
-        memory: {
-          free: '',
-          used: '',
-          total: '',
-        },
-        nQueueWorkersRunning: 0,
-        up: '',
-        upSince: '',
-      };
-    },
+  props: [
+    'langSystemInfo',
+    'langSince',
+    'langNumberQueueWorkers',
+    'langMemoryInfo',
+    'langUsed',
+    'langFree',
+    'langTotal',
+  ],
 
-    created() {
-      this.fetchSystemInfo();
-      // run every 10 seconds
-      setInterval(this.fetchSystemInfo, 10000);
-    },
+  data() {
+    return {
+      loading: true,
+      memory: {
+        free: '',
+        used: '',
+        total: '',
+      },
+      nQueueWorkersRunning: 0,
+      up: '',
+      upSince: '',
+    };
+  },
 
-    methods: {
-      fetchSystemInfo() {
-        fetch('/api/system-info')
-          .then(response => response.json())
-          .then(response => {
-            const data = response.data;
-            this.memory.free = data.memory.free;
-            this.memory.used = data.memory.used;
-            this.memory.total = data.memory.total;
-            this.nQueueWorkersRunning = data.nQueueWorkersRunning;
-            this.up = data.up;
-            this.upSince = data.upSince;
-            setTimeout(() => this.loading = false, 500);
-          })
-          .catch(err => console.error(err))
-        ;
+  created() {
+    this.fetchSystemInfo();
+    // run every 10 seconds
+    setInterval(this.fetchSystemInfo, 10000);
+  },
+
+  methods: {
+    async fetchSystemInfo() {
+      const response = await axios.get('/api/system-info');
+      const data = _get(response, 'data.data', null);
+      if (data) {
+        this.memory.free = _get(data, 'memory.free');
+        this.memory.used = _get(data, 'memory.used');
+        this.memory.total = _get(data, 'memory.total');
+        this.nQueueWorkersRunning = _get(data, 'nQueueWorkersRunning');
+        this.up = _get(data, 'up');
+        this.upSince = _get(data, 'upSince');
       }
-    },
+      setTimeout(() => this.loading = false, 500);
+    }
+  },
 
-    filters: {
-      capitalize: value => {
-        if (!value) {
-          return;
-        }
-        value = value.toString();
-        return value.charAt(0).toUpperCase() + value.slice(1);
+  filters: {
+    capitalize: value => {
+      if (!value) {
+        return;
       }
-    },
-  }
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+  },
+}
 </script>
 <style scoped>
   .slide-fade-enter-active {

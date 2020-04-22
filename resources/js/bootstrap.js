@@ -39,6 +39,19 @@ let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.interceptors.response.use(
+      null,
+      (err) => {
+        if (err.response) {
+          if (err.response.status === 401 || err.response.status === 419) {
+            window.location.replace('/login');
+          }
+        } else {
+          Sentry.captureMessage(err);
+          console.error(`Unknown error: ${err}`);
+        }
+      }
+    )
     window.$.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
