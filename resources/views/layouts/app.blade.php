@@ -31,10 +31,6 @@
   @hasSection('meta')
     @yield('meta')
   @endif
-
-  @yield('headers')
-
-  @stack('scripts')
 </head>
 <body>
 <div id="app">
@@ -73,24 +69,16 @@
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
-
+          @if (\Illuminate\Support\Facades\Auth::check())
           <li class="nav-item">
             <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'users') ? 'text-primary' : '' }}"
                href="{{ route('users-list') }}"
             >@lang('users.users')</a>
           </li>
+          @endif
 
           <!-- Authentication Links -->
-          @guest
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-            </li>
-            @if (Route::has('register'))
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-              </li>
-            @endif
-          @else
+          @if (\Illuminate\Support\Facades\Auth::check())
             <li class="nav-item dropdown">
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                  aria-haspopup="true" aria-expanded="false" v-pre>
@@ -111,7 +99,7 @@
                 </form>
               </div>
             </li>
-          @endguest
+          @endif
         </ul>
       </div>
     </div>
@@ -122,5 +110,7 @@
     @yield('content')
   </main>
 </div>
+<!-- Scripts -->
+@stack('scripts')
 </body>
 </html>
