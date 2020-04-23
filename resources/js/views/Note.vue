@@ -3,7 +3,7 @@
     <navigation></navigation>
 
     <div class="row justify-content-center" v-loading="loading">
-      <div class="col-12">
+      <div class="col-12 no-gutter-xs">
         <div class="mt-3 " v-if="!note.id">
           <p class="loader-text pb-2 pt-3">&nbsp;</p>
           <p class="loader-text">&nbsp;</p>
@@ -16,6 +16,7 @@
             v-for="tag in note.tags"
             v-bind:key="tag.id"
             size="big"
+            class="mr-1 mb-1"
           >{{ tag.name }}</el-tag>
         </div>
       </div>
@@ -127,18 +128,5 @@ export default {
 }
 .loader-text--1x3 {
   width: 33%;
-}
-.el-tag {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.el-tag + .el-tag {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-left: none;
-}
-.el-tag:last-child {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
 }
 </style>

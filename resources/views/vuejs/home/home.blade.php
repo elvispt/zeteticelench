@@ -8,7 +8,7 @@
   <div class="container pt-4">
     <div class="row justify-content-center">
 
-      <div class="col-sm-6">
+      <div class="col-sm-6 no-gutter-xs">
         <inspire></inspire>
         <system-info lang-system-info="@lang('system.info')"
                      lang-since="@lang('system.since')"
@@ -20,14 +20,14 @@
         ></system-info>
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-6 no-gutter-xs">
         <weather></weather>
         <next-holidays
           lang-next-holiday="@lang('holidays.next_holidays')"
         ></next-holidays>
       </div>
 
-      <div class="col-sm-12">
+      <div class="col-sm-12 no-gutter-xs">
         <remote-jobs
           lang-remote-jobs="@lang('jobs.remote_jobs')"
         ></remote-jobs>

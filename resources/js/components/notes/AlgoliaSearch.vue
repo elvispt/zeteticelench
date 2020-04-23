@@ -1,9 +1,9 @@
 <template>
-  <div class="col-12" id="algolia-search">
-    <div class="justify-content-center form-inline">
+  <div class="col-12 no-gutter-xs" id="algolia-search">
+    <div class="justify-content-center form-inline d-flex">
       <label class="sr-only" for="query">Search here</label>
       <input type="text"
-             class="form-control w-50"
+             class="form-control flex-grow-1"
              id="query"
              name="query"
              v-model="searchQuery"
@@ -11,7 +11,10 @@
              placeholder="2 chars minimum"
       >
       &nbsp;
-      <img src="search-by-algolia.svg" alt="search by algolia">
+      <picture>
+        <source srcset="search-by-algolia.svg" media="(min-width: 800px)">
+        <img src="algolia-blue-mark.svg" alt="search by algolia" style="max-height: 30px;">
+      </picture>
     </div>
   </div>
 </template>
@@ -47,3 +50,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+  .form-control {
+    width: auto;
+  }
+</style>

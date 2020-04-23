@@ -6,7 +6,7 @@
         @inputData="updateMessage"></algolia-search>
     </div>
     <div class="row">
-      <div class="col-12 mt-3">
+      <div class="col-12 mt-3 no-gutter-xs">
         <notes-list
           :search-query="searchQuery"
           @inputData="updateMessage"
