@@ -3,7 +3,7 @@
     <navigation></navigation>
 
     <div class="row justify-content-center" v-loading="loading">
-      <div class="col-12">
+      <div class="col-12 no-gutter-xs">
         <div class="mt-3 " v-if="!note.id">
           <p class="loader-text pb-2 pt-3">&nbsp;</p>
           <p class="loader-text">&nbsp;</p>

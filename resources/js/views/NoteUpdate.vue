@@ -3,7 +3,7 @@
     <navigation></navigation>
 
     <div class="row justify-content-center">
-      <div class="col-sm">
+      <div class="col-sm no-gutter-xs">
         <div class="card shadow" v-loading="loading">
           <div class="p-1" v-if="errors.length">
             <el-alert v-for="error in errors" v-bind:key="error.field"

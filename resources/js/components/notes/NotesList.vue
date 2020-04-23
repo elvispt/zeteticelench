@@ -1,6 +1,6 @@
 <template>
   <div id="notes-list">
-    <ul class="list-group list-group" v-loading="loading">
+    <ul class="list-group list-group-flush" v-loading="loading">
       <el-alert
         v-if="!notes.length"
         title="Could not find any records"

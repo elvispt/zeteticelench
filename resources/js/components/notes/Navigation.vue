@@ -1,7 +1,7 @@
 <template>
   <div id="navigation">
     <div class="row justify-content-center top-submenu">
-      <div class="col-12">
+      <div class="col-12 no-gutter-xs">
         <div class="btn-group d-flex mb-2">
           <router-link
             to="/"
