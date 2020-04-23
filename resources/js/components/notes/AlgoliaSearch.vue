@@ -11,7 +11,10 @@
              placeholder="2 chars minimum"
       >
       &nbsp;
-      <img src="search-by-algolia.svg" alt="search by algolia">
+      <picture>
+        <source srcset="search-by-algolia.svg" media="(min-width: 800px)">
+        <img src="algolia-blue-mark.svg" alt="search by algolia" style="max-height: 30px;">
+      </picture>
     </div>
   </div>
 </template>
