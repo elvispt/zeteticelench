@@ -37,6 +37,7 @@
               <p>Tags:</p>
               <el-checkbox-group v-model="selectedTags" size="small" class="d-inline-block">
                 <el-checkbox-button
+                  class="mr-1"
                   v-for="tag in tags"
                   v-bind:key="tag.id"
                   :label="tag.id"
@@ -201,5 +202,12 @@ export default {
   .new-tag-group .input-new-tag, .new-tag-group .button-new-tag {
     vertical-align: middle;
     width: 120px;
+  }
+  #note-create >>> .el-checkbox-button--small .el-checkbox-button__inner {
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+  }
+  #note-create >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
+    border-color: #409EFF;
   }
 </style>
