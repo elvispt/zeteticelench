@@ -33,6 +33,7 @@
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
         <server name="DB_DATABASE" value="zeteticelench_test"/>
+        <server name="MAIL_MAILER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="SCOUT_PREFIX" value="testing_"/>
         <server name="APP_CONFIG_CACHE" value="bootstrap/cache/config.phpunit.php"/>
