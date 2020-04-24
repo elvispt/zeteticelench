@@ -1,6 +1,6 @@
 <template>
   <div id="notes-list">
-    <ul class="list-group list-group" v-loading="loading">
+    <ul class="list-group list-group-flush" v-loading="loading">
       <el-alert
         v-if="!notes.length"
         title="Could not find any records"
@@ -19,6 +19,7 @@
         </router-link>
         <div>
           <el-tag
+            class="mr-1 mb-1"
             v-for="tag in note.tags"
             v-bind:key="tag.id"
             size="small"
@@ -80,19 +81,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.el-tag {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.el-tag + .el-tag {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-left: none;
-}
-.el-tag:last-child {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-</style>

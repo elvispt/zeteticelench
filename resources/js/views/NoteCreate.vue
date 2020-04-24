@@ -3,7 +3,7 @@
     <navigation></navigation>
 
     <div class="row justify-content-center">
-      <div class="col-sm">
+      <div class="col-sm no-gutter-xs">
         <div class="card shadow">
           <div class="p-1" v-if="errors.length">
             <el-alert v-for="error in errors" v-bind:key="error.field"
@@ -25,18 +25,27 @@
                 placeholder="# Title of note"
               ></textarea>
             </div>
-            <small class="form-text text-muted ml-3">
-              <a
-                class="text-muted"
-                href="https://commonmark.org/help/"
-                tabindex=-1
-                target="_CommonMark">CommonMark</a>
-            </small>
+            <div class="d-flex justify-content-between">
+              <small class="form-text text-muted ml-3">
+                <a
+                  class="text-muted"
+                  href="https://commonmark.org/help/"
+                  tabindex=-1
+                  target="_CommonMark">CommonMark</a>
+              </small>
+              <el-button
+                circle
+                size="small"
+                type="info"
+                @click="insertCodeBlockBackTicks"
+              >```</el-button>
+            </div>
 
             <div class="mt-3 ml-3">
               <p>Tags:</p>
               <el-checkbox-group v-model="selectedTags" size="small" class="d-inline-block">
                 <el-checkbox-button
+                  class="mr-1"
                   v-for="tag in tags"
                   v-bind:key="tag.id"
                   :label="tag.id"
@@ -103,10 +112,30 @@ export default {
       body: '',
       tags: [],
       selectedTags: [],
+      inputEl: null,
     };
   },
 
   methods: {
+    insertCodeBlockBackTicks() {
+      const textToInsert = "```";
+      if (!this.inputEl) {
+        this.inputEl = document.querySelector('#note-create textarea');
+      }
+      const inserted = document.execCommand("insertText",false, textToInsert);
+
+      // Firefox fails with execCommand
+      if (!inserted && typeof this.inputEl.setRangeText === "function") {
+        const start = this.inputEl.selectionStart;
+        this.inputEl.setRangeText(textToInsert)
+        this.inputEl.selectionStart = this.inputEl.selectionEnd = start + textToInsert.length;
+
+        // notify any listeners of change
+        const event = document.createEvent("UIEvent");
+        event.initEvent("input", true, false);
+        this.inputEl.dispatchEvent(event);
+      }
+    },
     async addNewTag() {
       if (this.newTag) {
         this.errors = [];
@@ -201,5 +230,12 @@ export default {
   .new-tag-group .input-new-tag, .new-tag-group .button-new-tag {
     vertical-align: middle;
     width: 120px;
+  }
+  #note-create >>> .el-checkbox-button--small .el-checkbox-button__inner {
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+  }
+  #note-create >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
+    border-color: #409EFF;
   }
 </style>
