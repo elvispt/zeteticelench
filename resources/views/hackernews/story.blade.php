@@ -2,6 +2,8 @@
 
 @section('title') {{ $story->title }} @endsection
 
+@push('scripts')<script src="{{ mix('js/app-tmp.js') }}" defer></script>@endpush
+
 @section('meta')
   <meta name="route-hackernews-bookmark-add"
         content="{{ route('hackernews-bookmark-destroy') }}">
