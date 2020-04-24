@@ -7,6 +7,7 @@ Zetetic Elench - Seeking Proof
 - PHP 7.2
 - Laravel 6.*
 - MySQL 5.7
+- Vue.js 2.x
 
 ## Milestones:
 
