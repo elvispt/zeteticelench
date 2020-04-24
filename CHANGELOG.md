@@ -1,6 +1,24 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 3.2.0 <2020-04-24>
+- Small screen improvements and bug fixes:
+  - Increased base font-size to 16px to help fix a zoom issue on small devices.
+  When the user selected an input field the mobile browser would zoom in and
+  after that it would not.
+  - Added a button to insert code blocks since this is harder on mobile
+  keyboards.
+  - Tag styling was changed from button style to standard tag style.
+  - Added a small version of Algolia logo for xs screens.
+  - Gutter is now removed on xs screens to make better use of available screen
+  space.
+  - [#445](https://github.com/elvispt/zeteticelench/pull/445).
+- Updated Laravel to v7.7.1
+[#447](https://github.com/elvispt/zeteticelench/pull/447).
+- Fixed issue with saving/removing favorite hn posts was not working. This fix
+is temporary until the Vue.js refactor is applied to the Hacker News app.
+[#448](https://github.com/elvispt/zeteticelench/pull/448).
+
 ### 3.1.0 <2020-04-22>
 - Added Syntax Highligthing to notes
 [#434](https://github.com/elvispt/zeteticelench/pull/434).
