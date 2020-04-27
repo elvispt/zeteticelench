@@ -41,7 +41,8 @@ class HackerNewsJobs implements RemoteJobsInterface
             '<a href="' . $url . '" target="_blank">' . $text . '</a>';
         $job->howToApply = $howToApply;
         $time = data_get($hnJob, 'created_at');
-        $job->time = Carbon::createFromFormat('Y-m-d H:i:s', $time);
+        $inputFormat = 'Y-m-d\TH:i:s\.uZ';
+        $job->time = Carbon::createFromFormat($inputFormat, $time);
 
         return $job;
     }
