@@ -1,6 +1,12 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 3.2.1 <2020-04-24>
+- Fixed issue with date format that was caused by the Laravel v7 update where
+the serialization of date fields, in the models, changed it's format
+[#453](https://github.com/elvispt/zeteticelench/pull/453).
+- Fixed issue with collapse function not working on hacker news comments.
+
 ### 3.2.0 <2020-04-24>
 - Small screen improvements and bug fixes:
   - Increased base font-size to 16px to help fix a zoom issue on small devices.
