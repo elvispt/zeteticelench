@@ -15,6 +15,17 @@ mix
   .js('resources/js/dashboard/app.js', 'public/js/dashboard')
   .js('resources/js/notes/app.js', 'public/js/notes')
   .js('resources/js/app-tmp.js', 'public/js')
+  .extract([
+    'vue',
+    'element-ui',
+    'lodash.get',
+    'lodash.debounce',
+    'moment',
+    'axios',
+    'jquery',
+    'bootstrap',
+  ])
+;
 
 mix.sass('resources/sass/app.scss', 'public/css');
 

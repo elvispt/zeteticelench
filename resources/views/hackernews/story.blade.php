@@ -2,7 +2,11 @@
 
 @section('title') {{ $story->title }} @endsection
 
-@push('scripts')<script src="{{ mix('js/app-tmp.js') }}" defer></script>@endpush
+@push('scripts')
+  <script src="{{ mix('js/mods/manifest.js') }}" defer></script>
+  <script src="{{ mix('js/mods/vendor.js') }}" defer></script>
+  <script src="{{ mix('js/app-tmp.js') }}" defer></script>
+@endpush
 
 @section('meta')
   <meta name="route-hackernews-bookmark-add"
