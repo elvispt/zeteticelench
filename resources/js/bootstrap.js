@@ -2,8 +2,6 @@ import * as Sentry from '@sentry/browser';
 
 Sentry.init({ dsn: 'https://50142ad267aa4c7c9dab6ed21262d2ab@sentry.io/1504143' });
 
-window._ = require('lodash');
-
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This

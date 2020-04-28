@@ -1,8 +1,10 @@
 {
-    "/js/app.js": "/js/app.js?id=5f05279648f55b105576",
+    "/js/mods/manifest.js": "/js/mods/manifest.js?id=01c8731923a46c30aaed",
+    "/js/mods/vendor.js": "/js/mods/vendor.js?id=858860003dc0a98c016d",
+    "/js/app-tmp.js": "/js/app-tmp.js?id=34a46c74051997bf2685",
+    "/js/dashboard/app.js": "/js/dashboard/app.js?id=e27541991a26ff9104d2",
     "/css/app.css": "/css/app.css?id=02082ce500e92ddf993b",
-    "/js/app-tmp.js": "/js/app-tmp.js?id=f7d61037d4fb4eb375ac",
-    "/js/mods/bookmark.js": "/js/mods/bookmark.js?id=e3130adddcd96afc4468",
-    "/js/mods/collapse.js": "/js/mods/collapse.js?id=0fcac906756c9af01951",
-    "/js/notes/app.js": "/js/notes/app.js?id=3bf7a95b10f26a37e67d"
+    "/js/mods/bookmark.js": "/js/mods/bookmark.js?id=0b815d87cecfba1fd30f",
+    "/js/mods/collapse.js": "/js/mods/collapse.js?id=93fea11aa1e4ecb2005c",
+    "/js/notes/app.js": "/js/notes/app.js?id=e4e5de5ff7724050617c"
 }
