@@ -17,6 +17,6 @@ class NotesController extends Controller
      */
     public function index(Request $request)
     {
-        return View::make('vuejs/notes/notes');
+        return View::make('vuejs/notes');
     }
 }

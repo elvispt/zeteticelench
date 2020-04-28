@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\RemoteJobsController;
 use App\Http\Controllers\Api\SystemInfoController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Notes\NotesController;
 use App\Http\Controllers\Api\Notes\NotesController as NotesApiController;
 use App\Http\Controllers\Users\UsersController;
@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(static function () {
-    Route::get('/', [HomeController::class, 'index'])
+    Route::get('/', [DashboardController::class, 'index'])
         ->name('home');
 });
 

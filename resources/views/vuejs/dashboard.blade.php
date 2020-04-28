@@ -1,4 +1,4 @@
-@extends('vuejs/layouts.app')
+@extends('vuejs.layouts.app')
 
 @section('title') @lang('common.dashboard') @endsection
 
