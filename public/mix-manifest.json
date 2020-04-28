@@ -1,8 +1,8 @@
 {
-    "/js/app.js": "/js/app.js?id=5f05279648f55b105576",
-    "/css/app.css": "/css/app.css?id=02082ce500e92ddf993b",
     "/js/app-tmp.js": "/js/app-tmp.js?id=f7d61037d4fb4eb375ac",
+    "/js/dashboard/app.js": "/js/dashboard/app.js?id=56703051a8275f60abf9",
+    "/css/app.css": "/css/app.css?id=02082ce500e92ddf993b",
     "/js/mods/bookmark.js": "/js/mods/bookmark.js?id=e3130adddcd96afc4468",
     "/js/mods/collapse.js": "/js/mods/collapse.js?id=0fcac906756c9af01951",
-    "/js/notes/app.js": "/js/notes/app.js?id=3bf7a95b10f26a37e67d"
+    "/js/notes/app.js": "/js/notes/app.js?id=db7f3da79ec9d83f8236"
 }

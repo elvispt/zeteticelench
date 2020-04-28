@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Notes from "../views/Notes";
-import Note from "../views/Note"
-import NoteCreate from "../views/NoteCreate";
-import NoteUpdate from "../views/NoteUpdate";
+import Notes from "./views/Notes";
+import Note from "./views/Note"
+import NoteCreate from "./views/NoteCreate";
+import NoteUpdate from "./views/NoteUpdate";
 
 Vue.use(Router);
 

@@ -94,7 +94,7 @@
 
 <script>
 import _get from "lodash.get";
-import Navigation from "../components/notes/Navigation";
+import Navigation from "../components/Navigation";
 
 export default {
   name: "NoteCreate",

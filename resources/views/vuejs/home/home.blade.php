@@ -2,7 +2,7 @@
 
 @section('title') @lang('common.dashboard') @endsection
 
-@push('scripts')<script src="{{ mix('js/app.js') }}" defer></script>@endpush
+@push('scripts')<script src="{{ mix('js/dashboard/app.js') }}" defer></script>@endpush
 
 @section('content')
   <div class="container pt-4">

@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import Navigation from "../components/notes/Navigation";
-import AlgoliaSearch from "../components/notes/AlgoliaSearch";
-import NotesList from "../components/notes/NotesList";
+import Navigation from "../components/Navigation";
+import AlgoliaSearch from "../components/AlgoliaSearch";
+import NotesList from "../components/NotesList";
 
 export default {
   name: "Notes",
