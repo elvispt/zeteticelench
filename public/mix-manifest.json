@@ -1,10 +1,10 @@
 {
     "/js/mods/manifest.js": "/js/mods/manifest.js?id=7db827d654313dce4250",
-    "/js/mods/vendor.js": "/js/mods/vendor.js?id=f5441069ae1099ca43a9",
-    "/js/app-tmp.js": "/js/app-tmp.js?id=de058d1ba6dae1437e41",
-    "/js/dashboard/app.js": "/js/dashboard/app.js?id=4a171749f76f77069aa7",
+    "/js/mods/vendor.js": "/js/mods/vendor.js?id=30e89b80df2b328d1447",
+    "/js/app-tmp.js": "/js/app-tmp.js?id=d72ca15aab6f20e4b40b",
+    "/js/dashboard/app.js": "/js/dashboard/app.js?id=f970380232f1aaca9a14",
     "/css/app.css": "/css/app.css?id=799223b23e7d6032fff9",
     "/js/mods/bookmark.js": "/js/mods/bookmark.js?id=ccf45d6dd6bed7b2e309",
     "/js/mods/collapse.js": "/js/mods/collapse.js?id=fe693d5a17f4ce1d6000",
-    "/js/notes/app.js": "/js/notes/app.js?id=4f641d9e907e254ebee9"
+    "/js/notes/app.js": "/js/notes/app.js?id=31be8329d22ae905fec8"
 }

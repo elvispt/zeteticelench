@@ -17,6 +17,7 @@ mix
   .js('resources/js/app-tmp.js', 'public/js')
   .extract([
     'vue',
+    'vue-router',
     'element-ui',
     'lodash.get',
     'lodash.debounce',
@@ -24,6 +25,9 @@ mix
     'axios',
     'jquery',
     'bootstrap',
+    'popper.js',
+    '@sentry/browser',
+    'highlight.js',
   ])
 ;
 

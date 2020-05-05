@@ -17,12 +17,13 @@
           >
             <div class="textarea-container">
               <textarea
-                v-model.trim="body"
+                v-model="note.body"
                 name="body"
                 class="form-control form-text m-0"
                 cols="100"
                 rows="15"
                 placeholder="# Title of note"
+                @keydown.tab.prevent="textareaCharInserter"
               ></textarea>
             </div>
             <div class="d-flex justify-content-between">
@@ -95,6 +96,7 @@
 <script>
 import _get from "lodash.get";
 import Navigation from "../components/Navigation";
+import { TextareaCharInserter } from "../mixins/textareaCharInserter";
 
 export default {
   name: "NoteCreate",
@@ -103,13 +105,15 @@ export default {
     Navigation,
   },
 
+  mixins: [TextareaCharInserter],
+
   data() {
     return {
       newTagInputVisible: false,
       newTag: '',
       errors: [],
       success: false,
-      body: '',
+      note: {body: ''},
       tags: [],
       selectedTags: [],
       inputEl: null,
@@ -176,15 +180,15 @@ export default {
         return false;
       }
       this.errors = [];
-      if (!this.body) {
+      if (!this.note.body) {
         this.errors.push({ field: 'body', text: "Note text is empty."});
-        this.body = null;
+        this.note.body = null;
         return;
       }
 
       try {
         const response = await axios.post('/api/notecreate', {
-          body: this.body,
+          body: this.note.body,
           tags: this.selectedTags,
         });
 
@@ -192,7 +196,7 @@ export default {
         const success = _get(response, 'data.data.success');
         if (id && success) {
           this.success = true;
-          this.body = '';
+          this.note.body = '';
           this.selectedTags = [];
           await this.$router.push({name: 'Note', params: { id: id}});
         } else {
