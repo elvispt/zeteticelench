@@ -17,12 +17,13 @@
           >
             <div class="textarea-container">
               <textarea
-                v-model.trim="note.body"
+                v-model="note.body"
                 name="body"
                 class="form-control form-text m-0"
                 cols="100"
                 rows="15"
                 placeholder="# Title of note"
+                @keydown.tab.prevent="textareaCharInserter"
               ></textarea>
             </div>
             <div class="d-flex justify-content-between">
@@ -94,6 +95,7 @@
 <script>
 import _get from "lodash.get";
 import Navigation from "../components/Navigation";
+import { TextareaCharInserter } from "../mixins/textareaCharInserter";
 
 export default {
   name: "NoteUpdate",
@@ -101,6 +103,8 @@ export default {
   components: {
     Navigation,
   },
+
+  mixins: [TextareaCharInserter],
 
   props: ['id'],
 
