@@ -1,10 +1,10 @@
 <template>
-  <div id="note-create">
+  <div id="note-update">
     <navigation></navigation>
 
     <div class="row justify-content-center">
       <div class="col-sm no-gutter-xs">
-        <div class="card shadow">
+        <div class="card shadow" v-loading="loading">
           <div class="p-1" v-if="errors.length">
             <el-alert v-for="error in errors" v-bind:key="error.field"
               :title="error.text"
@@ -17,12 +17,13 @@
           >
             <div class="textarea-container">
               <textarea
-                v-model.trim="body"
+                v-model="note.body"
                 name="body"
                 class="form-control form-text m-0"
                 cols="100"
                 rows="15"
                 placeholder="# Title of note"
+                @keydown.tab.prevent="textareaCharInserter"
               ></textarea>
             </div>
             <div class="d-flex justify-content-between">
@@ -76,8 +77,7 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-
-              >Create Note</button>
+              >Update Note</button>
               <el-alert
                 v-if="success"
                 class="mt-3"
@@ -94,23 +94,31 @@
 
 <script>
 import _get from "lodash.get";
-import Navigation from "../components/notes/Navigation";
+import Navigation from "../components/Navigation";
+import { TextareaCharInserter } from "../mixins/textareaCharInserter";
 
 export default {
-  name: "NoteCreate",
+  name: "NoteUpdate",
 
   components: {
     Navigation,
   },
 
+  mixins: [TextareaCharInserter],
+
+  props: ['id'],
+
   data() {
     return {
+      loading: true,
       newTagInputVisible: false,
       newTag: '',
       errors: [],
       success: false,
-      body: '',
-      tags: [],
+      note: {},
+      tags: [
+        {id: 1, name: 'x'}
+      ],
       selectedTags: [],
       inputEl: null,
     };
@@ -120,7 +128,7 @@ export default {
     insertCodeBlockBackTicks() {
       const textToInsert = "```";
       if (!this.inputEl) {
-        this.inputEl = document.querySelector('#note-create textarea');
+        this.inputEl = document.querySelector('#note-update textarea');
       }
       const inserted = document.execCommand("insertText",false, textToInsert);
 
@@ -143,14 +151,11 @@ export default {
         try {
           const response = await axios.post('/api/notetagcreate', {
             tag: this.newTag
-          })
+          });
           const success = _get(response, 'data.data.success');
           const id = _get(response, 'data.data.id');
           if (success && id) {
-            this.tags.push({
-              id: id,
-              name: this.newTag,
-            });
+            this.tags.push({id: id, 'name': this.newTag});
             this.newTagInputVisible = false;
             this.newTag = '';
           }
@@ -166,6 +171,16 @@ export default {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
+    async fetchNote(id) {
+      if (!id) {
+        return false;
+      }
+
+      const response = await axios.get(`/api/notes/${id}?html=0`);
+      this.note = _get(response, 'data.data', []);
+      this.selectedTags = this.note.tags.map(tag => tag.id);
+      setTimeout(() => this.loading = false, 400);
+    },
     async fetchTags() {
       const response = await axios.get('/api/notes/tags');
       this.tags = _get(response, 'data.data', []);
@@ -176,27 +191,23 @@ export default {
         return false;
       }
       this.errors = [];
-      if (!this.body) {
+      if (!this.note.body) {
         this.errors.push({ field: 'body', text: "Note text is empty."});
-        this.body = null;
         return;
       }
 
       try {
-        const response = await axios.post('/api/notecreate', {
-          body: this.body,
+        const response = await axios.put(`/api/noteupdate/${this.note.id}`, {
+          body: this.note.body,
           tags: this.selectedTags,
+          _method: 'put',
         });
-
-        const id = _get(response, 'data.data.id');
-        const success = _get(response, 'data.data.success');
-        if (id && success) {
+        if (_get(response, 'data.data.success')) {
           this.success = true;
-          this.body = '';
           this.selectedTags = [];
-          await this.$router.push({name: 'Note', params: { id: id}});
+          await this.$router.push({name: 'Note', params: {id: this.note.id}})
         } else {
-          this.errors.push({ field: 'na', text: "Failed to create the note."});
+          this.errors.push({ field: 'na', text: "Failed to update note."});
         }
       } catch (err) {
         this.errors.push({ field: 'submit', text: err.message });
@@ -205,7 +216,10 @@ export default {
   },
 
   created() {
-    this.fetchTags();
+    this.fetchTags()
+      .then(() => {
+        this.fetchNote(this.id);
+      });
   },
 }
 </script>
@@ -231,11 +245,11 @@ export default {
     vertical-align: middle;
     width: 120px;
   }
-  #note-create >>> .el-checkbox-button--small .el-checkbox-button__inner {
+  #note-update >>> .el-checkbox-button--small .el-checkbox-button__inner {
     border-radius: 4px;
     border: 1px solid #DCDFE6;
   }
-  #note-create >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  #note-update >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
     border-color: #409EFF;
   }
 </style>

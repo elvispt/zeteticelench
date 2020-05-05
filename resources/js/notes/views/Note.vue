@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Navigation from "../components/notes/Navigation";
+import Navigation from "../components/Navigation";
 import _get from "lodash.get";
 import "highlight.js/styles/darkula.css";
 

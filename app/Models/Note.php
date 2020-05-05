@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Libraries\CommonMark\TableExtension;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
@@ -10,6 +11,9 @@ use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\Block\Element\IndentedCode;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
+use League\CommonMark\Extension\Autolink\AutolinkExtension;
+use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
+use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 
@@ -81,6 +85,10 @@ class Note extends Model
                 'ini',
             ];
             $environment = Environment::createCommonMarkEnvironment();
+            $environment->addExtension(new AutolinkExtension());
+            $environment->addExtension(new SmartPunctExtension());
+            $environment->addExtension(new StrikethroughExtension());
+            $environment->addExtension(new TableExtension(['class' => 'table table-hover']));
             $environment->addBlockRenderer(
                 FencedCode::class,
                 new FencedCodeRenderer($languagesSupported)
