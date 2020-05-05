@@ -16,7 +16,7 @@
         "cross-env": "^5.1",
         "element-ui": "^2.13.1",
         "highlight.js": "^9.18.1",
-        "jquery": "^3.2",
+        "jquery": "^3.5",
         "laravel-mix": "^4.0.7",
         "lodash.debounce": "^4.0.8",
         "lodash.get": "^4.4.2",
