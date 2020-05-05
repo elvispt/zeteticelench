@@ -1,6 +1,18 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 3.3.0 <2020-05-05>
+- Now able to insert two spaces on note textarea when pressing tag
+[#471](https://github.com/elvispt/zeteticelench/pull/471).
+- Notes page can now output tables due to added support from CommonMark lib
+[#470](https://github.com/elvispt/zeteticelench/pull/470).
+- Extracted frontend vendor libraries to permit subsequent faster page loads
+[#471](https://github.com/elvispt/zeteticelench/pull/471),
+[#457](https://github.com/elvispt/zeteticelench/pull/457).
+- Reorganized vue.js apps and corresponding components
+[#457](https://github.com/elvispt/zeteticelench/pull/457).
+- General update to frontend deps.
+
 ### 3.2.1 <2020-04-24>
 - Fixed issue with date format that was caused by the Laravel v7 update where
 the serialization of date fields, in the models, changed it's format
