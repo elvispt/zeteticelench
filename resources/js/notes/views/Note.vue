@@ -129,4 +129,19 @@ export default {
 .loader-text--1x3 {
   width: 33%;
 }
+.note >>> .footnotes {
+  font-size: 0.8rem;
+}
+.note >>> .footnotes p {
+  margin-bottom: 0.5rem;
+}
+.note >>> table.table th[align="left"] {
+  text-align: left;
+}
+.note >>> table.table th[align="center"] {
+  text-align: center;
+}
+.note >>> table.table th[align="right"] {
+  text-align: right;
+}
 </style>
