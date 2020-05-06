@@ -12,7 +12,6 @@ use League\CommonMark\Block\Element\IndentedCode;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
-use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
@@ -86,7 +85,6 @@ class Note extends Model
             ];
             $environment = Environment::createCommonMarkEnvironment();
             $environment->addExtension(new AutolinkExtension());
-            $environment->addExtension(new SmartPunctExtension());
             $environment->addExtension(new StrikethroughExtension());
             $environment->addExtension(new TableExtension(['class' => 'table table-hover']));
             $environment->addBlockRenderer(
