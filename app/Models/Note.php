@@ -13,6 +13,7 @@ use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
+use RZ\CommonMark\Ext\Footnote\FootnoteExtension;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 
@@ -87,6 +88,7 @@ class Note extends Model
             $environment->addExtension(new AutolinkExtension());
             $environment->addExtension(new StrikethroughExtension());
             $environment->addExtension(new TableExtension(['class' => 'table table-hover']));
+            $environment->addExtension(new ExternalLinkExtension());
             $environment->addBlockRenderer(
                 FencedCode::class,
                 new FencedCodeRenderer($languagesSupported)
