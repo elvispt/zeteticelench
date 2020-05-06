@@ -138,4 +138,21 @@ class Note extends Model
 
         return $description;
     }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array = $this->transform($array);
+        $array['tags'] = $this->tags
+            ->map(fn(Tag $tag): string => $tag->tag)
+            ->toArray();
+
+        return $array;
+    }
+
 }
