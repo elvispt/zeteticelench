@@ -36,6 +36,11 @@ class Inspire
                     'Could not connect to advice slip api.',
                     ['eMessage' => $exception->getMessage()]
                 );
+            } catch (\Exception $exception) {
+                Log::error(
+                    'Failed connection to advice slip api',
+                    ['eMessage' => $exception->getMessage()]
+                );
             }
             if (! is_null($response)) {
                 $advice = $this->parseResponse($response);
