@@ -12,8 +12,9 @@ use League\CommonMark\Block\Element\IndentedCode;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\Environment;
 use League\CommonMark\Extension\Autolink\AutolinkExtension;
-use League\CommonMark\Extension\SmartPunct\SmartPunctExtension;
+use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
+use RZ\CommonMark\Ext\Footnote\FootnoteExtension;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 
@@ -72,6 +73,7 @@ class Note extends Model
         }
 
         $environment = null;
+        $config = [];
         if ($withSyntaxHighlight === self::WITH_SYNTAX_HIGHLIGHTING) {
             $languagesSupported = [
                 'html',
@@ -86,9 +88,10 @@ class Note extends Model
             ];
             $environment = Environment::createCommonMarkEnvironment();
             $environment->addExtension(new AutolinkExtension());
-            $environment->addExtension(new SmartPunctExtension());
             $environment->addExtension(new StrikethroughExtension());
             $environment->addExtension(new TableExtension(['class' => 'table table-hover']));
+            $environment->addExtension(new FootnoteExtension());
+            $environment->addExtension(new ExternalLinkExtension());
             $environment->addBlockRenderer(
                 FencedCode::class,
                 new FencedCodeRenderer($languagesSupported)
@@ -97,8 +100,16 @@ class Note extends Model
                 IndentedCode::class,
                 new IndentedCodeRenderer($languagesSupported)
             );
+            // Set your configuration
+            $config = [
+                'external_link' => [
+                    'internal_hosts' => ['159.65.199.206:8080', 'localhost:8080'],
+                    'open_in_new_window' => true,
+                    'html_class' => 'external-link',
+                ],
+            ];
         }
-        $commonMarkConverter = new CommonMarkConverter([], $environment);
+        $commonMarkConverter = new CommonMarkConverter($config, $environment);
         return $commonMarkConverter->convertToHtml($body);
     }
 
@@ -127,4 +138,21 @@ class Note extends Model
 
         return $description;
     }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array = $this->transform($array);
+        $array['tags'] = $this->tags
+            ->map(fn(Tag $tag): string => $tag->tag)
+            ->toArray();
+
+        return $array;
+    }
+
 }

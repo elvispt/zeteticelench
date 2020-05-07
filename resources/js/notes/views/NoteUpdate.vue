@@ -231,6 +231,7 @@ export default {
     box-shadow: 1px 1px 0 #ccc;
     border-color: transparent;
     border-radius: 0;
+    font-family: 'Inconsolata', monospace;
   }
   textarea:focus {
     box-shadow: 1px 1px 0 #ccc;
