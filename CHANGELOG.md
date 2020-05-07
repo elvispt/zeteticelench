@@ -1,6 +1,21 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 3.4.0 <2020-05-07>
+- Now able to search by tags on notes search input
+[#479](https://github.com/elvispt/zeteticelench/pull/479).
+- Textarea on notes create/edit now has a monospaced font (Inconsolata)
+[#478](https://github.com/elvispt/zeteticelench/pull/478).
+- Added CommonMark Footnote extension
+[#478](https://github.com/elvispt/zeteticelench/pull/478).
+- Added CommonMark ExternalLinkExtension
+[#478](https://github.com/elvispt/zeteticelench/pull/478).
+- Removed CommonMark SmartPuncExtension (converts ASCII quotes, dashes, and
+ellipses to their Unicode equivalents)
+[#478](https://github.com/elvispt/zeteticelench/pull/478).
+- Added fallback lines to inspire component. These show up if/when the inspire
+API fails for some reason.
+
 ### 3.3.0 <2020-05-05>
 - Now able to insert two spaces on note textarea when pressing tag
 [#471](https://github.com/elvispt/zeteticelench/pull/471).
