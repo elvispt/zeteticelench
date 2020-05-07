@@ -1,6 +1,10 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 3.4.1 <2020-05-07>
+- Fixed issue where exception was not being caught when connecting to advice
+slip api.
+
 ### 3.4.0 <2020-05-07>
 - Now able to search by tags on notes search input
 [#479](https://github.com/elvispt/zeteticelench/pull/479).
