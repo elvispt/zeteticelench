@@ -8,9 +8,6 @@ use App\Libraries\Inspire\Inspire;
 use App\Libraries\Reddit\GameDeals;
 use App\Repos\Calendarific\Calendarific;
 use App\Repos\Calendarific\CalendarificApi;
-use App\Repos\HackerNews\HackerNews;
-use App\Repos\HackerNews\HackerNewsImport;
-use App\Repos\HackerNews\HnApi;
 use App\Repos\RemoteJobs\RemoteJobs;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -33,30 +30,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $logDate = date('Ymd');
-
-        $schedule->call(static function () {
-            $hackerNews = new HackerNews();
-            $hackerNews->getTopStories(config('hackernews.list_limit'), 0, true);
-        })->everyMinute();
-
-        $schedule->call(static function () {
-            $hackerNews = new HackerNews();
-            $hackerNews->getBestStories(config('hackernews.list_limit'), 0, true);
-        })->everyMinute();
-
-        $schedule->call(static function () {
-            $hackerNews = new HackerNews();
-            $hackerNews->getJobStories(config('hackernews.list_limit'), 0, true);
-        })->everyMinute();
-
-        $schedule->call(static function () {
-            $hackerNewsImport = new HackerNewsImport();
-            $hackerNewsImport->importUpdatedStories(new HnApi());
-            $hackerNewsImport->importNew(new HnApi());
-            $hackerNewsImport->importTop(new HnApi());
-            $hackerNewsImport->importBest(new HnApi());
-            $hackerNewsImport->importJobs(new HnApi());
-        })->everyMinute();
 
         $schedule->call(static function () {
             (new Inspire())->adviceSlip();
