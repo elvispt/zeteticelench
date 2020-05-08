@@ -3,8 +3,8 @@
 @section('title') @lang('common.dashboard') @endsection
 
 @push('scripts')
-  <script src="{{ mix('js/mods/manifest.js') }}" defer></script>
-  <script src="{{ mix('js/mods/vendor.js') }}" defer></script>
+  <script src="{{ mix('js/manifest.js') }}" defer></script>
+  <script src="{{ mix('js/vendor.js') }}" defer></script>
   <script src="{{ mix('js/dashboard/app.js') }}" defer></script>
 @endpush
 
