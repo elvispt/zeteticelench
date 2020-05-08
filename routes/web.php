@@ -17,24 +17,20 @@ use App\Http\Controllers\Api\RemoteJobsController;
 use App\Http\Controllers\Api\SystemInfoController;
 use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Notes\NotesController;
-use App\Http\Controllers\Api\Notes\NotesController as NotesApiController;
+use App\Http\Controllers\NotesController;
+use App\Http\Controllers\Api\NotesController as NotesApiController;
 use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(static function () {
+
     Route::get('/', [DashboardController::class, 'index'])
         ->name('home');
-});
 
-Route::namespace('Notes')
-    ->prefix('notes')
-    ->middleware('auth')
-    ->group(static function () {
-        Route::get('', [NotesController::class, 'index'])
-            ->name('notes');
-    });
+    Route::get('/notes', [NotesController::class, 'index'])
+        ->name('notes');
+});
 
 Route::namespace('HackerNews')
     ->prefix('hackernews')
