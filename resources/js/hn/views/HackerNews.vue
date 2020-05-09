@@ -16,6 +16,7 @@ import Navigation from "../components/Navigation";
 import HnPosts from "../components/HnPosts";
 import {HnDB} from "../HnDB";
 import _get from "lodash.get";
+import axios from "axios";
 
 export default {
   name: "HackerNews",
@@ -32,6 +33,7 @@ export default {
       routesMap: {
         HackerNewsTop: 'top',
         HackerNewsBest: 'best',
+        HackerNewsBookmarks: 'bookmarks',
       },
     };
   },
@@ -39,15 +41,23 @@ export default {
   methods: {
     fetchStories(routeName) {
       const type = _get(this.routesMap, routeName, 'top');
-      this.fetchIds(type);
+      if (type === 'bookmarks') {
+        this.fetchIdsBookmarkedFromBackend();
+      } else {
+        this.fetchIdsFromFirebase(type);
+      }
     },
-    fetchIds(type) {
+    fetchIdsFromFirebase(type) {
       HnDB
         .child(`${type}stories`)
         .limitToFirst(this.limit)
         .on('value', snapshot => {
           this.idList = snapshot.val();
         });
+    },
+    async fetchIdsBookmarkedFromBackend() {
+      const response = await axios.get("/api/bookmarks");
+      this.idList = _get(response, 'data.data', []);
     },
   },
 
