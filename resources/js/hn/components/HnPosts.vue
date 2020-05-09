@@ -1,9 +1,21 @@
 <template>
   <ul id="hn-posts" class="list-group" v-loading="loading">
+    <li v-if="loading" class="list-group-item list-group-item-action flex-column align-items-start" v-for="dummy in Array(10).fill(null)">
+      <div class="d-flex w-100 justify-content-between">
+        <span class="loader-text loader-text-top loader-text--1x2 d-inline-block">&nbsp; &nbsp;</span>
+      </div>
+      <div class="d-none d-md-block">
+        <span class="loader-text loader-text-bottom loader-text--1x3 d-inline-block">
+          <small>&nbsp;</small>
+        </span>
+      </div>
+    </li>
+    <transition-group name="slide-fade" mode="out-in">
     <li v-for="post in posts"
         v-bind:key="post.id"
         class="list-group-item list-group-item-action flex-column align-items-start"
     >
+
       <div class="d-flex w-100 justify-content-between">
         <span>
           <a href="#"
@@ -34,6 +46,7 @@
         >{{ post.bookmarked ? "⚫" : "⚪️" }}</a>
       </div>
     </li>
+    </transition-group>
   </ul>
 </template>
 
@@ -62,7 +75,6 @@ export default {
         .then(stories => {
           this.posts = stories;
           this.loading = false;
-
           // do request here to backend to findout which stories are bookmarked
           // this.idList
         })
@@ -90,7 +102,10 @@ export default {
             resolve(item);
           });
         HnDB.onDisconnect(function (a, b) {
-          console.log("disconnected", a, b);
+          this.$alert('Firebase connection lost', 'Lost connection', {
+            confirmButtonText: 'OK',
+          });
+          console.log(a, b);
         });
       });
     },
@@ -110,5 +125,32 @@ export default {
     position: relative;
     top: 2px;
     text-decoration: none;
+  }
+  .loader-text {
+    background: #808080;
+    border-radius: 2px;
+  }
+  .loader-text--1x3 {
+    width: 33%;
+  }
+  .loader-text--1x2 {
+    width: 50%;
+  }
+  .loader-text-top {
+    height: 22px;
+    margin-bottom: 6px;
+  }
+  .loader-text-bottom {
+    height: 18px;
+  }
+
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to {
+    background-color: #ffef0029;
   }
 </style>

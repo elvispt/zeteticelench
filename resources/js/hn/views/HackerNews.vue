@@ -39,15 +39,15 @@ export default {
   methods: {
     fetchStories(routeName) {
       const type = _get(this.routesMap, routeName, 'top');
-      this.fetchIds(type).then(ids => this.idList = ids);
+      this.fetchIds(type);
     },
     fetchIds(type) {
-      return new Promise((resolve, reject) => {
-        HnDB
-          .child(`${type}stories`)
-          .limitToFirst(this.limit)
-          .on('value', snapshot => resolve(snapshot.val()));
-      });
+      HnDB
+        .child(`${type}stories`)
+        .limitToFirst(this.limit)
+        .on('value', snapshot => {
+          this.idList = snapshot.val();
+        });
     },
   },
 
