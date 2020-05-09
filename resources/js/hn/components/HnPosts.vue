@@ -54,6 +54,7 @@
 import {HnDB} from "../HnDB";
 import _get from "lodash.get";
 import moment from "moment";
+import axios from "axios";
 
 export default {
   name: "HNPosts",
@@ -74,9 +75,8 @@ export default {
       Promise.all(idList.map(id => this.fetchItem(id)))
         .then(stories => {
           this.posts = stories;
+          this.attachBookmarked();
           this.loading = false;
-          // do request here to backend to findout which stories are bookmarked
-          // this.idList
         })
     },
 
@@ -107,6 +107,15 @@ export default {
           });
           console.log(a, b);
         });
+      });
+    },
+
+    async attachBookmarked() {
+      const response = await axios.get("/api/bookmarks");
+      const ids = _get(response, 'data.data', []);
+      this.posts = this.posts.map(post => {
+        post.bookmarked = ids.includes(post.id);
+        return post;
       });
     },
   },

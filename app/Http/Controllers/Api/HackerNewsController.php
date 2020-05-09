@@ -4,44 +4,28 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HnBookmark;
+use App\Http\Responses\ApiResponse;
 use App\Repos\HackerNews\BookmarkedStories;
-use App\ViewModels\HackerNewsStoriesViewModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 
 class HackerNewsController extends Controller
 {
     /**
      * Show bookmarked hacker news post
      *
-     * @param Request                     $request
+     * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\View
+     * @return JsonResponse
      */
-    public function bookmarkList(Request $request)
+    public function bookmarks(Request $request): JsonResponse
     {
-        $userId = Auth::id();
-        $currentPage = (int) $request->get('page', 1);
-        $offset = $this->offset($currentPage);
         $bookmarkedStories = new BookmarkedStories();
-        $items = $bookmarkedStories->bookmarkedStories(
-            $this->perPage,
-            $offset,
-            $userId
-        );
+        $bookmarkedStoriesIds = $bookmarkedStories->bookmarkedStories(Auth::id());
 
-        $viewData = new HackerNewsStoriesViewModel(
-            Auth::user(),
-            $items,
-            $currentPage,
-            'hackernews.hn_bookmarked',
-            'hackernews-bookmark-list',
-            HackerNewsStoriesViewModel::SHOW_MANUAL_BOOKMARK_FORM
-        );
-        return View::make('hackernews/stories', $viewData);
+        return ApiResponse::response($bookmarkedStoriesIds);
     }
 
     /**
