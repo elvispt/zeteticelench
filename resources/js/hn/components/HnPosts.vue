@@ -11,11 +11,11 @@
       </div>
     </li>
     <transition-group name="slide-fade" mode="out-in">
-    <li v-for="post in posts"
+    <li v-for="(post, index) in posts"
         v-bind:key="post.id"
         class="list-group-item list-group-item-action flex-column align-items-start"
+        :data-index="index + 1"
     >
-
       <div class="d-flex w-100 justify-content-between">
         <span>
           <a href="#"

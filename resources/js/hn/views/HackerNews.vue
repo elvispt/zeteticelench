@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       idList: [],
-      limit: 20,
+      limit: 100,
       routesMap: {
         HackerNewsTop: 'top',
         HackerNewsBest: 'best',
@@ -52,7 +52,8 @@ export default {
         .child(`${type}stories`)
         .limitToFirst(this.limit)
         .on('value', snapshot => {
-          this.idList = snapshot.val();
+          const val = snapshot.val();
+          this.idList = Array.isArray(val) ? val : [];
         });
     },
     async fetchIdsBookmarkedFromBackend() {
