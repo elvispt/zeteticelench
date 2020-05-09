@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\InspireController;
 use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\RemoteJobsController;
 use App\Http\Controllers\Api\SystemInfoController;
-use App\Http\Controllers\HackerNews\HackerNewsController;
+use App\Http\Controllers\HackerNewsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\Api\NotesController as NotesApiController;
@@ -30,23 +30,15 @@ Route::middleware('auth')->group(static function () {
 
     Route::get('/notes', [NotesController::class, 'index'])
         ->name('notes');
+
+    Route::get('/hn', [HackerNewsController::class, 'index'])
+         ->name('hackernews');
 });
 
 Route::namespace('HackerNews')
     ->prefix('hackernews')
     ->middleware('auth')
     ->group(static function () {
-        Route::get('top', [HackerNewsController::class, 'top'])
-            ->name('hackernews-top');
-
-        Route::get('best', [HackerNewsController::class, 'best'])
-            ->name('hackernews-best');
-
-        Route::get('new', [HackerNewsController::class, 'newStories'])
-            ->name('hackernews-new');
-
-        Route::get('jobs', [HackerNewsController::class, 'jobs'])
-            ->name('hackernews-jobs');
 
         Route::get('bookmarks', [HackerNewsController::class, 'bookmarkList'])
             ->name('hackernews-bookmark-list');
