@@ -125,20 +125,47 @@ export default {
 
     async bookmarkPost(event, post) {
       const requestData = { 'postId': post.id };
-      if (post.bookmarked) {
+      const addBookmark = !post.bookmarked;
+      if (!addBookmark) {
         requestData._method = 'delete';
       }
       const response = await axios.post('/api/bookmarks', requestData);
 
-      if (_get(response, 'data.data.success', false)) {
-        this.nBookmarks += (post.bookmarked) ? -1 : 1;
-        this.posts.find(val => {
-          if (val.id === post.id) {
-            val.bookmarked = !val.bookmarked;
-          }
-        });
+      const success = _get(response, 'data.data.success', false);
+      if (success) {
+        this.updatePostBookmarkedStatus(post.id);
+        this.nBookmarks += addBookmark ? 1 : -1;
       }
+      this.notifyUserOfBookmarkStatusChange(success, addBookmark, post);
+
     },
+    updatePostBookmarkedStatus(id) {
+      this.posts.find(val => {
+        if (val.id === id) {
+          val.bookmarked = !val.bookmarked;
+        }
+      });
+    },
+    notifyUserOfBookmarkStatusChange(success, addedBookmark, post) {
+      let messageOptions = {
+        message: `'Something went wrong when calling bookmarks.'`,
+        type: 'error',
+      };
+      if (success) {
+        if (addedBookmark) {
+          messageOptions = {
+            message: `"${post.title}" added to bookmarks!`,
+            type: 'success',
+          };
+        } else {
+          messageOptions = {
+            message: `"${post.title}" removed from bookmarks!`,
+            type: 'warning',
+          };
+        }
+      }
+      this.$message(messageOptions);
+    }
   },
 
   watch: {
