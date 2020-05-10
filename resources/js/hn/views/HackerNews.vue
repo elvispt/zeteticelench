@@ -1,5 +1,5 @@
 <template>
-  <div id="hacker-news-top">
+  <div id="hacker-news">
     <navigation></navigation>
     <div class="row">
       <div class="col-12 no-gutter-xs">
@@ -41,7 +41,7 @@ export default {
   methods: {
     fetchStories(routeName) {
       const type = _get(this.routesMap, routeName, 'top');
-      if (type === 'bookmarks') {
+      if (type === this.routesMap.HackerNewsBookmarks) {
         this.fetchIdsBookmarkedFromBackend();
       } else {
         this.fetchIdsFromFirebase(type);

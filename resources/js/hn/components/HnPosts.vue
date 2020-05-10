@@ -37,7 +37,7 @@
       <div class="d-none d-md-block">
         <small class="text-muted">{{ post.score }} points</small>
         |
-        <small>{{ post.descendants }} comments</small>
+        <small>{{ post.nComments }} comments</small>
         |
         <a href="#"
            :data-story-id="post.id"
@@ -96,7 +96,7 @@ export default {
                 .format('YYYY-MM-DD HH:mm:ss'),
               url: _get(postData, 'url'),
               type: _get(postData, 'type'),
-              descendants: _get(postData, 'descendants'),
+              nComments: _get(postData, 'descendants'),
               bookmarked: false,
             };
             resolve(item);

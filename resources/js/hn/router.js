@@ -17,7 +17,7 @@ export default new Router({
       component: HackerNews,
     },
     {
-      path: '/saved',
+      path: '/bookmark',
       name: 'HackerNewsBookmarks',
       component: HackerNews,
     },

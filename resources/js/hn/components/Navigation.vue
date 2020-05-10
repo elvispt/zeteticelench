@@ -14,9 +14,9 @@
             v-bind:class="activeSubmenu('HackerNewsBest')"
           >Best</router-link>
           <router-link
-            to="/saved"
+            to="/bookmark"
             class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('HackerNewsSaved')"
+            v-bind:class="activeSubmenu('HackerNewsBookmarks')"
           >Saved</router-link>
         </div>
       </div>
