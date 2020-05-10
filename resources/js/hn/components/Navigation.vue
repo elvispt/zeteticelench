@@ -17,7 +17,7 @@
             to="/bookmark"
             class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('HackerNewsBookmarks')"
-          >Saved</router-link>
+          >Saved <span class="badge badge-light">{{ numberOfBookmarks }}</span></router-link>
         </div>
       </div>
     </div>
@@ -27,6 +27,10 @@
 <script>
 export default {
   name: "Navigation",
+
+  props: {
+    numberOfBookmarks: { type: Number|null, required: true },
+  },
 
   methods: {
     activeSubmenu(routeName) {

@@ -38,11 +38,15 @@ class HackerNewsController extends Controller
     public function bookmarkAdd(HnBookmark $request): JsonResponse
     {
         $validated = new Collection($request->validated());
-        $storyId = $validated->get('story_id');
+        $postId = $validated->get('postId');
         $bookmarkedStories = new BookmarkedStories();
-        $bookmarkedStories->bookmarkStory($storyId, Auth::id());
+        $id = $bookmarkedStories->bookmarkStory($postId, Auth::id());
 
-        return new JsonResponse(['ok' => true]);
+        return ApiResponse::response([
+            "id" => $id,
+            "postId" => $postId,
+            "success" => true,
+        ]);
     }
 
     /**
@@ -55,23 +59,14 @@ class HackerNewsController extends Controller
     public function bookmarkDestroy(HnBookmark $request)
     {
         $validated = new Collection($request->validated());
-        $storyId = $validated->get('story_id');
+        $postId = $validated->get('postId');
         $bookmarkedStories = new BookmarkedStories();
-        $bookmarkedStories->destroyBookmarkedStory($storyId, Auth::id());
+        $id = $bookmarkedStories->destroyBookmarkedStory($postId, Auth::id());
 
-        return new JsonResponse(['ok' => true]);
-    }
-
-    /**
-     * Calculates the offset based on the current page and the number of items
-     * per page.
-     *
-     * @param int $currentPage The current requested page.
-     *
-     * @return int Returns the offset required to make requests to database.
-     */
-    protected function offset(int $currentPage)
-    {
-        return $currentPage === 1 ? 0 : ($currentPage - 1) * $this->perPage;
+        return ApiResponse::response([
+            "id" => $id,
+            "postId" => $postId,
+            "success" => true,
+        ]);
     }
 }

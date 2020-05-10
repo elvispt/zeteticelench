@@ -71,21 +71,23 @@ class BookmarkedStories
      * @param int $hackerNewsItemId The identifier of the story.
      * @param int $userId           The identifier of the user.
      *
-     * @return bool Returns true on success, false otherwise.
+     * @return int Returns the id of the destroyed bookmark, null otherwise
      */
     public function destroyBookmarkedStory(
         int $hackerNewsItemId,
         int $userId
-    ): bool {
+    ): ?int {
         $hackerNewsItemsBookmark = (new HackerNewsItemsBookmark())
             ->where('user_id', $userId)
             ->where('hacker_news_item_id', $hackerNewsItemId)
             ->first();
-        $isDeleted = false;
+        $id = null;
         if ($hackerNewsItemsBookmark) {
+            $id = $hackerNewsItemsBookmark->id;
             try {
                 $isDeleted = $hackerNewsItemsBookmark->delete();
             } catch (Exception $exception) {
+                $id = null;
                 Log::error(
                     'Failed to destroy bookmark',
                     [
@@ -97,6 +99,6 @@ class BookmarkedStories
             }
         }
 
-        return (bool) $isDeleted;
+        return $id;
     }
 }

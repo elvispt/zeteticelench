@@ -1,10 +1,13 @@
 <template>
   <div id="hacker-news">
-    <navigation></navigation>
+    <navigation
+      :number-of-bookmarks="numberOfBookmarks"
+    ></navigation>
     <div class="row">
       <div class="col-12 no-gutter-xs">
         <hn-posts
           :id-list="idList"
+          @nBookmarksChangedEvent="updateNumberOfBookmarks"
         ></hn-posts>
       </div>
     </div>
@@ -35,6 +38,7 @@ export default {
         HackerNewsBest: 'best',
         HackerNewsBookmarks: 'bookmarks',
       },
+      numberOfBookmarks: null,
     };
   },
 
@@ -59,6 +63,9 @@ export default {
     async fetchIdsBookmarkedFromBackend() {
       const response = await axios.get("/api/bookmarks");
       this.idList = _get(response, 'data.data', []);
+    },
+    updateNumberOfBookmarks(value) {
+      this.numberOfBookmarks = value;
     },
   },
 

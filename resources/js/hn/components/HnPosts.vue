@@ -18,19 +18,23 @@
     >
       <div class="d-flex w-100 justify-content-between">
         <span>
-          <a href="#"
-             class="text-body"
-          >{{ post.title }}</a>
-          <a v-if="post.url" :href="post.url" class="text-body"
-          target="_blank"
+          <router-link
+            :to="`/post/${post.id}`"
+            class="text-body"
+          >{{ post.title }}</router-link>
+          <a
+            v-if="post.url"
+            :href="post.url"
+            class="text-body"
+            target="_blank"
           >
             <small class="text-muted">({{ post.url | domainFromUrl }})</small>
           </a>
         </span>
         <span class="d-block d-md-none">
-          <a href="#"
-             class="bookmark-story"
-          >{{ post.bookmarked ? "⚫" : "⚪️"}}️</a>
+          <span class="bookmark-story pointer text-primary"
+             @click="bookmarkPost($event, post)"
+          >{{ post.bookmarked ? "⚫" : "⚪️"}}️</span>
         </span>
         <span class="badge d-none d-md-block">{{ post.time | diffForHumans }}</span>
       </div>
@@ -39,11 +43,9 @@
         |
         <small>{{ post.nComments }} comments</small>
         |
-        <a href="#"
-           :data-story-id="post.id"
-           :data-bookmarked="post.bookmarked ? 'true' : 'false'"
-           class="bookmark-story"
-        >{{ post.bookmarked ? "⚫" : "⚪️" }}</a>
+        <span class="bookmark-story pointer text-primary"
+           @click="bookmarkPost($event, post)"
+        >{{ post.bookmarked ? "⚫" : "⚪️" }}</span>
       </div>
     </li>
     </transition-group>
@@ -67,20 +69,21 @@ export default {
     return {
       loading: true,
       posts: [],
+      nBookmarks: null,
     };
   },
 
   methods: {
-    fetchItems (idList) {
+    fetchItems(idList) {
       Promise.all(idList.map(id => this.fetchItem(id)))
         .then(stories => {
           this.posts = stories;
           this.attachBookmarked();
           this.loading = false;
-        })
+        });
     },
 
-    fetchItem (id) {
+    fetchItem(id) {
       return new Promise((resolve, reject) => {
         HnDB
           .child(`item/${id}`)
@@ -113,10 +116,28 @@ export default {
     async attachBookmarked() {
       const response = await axios.get("/api/bookmarks");
       const ids = _get(response, 'data.data', []);
+      this.nBookmarks = ids.length;
       this.posts = this.posts.map(post => {
         post.bookmarked = ids.includes(post.id);
         return post;
       });
+    },
+
+    async bookmarkPost(event, post) {
+      const requestData = { 'postId': post.id };
+      if (post.bookmarked) {
+        requestData._method = 'delete';
+      }
+      const response = await axios.post('/api/bookmarks', requestData);
+
+      if (_get(response, 'data.data.success', false)) {
+        this.nBookmarks += (post.bookmarked) ? -1 : 1;
+        this.posts.find(val => {
+          if (val.id === post.id) {
+            val.bookmarked = !val.bookmarked;
+          }
+        });
+      }
     },
   },
 
@@ -124,6 +145,9 @@ export default {
     idList(newIdList, oldIdList) {
       this.loading = true;
       this.fetchItems(newIdList);
+    },
+    nBookmarks(newValue, oldValue) {
+      this.$emit("nBookmarksChangedEvent", newValue);
     },
   },
 }
