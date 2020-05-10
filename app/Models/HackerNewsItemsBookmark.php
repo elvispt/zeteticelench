@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\HackerNewsItem $hackerNewsItem
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\HackerNewsItemsBookmark newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\HackerNewsItemsBookmark newQuery()
@@ -26,11 +25,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class HackerNewsItemsBookmark extends Model
 {
-    public function hackerNewsItem()
-    {
-        return $this->belongsTo(HackerNewsItem::class);
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);

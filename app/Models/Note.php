@@ -30,12 +30,10 @@ use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
  * @property-read \App\Models\User $user
- * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Note newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Note newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Note onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Note query()
- * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Note whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Note whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Note whereDeletedAt($value)

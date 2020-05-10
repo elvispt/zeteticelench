@@ -10,7 +10,6 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int $user_id
- * @property string $type
  * @property string $tag
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -23,7 +22,6 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereTag($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tag whereUserId($value)
  * @mixin \Eloquent
