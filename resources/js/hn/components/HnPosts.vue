@@ -2,7 +2,7 @@
   <ul id="hn-posts" class="list-group" v-loading="loading">
     <li v-if="loading" class="list-group-item list-group-item-action flex-column align-items-start" v-for="dummy in Array(10).fill(null)">
       <div class="d-flex w-100 justify-content-between">
-        <span class="loader-text loader-text-top loader-text--1x2 d-inline-block">&nbsp; &nbsp;</span>
+        <span class="loader-text loader-text-top d-block w-100">&nbsp;</span>
       </div>
       <div class="d-none d-md-block">
         <span class="loader-text loader-text-bottom loader-text--1x3 d-inline-block">
