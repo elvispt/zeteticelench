@@ -85,7 +85,7 @@ class BookmarkedStories
         if ($hackerNewsItemsBookmark) {
             $id = $hackerNewsItemsBookmark->id;
             try {
-                $isDeleted = $hackerNewsItemsBookmark->delete();
+                $hackerNewsItemsBookmark->delete();
             } catch (Exception $exception) {
                 $id = null;
                 Log::error(

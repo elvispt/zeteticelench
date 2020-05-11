@@ -33,7 +33,7 @@
         </span>
         <span class="d-block d-md-none">
           <span class="bookmark-story pointer text-primary"
-             @click="bookmarkPost($event, post)"
+             @click="bookmarkPost(post)"
           >{{ post.bookmarked ? "⚫" : "⚪️"}}️</span>
         </span>
         <span class="badge d-none d-md-block">{{ post.time | diffForHumans }}</span>
@@ -44,7 +44,7 @@
         <small>{{ post.nComments }} comments</small>
         |
         <span class="bookmark-story pointer text-primary"
-           @click="bookmarkPost($event, post)"
+           @click="bookmarkPost(post)"
         >{{ post.bookmarked ? "⚫" : "⚪️" }}</span>
       </div>
     </li>
@@ -53,13 +53,16 @@
 </template>
 
 <script>
-import {HnDB} from "../HnDB";
+import { bookmarPost } from "../mixins/bookmarkPost";
+import {HnDB} from "../service/HnDB";
 import _get from "lodash.get";
 import moment from "moment";
 import axios from "axios";
 
 export default {
   name: "HNPosts",
+
+  mixins: [bookmarPost],
 
   props: {
     idList: { type: Array, default: [], required: true },
@@ -100,6 +103,7 @@ export default {
               url: _get(postData, 'url'),
               type: _get(postData, 'type'),
               nComments: _get(postData, 'descendants'),
+              kids: _get(postData, 'kids', []),
               bookmarked: false,
             };
             resolve(item);
@@ -122,50 +126,6 @@ export default {
         return post;
       });
     },
-
-    async bookmarkPost(event, post) {
-      const requestData = { 'postId': post.id };
-      const addBookmark = !post.bookmarked;
-      if (!addBookmark) {
-        requestData._method = 'delete';
-      }
-      const response = await axios.post('/api/bookmarks', requestData);
-
-      const success = _get(response, 'data.data.success', false);
-      if (success) {
-        this.updatePostBookmarkedStatus(post.id);
-        this.nBookmarks += addBookmark ? 1 : -1;
-      }
-      this.notifyUserOfBookmarkStatusChange(success, addBookmark, post);
-
-    },
-    updatePostBookmarkedStatus(id) {
-      this.posts.find(val => {
-        if (val.id === id) {
-          val.bookmarked = !val.bookmarked;
-        }
-      });
-    },
-    notifyUserOfBookmarkStatusChange(success, addedBookmark, post) {
-      let messageOptions = {
-        message: `'Something went wrong when calling bookmarks.'`,
-        type: 'error',
-      };
-      if (success) {
-        if (addedBookmark) {
-          messageOptions = {
-            message: `"${post.title}" added to bookmarks!`,
-            type: 'success',
-          };
-        } else {
-          messageOptions = {
-            message: `"${post.title}" removed from bookmarks!`,
-            type: 'warning',
-          };
-        }
-      }
-      this.$message(messageOptions);
-    }
   },
 
   watch: {
@@ -192,9 +152,6 @@ export default {
   }
   .loader-text--1x3 {
     width: 33%;
-  }
-  .loader-text--1x2 {
-    width: 50%;
   }
   .loader-text-top {
     height: 22px;

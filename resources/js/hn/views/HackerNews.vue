@@ -17,7 +17,7 @@
 <script>
 import Navigation from "../components/Navigation";
 import HnPosts from "../components/HnPosts";
-import {HnDB} from "../HnDB";
+import {HnDB} from "../service/HnDB";
 import _get from "lodash.get";
 import axios from "axios";
 
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       idList: [],
-      limit: 100,
+      limit: 50,
       routesMap: {
         HackerNewsTop: 'top',
         HackerNewsBest: 'best',
