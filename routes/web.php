@@ -11,80 +11,30 @@
 |
 */
 
+use App\Http\Controllers\Api\HackerNewsController as HackerNewsApiController;
 use App\Http\Controllers\Api\InspireController;
 use App\Http\Controllers\Api\NextHolidaysController;
+use App\Http\Controllers\Api\NotesController as NotesApiController;
 use App\Http\Controllers\Api\RemoteJobsController;
 use App\Http\Controllers\Api\SystemInfoController;
-use App\Http\Controllers\HackerNews\HackerNewsController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Notes\NotesController;
-use App\Http\Controllers\Api\Notes\NotesController as NotesApiController;
+use App\Http\Controllers\HackerNewsController;
+use App\Http\Controllers\NotesController;
 use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(static function () {
+
     Route::get('/', [DashboardController::class, 'index'])
         ->name('home');
+
+    Route::get('/notes', [NotesController::class, 'index'])
+        ->name('notes');
+
+    Route::get('/hn', [HackerNewsController::class, 'index'])
+         ->name('hackernews');
 });
-
-Route::namespace('Notes')
-    ->prefix('notes')
-    ->middleware('auth')
-    ->group(static function () {
-        Route::get('', [NotesController::class, 'index'])
-            ->name('notes');
-    });
-
-Route::namespace('HackerNews')
-    ->prefix('hackernews')
-    ->middleware('auth')
-    ->group(static function () {
-        Route::get('top', [HackerNewsController::class, 'top'])
-            ->name('hackernews-top');
-
-        Route::get('best', [HackerNewsController::class, 'best'])
-            ->name('hackernews-best');
-
-        Route::get('new', [HackerNewsController::class, 'newStories'])
-            ->name('hackernews-new');
-
-        Route::get('jobs', [HackerNewsController::class, 'jobs'])
-            ->name('hackernews-jobs');
-
-        Route::get('bookmarks', [HackerNewsController::class, 'bookmarkList'])
-            ->name('hackernews-bookmark-list');
-
-        Route::post('bookmarks', [HackerNewsController::class, 'bookmarkAdd'])
-            ->name('hackernews-bookmark-add');
-
-        Route::post(
-            'bookmarks/manual',
-            [HackerNewsController::class, 'bookmarkManualAdd']
-        )
-            ->name('hackernews-bookmark-manual-add');
-
-        Route::delete(
-            'bookmarks',
-            [HackerNewsController::class, 'bookmarkDestroy']
-        )
-            ->name('hackernews-bookmark-destroy');
-
-        Route::get('item/{id}', [HackerNewsController::class, 'item'])
-            ->name('hackernews-item');
-
-        Route::post(
-            'item/{id}/comments/collapse',
-            [HackerNewsController::class, 'itemCommentCollapse']
-        )
-            ->name('hackernews-item-comments-collapse');
-
-        Route::delete(
-            'item/{id}/comments/collapse',
-            [HackerNewsController::class, 'itemCommentRemoveCollapse']
-        )
-            ->name('hackernews-item-comments-remove-collapse');
-    });
 
 Route::namespace('Users')
     ->prefix('users')
@@ -137,7 +87,15 @@ Route::namespace('Api')
         Route::put('noteupdate/{noteId}', [NotesApiController::class, 'update'])
             ->name('apiNoteUpdate');
         Route::delete('notedestroy/{noteId}', [NotesApiController::class, 'destroy'])
-             ->name('apiNoteDestroy');
+            ->name('apiNoteDestroy');
         Route::post('notetagcreate', [NotesApiController::class, 'tagAdd'])
-             ->name('apiNotesTagAdd');
+            ->name('apiNotesTagAdd');
+
+        // hn bookmarks
+        Route::get('bookmarks', [HackerNewsApiController::class, 'bookmarks'])
+            ->name('hackernews-bookmark-list');
+        Route::post('bookmarks', [HackerNewsApiController::class, 'bookmarkAdd'])
+            ->name('hackernews-bookmark-add');
+        Route::delete('bookmarks',[HackerNewsApiController::class, 'bookmarkDestroy'])
+            ->name('hackernews-bookmark-destroy');
     });
