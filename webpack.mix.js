@@ -11,31 +11,21 @@ const mix = require('laravel-mix');
  |
  */
 
-mix
-  .js('resources/js/dashboard/app.js', 'public/js/dashboard')
-  .js('resources/js/notes/app.js', 'public/js/notes')
-  .js('resources/js/app-tmp.js', 'public/js')
-  .extract([
-    'vue',
-    'vue-router',
-    'element-ui',
-    'lodash.get',
-    'lodash.debounce',
-    'moment',
-    'axios',
-    'jquery',
-    'bootstrap',
-    'popper.js',
-    '@sentry/browser',
-    'highlight.js',
-  ])
-;
+mix.js('resources/js/dashboard/app.js', 'public/js/dashboard');
+mix.js('resources/js/notes/app.js', 'public/js/notes');
+mix.js('resources/js/hn/app.js', 'public/js/hn');
+mix.extract();
 
+// global css
 mix.sass('resources/sass/app.scss', 'public/css');
 
-mix.js('resources/js/mods/bookmark.js', 'public/js/mods');
-mix.js('resources/js/mods/collapse.js', 'public/js/mods');
+/**
+ * This file contains no logic. It is set here to force laravel-mix to put
+ * vendor and manifest on the root of public/js. If not done it would store
+ * on the last mix.js('', path) path set.
+ */
+mix.js('resources/js/null.js', 'public/js')
 
 if (mix.inProduction()) {
-  mix.version();
+  mix.version('/js');
 }

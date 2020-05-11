@@ -1,6 +1,16 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 4.0.0 <2020-05-11>
+- Refactor HackerNews section into a Vue.js app.
+- All hn posts are obtained by making a call to a Firebase real time
+db, that is public. All done client side. Only saved posts are stored
+into backend DB.
+- Removed hacker_news_items table.
+- Removed import logic for hn items.
+- All changes in the pull request
+[#490](https://github.com/elvispt/zeteticelench/pull/490).
+
 ### 3.4.1 <2020-05-07>
 - Fixed issue where exception was not being caught when connecting to advice
 slip api.

@@ -12,9 +12,9 @@ class HnBookmark extends BaseFormRequest
     public function rules()
     {
         return [
-            'story_id' => [
+            'postId' => [
                 'required',
-                'exists:hacker_news_items,id',
+                'int',
             ],
         ];
     }

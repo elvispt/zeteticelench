@@ -2,7 +2,6 @@
 
 namespace App\Repos\HackerNews;
 
-use App\Models\HackerNewsItem;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Psr\SimpleCache\InvalidArgumentException;
@@ -15,78 +14,6 @@ class HackerNews
      * @var int In seconds
      */
     protected $cacheExpiration = 70;
-
-    /**
-     * Gets hacker news top stories either from DB or cache.
-     *
-     * @param int  $limit The maximum number of stories
-     * @param int $offset The offset (index) from which to obtain the story
-     *                    items
-     * @param bool $forceCacheRefresh Force the cache to be refreshed?
-     *
-     * @return mixed|object Returns an object containing the list of stories
-     *                      and the total number of stories available.
-     */
-    public function getTopStories(
-        int $limit = 20,
-        int $offset = 0,
-        bool $forceCacheRefresh = false
-    ) {
-        return $this->getStories(
-            (new HnApi())->getTopStoriesUri(),
-            $limit,
-            $offset,
-            $forceCacheRefresh
-        );
-    }
-
-    /**
-     * Gets hacker news best stories either from DB or cache.
-     *
-     * @param int  $limit The maximum number of stories
-     * @param int $offset The offset (index) from which to obtain the story
-     *                    items
-     * @param bool $forceCacheRefresh Force the cache to be refreshed?
-     *
-     * @return mixed|object Returns an object containing the list of stories
-     *                      and the total number of stories available.
-     */
-    public function getBestStories(
-        int $limit = 20,
-        int $offset = 0,
-        bool $forceCacheRefresh = false
-    ) {
-        return $this->getStories(
-            (new HnApi())->getBestStoriesUri(),
-            $limit,
-            $offset,
-            $forceCacheRefresh
-        );
-    }
-
-    /**
-     * Gets hacker news new stories either from DB or cache.
-     *
-     * @param int  $limit The maximum number of stories
-     * @param int $offset The offset (index) from which to obtain the story
-     *                    items
-     * @param bool $forceCacheRefresh Force the cache to be refreshed?
-     *
-     * @return mixed|object Returns an object containing the list of stories
-     *                      and the total number of stories available.
-     */
-    public function getNewStories(
-        int $limit = 20,
-        int $offset = 0,
-        bool $forceCacheRefresh = false
-    ) {
-        return $this->getStories(
-            (new HnApi())->getNewStoriesUri(),
-            $limit,
-            $offset,
-            $forceCacheRefresh
-        );
-    }
 
     /**
      * Gets hacker news job stories either from DB or cache.
@@ -110,27 +37,6 @@ class HackerNews
             $offset,
             $forceCacheRefresh
         );
-    }
-
-    /**
-     * Get details of a single story and it's corresponding comments
-     * from local db.
-     *
-     * @param int|null $id The story identifier
-     *
-     * @return object|null Returns and object containing the story details and
-     * comments
-     */
-    public function getStory($id)
-    {
-        $storyModel = HackerNewsItem::find($id);
-        if ($storyModel) {
-            $story = $storyModel->toArray();
-        } else {
-            return null;
-        }
-
-        return $this->addCommentsToStory((object) $story);
     }
 
     /**
@@ -192,52 +98,5 @@ class HackerNews
         $fullIdList = $hnApi->getLiveStoriesIdList($uri);
 
         return Utils::storiesListFromDb($fullIdList, $limit, $offset);
-    }
-
-    /**
-     * Appends comments, and child comments to a story.
-     *
-     * @param object $story The story details
-     *
-     * @return object Returns and object containing the story details and
-     * comments
-     */
-    protected function addCommentsToStory($story)
-    {
-        $kids = data_get($story, 'kids');
-        $comments = [];
-        if (is_array($kids) && count($kids)) {
-            $comments = $this->comments($kids);
-        }
-        $story->sub = $comments;
-
-        return $story;
-    }
-
-    /**
-     * Attaches all comments and child comments, using recursion.
-     *
-     * @param array<int> $ids An array with the id of the comments
-     *
-     * @return array Returns the full list of comments
-     */
-    protected function comments($ids)
-    {
-        $commentsCollection = (new HackerNewsItem())
-            ->whereIn('id', $ids)
-            ->get()
-            ->toArray()
-        ;
-        $comments = [];
-        foreach ($commentsCollection as $cmt) {
-            $comments[] = (object) $cmt;
-        }
-        foreach ($comments as $comment) {
-            $kids = data_get($comment, 'kids');
-            if (is_array($kids) && count($kids)) {
-                $comment->sub = $this->comments($kids);
-            }
-        }
-        return Utils::sortStoriesList($comments, $ids);
     }
 }
