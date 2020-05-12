@@ -24,7 +24,6 @@ window.Vue = require('vue');
 Vue.component('inspire', require('./components/Inspire.vue').default);
 Vue.component('system-info', require('./components/SystemInfo.vue').default);
 Vue.component('next-holidays', require('./components/NextHolidays.vue').default);
-Vue.component('remote-jobs', require('./components/RemoteJobs.vue').default);
 Vue.component('weather', require('./components/Weather').default);
 
 /**
