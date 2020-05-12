@@ -31,21 +31,21 @@
             <small class="text-muted">({{ post.url | domainFromUrl }})</small>
           </a>
         </span>
-        <span class="d-block d-md-none">
+        <span class="d-block d-md-none" v-loading="post.status.saving">
           <span class="bookmark-story pointer text-primary"
              @click="bookmarkPost(post)"
-          >{{ post.bookmarked ? "⚫" : "⚪️"}}️</span>
+          >{{ post.status.bookmarked ? "⚫" : "⚪️"}}️</span>
         </span>
         <span class="badge d-none d-md-block">{{ post.time | diffForHumans }}</span>
       </div>
-      <div class="d-none d-md-block">
+      <div class="d-none d-md-block" v-loading="post.status.saving">
         <small class="text-muted">{{ post.score }} points</small>
         |
         <small>{{ post.nComments }} comments</small>
         |
         <span class="bookmark-story pointer text-primary"
            @click="bookmarkPost(post)"
-        >{{ post.bookmarked ? "⚫" : "⚪️" }}</span>
+        >{{ post.status.bookmarked ? "⚫" : "⚪️" }}</span>
       </div>
     </li>
     </transition-group>
@@ -104,7 +104,10 @@ export default {
               type: _get(postData, 'type'),
               nComments: _get(postData, 'descendants'),
               kids: _get(postData, 'kids', []),
-              bookmarked: false,
+              status: {
+                bookmarked: false,
+                saving: false,
+              },
             };
             resolve(item);
           });
@@ -122,7 +125,7 @@ export default {
       const ids = _get(response, 'data.data', []);
       this.nBookmarks = ids.length;
       this.posts = this.posts.map(post => {
-        post.bookmarked = ids.includes(post.id);
+        post.status.bookmarked = ids.includes(post.id);
         return post;
       });
     },
