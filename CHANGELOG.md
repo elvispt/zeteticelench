@@ -1,6 +1,24 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 4.1.0 <2020-05-12>
+- Fixed issue where the list of bookmarked HackerNews posts was being
+overwritten after a few seconds by the list of top/best hn posts
+[#494](https://github.com/elvispt/zeteticelench/issues/494).
+- Added a loader when user clicks the button to bookmark a post (vice-versa)
+[#492](https://github.com/elvispt/zeteticelench/issues/492).
+- HackerNews posts are now loaded in two batches to allow the user to interact
+with the page sooner.
+- Unified layout files into a single layout file on the root of the views.
+- Removed jQuery and Popper.js dependencies
+[#499](https://github.com/elvispt/zeteticelench/issues/499).
+- Removed RemoteJobs widget
+[#496](https://github.com/elvispt/zeteticelench/issues/496).
+- Added diffForHumans as a global Vue.js filter
+[#497](https://github.com/elvispt/zeteticelench/issues/497).
+- Removed unused views and classes, mostly related to HackerNews app
+[#496](https://github.com/elvispt/zeteticelench/issues/496).
+
 ### 4.0.0 <2020-05-11>
 - Refactor HackerNews section into a Vue.js app.
 - All hn posts are obtained by making a call to a Firebase real time
