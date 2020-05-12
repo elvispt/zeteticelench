@@ -1,4 +1,4 @@
-@extends('vuejs.layouts.app')
+@extends('app')
 
 @section('title') @lang('notes.notes') @endsection
 

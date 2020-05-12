@@ -1,4 +1,4 @@
-@extends('vuejs.layouts.app')
+@extends('app')
 
 @section('title') @lang('common.dashboard') @endsection
 
@@ -29,12 +29,6 @@
         <next-holidays
           lang-next-holiday="@lang('holidays.next_holidays')"
         ></next-holidays>
-      </div>
-
-      <div class="col-sm-12 no-gutter-xs">
-        <remote-jobs
-          lang-remote-jobs="@lang('jobs.remote_jobs')"
-        ></remote-jobs>
       </div>
 
     </div>
