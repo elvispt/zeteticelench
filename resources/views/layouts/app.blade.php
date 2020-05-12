@@ -57,7 +57,7 @@
 
             <li class="nav-item">
               <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'hackernews') ? 'text-primary' : '' }}"
-                 href="{{ route('hackernews-top') }}"
+                 href="{{ route('hackernews') }}"
               >@lang('hackernews.hackernews')</a>
             </li>
           @endif
