@@ -55,7 +55,7 @@ export default {
       HnDB
         .child(`${type}stories`)
         .limitToFirst(this.limit)
-        .on('value', snapshot => {
+        .once('value', (snapshot, b) => {
           const val = snapshot.val();
           this.idList = Array.isArray(val) ? val : [];
         });
