@@ -11,8 +11,9 @@ export const bookmarPost = {
 
   methods: {
     async bookmarkPost(post) {
+      post.status.saving = true;
       const requestData = { 'postId': post.id };
-      const addBookmark = !post.bookmarked;
+      const addBookmark = !post.status.bookmarked;
       if (!addBookmark) {
         requestData._method = 'delete';
       }
@@ -20,7 +21,7 @@ export const bookmarPost = {
 
       const success = _get(response, 'data.data.success', false);
       if (success) {
-        post.bookmarked = !post.bookmarked;
+        post.status.bookmarked = !post.status.bookmarked;
         this.nBookmarks += addBookmark ? 1 : -1;
       }
       this.notifyUserOfBookmarkStatusChange(success, addBookmark, post);
@@ -47,6 +48,7 @@ export const bookmarPost = {
         this.notification.close();
       }
       this.notification = this.$message(messageOptions);
+      setTimeout(() => post.status.saving = false, 400);
     },
   },
 };

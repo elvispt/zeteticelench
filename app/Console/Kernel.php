@@ -8,7 +8,6 @@ use App\Libraries\Inspire\Inspire;
 use App\Libraries\Reddit\GameDeals;
 use App\Repos\Calendarific\Calendarific;
 use App\Repos\Calendarific\CalendarificApi;
-use App\Repos\RemoteJobs\RemoteJobs;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -47,10 +46,6 @@ class Kernel extends ConsoleKernel
             $calendarificApi = new CalendarificApi();
             $calendarific->holidays($calendarificApi);
         })->twiceDaily(3, 15);
-
-        $schedule->call(static function () {
-            (new RemoteJobs())->jobs();
-        })->hourly();
 
         $schedule
             ->command(PruneLogs::class, ['--force'])

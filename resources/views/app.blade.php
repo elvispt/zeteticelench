@@ -15,7 +15,7 @@
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Nunito&display=swap" rel="stylesheet">
 
   <!-- Styles -->
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
@@ -57,50 +57,37 @@
 
             <li class="nav-item">
               <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'hackernews') ? 'text-primary' : '' }}"
-                 href="{{ route('hackernews-top') }}"
+                 href="{{ route('hackernews') }}"
               >@lang('hackernews.hackernews')</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'users') ? 'text-primary' : '' }}"
+                 href="{{ route('users-list') }}"
+              >@lang('users.users')</a>
             </li>
           @endif
         </ul>
 
         <div class="d-none d-md-block">
-          @include('common/inspire')
+          @include('common.inspire')
         </div>
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
           @if (\Illuminate\Support\Facades\Auth::check())
-          <li class="nav-item">
-            <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'users') ? 'text-primary' : '' }}"
-               href="{{ route('users-list') }}"
-            >@lang('users.users')</a>
-          </li>
-          @endif
-
-          <!-- Authentication Links -->
-          @if (\Illuminate\Support\Facades\Auth::check())
-            <li class="nav-item dropdown">
-              <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                 aria-haspopup="true" aria-expanded="false" v-pre>
-                {{ Auth::user()->name }} <span class="caret"></span>
-              </a>
-
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item"
-                   href="{{ route('users-edit', ['id' => \Illuminate\Support\Facades\Auth::id()]) }}"
-                >@lang('users.user-edit')
-                </a>
-                <a class="dropdown-item" href="{{ route('logout') }}"
-                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                  @lang('users.logout')
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                  @csrf
-                </form>
-              </div>
+            <li class="nav-item">
+              <a class="nav-link"
+                 href="#"
+                 onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+              >@lang('users.logout')</a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+              </form>
             </li>
           @endif
         </ul>
+
       </div>
     </div>
   </nav>
