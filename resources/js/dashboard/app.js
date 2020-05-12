@@ -34,7 +34,7 @@ Vue.component('weather', require('./components/Weather').default);
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import "../_filters/filters";
+import "../filters";
 
 Vue.use(ElementUI);
 
