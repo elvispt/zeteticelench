@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       idList: [],
-      limit: 50,
+      limit: 100,
       routesMap: {
         HackerNewsTop: 'top',
         HackerNewsBest: 'best',
