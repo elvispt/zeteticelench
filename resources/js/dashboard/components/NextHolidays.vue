@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import moment from 'moment';
 import _get from "lodash.get";
 
 export default {
@@ -59,16 +58,6 @@ export default {
         }
         return true;
       },
-  },
-
-  filters: {
-    diffForHumans(value) {
-      if (!value) {
-        return '';
-      }
-      return moment(value, 'YYYY-MM-DD')
-        .fromNow();
-    },
   },
 
   created() {

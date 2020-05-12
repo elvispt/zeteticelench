@@ -20,7 +20,7 @@
         <p v-if="post.text" v-html="post.text"></p>
 
         <div class="loader-text loader-text-top d-block w-100" v-if="loading">&nbsp;</div>
-        <div v-if="post.title">
+        <div v-if="post.title" v-loading="post.status.saving">
           <small class="text-muted">{{ post.score }} points</small>
           <span class="text-muted">|</span>
           <small class="text-muted">{{ post.nComments }} comments</small>
@@ -31,7 +31,7 @@
           <span class="text-muted">|</span>
           <span class="bookmark-story pointer text-primary"
                 @click="bookmarkPost(post)"
-          >{{ post.bookmarked ? "⚫" : "⚪️"}}️</span>
+          >{{ post.status.bookmarked ? "⚫" : "⚪️"}}️</span>
         </div>
       </div>
     </div>
@@ -84,7 +84,10 @@ export default {
         url: null,
         type: null,
         nComments: null,
-        bookmarked: null,
+        status: {
+          bookmarked: null,
+          saving: null,
+        },
         // array of first level comment ids
         kids: [],
         // array of objects with each item with structure equal to parent
@@ -173,7 +176,7 @@ export default {
       const response = await axios.get("/api/bookmarks");
       const ids = _get(response, 'data.data', []);
       this.numberOfBookmarks = ids.length;
-      post.bookmarked = ids.includes(post.id);
+      post.status.bookmarked = ids.includes(post.id);
     },
   },
 

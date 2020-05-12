@@ -23,11 +23,6 @@ class ApiCommonTest extends TestCase
             ->get('/api/system-info')
             ->assertStatus(302)
         ;
-
-        $this
-            ->get('/api/remote-jobs')
-            ->assertStatus(302)
-        ;
     }
 
     public function testMakeCommonApiRequests()
@@ -56,15 +51,6 @@ class ApiCommonTest extends TestCase
         $this
             ->actingAs($user)
             ->get('/api/system-info')
-            ->assertStatus(200)
-            ->assertJsonStructure([
-                'data',
-            ])
-        ;
-
-        $this
-            ->actingAs($user)
-            ->get('/api/remote-jobs')
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data',

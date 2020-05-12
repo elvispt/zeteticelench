@@ -69,15 +69,5 @@ export default {
       this.$emit("inputData", '');
     },
   },
-
-  filters: {
-    diffForHumans(value) {
-      if (!value) {
-        return '';
-      }
-      return moment(value, 'YYYY-MM-DD hh:mm:ss')
-        .fromNow();
-    },
-  },
 }
 </script>

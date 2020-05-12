@@ -3,21 +3,6 @@ import * as Sentry from '@sentry/browser';
 Sentry.init({ dsn: 'https://50142ad267aa4c7c9dab6ed21262d2ab@sentry.io/1504143' });
 
 /**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
-
-    require('bootstrap');
-} catch (err) {
-    Sentry.captureException(err);
-}
-
-/**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
@@ -50,11 +35,6 @@ if (token) {
         }
       }
     )
-    window.$.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
 } else {
     const msg = "CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token";
     Sentry.captureMessage(msg);

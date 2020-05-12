@@ -15,7 +15,6 @@ use App\Http\Controllers\Api\HackerNewsController as HackerNewsApiController;
 use App\Http\Controllers\Api\InspireController;
 use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\NotesController as NotesApiController;
-use App\Http\Controllers\Api\RemoteJobsController;
 use App\Http\Controllers\Api\SystemInfoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HackerNewsController;
@@ -72,8 +71,6 @@ Route::namespace('Api')
             ->name('apiSystemInfo');
         Route::get('next-holidays', [NextHolidaysController::class, 'index'])
             ->name('apiNextHolidays');
-        Route::get('remote-jobs', [RemoteJobsController::class, 'index'])
-            ->name('apiRemoteJobs');
 
         // notes
         Route::get('notes', [NotesApiController::class, 'index'])
