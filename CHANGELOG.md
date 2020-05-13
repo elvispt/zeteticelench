@@ -1,6 +1,13 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 4.1.1 <2020-05-13>
+- Fixed issue with Navbar not working with xs screens. This was due to having
+removed jQuery, hence the js code for managing the dropdown would not function.
+The menu is now a Vue.js component. The user section does not have a navbar
+at least until the users section becomes a Vue.js application
+[#500](https://github.com/elvispt/zeteticelench/issues/500).
+
 ### 4.1.0 <2020-05-12>
 - Fixed issue where the list of bookmarked HackerNews posts was being
 overwritten after a few seconds by the list of top/best hn posts
