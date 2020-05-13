@@ -21,6 +21,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 // You only need to register components that are injected into a Blade template
+Vue.component('main-navigation', require('../components/MainNavigation').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

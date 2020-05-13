@@ -34,63 +34,7 @@
 </head>
 <body>
 <div id="app">
-  <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-    @php $currentRouteName = Route::getCurrentRoute()->getName(); @endphp
-    <div class="container">
-      <a class="navbar-brand" href="{{ url('/') }}">
-        {{ config('app.name', 'Laravel') }}
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Left Side Of Navbar -->
-        <ul class="navbar-nav mr-auto">
-          @if (\Illuminate\Support\Facades\Auth::check())
-            <li class="nav-item">
-              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'notes') ? 'text-primary' : '' }}"
-                 href="{{ route('notes') }}"
-              >@lang('notes.notes')</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'hackernews') ? 'text-primary' : '' }}"
-                 href="{{ route('hackernews') }}"
-              >@lang('hackernews.hackernews')</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link {{ \Illuminate\Support\Str::startsWith($currentRouteName, 'users') ? 'text-primary' : '' }}"
-                 href="{{ route('users-list') }}"
-              >@lang('users.users')</a>
-            </li>
-          @endif
-        </ul>
-
-        <div class="d-none d-md-block">
-          @include('common.inspire')
-        </div>
-
-        <!-- Right Side Of Navbar -->
-        <ul class="navbar-nav ml-auto">
-          @if (\Illuminate\Support\Facades\Auth::check())
-            <li class="nav-item">
-              <a class="nav-link"
-                 href="#"
-                 onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-              >@lang('users.logout')</a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-              </form>
-            </li>
-          @endif
-        </ul>
-
-      </div>
-    </div>
-  </nav>
+  <main-navigation></main-navigation>
 
   <main class="pb-4">
     @include('common.errors')
