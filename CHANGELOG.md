@@ -1,6 +1,10 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 4.2.0 <2020-05-14>
+- Comments, on HackerNews, can now be collapsed.
+- Show which route is active on MainNavigation.
+
 ### 4.1.1 <2020-05-13>
 - Fixed issue with Navbar not working with xs screens. This was due to having
 removed jQuery, hence the js code for managing the dropdown would not function.
