@@ -144,6 +144,7 @@ export default {
           this.fetchComment(id).then(commentData => {
             const kids = _get(commentData, 'kids', []);
             const comment = {
+              deleted: _get(commentData, 'deleted'),
               id: _get(commentData, 'id'),
               by: _get(commentData, 'by'),
               kids: kids,

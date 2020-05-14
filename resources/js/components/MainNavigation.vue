@@ -13,18 +13,21 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
+               :class="{ 'text-primary': isNoteRoute }"
                href="/notes"
             >Notes</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
+               :class="{ 'text-primary': isHackerNewsRoute }"
                href="/hn"
             >HackerNews</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
+               :class="{ 'text-primary': isUsersRoute }"
                href="/users"
             >Users</a>
           </li>
@@ -54,6 +57,10 @@ export default {
   data() {
     return {
       menuCollapsed: true,
+      isNoteRoute: false,
+      isHackerNewsRoute: false,
+      isUsersRoute: false,
+      appRoutes: [],
     };
   },
   methods: {
@@ -63,5 +70,14 @@ export default {
         .then(() => window.location.href = '/');
     },
   },
+
+  created() {
+    this.appRoutes = this.$router.options.routes.map(route => route.name);
+
+    this.isNoteRoute = this.appRoutes.includes('Notes');
+    this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
+    // not working util users is a Vue.js application
+    this.isUsersRoute = !this.isNoteRoute && !this.isHackerNewsRoute;
+  }
 }
 </script>
