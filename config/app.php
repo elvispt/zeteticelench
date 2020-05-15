@@ -178,6 +178,8 @@ return [
 
         // custom Providers
         App\Providers\ViewServiceProvider::class,
+
+        App\Providers\DropboxServiceProvider::class,
     ],
 
     /*

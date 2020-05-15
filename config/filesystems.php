@@ -69,6 +69,10 @@ return [
             'root' => storage_path('logs'),
         ],
 
+        'dropbox' => [
+            'driver' => 'dropbox',
+            'authorizationToken' => env('DROPBOX_AUTHORIZATION_TOKEN'),
+        ],
     ],
 
     /*
