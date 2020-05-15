@@ -1,6 +1,17 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 4.3.0 <2020-05-15>
+- Added automated database backups. A scheduled command will dump the db then
+upload to dropbox
+[#506](https://github.com/elvispt/zeteticelench/pull/506).
+- Updated Dockerfile:
+  - added mysql-client so that `mysqldump` command becomes available to the
+  automated backup.
+  - generated image is ready for production.
+  - when on dev environment run the `/root/dev.sh` file to enabled xdebug and
+  disable opcache.
+
 ### 4.2.0 <2020-05-14>
 - Comments, on HackerNews, can now be collapsed.
 - Show which route is active on MainNavigation.
