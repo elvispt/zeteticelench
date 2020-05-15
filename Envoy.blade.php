@@ -26,6 +26,7 @@
 @endtask
 
 @task('cache')
+  /snap/bin/docker exec zeteticelench composer run permissions
   /snap/bin/docker exec zeteticelench php artisan view:cache
   /snap/bin/docker exec zeteticelench php artisan cache:clear
   /snap/bin/docker exec zeteticelench service apache2 reload

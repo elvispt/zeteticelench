@@ -10,6 +10,7 @@ use App\Repos\Calendarific\Calendarific;
 use App\Repos\Calendarific\CalendarificApi;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Spatie\DbSnapshots\Commands\Create;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $logDate = date('Ymd');
+        $schedulerLogPath = storage_path("logs/scheduler-${logDate}.log");
 
         $schedule->call(static function () {
             (new Inspire())->adviceSlip();
@@ -39,7 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule
             ->command(StaleTags::class, ['--force'])
             ->everyThirtyMinutes()
-            ->appendOutputTo(storage_path("logs/scheduler-${logDate}.log"));
+            ->appendOutputTo($schedulerLogPath);
 
         $schedule->call(static function () {
             $calendarific = new Calendarific();
@@ -50,7 +52,7 @@ class Kernel extends ConsoleKernel
         $schedule
             ->command(PruneLogs::class, ['--force'])
             ->daily()
-            ->appendOutputTo(storage_path("logs/scheduler-${logDate}.log"));
+            ->appendOutputTo($schedulerLogPath);
 
         $schedule
             ->call(static function () {
@@ -59,6 +61,28 @@ class Kernel extends ConsoleKernel
             })
             ->daily()->at('20:00')
             ->environments(['production'])
+        ;
+
+        $this->snapshots($schedule, $schedulerLogPath);
+    }
+
+    /**
+     * Backups DB to Dropbox
+     *
+     * @param Schedule $schedule
+     * @param string   $schedulerLogPath
+     */
+    protected function snapshots(Schedule $schedule, string $schedulerLogPath)
+    {
+        $schedule
+            ->command('snapshot:create --compress')
+            ->dailyAt('03:01')
+            ->appendOutputTo($schedulerLogPath)
+        ;
+        $schedule
+            ->command('snapshot:cleanup --keep=5')
+            ->dailyAt('03:03')
+            ->appendOutputTo($schedulerLogPath)
         ;
     }
 
