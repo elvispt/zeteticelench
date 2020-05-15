@@ -23,6 +23,8 @@
         "rezozero/commonmark-ext-footnotes": "^1.0",
         "sentry/sentry-laravel": "^1.7",
         "spatie/commonmark-highlighter": "^2.1",
+        "spatie/flysystem-dropbox": "^1.2",
+        "spatie/laravel-db-snapshots": "^1.6",
         "spatie/laravel-view-models": "^1.3"
     },
     "require-dev": {
@@ -73,7 +75,7 @@
             "@php artisan key:generate --ansi"
         ],
         "permissions": [
-            "chown -R www-data storage/framework/ && chown -R www-data storage/logs/ && chown -R www-data bootstrap/cache/"
+            "chown -R www-data storage/framework/ && chown -R www-data storage/logs/ && chown -R www-data bootstrap/cache/ && chown -R www-data storage/app/laravel-db-snapshots"
         ],
         "tests": [
           "./vendor/bin/phpunit --testdox --coverage-html tests/coverage"

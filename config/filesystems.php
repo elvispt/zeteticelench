@@ -69,6 +69,17 @@ return [
             'root' => storage_path('logs'),
         ],
 
+        // used by spatie/flysystem-dropbox
+        'dropbox' => [
+            'driver' => 'dropbox',
+            'authorizationToken' => env('DROPBOX_AUTHORIZATION_TOKEN'),
+        ],
+
+        // used by spatie/laravel-db-snapshots
+        'snapshots' => [
+            'driver' => 'dropbox',
+            'authorizationToken' => env('DROPBOX_AUTHORIZATION_TOKEN'),
+        ],
     ],
 
     /*
