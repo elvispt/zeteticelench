@@ -41,6 +41,7 @@
           v-for="com in post.comments"
           v-bind:key="com.id"
           :comment="com"
+          :handle-collapse-toggle="handleCollapseToggle"
         ></hn-comment>
       </div>
     </div>
@@ -55,6 +56,7 @@ import {HnDB} from "../service/HnDB";
 import _get from "lodash.get";
 import moment from "moment";
 import axios from "axios";
+import * as Sentry from '@sentry/browser';
 
 export default {
   name: "HackerNewsPost",
@@ -74,6 +76,8 @@ export default {
     return {
       loading: true,
       loadingComments: true,
+      collapsedCommentsKey: 'collapsedCommentsHackerNewsPost',
+      collapsedComments: [],
       post: {
         id: null,
         by: null,
@@ -112,9 +116,10 @@ export default {
       if (!id) {
         return;
       }
+      this.fetchCollapsedComments();
       HnDB
         .child(`item/${id}`)
-        .on('value', snapshot => {
+        .once('value', snapshot => {
           const postData = snapshot.val();
 
           this.post.id = _get(postData, 'id');
@@ -143,9 +148,10 @@ export default {
         parent.kids.map(id => {
           this.fetchComment(id).then(commentData => {
             const kids = _get(commentData, 'kids', []);
+            const id = _get(commentData, 'id');
             const comment = {
+              id,
               deleted: _get(commentData, 'deleted'),
-              id: _get(commentData, 'id'),
               by: _get(commentData, 'by'),
               kids: kids,
               text: _get(commentData, 'text'),
@@ -153,6 +159,7 @@ export default {
                 .unix(_get(commentData, 'time', 0))
                 .format('YYYY-MM-DD HH:mm:ss'),
               comments: [],
+              collapsed: this.collapsedComments.includes(id),
             };
             this.fetchComments(comment);
             parent.comments.push(comment);
@@ -166,7 +173,7 @@ export default {
       return new Promise((resolve, reject) => {
         HnDB
           .child(`item/${id}`)
-          .on('value', snapshot => {
+          .once('value', snapshot => {
             const commentData = snapshot.val();
             resolve(commentData);
           });
@@ -179,6 +186,47 @@ export default {
       this.numberOfBookmarks = ids.length;
       post.status.bookmarked = ids.includes(post.id);
     },
+
+    /**
+     * Fetches the list of item ids that are collapsed from localStorage
+     */
+    fetchCollapsedComments() {
+      const json = localStorage.getItem(this.collapsedCommentsKey);
+      let commentIds;
+      try {
+        commentIds = JSON.parse(json);
+      } catch (e) {
+        Sentry.captureMessage(e);
+      }
+      commentIds = Array.isArray(commentIds) ? commentIds : [];
+      this.collapsedComments = commentIds;
+    },
+
+    /**
+     * Stores list of item ids of collapsed element to localStorage
+     */
+    setCollapsedComments() {
+      const json = JSON.stringify(this.collapsedComments);
+      localStorage.setItem(this.collapsedCommentsKey, json);
+    },
+
+    /**
+     * Toggles the collapse property of the comment and
+     * adds/removes from list of collapsedComments
+     *
+     * @param comment The comment item object
+     */
+    handleCollapseToggle(comment) {
+      comment.collapsed = !comment.collapsed;
+      if (comment.collapsed) {
+        // add to collapsed comments list
+        this.collapsedComments.push(comment.id);
+      } else {
+        // remove from collapsed comments list
+        this.collapsedComments = this.collapsedComments.filter(id => id !== comment.id);
+      }
+      this.setCollapsedComments();
+    }
   },
 
   created() {
