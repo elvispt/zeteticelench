@@ -1,6 +1,12 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 4.3.1 <2020-05-16>
+- HN Post comments no longer autoupdate. When there were changes on the
+comments, the UI would update causing confusion. It now never updates after
+first load.
+- Collapsed comments are now stored on the user's browser.
+
 ### 4.3.0 <2020-05-15>
 - Added automated database backups. A scheduled command will dump the db then
 upload to dropbox
