@@ -7,20 +7,26 @@
         <span class="align-middle">by {{ comment.by }}</span>
         <small class="text-muted">{{ comment.time | diffForHumans }}</small>
         <a role="button"
-           class="btn btn-sm btn-outline-secondary pointer"
+           class="btn btn-sm btn-outline-secondary pointer btn-collapse"
            data-toggle="collapse"
-           @click="isShow = !isShow"
-        >↕️️</a>
+           @click="handleCollapseToggle(comment)"
+        >
+          <b>
+            <span v-if="comment.collapsed">+</span>
+            <span v-if="!comment.collapsed">-</span>
+          </b>
+        </a>
       </h6>
 
       <transition name="slide">
-        <div class="mt-2" v-if="isShow">
+        <div class="mt-2" v-if="!comment.collapsed">
           <p v-html="comment.text"></p>
           <hn-comment
             v-if="comment.comments.length"
             v-for="com in comment.comments"
             v-bind:key="com.id"
             :comment="com"
+            :handle-collapse-toggle="handleCollapseToggle"
           ></hn-comment>
         </div>
       </transition>
@@ -34,6 +40,7 @@ export default {
 
   props: {
     comment: { type: Object, required: true },
+    handleCollapseToggle: { type: Function, required: true },
   },
 
   data() {
@@ -78,5 +85,13 @@ export default {
   }
   .text-line-through {
     text-decoration: line-through;
+  }
+  .btn-collapse {
+    width: 1.8rem;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+  .btn-collapse:hover {
+    color: #fff;
   }
 </style>
