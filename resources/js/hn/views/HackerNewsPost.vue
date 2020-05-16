@@ -114,7 +114,7 @@ export default {
       }
       HnDB
         .child(`item/${id}`)
-        .on('value', snapshot => {
+        .once('value', snapshot => {
           const postData = snapshot.val();
 
           this.post.id = _get(postData, 'id');
@@ -166,7 +166,7 @@ export default {
       return new Promise((resolve, reject) => {
         HnDB
           .child(`item/${id}`)
-          .on('value', snapshot => {
+          .once('value', snapshot => {
             const commentData = snapshot.val();
             resolve(commentData);
           });
