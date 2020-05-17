@@ -1,6 +1,14 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 4.3.2 <2020-05-17>
+- Now able to use Laravel's lang strings in client side code.
+- Added MainNavigation to user's application.
+- Improved loader appearance on hn post.
+- Updated look of collapse button on hn post.
+- All changes can be found at:
+[#510](https://github.com/elvispt/zeteticelench/pull/510).
+
 ### 4.3.1 <2020-05-16>
 - HN Post comments no longer autoupdate. When there were changes on the
 comments, the UI would update causing confusion. It now never updates after
