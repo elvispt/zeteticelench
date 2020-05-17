@@ -4,45 +4,49 @@
       :number-of-bookmarks="numberOfBookmarks"
     ></navigation>
     <div class="row">
-      <div class="col-12 no-gutter-xs" v-loading="loading">
-        <p class="lead loader-text loader-text-top d-block w-100" v-if="loading">&nbsp;</p>
-        <p class="lead" v-if="post.title">
-          {{ post.title }}
-          <a
-            v-if="post.url"
-            :href="post.url"
-            class="text-body"
-            target="_blank"
-          >
-            <small class="text-muted">({{ post.url | domainFromUrl }}) [↗]</small>
-          </a>
-        </p>
-        <p v-if="post.text" v-html="post.text"></p>
+      <div class="col-12 no-gutter-xs">
+        <div v-loading="loading">
+          <p class="lead loader-text d-block loader-text--2x3" v-if="loading">&nbsp;</p>
+          <p class="lead" v-if="post.title">
+            {{ post.title }}
+            <a
+              v-if="post.url"
+              :href="post.url"
+              class="text-body"
+              target="_blank"
+            >
+              <small class="text-muted">({{ post.url | domainFromUrl }}) [↗]</small>
+            </a>
+          </p>
+          <p v-if="post.text" v-html="post.text"></p>
 
-        <div class="loader-text loader-text-top d-block w-100" v-if="loading">&nbsp;</div>
-        <div v-if="post.title" v-loading="post.status.saving">
-          <small class="text-muted">{{ post.score }} points</small>
-          <span class="text-muted">|</span>
-          <small class="text-muted">{{ post.nComments }} comments</small>
-          <span class="text-muted">|</span>
-          <small class="text-muted">{{ post.time | diffForHumans }}</small>
-          <span class="text-muted">|</span>
-          <small class="text-muted">by {{ post.by }}</small>
-          <span class="text-muted">|</span>
-          <span class="bookmark-story pointer text-primary"
-                @click="bookmarkPost(post)"
-          >{{ post.status.bookmarked ? "⚫" : "⚪️"}}️</span>
+          <div class="loader-text d-block loader-text--1x3" v-if="loading">&nbsp;</div>
+          <div v-if="post.title" v-loading="post.status.saving">
+            <small class="text-muted">{{ $I18n.trans('hackernews.points', { points: post.score }) }}</small>
+            <span class="text-muted">|</span>
+            <small class="text-muted">{{ $I18n.trans('hackernews.comments', { comments: post.nComments }) }}</small>
+            <span class="text-muted">|</span>
+            <small class="text-muted" :title="post.time">{{ post.time | diffForHumans }}</small>
+            <span class="text-muted">|</span>
+            <small class="text-muted">{{ $I18n.trans('hackernews.by', { by: post.by }) }}</small>
+            <span class="text-muted">|</span>
+            <span class="bookmark-story pointer text-primary"
+                  @click="bookmarkPost(post)"
+            >{{ post.status.bookmarked ? "⚫" : "⚪️"}}️</span>
+          </div>
         </div>
       </div>
     </div>
     <div class="row" v-if="post.comments.length">
-      <div class="col-12 no-gutter-xs" v-loading="loadingComments">
-        <hn-comment
-          v-for="com in post.comments"
-          v-bind:key="com.id"
-          :comment="com"
-          :handle-collapse-toggle="handleCollapseToggle"
-        ></hn-comment>
+      <div class="col-12 no-gutter-xs">
+        <div v-if="!loadingComments">
+          <hn-comment
+            v-for="com in post.comments"
+            v-bind:key="com.id"
+            :comment="com"
+            :handle-collapse-toggle="handleCollapseToggle"
+          ></hn-comment>
+        </div>
       </div>
     </div>
   </div>
@@ -244,5 +248,11 @@ export default {
   .loader-text {
     background: #808080;
     border-radius: 2px;
+  }
+  .loader-text--1x3 {
+    width: 33%;
+  }
+  .loader-text--2x3 {
+    width: 66%;
   }
 </style>

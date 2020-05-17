@@ -21,10 +21,6 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 // You only need to register components that are injected into a Blade template
-Vue.component('inspire', require('./components/Inspire.vue').default);
-Vue.component('system-info', require('./components/SystemInfo.vue').default);
-Vue.component('next-holidays', require('./components/NextHolidays.vue').default);
-Vue.component('weather', require('./components/Weather').default);
 Vue.component('main-navigation', require('../components/MainNavigation').default);
 
 /**
@@ -33,12 +29,8 @@ Vue.component('main-navigation', require('../components/MainNavigation').default
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import "../filters";
 import I18n from "../vendor/I18n";
 
-Vue.use(ElementUI);
 Vue.prototype.$I18n = new I18n;
 
 const app = new Vue({

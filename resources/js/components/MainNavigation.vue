@@ -15,21 +15,21 @@
             <a class="nav-link text-right text-sm-left"
                :class="{ 'text-primary': isNoteRoute }"
                href="/notes"
-            >Notes</a>
+            >{{ $I18n.trans('notes.notes') }}</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
                :class="{ 'text-primary': isHackerNewsRoute }"
                href="/hn"
-            >HackerNews</a>
+            >{{ $I18n.trans('hackernews.hackernews') }}</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
                :class="{ 'text-primary': isUsersRoute }"
                href="/users"
-            >Users</a>
+            >{{ $I18n.trans('users.users') }}</a>
           </li>
         </ul>
 
@@ -39,7 +39,7 @@
             <a class="nav-link text-right text-sm-left"
                href="#"
                @click="logout($event)"
-            >Logout</a>
+            >{{ $I18n.trans('users.logout') }}</a>
           </li>
         </ul>
 
@@ -53,6 +53,10 @@ import axios from "axios";
 
 export default {
   name: "MainNavigation",
+
+  props: {
+    route: { type: String, required: false },
+  },
 
   data() {
     return {
@@ -72,12 +76,14 @@ export default {
   },
 
   created() {
-    this.appRoutes = this.$router.options.routes.map(route => route.name);
+    if (this.$router) {
+      this.appRoutes = this.$router.options.routes.map(route => route.name);
 
-    this.isNoteRoute = this.appRoutes.includes('Notes');
-    this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
-    // not working util users is a Vue.js application
-    this.isUsersRoute = !this.isNoteRoute && !this.isHackerNewsRoute;
+      this.isNoteRoute = this.appRoutes.includes('Notes');
+      this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
+    } else {
+      this.isUsersRoute = this.route === "users";
+    }
   }
 }
 </script>

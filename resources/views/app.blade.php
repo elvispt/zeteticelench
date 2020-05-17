@@ -34,7 +34,9 @@
 </head>
 <body>
 <div id="app">
-  <main-navigation></main-navigation>
+  <main-navigation
+    route="{{ substr(\Illuminate\Support\Facades\Route::current()->getPrefix(), 1) }}"
+  ></main-navigation>
 
   <main class="pb-4">
     @include('common.errors')
@@ -43,5 +45,6 @@
 </div>
 <!-- Scripts -->
 @stack('scripts')
+@translations
 </body>
 </html>
