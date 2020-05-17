@@ -29,6 +29,10 @@ Vue.component('main-navigation', require('../components/MainNavigation').default
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import I18n from "../vendor/I18n";
+
+Vue.prototype.$I18n = new I18n;
+
 const app = new Vue({
   el: '#app'
 });

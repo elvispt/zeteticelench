@@ -1,6 +1,6 @@
 <template>
   <div class="card shadow mb-3">
-    <div class="card-header">{{ langNextHoliday }}</div>
+    <div class="card-header">{{ $I18n.trans('holidays.next_holidays') }}</div>
     <div class="card-body" v-loading="loading">
       <div v-for="holiday in nextHolidays">
         <p>
@@ -25,10 +25,6 @@ import _get from "lodash.get";
 
 export default {
   name: "NextHolidays",
-
-  props: [
-    'langNextHoliday',
-  ],
 
   data() {
     return {

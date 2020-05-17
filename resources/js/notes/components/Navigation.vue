@@ -6,13 +6,13 @@
           <router-link
             to="/"
             class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('Notes')"
-          >Notes</router-link>
+            :class="activeSubmenu('Notes')"
+          >{{ $I18n.trans('notes.notes') }}</router-link>
           <router-link
             to="/new"
             class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('NoteCreate')"
-          >New Note</router-link>
+            :class="activeSubmenu('NoteCreate')"
+          >{{ $I18n.trans('notes.new_note') }}</router-link>
         </div>
       </div>
     </div>

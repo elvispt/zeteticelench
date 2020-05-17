@@ -3,11 +3,11 @@
     <ul class="list-group list-group-flush" v-loading="loading">
       <el-alert
         v-if="!notes.length"
-        title="Could not find any records"
+        :title="$I18n.trans('notes.alert_failed_to_find_records')"
         type="info"
         center
         @close="close"
-        close-text="Close here or hit the ESC key"
+        :close-text="$I18n.trans('notes.alert_close_text')"
       ></el-alert>
 
       <li v-for="note in notes" class="list-group-item list-group-item-action p-2 p-sm-3">
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import _get from "lodash.get";
 
 export default {

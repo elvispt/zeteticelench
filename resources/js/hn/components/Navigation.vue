@@ -7,17 +7,17 @@
             to="/"
             class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('HackerNewsTop')"
-          >Top</router-link>
+          >{{ $I18n.trans('hackernews.top') }}</router-link>
           <router-link
             to="/best"
             class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('HackerNewsBest')"
-          >Best</router-link>
+          >{{ $I18n.trans('hackernews.best') }}</router-link>
           <router-link
             to="/bookmark"
             class="btn btn-group-sm w-100"
             v-bind:class="activeSubmenu('HackerNewsBookmarks')"
-          >Saved <span class="badge badge-light">{{ numberOfBookmarks }}</span></router-link>
+          >{{ $I18n.trans('hackernews.bookmarks') }} <span class="badge badge-light">{{ numberOfBookmarks }}</span></router-link>
         </div>
       </div>
     </div>

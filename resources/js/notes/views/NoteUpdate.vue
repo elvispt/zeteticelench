@@ -18,21 +18,22 @@
             <div class="textarea-container">
               <textarea
                 v-model="note.body"
+                :placeholder="$I18n.trans('notes.placeholder_note_title')"
+                @keydown.tab.prevent="textareaCharInserter"
                 name="body"
                 class="form-control form-text m-0"
                 cols="100"
                 rows="15"
-                placeholder="# Title of note"
-                @keydown.tab.prevent="textareaCharInserter"
               ></textarea>
             </div>
             <div class="d-flex justify-content-between">
               <small class="form-text text-muted ml-3">
                 <a
+                  v-once
                   class="text-muted"
                   href="https://commonmark.org/help/"
                   tabindex=-1
-                  target="_CommonMark">CommonMark</a>
+                  target="_CommonMark">{{ $I18n.trans('notes.commonmark') }}</a>
               </small>
               <el-button
                 circle
@@ -69,7 +70,7 @@
                   class="button-new-tag"
                   size="small"
                   @click="showInput"
-                >+ New Tag</el-button>
+                >{{ $I18n.trans('notes.new_tag') }}</el-button>
               </div>
             </div>
 
@@ -77,13 +78,7 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-              >Update Note</button>
-              <el-alert
-                v-if="success"
-                class="mt-3"
-                title="Note created!"
-                type="success"
-              ></el-alert>
+              >{{ $I18n.trans('common.add') }}</button>
             </div>
           </form>
         </div>
@@ -114,7 +109,6 @@ export default {
       newTagInputVisible: false,
       newTag: '',
       errors: [],
-      success: false,
       note: {},
       tags: [
         {id: 1, name: 'x'}
@@ -203,9 +197,13 @@ export default {
           _method: 'put',
         });
         if (_get(response, 'data.data.success')) {
-          this.success = true;
           this.selectedTags = [];
-          await this.$router.push({name: 'Note', params: {id: this.note.id}})
+          this.$message({
+            type: 'success',
+            message: this.$I18n.trans('notes.confirmation_success_note_updated'),
+            center: true,
+          });
+          setTimeout(() => this.$router.push({name: 'Note', params: {id: this.note.id}}), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to update note."});
         }

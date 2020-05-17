@@ -36,8 +36,10 @@ Vue.component('main-navigation', require('../components/MainNavigation').default
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "../filters";
+import I18n from "../vendor/I18n";
 
 Vue.use(ElementUI);
+Vue.prototype.$I18n = new I18n;
 
 const app = new Vue({
   el: '#app'

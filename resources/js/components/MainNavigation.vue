@@ -15,21 +15,21 @@
             <a class="nav-link text-right text-sm-left"
                :class="{ 'text-primary': isNoteRoute }"
                href="/notes"
-            >Notes</a>
+            >{{ $I18n.trans('notes.notes') }}</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
                :class="{ 'text-primary': isHackerNewsRoute }"
                href="/hn"
-            >HackerNews</a>
+            >{{ $I18n.trans('hackernews.hackernews') }}</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
                :class="{ 'text-primary': isUsersRoute }"
                href="/users"
-            >Users</a>
+            >{{ $I18n.trans('users.users') }}</a>
           </li>
         </ul>
 
@@ -39,7 +39,7 @@
             <a class="nav-link text-right text-sm-left"
                href="#"
                @click="logout($event)"
-            >Logout</a>
+            >{{ $I18n.trans('users.logout') }}</a>
           </li>
         </ul>
 

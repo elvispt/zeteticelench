@@ -1,14 +1,14 @@
 <template>
   <div class="col-12 no-gutter-xs" id="algolia-search">
     <div class="justify-content-center form-inline d-flex">
-      <label class="sr-only" for="query">Search here</label>
+      <label class="sr-only" for="query">{{ $I18n.trans('notes.search') }}</label>
       <input type="text"
              class="form-control flex-grow-1"
              id="query"
              name="query"
              v-model="searchQuery"
              @keyup.esc="clearSearch"
-             placeholder="2 chars minimum"
+             :placeholder="$I18n.trans('notes.min_2_chars')"
       >
       &nbsp;
       <picture>

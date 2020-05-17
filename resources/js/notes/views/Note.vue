@@ -28,11 +28,11 @@
           <router-link
             :to="`/edit/${note.id}`"
             class="btn btn-primary"
-          >Edit</router-link>
+          >{{ $I18n.trans('notes.edit') }}</router-link>
           <button
             @click="confirmDelete(note.id)"
             class="btn btn-danger ml-3"
-          >Delete Note</button>
+          >{{ $I18n.trans('notes.delete') }}</button>
         </div>
       </div>
     </div>
@@ -75,9 +75,14 @@ export default {
       setTimeout(() => this.loading = false, 400);
     },
     confirmDelete: function (noteId) {
-      this.$confirm(`This will permanently delete the note (${noteId}). Continue?`, 'Warning', {
-        confirmButtonText: 'Delete',
-        cancelButtonText: 'Cancel',
+      const askConfirmation = this.$I18n.trans('notes.confirmation_ask_delete', { id: noteId });
+      const confirmationDeleteSuccess = this.$I18n.trans('notes.confirmation_success_deleted', { id: noteId });
+      const confirmButtonText = this.$I18n.trans('notes.delete');
+      const cancelButtonText = this.$I18n.trans('notes.cancel');
+
+      this.$confirm(askConfirmation, 'Warning', {
+        confirmButtonText,
+        cancelButtonText,
         type: "warning",
         center: true,
       }).then(() => {
@@ -86,7 +91,7 @@ export default {
             if (result) {
               this.$message({
                 type: 'success',
-                message: `Note (${noteId}) was deleted.`,
+                message: confirmationDeleteSuccess,
                 center: true,
               });
               setTimeout(() => this.$router.push({name: 'Notes'}), 400);
@@ -95,14 +100,14 @@ export default {
           .catch(err => {
             this.$message({
               type: 'warning',
-              message: `Failed to delete note (${noteId}).`,
+              message: this.$I18n.trans('notes.failed_delete', { id: noteId }),
               center: true,
             });
           })
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: 'Delete canceled.',
+          message: this.$I18n.trans('notes.delete_canceled', { id: noteId }),
           center: true,
         });
       });

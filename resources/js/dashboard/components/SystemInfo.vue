@@ -1,26 +1,26 @@
 <template>
   <div class="card mb-3 shadow">
-    <div class="card-header">{{ langSystemInfo }}</div>
+    <div class="card-header">{{ $I18n.trans('system.info') }}</div>
 
     <div class="card-body" v-loading="loading">
       <transition name="slide-fade" mode="out-in">
         <p class="alert-info" :key="up">
-          {{ up | capitalize }} {{ langSince }} {{ upSince }}
+          {{ up | capitalize }} {{ $I18n.trans('system.since') }} {{ upSince }}
         </p>
       </transition>
 
       <p v-bind:class="{ 'alert-success': nQueueWorkersRunning, 'alert-danger': !nQueueWorkersRunning }">
-        {{ langNumberQueueWorkers }}: {{ nQueueWorkersRunning }}
+        {{ $I18n.trans('system.number_queue_workers') }}: {{ nQueueWorkersRunning }}
       </p>
 
       <div class="pt-4">
         <table class="table table-sm">
-          <caption>{{ langMemoryInfo }}</caption>
+          <caption>{{ $I18n.trans('system.since') }}</caption>
           <thead>
             <tr>
-              <th>{{ langUsed }}</th>
-              <th>{{ langFree }}</th>
-              <th>{{ langTotal }}</th>
+              <th>{{ $I18n.trans('system.used') }}</th>
+              <th>{{ $I18n.trans('system.free') }}</th>
+              <th>{{ $I18n.trans('system.total') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -43,16 +43,6 @@ import _get from "lodash.get";
 
 export default {
   name: "SystemInfo",
-
-  props: [
-    'langSystemInfo',
-    'langSince',
-    'langNumberQueueWorkers',
-    'langMemoryInfo',
-    'langUsed',
-    'langFree',
-    'langTotal',
-  ],
 
   data() {
     return {

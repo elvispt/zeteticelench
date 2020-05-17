@@ -4,17 +4,19 @@
       <h6 class="card-subtitle bg-light text-muted d-flex justify-content-between align-items-center"
           :class="{ 'opacity-5 text-line-through': comment.deleted }"
       >
-        <span class="align-middle" v-if="comment.id">by {{ comment.by }}</span>
-        <small class="text-muted">{{ comment.time | diffForHumans }}</small>
+        <span class="align-middle" v-if="comment.id">{{ $I18n.trans('hackernews.by', { by: comment.by || '' }) }}</span>
+        <small class="text-muted" :title="comment.time">{{ comment.time | diffForHumans }}</small>
         <a role="button"
-           class="btn btn-sm btn-outline-secondary pointer btn-collapse"
+           class="btn btn-sm pointer btn-collapse"
            data-toggle="collapse"
            @click="handleCollapseToggle(comment)"
            v-if="comment.id"
         >
-          <b>
-            <span v-if="comment.collapsed">+</span>
-            <span v-if="!comment.collapsed">-</span>
+          <b><!--
+            -->[<!--
+            --><span v-if="comment.collapsed">{{ comment.kids.length }}</span><!--
+            --><span v-else>-</span><!--
+            -->]
           </b>
         </a>
       </h6>
@@ -88,11 +90,8 @@ export default {
     text-decoration: line-through;
   }
   .btn-collapse {
-    width: 1.8rem;
-    padding-top: 2px;
-    padding-bottom: 2px;
-  }
-  .btn-collapse:hover {
-    color: #fff;
+    font-family: 'Inconsolata', monospace;
+    padding: 0;
+    height: 23px;
   }
 </style>

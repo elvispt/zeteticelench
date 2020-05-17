@@ -36,12 +36,12 @@
              @click="bookmarkPost(post)"
           >{{ post.status.bookmarked ? "⚫" : "⚪️"}}️</span>
         </span>
-        <span class="badge d-none d-md-block">{{ post.time | diffForHumans }}</span>
+        <span class="badge d-none d-md-block" :title="post.time">{{ post.time | diffForHumans }}</span>
       </div>
       <div class="d-none d-md-block" v-loading="post.status.saving">
-        <small class="text-muted">{{ post.score }} points</small>
+        <small class="text-muted">{{ $I18n.trans('hackernews.points', { points: post.score }) }}</small>
         |
-        <small>{{ post.nComments }} comments</small>
+        <small>{{ $I18n.trans('hackernews.comments', { comments: post.nComments }) }}</small>
         |
         <span class="bookmark-story pointer text-primary"
            @click="bookmarkPost(post)"
