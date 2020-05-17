@@ -4,21 +4,23 @@ Zetetic Elench - Seeking Proof
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=elvispt/zeteticelench)](https://dependabot.com)
 
 ## Stack:
-- PHP 7.2
-- Laravel 6.*
+- PHP 7.4.*
+- Laravel 7.*
 - MySQL 5.7
 - Vue.js 2.x
 
-## Milestones:
+## Features:
 
-1. A simple note taking app ✔️
-2. Add authentication layer ✔️
-3. Use Docker compose to prepare ✔️
-4. Add hacker news best/top lists ✔️
-5. User management ✔️
-6. Add homepage with common personal common links
-7. Styling
-8. Add (Svelte || Vue || React) to transform to a SPA echo ✔️
+1. A dashboard with:
+  - System Info
+  - Current Weather
+  - Next (National) Holidays
+  - Inspirational quote
+2. A simple note taking app
+3. Hacker News application
+  - Uses Firebase as backend to obtain all the hacker posts
+  - Ability to bookmark posts
+4. User management
 
 ## Installation
 
@@ -26,7 +28,7 @@ Requirements: Docker
 
 1. Checkout the repo
 2. Update .env values according to you environment
-3. then enter the docker folder and edit the docker-composer.yml file:
+3. Enter the docker folder and edit the docker-composer.yml file:
   - Set the volume path for the mysql service/container.
   - Change the passwords for the mysql server.
 

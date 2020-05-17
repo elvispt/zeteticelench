@@ -22,13 +22,13 @@
 
           <div class="loader-text d-block loader-text--1x3" v-if="loading">&nbsp;</div>
           <div v-if="post.title" v-loading="post.status.saving">
-            <small class="text-muted">{{ post.score }} points</small>
+            <small class="text-muted">{{ $I18n.trans('hackernews.points', { points: post.score }) }}</small>
             <span class="text-muted">|</span>
-            <small class="text-muted">{{ post.nComments }} comments</small>
+            <small class="text-muted">{{ $I18n.trans('hackernews.comments', { comments: post.nComments }) }}</small>
             <span class="text-muted">|</span>
-            <small class="text-muted">{{ post.time | diffForHumans }}</small>
+            <small class="text-muted" :title="post.time">{{ post.time | diffForHumans }}</small>
             <span class="text-muted">|</span>
-            <small class="text-muted">by {{ post.by }}</small>
+            <small class="text-muted">{{ $I18n.trans('hackernews.by', { by: post.by }) }}</small>
             <span class="text-muted">|</span>
             <span class="bookmark-story pointer text-primary"
                   @click="bookmarkPost(post)"

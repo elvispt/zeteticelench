@@ -28,18 +28,18 @@ export const bookmarPost = {
     },
     notifyUserOfBookmarkStatusChange(success, addedBookmark, post) {
       let messageOptions = {
-        message: `'Something went wrong when calling bookmarks.'`,
+        message: this.$I18n.trans('hackernews.add_failure'),
         type: 'error',
       };
       if (success) {
         if (addedBookmark) {
           messageOptions = {
-            message: `"${post.title}" added to bookmarks!`,
+            message: this.$I18n.trans('hackernews.added_to_bookmarks', { title: post.title }),
             type: 'success',
           };
         } else {
           messageOptions = {
-            message: `"${post.title}" removed from bookmarks!`,
+            message: this.$I18n.trans('hackernews.remove_from_bookmarks', { title: post.title }),
             type: 'warning',
           };
         }

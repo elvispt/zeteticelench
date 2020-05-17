@@ -45,5 +45,6 @@
 </div>
 <!-- Scripts -->
 @stack('scripts')
+@translations
 </body>
 </html>
