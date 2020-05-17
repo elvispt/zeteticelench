@@ -54,6 +54,10 @@ import axios from "axios";
 export default {
   name: "MainNavigation",
 
+  props: {
+    route: { type: String, required: false },
+  },
+
   data() {
     return {
       menuCollapsed: true,
@@ -72,12 +76,14 @@ export default {
   },
 
   created() {
-    this.appRoutes = this.$router.options.routes.map(route => route.name);
+    if (this.$router) {
+      this.appRoutes = this.$router.options.routes.map(route => route.name);
 
-    this.isNoteRoute = this.appRoutes.includes('Notes');
-    this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
-    // not working util users is a Vue.js application
-    this.isUsersRoute = !this.isNoteRoute && !this.isHackerNewsRoute;
+      this.isNoteRoute = this.appRoutes.includes('Notes');
+      this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
+    } else {
+      this.isUsersRoute = this.route === "users";
+    }
   }
 }
 </script>
