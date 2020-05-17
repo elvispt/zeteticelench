@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/dashboard/app.js', 'public/js/dashboard');
 mix.js('resources/js/notes/app.js', 'public/js/notes');
 mix.js('resources/js/hn/app.js', 'public/js/hn');
+mix.js('resources/js/users/app.js', 'public/js/users');
 mix.extract();
 
 // global css
