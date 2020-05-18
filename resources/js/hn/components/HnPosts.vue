@@ -39,9 +39,9 @@
         <span class="badge d-none d-md-block" :title="post.time">{{ post.time | diffForHumans }}</span>
       </div>
       <div class="d-none d-md-block" v-loading="post.status.saving">
-        <small class="text-muted">{{ $I18n.trans('hackernews.points', { points: post.score }) }}</small>
+        <small class="text-muted">{{ $I18n.trans('hackernews.points', { points: post.score || '' }) }}</small>
         |
-        <small>{{ $I18n.trans('hackernews.comments', { comments: post.nComments }) }}</small>
+        <small>{{ $I18n.trans('hackernews.comments', { comments: post.nComments || '' }) }}</small>
         |
         <span class="bookmark-story pointer text-primary"
            @click="bookmarkPost(post)"

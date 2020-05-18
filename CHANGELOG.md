@@ -1,6 +1,10 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 4.3.3 <2020-05-18>
+- Fixed issue with translations causing error due to undefined value provided
+for translation string.
+
 ### 4.3.2 <2020-05-17>
 - Now able to use Laravel's lang strings in client side code.
 - Added MainNavigation to user's application.
