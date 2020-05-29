@@ -1,13 +1,14 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-require('../bootstrap');
-
-window.Vue = require('vue');
+import "../bootstrap";
+import Vue from "vue";
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import "../filters";
+import I18n from "../vendor/I18n";
+import Inspire from "./components/Inspire";
+import SystemInfo from "./components/SystemInfo";
+import NextHolidays from "./components/NextHolidays";
+import Weather from "./components/Weather";
+import MainNavigation from "../components/MainNavigation";
 
 /**
  * The following block of code may be used to automatically register your
@@ -21,11 +22,11 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 // You only need to register components that are injected into a Blade template
-Vue.component('inspire', require('./components/Inspire.vue').default);
-Vue.component('system-info', require('./components/SystemInfo.vue').default);
-Vue.component('next-holidays', require('./components/NextHolidays.vue').default);
-Vue.component('weather', require('./components/Weather').default);
-Vue.component('main-navigation', require('../components/MainNavigation').default);
+Vue.component('inspire', Inspire);
+Vue.component('system-info', SystemInfo);
+Vue.component('next-holidays', NextHolidays);
+Vue.component('weather', Weather);
+Vue.component('main-navigation', MainNavigation);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,14 +34,9 @@ Vue.component('main-navigation', require('../components/MainNavigation').default
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import "../filters";
-import I18n from "../vendor/I18n";
-
 Vue.use(ElementUI);
 Vue.prototype.$I18n = new I18n;
 
-const app = new Vue({
+new Vue({
   el: '#app'
 });
