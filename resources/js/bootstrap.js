@@ -10,6 +10,7 @@ Sentry.init({ dsn: 'https://50142ad267aa4c7c9dab6ed21262d2ab@sentry.io/1504143' 
  */
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.withCredentials = true;
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -18,6 +19,9 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
+
+// use on login page
+//axios.get('/sanctum/csrf-cookie');
 
 if (token) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
