@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { bookmarPost } from "../mixins/bookmarkPost";
+import { bookmarkPost } from "../mixins/bookmarkPost";
 import {HnDB} from "../service/HnDB";
 import _get from "lodash.get";
 import moment from "moment";
@@ -62,7 +62,7 @@ import axios from "axios";
 export default {
   name: "HNPosts",
 
-  mixins: [bookmarPost],
+  mixins: [bookmarkPost],
 
   props: {
     idList: { type: Array, default: [], required: true },

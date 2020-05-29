@@ -40,9 +40,10 @@
 </template>
 
 <script>
-import Navigation from "../components/Navigation";
+import axios from "axios";
 import _get from "lodash.get";
 import "highlight.js/styles/darkula.css";
+import Navigation from "../components/Navigation";
 
 export default {
   name: "Note",

@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import _get from "lodash.get";
 import Navigation from "../components/Navigation";
 import { TextareaCharInserter } from "../mixins/textareaCharInserter";
