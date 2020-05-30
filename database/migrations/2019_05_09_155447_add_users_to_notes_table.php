@@ -17,8 +17,11 @@ class AddUsersToNotesTable extends Migration
     public function up()
     {
         Schema::table('notes', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')
-                  ->after('id');
+            $table
+                ->unsignedBigInteger('user_id')
+                ->after('id')
+                ->default(0)
+            ;
         });
         if (!$this->isTableEmpty()) {
             $user = User::first();
