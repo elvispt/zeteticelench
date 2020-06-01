@@ -15,27 +15,24 @@ class DropHackerNewsItemsTable extends Migration
     public function up()
     {
         if (config('database.default') === 'sqlite') {
-           DB::raw(
-<<<EOT
-create table hacker_news_items_bookmarks_dg_tmp
-(
-	id integer not null
-		primary key autoincrement,
-	hacker_news_item_id integer not null,
-	user_id integer not null
-		references users
-			on delete cascade,
-	created_at datetime,
-	updated_at datetime
-);
+            Schema::create(
+                'hacker_news_items_bookmarks_tmp',
+                function (Blueprint $table) {
+                    $table->bigIncrements('id');
+                    $table->unsignedBigInteger('hacker_news_item_id');
+                    $table->unsignedBigInteger('user_id');
+                    $table->timestampsTz();
 
-insert into hacker_news_items_bookmarks_dg_tmp(id, hacker_news_item_id, user_id, created_at, updated_at) select id, hacker_news_item_id, user_id, created_at, updated_at from hacker_news_items_bookmarks;
-
-drop table hacker_news_items_bookmarks;
-
-alter table hacker_news_items_bookmarks_dg_tmp rename to hacker_news_items_bookmarks;
-EOT
-           );
+                    $table
+                        ->foreign('user_id')
+                        ->references('id')->on('users')
+                        ->onDelete('CASCADE')
+                        ->onUpdate('no action')
+                    ;
+                });
+            DB::raw("insert into hacker_news_items_bookmarks_tmp(id, hacker_news_item_id, user_id, created_at, updated_at) select id, hacker_news_item_id, user_id, created_at, updated_at from hacker_news_items_bookmarks;");
+            Schema::dropIfExists('hacker_news_items_bookmarks');
+            Schema::rename('hacker_news_items_bookmarks_tmp', 'hacker_news_items_bookmarks');
         } else {
             Schema::table('hacker_news_items_bookmarks', function (Blueprint $table) {
                 $table->dropForeign('hacker_news_items_bookmarks_hacker_news_item_id_foreign');

@@ -259,7 +259,7 @@ class UsersControllerTest extends TestCase
             ->assertRedirect(route('users-list'))
         ;
         $this->assertDatabaseMissing('notes', [
-            'id' => $id,
+            'user_id' => $id,
         ]);
     }
 }

@@ -3,10 +3,13 @@
 namespace Tests\Feature\Controllers\Api;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ApiCommonTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testMakeCommonApiRequestsWithNoAuth()
     {
         $this

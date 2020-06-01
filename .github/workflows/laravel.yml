@@ -2,9 +2,12 @@ name: Laravel
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - develop
+      - master
   pull_request:
-    branches: [ develop ]
+    branches:
+      - develop
 
 jobs:
   laravel-tests:
@@ -31,4 +34,5 @@ jobs:
         DB_DATABASE: database/database.sqlite
         ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
         ALGOLIA_SECRET: ${{ secrets.ALGOLIA_SECRET }}
+        CALENDARIFIC_API_KEY: ${{ secrets.CALENDARIFIC_API_KEY }}
       run: vendor/bin/phpunit
