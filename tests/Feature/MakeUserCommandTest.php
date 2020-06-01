@@ -2,7 +2,8 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -12,8 +13,16 @@ class MakeUserCommandTest extends TestCase
 
     public function testCreateUser()
     {
-        $statement = DB::select("SHOW TABLE STATUS LIKE 'users'");
-        $nextId = $statement[0]->Auto_increment;
+        factory(User::class, 1)
+            ->create([
+                'created_at' => Carbon::now()->addWeeks(-10),
+            ]);
+
+        $nextId = 1 + (new User())
+            ->orderBy('id', 'asc')
+            ->first('id')
+            ->id
+        ;
 
         $this->artisan('make:user')
             ->expectsQuestion('Type name', 'Test User')

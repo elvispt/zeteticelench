@@ -17,6 +17,7 @@ class AddAmountDateToMovementsTable extends Migration
             $table
                 ->timestampTz('amount_date')
                 ->after('description')
+                ->nullable()
             ;
         });
     }
