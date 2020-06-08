@@ -19,7 +19,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=123
     volumes:
-      - "/home/elvist/Documents/mysql:/var/lib/mysql"
+      - db-data:/var/lib/mysql
     container_name: mysql
     networks:
       - zeteticelench
@@ -42,4 +42,5 @@ services:
       on-failure
 networks:
   zeteticelench: {}
-
+volumes:
+  db-data: {}
