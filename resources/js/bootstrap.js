@@ -1,7 +1,4 @@
-import * as Sentry from '@sentry/browser';
 import axios from "axios";
-
-Sentry.init({ dsn: 'https://50142ad267aa4c7c9dab6ed21262d2ab@sentry.io/1504143' });
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -20,26 +17,22 @@ axios.defaults.withCredentials = true;
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
-// use on login page
-//axios.get('/sanctum/csrf-cookie');
-
 if (token) {
     axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
     axios.interceptors.response.use(
       null,
       (err) => {
+
         if (err.response) {
           if (err.response.status === 401 || err.response.status === 419) {
             window.location.replace('/login');
           }
         } else {
-          Sentry.captureMessage(err);
           console.error(`Unknown error: ${err}`);
         }
       }
-    )
+    );
 } else {
     const msg = "CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token";
-    Sentry.captureMessage(msg);
     console.error(msg);
 }
