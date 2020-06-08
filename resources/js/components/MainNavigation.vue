@@ -1,5 +1,5 @@
 <template>
-  <nav id="main-navigation" class="navbar navbar-expand-md navbar-light navbar-laravel">
+  <nav v-if="showMenu" id="main-navigation" class="navbar navbar-expand-md navbar-light navbar-laravel">
     <div class="container">
       <a class="navbar-brand" href="/">Zetetic Elench</a>
       <button class="navbar-toggler" type="button" @click="menuCollapsed = !menuCollapsed">
@@ -50,16 +50,14 @@
 
 <script>
 import axios from "axios";
+import { AuthenticateRoute } from "../router";
 
 export default {
   name: "MainNavigation",
 
-  props: {
-    route: { type: String, required: false },
-  },
-
   data() {
     return {
+      showMenu: true,
       menuCollapsed: true,
       isNoteRoute: false,
       isHackerNewsRoute: false,
@@ -70,20 +68,33 @@ export default {
   methods: {
     logout(event) {
       event.preventDefault();
+      // send to spa auth page
       axios.post('/logout', {})
-        .then(() => window.location.href = '/');
+        .then(() => {
+          this.$router.push(AuthenticateRoute);
+          this.showMenu = false;
+        });
+    },
+    toggleMenuVisibility(newRoute) {
+      this.showMenu = AuthenticateRoute.name !== newRoute.name;
+    },
+  },
+
+  watch: {
+    $route: function routeWatch(newRoute, oldRoute) {
+      this.toggleMenuVisibility(newRoute);
     },
   },
 
   created() {
-    if (this.$router) {
-      this.appRoutes = this.$router.options.routes.map(route => route.name);
+    this.appRoutes = this.$router.options.routes.map(route => route.name);
 
-      this.isNoteRoute = this.appRoutes.includes('Notes');
-      this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
-    } else {
-      this.isUsersRoute = this.route === "users";
-    }
-  }
+    this.isNoteRoute = this.appRoutes.includes('Notes');
+    this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
+  },
+
+  mounted() {
+    this.toggleMenuVisibility(this.$route);
+  },
 }
 </script>

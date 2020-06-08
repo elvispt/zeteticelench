@@ -5,7 +5,6 @@ use App\Http\Controllers\Api\InspireController;
 use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\NotesController;
 use App\Http\Controllers\Api\SystemInfoController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', static function (Request $request) {
-    return $request->user();
-});
 
 Route::middleware('auth:sanctum')
     ->group(static function () {
