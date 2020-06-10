@@ -4,7 +4,7 @@
 
       <div class="col-sm-6 no-gutter-xs">
         <inspire></inspire>
-        <system-info></system-info>
+        <system-info ref="refSystemInfo"></system-info>
       </div>
 
       <div class="col-sm-6 no-gutter-xs">
@@ -36,11 +36,10 @@ export default {
     return {};
   },
 
-  methods: {
-
-  },
-
-  created() {
+  beforeRouteLeave(to, from, next) {
+    // clear looped requests that are made from subcomponent
+    clearInterval(this.$refs.refSystemInfo.systemInfoLoop);
+    next();
   },
 }
 </script>

@@ -89,8 +89,7 @@ export default {
         validateStatus: status => {
           return (status >= 200 && status < 300)
             || status === loginFailedStatusCode
-            || status === loginSuccessStatusCode
-            || status === 302;
+            || status === loginSuccessStatusCode;
         }
       };
 

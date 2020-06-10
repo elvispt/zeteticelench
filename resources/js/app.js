@@ -40,6 +40,7 @@ axios.interceptors.response.use(
       if (err.response.status === 401 || err.response.status === 419) {
         app.$router.push(AuthenticateRoute);
       }
+      return Promise.reject(err);
     } else {
       console.error(`Unknown error: ${err}`);
     }

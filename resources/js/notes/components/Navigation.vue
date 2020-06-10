@@ -4,14 +4,14 @@
       <div class="col-12 no-gutter-xs">
         <div class="btn-group d-flex mb-2">
           <router-link
-            to="/"
+            :to="notesRoute"
             class="btn btn-group-sm w-100"
             :class="activeSubmenu('Notes')"
           >{{ $I18n.trans('notes.notes') }}</router-link>
           <router-link
-            to="/new"
+            :to="notesCreateRoute"
             class="btn btn-group-sm w-100"
-            :class="activeSubmenu('NoteCreate')"
+            :class="activeSubmenu('NotesCreate')"
           >{{ $I18n.trans('notes.new_note') }}</router-link>
         </div>
       </div>
@@ -21,8 +21,20 @@
 </template>
 
 <script>
+import {
+  NotesCreateRoute,
+  NotesRoute,
+} from "../../router";
+
 export default {
   name: "Navigation",
+
+  data() {
+    return {
+      notesRoute: NotesRoute,
+      notesCreateRoute: NotesCreateRoute,
+    };
+  },
 
   methods: {
     activeSubmenu(routeName) {

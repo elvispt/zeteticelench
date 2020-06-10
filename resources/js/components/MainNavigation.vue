@@ -1,7 +1,11 @@
 <template>
   <nav v-if="showMenu" id="main-navigation" class="navbar navbar-expand-md navbar-light navbar-laravel">
     <div class="container">
-      <a class="navbar-brand" href="/">Zetetic Elench</a>
+      <router-link
+        class="navbar-brand"
+        exact
+        :to="dashboardRoute"
+      >Zetetic Elench</router-link>
       <button class="navbar-toggler" type="button" @click="menuCollapsed = !menuCollapsed">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -12,22 +16,21 @@
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link text-right text-sm-left"
-               :class="{ 'text-primary': isNoteRoute }"
-               href="/notes"
-            >{{ $I18n.trans('notes.notes') }}</a>
+            <router-link
+              class="nav-link text-right text-sm-left"
+              exact
+              :to="notesRoute"
+            >{{ $I18n.trans('notes.notes') }}</router-link>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
-               :class="{ 'text-primary': isHackerNewsRoute }"
                href="/hn"
             >{{ $I18n.trans('hackernews.hackernews') }}</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-right text-sm-left"
-               :class="{ 'text-primary': isUsersRoute }"
                href="/users"
             >{{ $I18n.trans('users.users') }}</a>
           </li>
@@ -50,18 +53,21 @@
 
 <script>
 import axios from "axios";
-import { AuthenticateRoute } from "../router";
+import {
+  AuthenticateRoute,
+  DashboardRoute,
+  NotesRoute,
+} from "../router";
 
 export default {
   name: "MainNavigation",
 
   data() {
     return {
+      notesRoute: NotesRoute,
+      dashboardRoute: DashboardRoute,
       showMenu: true,
       menuCollapsed: true,
-      isNoteRoute: false,
-      isHackerNewsRoute: false,
-      isUsersRoute: false,
       appRoutes: [],
     };
   },
@@ -86,15 +92,14 @@ export default {
     },
   },
 
-  created() {
-    this.appRoutes = this.$router.options.routes.map(route => route.name);
-
-    this.isNoteRoute = this.appRoutes.includes('Notes');
-    this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
-  },
-
   mounted() {
     this.toggleMenuVisibility(this.$route);
   },
 }
 </script>
+
+<style scoped lang="scss">
+  #main-navigation .router-link-exact-active {
+    color: #3490dc;
+  }
+</style>

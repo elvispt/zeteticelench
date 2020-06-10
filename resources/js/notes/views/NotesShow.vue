@@ -26,7 +26,8 @@
       <div class="col-12">
         <div class="mt-3">
           <router-link
-            :to="`/edit/${note.id}`"
+            v-if="note.id"
+            :to="Object.assign(notesUpdateRoute, {params: { id: note.id }})"
             class="btn btn-primary"
           >{{ $I18n.trans('notes.edit') }}</router-link>
           <button
@@ -44,9 +45,14 @@ import axios from "axios";
 import _get from "lodash.get";
 import "highlight.js/styles/darkula.css";
 import Navigation from "../components/Navigation";
+import {
+  NotesRoute,
+  NotesUpdateRoute,
+  NotFoundRoute
+} from "../../router";
 
 export default {
-  name: "Note",
+  name: "NotesShow",
 
   components: {
     Navigation,
@@ -58,6 +64,7 @@ export default {
     return {
       loading: true,
       note: {},
+      notesUpdateRoute: NotesUpdateRoute,
     };
   },
 
@@ -70,12 +77,31 @@ export default {
       if (!id) {
         return false;
       }
+      let response;
 
-      const response = await axios.get(`/api/notes/${id}?html=1`);
+      try {
+        response = await axios.get(`/api/notes/${id}?html=1`);
+      } catch (err) {
+        if (err.response.status === 404) {
+          await this.$router.push(Object.assign(NotFoundRoute, {
+            params: {
+              message: `Note could not be found.`,
+              linksTo: [
+                {
+                  route: NotesRoute,
+                  linkText: 'Notes'
+                },
+              ],
+            }})
+          );
+          return;
+        }
+      }
+
       this.note = _get(response, 'data.data');
       setTimeout(() => this.loading = false, 400);
     },
-    confirmDelete: function (noteId) {
+    async confirmDelete(noteId) {
       const askConfirmation = this.$I18n.trans('notes.confirmation_ask_delete', { id: noteId });
       const confirmationDeleteSuccess = this.$I18n.trans('notes.confirmation_success_deleted', { id: noteId });
       const confirmButtonText = this.$I18n.trans('notes.delete');
@@ -95,7 +121,7 @@ export default {
                 message: confirmationDeleteSuccess,
                 center: true,
               });
-              setTimeout(() => this.$router.push({name: 'Notes'}), 400);
+              setTimeout(() => this.$router.push(NotesRoute), 400);
             }
           })
           .catch(err => {

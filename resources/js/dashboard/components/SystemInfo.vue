@@ -56,13 +56,14 @@ export default {
       nQueueWorkersRunning: 0,
       up: '',
       upSince: '',
+      systemInfoLoop: null,
     };
   },
 
   created() {
     this.fetchSystemInfo();
     // run every 10 seconds
-    setInterval(this.fetchSystemInfo, 10000);
+    this.systemInfoLoop = setInterval(this.fetchSystemInfo, 10000);
   },
 
   methods: {

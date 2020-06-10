@@ -1,5 +1,5 @@
 <template>
-  <div id="note-update">
+  <div id="notes-update">
     <navigation></navigation>
 
     <div class="row justify-content-center">
@@ -78,7 +78,7 @@
               <button
                 type="submit"
                 class="btn btn-primary"
-              >{{ $I18n.trans('common.add') }}</button>
+              >{{ $I18n.trans('common.update') }}</button>
             </div>
           </form>
         </div>
@@ -92,9 +92,10 @@ import axios from "axios";
 import _get from "lodash.get";
 import Navigation from "../components/Navigation";
 import { TextareaCharInserter } from "../mixins/textareaCharInserter";
+import {NotesShowRoute} from "../../router";
 
 export default {
-  name: "NoteUpdate",
+  name: "NotesUpdate",
 
   components: {
     Navigation,
@@ -112,7 +113,7 @@ export default {
       errors: [],
       note: {},
       tags: [
-        {id: 1, name: 'x'}
+        {id: 1, name: ''}
       ],
       selectedTags: [],
       inputEl: null,
@@ -204,7 +205,7 @@ export default {
             message: this.$I18n.trans('notes.confirmation_success_note_updated'),
             center: true,
           });
-          setTimeout(() => this.$router.push({name: 'Note', params: {id: this.note.id}}), 400);
+          setTimeout(() => this.$router.push(Object.assign(NotesShowRoute, {params: { id: this.note.id }})), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to update note."});
         }

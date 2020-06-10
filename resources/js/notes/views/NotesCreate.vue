@@ -1,5 +1,5 @@
 <template>
-  <div id="note-create">
+  <div id="notes-create">
     <navigation></navigation>
 
     <div class="row justify-content-center">
@@ -93,9 +93,10 @@ import axios from "axios";
 import _get from "lodash.get";
 import Navigation from "../components/Navigation";
 import { TextareaCharInserter } from "../mixins/textareaCharInserter";
+import { NotesShowRoute } from "../../router";
 
 export default {
-  name: "NoteCreate",
+  name: "NotesCreate",
 
   components: {
     Navigation,
@@ -171,6 +172,7 @@ export default {
     },
     async submitForm(event) {
       event.preventDefault();
+
       if (this.newTagInputVisible) {
         return false;
       }
@@ -197,7 +199,7 @@ export default {
             message: this.$I18n.trans('notes.confirmation_success_note_create'),
             center: true,
           });
-          setTimeout(() => this.$router.push({name: 'Note', params: { id: id}}), 400);
+          setTimeout(() => this.$router.push(Object.assign(NotesShowRoute, {params: { id }})), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to create the note."});
         }
