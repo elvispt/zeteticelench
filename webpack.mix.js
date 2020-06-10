@@ -16,13 +16,6 @@ mix.extract();
 // global css
 mix.sass('resources/sass/app.scss', 'public/css');
 
-/**
- * This file contains no logic. It is set here to force laravel-mix to put
- * vendor and manifest on the root of public/js. If not done it would store
- * on the last mix.js('', path) path set.
- */
-mix.js('resources/js/null.js', 'public/js')
-
 if (mix.inProduction()) {
   mix.version('/js');
 }
