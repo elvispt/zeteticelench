@@ -60,7 +60,6 @@ import {HnDB} from "../service/HnDB";
 import _get from "lodash.get";
 import moment from "moment";
 import axios from "axios";
-import * as Sentry from '@sentry/browser';
 
 export default {
   name: "HackerNewsPost",
@@ -73,7 +72,7 @@ export default {
   },
 
   props: {
-    id: { type: String, required: true },
+    id: { type: Number|String, required: true },
   },
 
   data() {
@@ -199,8 +198,8 @@ export default {
       let commentIds;
       try {
         commentIds = JSON.parse(json);
-      } catch (e) {
-        Sentry.captureMessage(e);
+      } catch (err) {
+        console.error(err);
       }
       commentIds = Array.isArray(commentIds) ? commentIds : [];
       this.collapsedComments = commentIds;

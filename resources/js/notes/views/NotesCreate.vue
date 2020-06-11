@@ -199,7 +199,7 @@ export default {
             message: this.$I18n.trans('notes.confirmation_success_note_create'),
             center: true,
           });
-          setTimeout(() => this.$router.push(Object.assign(NotesShowRoute, {params: { id }})), 400);
+          setTimeout(() => this.$router.push(Object.assign({}, NotesShowRoute, {params: { id }})), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to create the note."});
         }

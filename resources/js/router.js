@@ -7,6 +7,8 @@ import NotesCreate from "./notes/views/NotesCreate";
 import NotesShow from "./notes/views/NotesShow";
 import NotesUpdate from "./notes/views/NotesUpdate";
 import NotFound from "./views/NotFound";
+import HackerNews from "./hn/views/HackerNews";
+import HackerNewsPost from "./hn/views/HackerNewsPost";
 
 Vue.use(Router);
 
@@ -49,6 +51,21 @@ export const NotesUpdateRoute = {
 };
 //endregion
 
+//region hacker news routes definitions
+export const HackerNewsRoute = {
+  path: '/hn/:type',
+  name: 'HackerNews',
+  component: HackerNews,
+  props: true,
+};
+export const HackerNewsPostRoute = {
+  path: '/hn/post/:id',
+  name: 'HackerNewsPost',
+  component: HackerNewsPost,
+  props: true,
+};
+//endregion
+
 //region 404 routes definitions
 export const NotFoundRoute = {
   path: '/404',
@@ -66,11 +83,16 @@ const CatchAllRoute = {
 export const router = new Router({
   routes: [
     AuthenticateRoute,
+
     DashboardRoute,
+
     NotesRoute,
     NotesCreateRoute,
     NotesShowRoute,
     NotesUpdateRoute,
+
+    HackerNewsRoute,
+    HackerNewsPostRoute,
 
     NotFoundRoute,
     CatchAllRoute,

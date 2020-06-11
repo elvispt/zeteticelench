@@ -4,6 +4,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "./filters";
 import I18n from "./vendor/I18n";
+import { rtdbPlugin } from 'vuefire';
 import MainNavigation from "./components/MainNavigation";
 import axios from "axios";
 
@@ -28,6 +29,7 @@ Vue.component('main-navigation', MainNavigation);
  */
 
 Vue.use(ElementUI);
+Vue.use(rtdbPlugin);
 Vue.prototype.$I18n = new I18n;
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

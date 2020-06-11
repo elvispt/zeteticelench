@@ -24,9 +24,11 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link text-right text-sm-left"
-               href="/hn"
-            >{{ $I18n.trans('hackernews.hackernews') }}</a>
+            <router-link
+              class="nav-link text-right text-sm-left"
+              exact
+              :to="Object.assign({}, hackerNewsRoute, { params: { type: 'top' }})"
+            >{{ $I18n.trans('hackernews.hackernews') }}</router-link>
           </li>
 
           <li class="nav-item">
@@ -56,6 +58,7 @@ import axios from "axios";
 import {
   AuthenticateRoute,
   DashboardRoute,
+  HackerNewsRoute,
   NotesRoute,
 } from "../router";
 
@@ -66,6 +69,7 @@ export default {
     return {
       notesRoute: NotesRoute,
       dashboardRoute: DashboardRoute,
+      hackerNewsRoute: HackerNewsRoute,
       showMenu: true,
       menuCollapsed: true,
       appRoutes: [],

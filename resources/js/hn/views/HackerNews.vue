@@ -29,13 +29,22 @@ export default {
     HnPosts,
   },
 
+  props: {
+    type: {
+      type: String,
+      validator: function (value) {
+        return ['top', 'best', 'bookmarks'].indexOf(value) !== -1;
+      },
+      default: 'top',
+      required: true,
+    }
+  },
+
   data() {
     return {
       idList: [],
       limit: 100,
-      routesMap: {
-        HackerNewsTop: 'top',
-        HackerNewsBest: 'best',
+      types: {
         HackerNewsBookmarks: 'bookmarks',
       },
       numberOfBookmarks: null,
@@ -44,11 +53,10 @@ export default {
 
   methods: {
     fetchStories(routeName) {
-      const type = _get(this.routesMap, routeName, 'top');
-      if (type === this.routesMap.HackerNewsBookmarks) {
+      if (this.type === this.types.HackerNewsBookmarks) {
         this.fetchIdsBookmarkedFromBackend();
       } else {
-        this.fetchIdsFromFirebase(type);
+        this.fetchIdsFromFirebase(this.type);
       }
     },
     fetchIdsFromFirebase(type) {
@@ -75,7 +83,7 @@ export default {
 
   watch: {
     $route(to, from) {
-      this.fetchStories(to.name);
+      this.fetchStories();
     },
   }
 }

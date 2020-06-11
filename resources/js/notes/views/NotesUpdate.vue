@@ -205,7 +205,7 @@ export default {
             message: this.$I18n.trans('notes.confirmation_success_note_updated'),
             center: true,
           });
-          setTimeout(() => this.$router.push(Object.assign(NotesShowRoute, {params: { id: this.note.id }})), 400);
+          setTimeout(() => this.$router.push(Object.assign({}, NotesShowRoute, {params: { id: this.note.id }})), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to update note."});
         }

@@ -27,7 +27,7 @@
         <div class="mt-3">
           <router-link
             v-if="note.id"
-            :to="Object.assign(notesUpdateRoute, {params: { id: note.id }})"
+            :to="Object.assign({}, notesUpdateRoute, {params: { id: note.id }})"
             class="btn btn-primary"
           >{{ $I18n.trans('notes.edit') }}</router-link>
           <button
@@ -83,7 +83,7 @@ export default {
         response = await axios.get(`/api/notes/${id}?html=1`);
       } catch (err) {
         if (err.response.status === 404) {
-          await this.$router.push(Object.assign(NotFoundRoute, {
+          await this.$router.push(Object.assign({}, NotFoundRoute, {
             params: {
               message: `Note could not be found.`,
               linksTo: [
