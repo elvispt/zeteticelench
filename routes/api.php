@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\InspireController;
 use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\NotesController;
 use App\Http\Controllers\Api\SystemInfoController;
+use App\Http\Controllers\Api\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,4 +52,9 @@ Route::middleware('auth:sanctum')
             ->name('hackernews-bookmark-add');
         Route::delete('bookmarks',[HackerNewsController::class, 'bookmarkDestroy'])
             ->name('hackernews-bookmark-destroy');
+
+        Route::get('users', [UsersController::class, 'index'])
+            ->name('users');
+        Route::put('users/update', [UsersController::class, 'update'])
+             ->name('usersUpdate');
     });

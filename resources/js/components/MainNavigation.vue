@@ -27,14 +27,16 @@
             <router-link
               class="nav-link text-right text-sm-left"
               exact
-              :to="Object.assign({}, hackerNewsRoute, { params: { type: 'top' }})"
+              :to="hackerNewsRoute"
             >{{ $I18n.trans('hackernews.hackernews') }}</router-link>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link text-right text-sm-left"
-               href="/users"
-            >{{ $I18n.trans('users.users') }}</a>
+            <router-link
+              class="nav-link text-right text-sm-left"
+              exact
+              :to="usersRoute"
+            >{{ $I18n.trans('users.users') }}</router-link>
           </li>
         </ul>
 
@@ -60,6 +62,7 @@ import {
   DashboardRoute,
   HackerNewsRoute,
   NotesRoute,
+  UsersRoute,
 } from "../router";
 
 export default {
@@ -69,7 +72,10 @@ export default {
     return {
       notesRoute: NotesRoute,
       dashboardRoute: DashboardRoute,
-      hackerNewsRoute: HackerNewsRoute,
+      hackerNewsRoute: Object.assign({}, HackerNewsRoute, {
+        params: { type: 'top' }
+      }),
+      usersRoute: UsersRoute,
       showMenu: true,
       menuCollapsed: true,
       appRoutes: [],

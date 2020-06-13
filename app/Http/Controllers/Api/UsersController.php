@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCreate;
 use App\Http\Requests\UserDestroy;
 use App\Http\Requests\UserUpdate;
+use App\Http\Responses\ApiResponse;
+use App\Http\Responses\Users\UserResponse;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,32 +20,25 @@ class UsersController extends Controller
     /**
      * Shows the list of users
      *
-     * @return \Illuminate\Contracts\View\View
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        $users = User::all();
-        return View::make('users.users', [
-            'users' => $users,
-            'currentUserId' => Auth::id(),
-        ]);
-    }
+        $users = User::all()->map(static function (User $user) {
+            $userResponse = new UserResponse();
+            $userResponse->id = $user->id;
+            $userResponse->name = $user->name;
+            $userResponse->email = $user->email;
+            $userResponse->createdAt = $user->created_at
+                ->format('Y-m-d H:i:s');
+            $userResponse->updatedAt = $user->updated_at
+                ->format('Y-m-d H:i:s');
 
-    /**
-     * Shows the page for editing a single user
-     *
-     * @param int $id The user identifier
-     *
-     * @return \Illuminate\Contracts\View\View|void
-     */
-    public function edit($id)
-    {
-        $user = User::find($id);
-        if (! $user) {
-            return abort(404);
-        }
-        return View::make('users.user', [
-            'user' => $user,
+            return $userResponse;
+        });
+
+        return ApiResponse::response((object) [
+            'users' => $users,
             'currentUserId' => Auth::id(),
         ]);
     }
@@ -52,18 +48,21 @@ class UsersController extends Controller
      *
      * @param UserUpdate $request Validates the provided data
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return JsonResponse
      */
-    public function update(UserUpdate $request)
+    public function update(UserUpdate $request): JsonResponse
     {
         $validated = new Collection($request->validated());
         $user = (new User())
-            ->where('id', $validated->get('user-id'))
+            ->where('id', $validated->get('id'))
             ->first();
         $user->name = $validated->get('name');
-        $user->save();
+        $success = $user->save();
 
-        return redirect(route('users-list'));
+        return ApiResponse::response([
+            "id" => $user->id,
+            "success" => $success,
+        ]);
     }
 
     /**

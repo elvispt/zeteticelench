@@ -9,6 +9,7 @@ import NotesUpdate from "./notes/views/NotesUpdate";
 import NotFound from "./views/NotFound";
 import HackerNews from "./hn/views/HackerNews";
 import HackerNewsPost from "./hn/views/HackerNewsPost";
+import Users from "./users/views/Users";
 
 Vue.use(Router);
 
@@ -66,6 +67,14 @@ export const HackerNewsPostRoute = {
 };
 //endregion
 
+// region user management routes definitions
+export const UsersRoute = {
+  path: '/users',
+  name: 'Users',
+  component: Users,
+};
+//endregion
+
 //region 404 routes definitions
 export const NotFoundRoute = {
   path: '/404',
@@ -94,6 +103,9 @@ export const router = new Router({
     HackerNewsRoute,
     HackerNewsPostRoute,
 
+    UsersRoute,
+
+    // These routes must be set last, since routes run based on order of definition
     NotFoundRoute,
     CatchAllRoute,
   ],

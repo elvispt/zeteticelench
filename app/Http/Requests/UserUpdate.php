@@ -12,7 +12,7 @@ class UserUpdate extends BaseFormRequest
     public function rules()
     {
         return [
-            'user-id' => [
+            'id' => [
                 'required',
                 'exists:users,id',
             ],
