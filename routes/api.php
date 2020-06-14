@@ -56,5 +56,7 @@ Route::middleware('auth:sanctum')
         Route::get('users', [UsersController::class, 'index'])
             ->name('users');
         Route::put('users/update', [UsersController::class, 'update'])
-             ->name('usersUpdate');
+            ->name('usersUpdate');
+        Route::delete('users/destroy', [UsersController::class, 'destroy'])
+            ->name('usersDestroy');
     });

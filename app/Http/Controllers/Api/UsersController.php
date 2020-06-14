@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\View;
 
 class UsersController extends Controller
 {
@@ -66,16 +65,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Shows the page for creating a new user
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function create()
-    {
-        return View::make('users.user-create');
-    }
-
-    /**
      * Creates a new user according to provided data
      *
      * @param UserCreate $request Validates provided user data
@@ -99,23 +88,24 @@ class UsersController extends Controller
      *
      * @param UserDestroy $request Validates that the user request exists.
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     *
-     * @throws \Exception
+     * @return JsonResponse
      */
-    public function destroy(UserDestroy $request)
+    public function destroy(UserDestroy $request): JsonResponse
     {
         $validated = new Collection($request->validated());
 
         $user = (new User())
-            ->where('id', $validated->get('user-id'))
+            ->where('id', $validated->get('id'))
             ->first();
         $user->tags()->delete();
         foreach ($user->notes()->withTrashed()->get() as $note) {
             $note->forceDelete();
         }
-        $user->delete();
+        $success = $user->delete();
 
-        return redirect(route('users-list'));
+        return ApiResponse::response([
+            "id" => $user->id,
+            "success" => $success,
+        ]);
     }
 }

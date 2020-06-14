@@ -7,4 +7,5 @@ return [
     'add' => "Add",
     'update' => "Update",
     'confirm' => "Confirm",
+    'please_confirm' => "Please confirm",
 ];

@@ -3,7 +3,7 @@
 return [
     'new-user' => "New User",
     'users' => "Users",
-    'user-edit' => "Edit user info",
+    'user_edit' => "Edit user #:id info",
     'save' => "Save",
     'logout' => "Logout",
     'name' => "Name",
@@ -11,7 +11,6 @@ return [
     'created_at' => "Created",
     'updated_at' => "Updated",
     'edit' => "Edit",
-    'edit_name' => "Edit Name",
     'delete' => "Delete",
     'email_verified_at' => "Email Verified at",
     'password' => "Password",
@@ -21,4 +20,7 @@ return [
     'name_cannot_be_empty' => "Name cannot be empty",
     'failed_to_update' => "Could not update user. Please try again later.",
     'user_updated'=> "User was updated",
+    'confirm_delete_request' => "Are you sure you want to delete :name?",
+    'failed_to_delete' => "Failed to delete user.",
+    'delete_success' => "User was deleted.",
 ];
