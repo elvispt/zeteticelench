@@ -6,12 +6,12 @@
           <router-link
             :to="usersRoute"
             class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('top')"
+            v-bind:class="activeSubmenu('Users')"
           >{{ $I18n.trans('users.users') }}</router-link>
           <router-link
-            :to="usersRoute"
+            :to="usersCreateRoute"
             class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('best')"
+            v-bind:class="activeSubmenu('UsersCreate')"
           >{{ $I18n.trans('users.new-user') }}</router-link>
         </div>
       </div>
@@ -20,7 +20,10 @@
 </template>
 
 <script>
-import { UsersRoute } from "../../router";
+import {
+  UsersCreateRoute,
+  UsersRoute
+} from "../../router";
 
 export default {
   name: "Navigation",
@@ -28,12 +31,13 @@ export default {
   data() {
     return {
       usersRoute: UsersRoute,
+      usersCreateRoute: UsersCreateRoute,
     };
   },
 
   methods: {
-    activeSubmenu(typeParam) {
-      return this.$route === typeParam ? 'btn-primary' : 'btn-secondary';
+    activeSubmenu(routeName) {
+      return this.$route.name === routeName ? 'btn-primary' : 'btn-secondary';
     },
   },
 }

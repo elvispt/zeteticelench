@@ -69,18 +69,21 @@ class UsersController extends Controller
      *
      * @param UserCreate $request Validates provided user data
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return JsonResponse
      */
-    public function add(UserCreate $request)
+    public function add(UserCreate $request): JsonResponse
     {
         $validated = new Collection($request->validated());
         $user = new User();
         $user->name = $validated->get('name');
         $user->email = $validated->get('email');
         $user->password = Hash::make($validated->get('password'));
-        $user->save();
+        $success = $user->save();
 
-        return redirect(route('users-edit', ['id' => $user->id]));
+        return ApiResponse::response([
+            "id" => $user->id,
+            "success" => $success,
+        ]);
     }
 
     /**

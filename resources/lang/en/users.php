@@ -12,6 +12,7 @@ return [
     'updated_at' => "Updated",
     'edit' => "Edit",
     'delete' => "Delete",
+    'create' => "Create user",
     'email_verified_at' => "Email Verified at",
     'password' => "Password",
     'password_confirmation' => "Confirm Password",
@@ -23,4 +24,6 @@ return [
     'confirm_delete_request' => "Are you sure you want to delete :name?",
     'failed_to_delete' => "Failed to delete user.",
     'delete_success' => "User was deleted.",
+    'please_set_valid_email' => "Please set a valid email",
+    'please_set_valid_password' => "Please set a valid password. Min 12 chars, max 100 chars.",
 ];

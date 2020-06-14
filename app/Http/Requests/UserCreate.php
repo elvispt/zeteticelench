@@ -25,7 +25,6 @@ class UserCreate extends BaseFormRequest
                 'required',
                 'min:12',
                 'max:100',
-                'confirmed',
             ],
         ];
     }
