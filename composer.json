@@ -79,6 +79,13 @@
             "chown -R www-data storage/framework/ && chown -R www-data storage/logs/ && chown -R www-data bootstrap/cache/ && chown -R www-data storage/app/laravel-db-snapshots"
         ],
         "tests": [
+          "rm -f database/database.sqlite",
+          "touch database/database.sqlite",
+          "./vendor/bin/phpunit"
+        ],
+        "tests-coverage": [
+          "rm -f database/database.sqlite",
+          "touch database/database.sqlite",
           "./vendor/bin/phpunit --testdox --coverage-html tests/coverage"
         ]
     }

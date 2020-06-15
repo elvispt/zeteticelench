@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controllers\Users;
+namespace Tests\Feature\Controllers\Api;
 
 use App\Models\Note;
 use App\Models\Tag;
@@ -18,7 +18,7 @@ class UsersControllerTest extends TestCase
     public function testShowUserListingFailsWithNoAuth()
     {
         $this
-            ->get(route('users-list'))
+            ->get(route('users'))
             ->assertStatus(302)
         ;
     }
@@ -32,43 +32,14 @@ class UsersControllerTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get(route('users-list'))
+            ->get(route('users'))
             ->assertStatus(200)
-        ;
-    }
-
-    public function testShowUserEditPageFailsWithNonExistingUserId()
-    {
-        $user = factory(User::class)
-            ->create();
-        factory(User::class, 10)
-            ->create();
-
-        $this
-            ->actingAs($user)
-            ->get(route('users-edit', ['id' => 9896756495]))
-            ->assertStatus(404)
-        ;
-    }
-
-    public function testShowUserEditPage()
-    {
-        $user = factory(User::class)
-            ->create();
-        factory(User::class, 10)
-            ->create();
-
-        $id = (new User())
-            ->select('id')
-            ->inRandomOrder()
-            ->limit(1)
-            ->pluck('id')
-            ->first();
-
-        $this
-            ->actingAs($user)
-            ->get(route('users-edit', ['id' => $id]))
-            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    'users',
+                    'currentUserId',
+                ],
+            ])
         ;
     }
 
@@ -81,7 +52,7 @@ class UsersControllerTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->put(route('users-update'))
+            ->put(route('usersUpdate'))
             ->assertStatus(302)
         ;
     }
@@ -97,9 +68,9 @@ class UsersControllerTest extends TestCase
         $this
             ->actingAs($user)
             ->put(
-                route('users-update'),
+                route('usersUpdate'),
                 [
-                    'user-id' => $userId,
+                    'id' => $userId,
                     'name' => $name,
                 ]
             )
@@ -124,29 +95,23 @@ class UsersControllerTest extends TestCase
         $this
             ->actingAs($user)
             ->put(
-                route('users-update'),
+                route('usersUpdate'),
                 [
-                    'user-id' => $id,
+                    'id' => $id,
                     'name' => $name,
                 ]
             )
-            ->assertRedirect(route('users-list'))
+            ->assertJson([
+                'data' => [
+                    'id' => $id,
+                    'success' => true,
+                ],
+            ])
         ;
         $this->assertDatabaseHas('users', [
             'id' => $id,
             'name' => $name,
         ]);
-    }
-
-    public function testShowUserCreatePage()
-    {
-        $user = factory(User::class)
-            ->create();
-        $this
-            ->actingAs($user)
-            ->get(route('users-create'))
-            ->assertStatus(200)
-        ;
     }
 
     public function testAddUserFailsWithNoUserDataSent()
@@ -156,7 +121,7 @@ class UsersControllerTest extends TestCase
         $data = [];
         $this
             ->actingAs($user)
-            ->post(route('users-add'), $data)
+            ->post(route('usersCreate'), $data)
             ->assertStatus(302)
         ;
     }
@@ -173,12 +138,16 @@ class UsersControllerTest extends TestCase
             'name' => $name,
             'email' => $email,
             'password' => $password,
-            'password_confirmation' => $password,
         ];
         $this
             ->actingAs($user)
-            ->post(route('users-add'), $data)
-            ->assertStatus(302)
+            ->post(route('usersCreate'), $data)
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'success',
+                ],
+            ])
         ;
 
         $this->assertDatabaseHas('users', [
@@ -191,10 +160,10 @@ class UsersControllerTest extends TestCase
     {
         $user = factory(User::class)
             ->create();
-
+        $id = 99999865321;
         $this
             ->actingAs($user)
-            ->delete(route('users-destroy'), ['user-id' => 99999865321])
+            ->delete(route('usersDestroy'), ['id' => $id])
             ->assertStatus(302)
         ;
     }
@@ -215,8 +184,13 @@ class UsersControllerTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->delete(route('users-destroy'), ['user-id' => $id])
-            ->assertRedirect(route('users-list'))
+            ->delete(route('usersDestroy'), ['id' => $id])
+            ->assertJson([
+                'data' => [
+                    'id' => $id,
+                    'success' => true,
+                ],
+            ])
         ;
         $this->assertDatabaseMissing('notes', [
             'id' => $id,
@@ -255,8 +229,13 @@ class UsersControllerTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->delete(route('users-destroy'), ['user-id' => $id])
-            ->assertRedirect(route('users-list'))
+            ->delete(route('usersDestroy'), ['id' => $id])
+            ->assertJson([
+                'data' => [
+                  'id' => $id,
+                  'success' => true,
+                ],
+            ])
         ;
         $this->assertDatabaseMissing('notes', [
             'user_id' => $id,

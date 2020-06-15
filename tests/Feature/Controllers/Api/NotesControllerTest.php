@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class ApiNotesControllerTest extends TestCase
+class NotesControllerTest extends TestCase
 {
     use RefreshDatabase;
 
