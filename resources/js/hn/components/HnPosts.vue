@@ -19,7 +19,7 @@
       <div class="d-flex w-100 justify-content-between">
         <span>
           <router-link
-            :to="`/post/${post.id}`"
+            :to="Object.assign({}, hackerNewsPostRoute, { params: { id: post.id }})"
             class="text-body"
           >{{ post.title }}</router-link>
           <a
@@ -58,6 +58,7 @@ import {HnDB} from "../service/HnDB";
 import _get from "lodash.get";
 import moment from "moment";
 import axios from "axios";
+import { HackerNewsPostRoute } from "../../router";
 
 export default {
   name: "HNPosts",
@@ -74,6 +75,7 @@ export default {
       posts: [],
       nBookmarks: null,
       firstBatchPosition: 10,
+      hackerNewsPostRoute: HackerNewsPostRoute,
     };
   },
 

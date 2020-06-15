@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "algolia/scout-extended": "^1.9",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
@@ -22,7 +22,6 @@
         "laravel/ui": "^2.0",
         "league/commonmark": "^1.4",
         "rezozero/commonmark-ext-footnotes": "^1.0",
-        "sentry/sentry-laravel": "^1.7",
         "spatie/commonmark-highlighter": "^2.1",
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-db-snapshots": "^1.6",
@@ -80,6 +79,13 @@
             "chown -R www-data storage/framework/ && chown -R www-data storage/logs/ && chown -R www-data bootstrap/cache/ && chown -R www-data storage/app/laravel-db-snapshots"
         ],
         "tests": [
+          "rm -f database/database.sqlite",
+          "touch database/database.sqlite",
+          "./vendor/bin/phpunit"
+        ],
+        "tests-coverage": [
+          "rm -f database/database.sqlite",
+          "touch database/database.sqlite",
           "./vendor/bin/phpunit --testdox --coverage-html tests/coverage"
         ]
     }

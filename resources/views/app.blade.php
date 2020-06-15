@@ -7,11 +7,7 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  @hasSection('title')
-    <title>@yield('title') - {{ config('app.name', 'Laravel') }}</title>
-  @else
-    <title>{{ config('app.name', 'Laravel') }}</title>
-  @endif
+  <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,24 +23,21 @@
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
-
-  @hasSection('meta')
-    @yield('meta')
-  @endif
 </head>
 <body>
 <div id="app">
-  <main-navigation
-    route="{{ substr(\Illuminate\Support\Facades\Route::current()->getPrefix(), 1) }}"
-  ></main-navigation>
+  <main-navigation></main-navigation>
 
   <main class="pb-4">
-    @include('common.errors')
-    @yield('content')
+    <div class="container">
+      <router-view/>
+    </div>
   </main>
 </div>
 <!-- Scripts -->
-@stack('scripts')
+<script src="{{ mix('js/manifest.js') }}" defer></script>
+<script src="{{ mix('js/vendor.js') }}" defer></script>
+<script src="{{ mix('js/app.js') }}" defer></script>
 @translations
 </body>
 </html>

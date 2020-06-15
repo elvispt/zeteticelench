@@ -10,22 +10,11 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.js('resources/js/dashboard/app.js', 'public/js/dashboard');
-mix.js('resources/js/notes/app.js', 'public/js/notes');
-mix.js('resources/js/hn/app.js', 'public/js/hn');
-mix.js('resources/js/users/app.js', 'public/js/users');
+mix.js('resources/js/app.js', 'public/js');
 mix.extract();
 
 // global css
 mix.sass('resources/sass/app.scss', 'public/css');
-
-/**
- * This file contains no logic. It is set here to force laravel-mix to put
- * vendor and manifest on the root of public/js. If not done it would store
- * on the last mix.js('', path) path set.
- */
-mix.js('resources/js/null.js', 'public/js')
 
 if (mix.inProduction()) {
   mix.version('/js');

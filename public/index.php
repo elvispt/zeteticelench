@@ -23,10 +23,6 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__.'/../vendor/autoload.php';
 
-Sentry\init([
-    'release' => 'zeteticelench@1.6.1',
-]);
-
 /*
 |--------------------------------------------------------------------------
 | Turn On The Lights

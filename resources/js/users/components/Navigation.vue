@@ -4,26 +4,25 @@
       <div class="col-12 no-gutter-xs">
         <div class="btn-group d-flex mb-2">
           <router-link
-            :to="notesRoute"
+            :to="usersRoute"
             class="btn btn-group-sm w-100"
-            :class="activeSubmenu('Notes')"
-          >{{ $I18n.trans('notes.notes') }}</router-link>
+            v-bind:class="activeSubmenu('Users')"
+          >{{ $I18n.trans('users.users') }}</router-link>
           <router-link
-            :to="notesCreateRoute"
+            :to="usersCreateRoute"
             class="btn btn-group-sm w-100"
-            :class="activeSubmenu('NotesCreate')"
-          >{{ $I18n.trans('notes.new_note') }}</router-link>
+            v-bind:class="activeSubmenu('UsersCreate')"
+          >{{ $I18n.trans('users.new-user') }}</router-link>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import {
-  NotesCreateRoute,
-  NotesRoute,
+  UsersCreateRoute,
+  UsersRoute
 } from "../../router";
 
 export default {
@@ -31,15 +30,15 @@ export default {
 
   data() {
     return {
-      notesRoute: NotesRoute,
-      notesCreateRoute: NotesCreateRoute,
+      usersRoute: UsersRoute,
+      usersCreateRoute: UsersCreateRoute,
     };
   },
 
   methods: {
     activeSubmenu(routeName) {
       return this.$route.name === routeName ? 'btn-primary' : 'btn-secondary';
-    }
+    },
   },
 }
 </script>
