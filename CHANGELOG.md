@@ -1,6 +1,9 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 5.0.0 <2020-06-19>
+- Now a full Vue.js SPA application.
+
 ### 4.3.3 <2020-05-18>
 - Fixed issue with translations causing error due to undefined value provided
 for translation string.
