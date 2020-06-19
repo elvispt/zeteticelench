@@ -1,6 +1,9 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 5.0.1 <2020-06-19>
+- Remove dev user
+
 ### 5.0.0 <2020-06-19>
 - Now a full Vue.js SPA application.
 
