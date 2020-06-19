@@ -1,7 +1,11 @@
 <template>
-  <nav id="main-navigation" class="navbar navbar-expand-md navbar-light navbar-laravel">
+  <nav v-if="showMenu" id="main-navigation" class="navbar navbar-expand-md navbar-light navbar-laravel">
     <div class="container">
-      <a class="navbar-brand" href="/">Zetetic Elench</a>
+      <router-link
+        class="navbar-brand"
+        exact
+        :to="dashboardRoute"
+      >Zetetic Elench</router-link>
       <button class="navbar-toggler" type="button" @click="menuCollapsed = !menuCollapsed">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -12,24 +16,27 @@
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link text-right text-sm-left"
-               :class="{ 'text-primary': isNoteRoute }"
-               href="/notes"
-            >{{ $I18n.trans('notes.notes') }}</a>
+            <router-link
+              class="nav-link text-right text-sm-left"
+              exact
+              :to="notesRoute"
+            >{{ $I18n.trans('notes.notes') }}</router-link>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link text-right text-sm-left"
-               :class="{ 'text-primary': isHackerNewsRoute }"
-               href="/hn"
-            >{{ $I18n.trans('hackernews.hackernews') }}</a>
+            <router-link
+              class="nav-link text-right text-sm-left"
+              exact
+              :to="hackerNewsRoute"
+            >{{ $I18n.trans('hackernews.hackernews') }}</router-link>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link text-right text-sm-left"
-               :class="{ 'text-primary': isUsersRoute }"
-               href="/users"
-            >{{ $I18n.trans('users.users') }}</a>
+            <router-link
+              class="nav-link text-right text-sm-left"
+              exact
+              :to="usersRoute"
+            >{{ $I18n.trans('users.users') }}</router-link>
           </li>
         </ul>
 
@@ -50,40 +57,59 @@
 
 <script>
 import axios from "axios";
+import {
+  AuthenticateRoute,
+  DashboardRoute,
+  HackerNewsRoute,
+  NotesRoute,
+  UsersRoute,
+} from "../router";
 
 export default {
   name: "MainNavigation",
 
-  props: {
-    route: { type: String, required: false },
-  },
-
   data() {
     return {
+      notesRoute: NotesRoute,
+      dashboardRoute: DashboardRoute,
+      hackerNewsRoute: Object.assign({}, HackerNewsRoute, {
+        params: { type: 'top' }
+      }),
+      usersRoute: UsersRoute,
+      showMenu: true,
       menuCollapsed: true,
-      isNoteRoute: false,
-      isHackerNewsRoute: false,
-      isUsersRoute: false,
       appRoutes: [],
     };
   },
   methods: {
     logout(event) {
       event.preventDefault();
+      // send to spa auth page
       axios.post('/logout', {})
-        .then(() => window.location.href = '/');
+        .then(() => {
+          this.$router.push(AuthenticateRoute);
+          this.showMenu = false;
+        });
+    },
+    toggleMenuVisibility(newRoute) {
+      this.showMenu = AuthenticateRoute.name !== newRoute.name;
     },
   },
 
-  created() {
-    if (this.$router) {
-      this.appRoutes = this.$router.options.routes.map(route => route.name);
+  watch: {
+    $route: function routeWatch(newRoute, oldRoute) {
+      this.toggleMenuVisibility(newRoute);
+    },
+  },
 
-      this.isNoteRoute = this.appRoutes.includes('Notes');
-      this.isHackerNewsRoute = this.appRoutes.includes('HackerNewsTop');
-    } else {
-      this.isUsersRoute = this.route === "users";
-    }
-  }
+  mounted() {
+    this.toggleMenuVisibility(this.$route);
+  },
 }
 </script>
+
+<style scoped lang="scss">
+  #main-navigation .router-link-exact-active {
+    color: #3490dc;
+  }
+</style>

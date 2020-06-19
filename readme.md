@@ -1,7 +1,7 @@
 Zetetic Elench - Seeking Proof
 ---
 
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=elvispt/zeteticelench)](https://dependabot.com)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=elvispt/zeteticelench)](https://dependabot.com) ![Laravel](https://github.com/elvispt/zeteticelench/workflows/Laravel/badge.svg?branch=develop)
 
 ## Stack:
 - PHP 7.4.*

@@ -17,6 +17,7 @@ class AddTagTypeToTagsTable extends Migration
             $table
                 ->enum('type', ['NOTE', 'EXPENSE'])
                 ->after('user_id')
+                ->default('NOTE')
             ;
             $table->index('type');
         });

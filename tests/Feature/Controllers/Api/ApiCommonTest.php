@@ -3,24 +3,27 @@
 namespace Tests\Feature\Controllers\Api;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ApiCommonTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function testMakeCommonApiRequestsWithNoAuth()
     {
         $this
-            ->get('/api/inspire')
+            ->get(route('apiInspire'))
             ->assertStatus(302)
         ;
 
         $this
-            ->get('/api/next-holidays')
+            ->get(route('apiNextHolidays'))
             ->assertStatus(302)
         ;
 
         $this
-            ->get('/api/system-info')
+            ->get(route('apiSystemInfo'))
             ->assertStatus(302)
         ;
     }
@@ -32,7 +35,7 @@ class ApiCommonTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get('/api/inspire')
+            ->get(route('apiInspire'))
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data',
@@ -41,7 +44,7 @@ class ApiCommonTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get('/api/next-holidays')
+            ->get(route('apiNextHolidays'))
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data',
@@ -50,7 +53,7 @@ class ApiCommonTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get('/api/system-info')
+            ->get(route('apiSystemInfo'))
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data',

@@ -56,7 +56,7 @@ class Calendarific
             );
             $holidays = data_get($holidays, 'response.holidays');
             try {
-                Cache::set($cacheKey, $holidays, $this->cacheExpiration);
+                Cache::put($cacheKey, $holidays, $this->cacheExpiration);
             } catch (SimpleCacheInvalidArgumentException $exception) {
                 Log::error(
                     'Failed to store holidays on cache',

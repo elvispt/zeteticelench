@@ -12,9 +12,11 @@ class RemoveDefaultOnUpdateOnMovementsTable extends Migration
      */
     public function up()
     {
-        DB::statement(
-            "ALTER TABLE `movements` CHANGE `amount_date` `amount_date` TIMESTAMP NULL DEFAULT NULL;"
-        );
+        if (config('database.default') !== 'sqlite') {
+            DB::statement(
+                "ALTER TABLE `movements` CHANGE `amount_date` `amount_date` TIMESTAMP NULL DEFAULT NULL;"
+            );
+        }
     }
 
     /**
@@ -24,8 +26,10 @@ class RemoveDefaultOnUpdateOnMovementsTable extends Migration
      */
     public function down()
     {
-        DB::statement(
-            "ALTER TABLE `movements` CHANGE `amount_date` `amount_date` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP;"
-        );
+        if (config('database.default') !== 'sqlite') {
+            DB::statement(
+                "ALTER TABLE `movements` CHANGE `amount_date` `amount_date` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP;"
+            );
+        }
     }
 }

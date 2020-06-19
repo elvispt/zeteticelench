@@ -8,20 +8,20 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.4",
         "algolia/scout-extended": "^1.9",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
+        "laravel/sanctum": "^2.3",
         "laravel/scout": "^8.0",
         "laravel/telescope": "^3.2",
         "laravel/tinker": "^2.1",
         "laravel/ui": "^2.0",
         "league/commonmark": "^1.4",
         "rezozero/commonmark-ext-footnotes": "^1.0",
-        "sentry/sentry-laravel": "^1.7",
         "spatie/commonmark-highlighter": "^2.1",
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-db-snapshots": "^1.6",
@@ -36,7 +36,7 @@
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^4.1",
         "nunomaduro/larastan": "^0.5.5",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -79,6 +79,13 @@
             "chown -R www-data storage/framework/ && chown -R www-data storage/logs/ && chown -R www-data bootstrap/cache/ && chown -R www-data storage/app/laravel-db-snapshots"
         ],
         "tests": [
+          "rm -f database/database.sqlite",
+          "touch database/database.sqlite",
+          "./vendor/bin/phpunit"
+        ],
+        "tests-coverage": [
+          "rm -f database/database.sqlite",
+          "touch database/database.sqlite",
           "./vendor/bin/phpunit --testdox --coverage-html tests/coverage"
         ]
     }

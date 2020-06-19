@@ -1,7 +1,7 @@
 import axios from "axios";
 import _get from "lodash.get";
 
-export const bookmarPost = {
+export const bookmarkPost = {
   data() {
     return {
       nBookmarks: null,
