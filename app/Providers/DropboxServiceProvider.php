@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Storage;
+use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Filesystem;
 use Spatie\Dropbox\Client as DropboxClient;
 use Illuminate\Support\ServiceProvider;
