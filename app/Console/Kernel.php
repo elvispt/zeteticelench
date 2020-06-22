@@ -6,6 +6,7 @@ use App\Console\Commands\PruneLogs;
 use App\Console\Commands\StaleTags;
 use App\Libraries\Inspire\Inspire;
 use App\Libraries\Reddit\GameDeals;
+use App\Libraries\Reddit\GameDealsFree;
 use App\Repos\Calendarific\Calendarific;
 use App\Repos\Calendarific\CalendarificApi;
 use Illuminate\Console\Scheduling\Schedule;
@@ -56,8 +57,8 @@ class Kernel extends ConsoleKernel
 
         $schedule
             ->call(static function () {
-                $gameDeals = new GameDeals();
-                $gameDeals->get();
+                $gameDeals = new GameDeals(new GameDealsFree());
+                $gameDeals->run();
             })
             ->daily()->at('20:00')
             ->environments(['production'])

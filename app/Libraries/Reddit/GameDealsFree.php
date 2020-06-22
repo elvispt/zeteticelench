@@ -5,23 +5,24 @@ namespace App\Libraries\Reddit;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
 class GameDealsFree
 {
-    protected $baseUri = 'https://api.reddit.com/r/';
-    protected $searchUri = 'GameDeals/new';
+    protected string $baseUri = 'https://api.reddit.com/r/';
+    protected string $searchUri = 'GameDeals/new';
 
-    public function getDeals()
+    public function getDeals(): Collection
     {
         $response = $this->makeRequest();
 
         if (!is_null($response)) {
-            return $this->getBodyContents($response);
+            return new Collection($this->getBodyContents($response));
         }
-        return $response;
+        return new Collection();
     }
 
     protected function getBodyContents(ResponseInterface $response)
