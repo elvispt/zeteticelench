@@ -2,22 +2,17 @@
 
 namespace App\Actions;
 
-use Illuminate\Mail\Message;
+use App\Mail\GameDealFound;
 use Illuminate\Support\Facades\Mail;
 
 class NotifyOfNewGameAction
 {
     public function execute($deal)
     {
-        $data = [
-            'redditPermalink' => "https://www.reddit.com/$deal->permalink",
+        $to = (object) [
+            'email' => config('reddit.game_deals_notify_mail_to'),
+            'name' => config('reddit.game_deals_notify_mail_to_name'),
         ];
-        Mail::send('emails.mail', $data, function (Message $message) use ($deal) {
-            $message
-                ->from('elvispt@gmail.com', 'ZeteticElench: /r/GameDeals Free Game Notifier')
-                ->to('elvispt@gmail.com', 'Elvis Pestana')
-                ->subject($deal->title)
-            ;
-        });
+        Mail::to($to)->send(new GameDealFound($deal));
     }
 }

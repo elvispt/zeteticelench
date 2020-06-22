@@ -95,7 +95,7 @@ export default {
 
       Promise.all(firstBatch.map(id => this.fetchItem(id)))
         .then(stories => {
-          this.posts = stories;
+          this.posts = stories.filter(this.isStoryValid);
           this.attachBookmarked();
           this.loading = false;
         });
@@ -103,10 +103,14 @@ export default {
       this.$nextTick(() => {
         Promise.all(secondBatch.map(id => this.fetchItem(id)))
           .then(stories => {
-            this.posts.push(...stories);
+            this.posts.push(...stories.filter(this.isStoryValid));
             this.attachBookmarked();
           });
       });
+    },
+
+    isStoryValid(story) {
+      return story.type === "story" && !!story.id;
     },
 
     fetchItem(id) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Support\Carbon;
