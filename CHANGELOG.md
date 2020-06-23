@@ -1,6 +1,14 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 5.0.2 <2020-06-23>
+- Fix issue with login where Vue.js does not detect that the inputs were not
+being populated when using autocomplete, with a password manager like the
+browser's or LastPass or Firefox Lockwise.
+[#542](https://github.com/elvispt/zeteticelench/issues/542).
+- Added new tests for HackerNewsController and GameDeals library.
+[#546](https://github.com/elvispt/zeteticelench/pull/546).
+
 ### 5.0.1 <2020-06-19>
 - Remove dev user
 
