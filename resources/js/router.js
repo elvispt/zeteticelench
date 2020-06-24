@@ -11,6 +11,7 @@ import HackerNews from "./hn/views/HackerNews";
 import HackerNewsPost from "./hn/views/HackerNewsPost";
 import Users from "./users/views/Users";
 import UsersCreate from "./users/views/UsersCreate";
+import HackerNewsList from "./hn/views/HackerNewsList";
 
 Vue.use(Router);
 
@@ -54,17 +55,40 @@ export const NotesUpdateRoute = {
 //endregion
 
 //region hacker news routes definitions
-export const HackerNewsRoute = {
-  path: '/hn/:type',
-  name: 'HackerNews',
-  component: HackerNews,
-  props: true,
-};
+export const HackerNewsTopPostsRoute = {
+  path: '',
+  alias: 'top',
+  name: 'HackerNewsTopPostsRoute',
+  component: HackerNewsList,
+  props: { type: 'top' },
+}
+export const HackerNewsBestPostsRoute = {
+  path: 'best',
+  name: 'HackerNewsBestPostsRoute',
+  component: HackerNewsList,
+  props: { type: 'best' },
+}
+export const HackerNewsBookmarkedPostsRoute = {
+  path: 'bookmarks',
+  name: 'HackerNewsBookmarkedPostsRoute',
+  component: HackerNewsList,
+  props: { type: 'bookmarks' },
+}
 export const HackerNewsPostRoute = {
-  path: '/hn/post/:id',
+  path: '/:id',
   name: 'HackerNewsPost',
   component: HackerNewsPost,
   props: true,
+};
+export const HackerNewsRoute = {
+  path: '/hn',
+  component: HackerNews,
+  children: [
+    HackerNewsTopPostsRoute,
+    HackerNewsBestPostsRoute,
+    HackerNewsBookmarkedPostsRoute,
+    HackerNewsPostRoute,
+  ],
 };
 //endregion
 
@@ -107,7 +131,6 @@ export const router = new Router({
     NotesUpdateRoute,
 
     HackerNewsRoute,
-    HackerNewsPostRoute,
 
     UsersRoute,
     UsersCreateRoute,

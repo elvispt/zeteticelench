@@ -26,7 +26,6 @@
           <li class="nav-item">
             <router-link
               class="nav-link text-right text-sm-left"
-              exact
               :to="hackerNewsRoute"
             >{{ $I18n.trans('hackernews.hackernews') }}</router-link>
           </li>
@@ -72,9 +71,7 @@ export default {
     return {
       notesRoute: NotesRoute,
       dashboardRoute: DashboardRoute,
-      hackerNewsRoute: Object.assign({}, HackerNewsRoute, {
-        params: { type: 'top' }
-      }),
+      hackerNewsRoute: HackerNewsRoute,
       usersRoute: UsersRoute,
       showMenu: true,
       menuCollapsed: true,
@@ -109,7 +106,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  #main-navigation .router-link-exact-active {
+  #main-navigation .router-link-active {
     color: #3490dc;
   }
 </style>

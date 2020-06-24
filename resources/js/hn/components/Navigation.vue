@@ -4,19 +4,16 @@
       <div class="col-12 no-gutter-xs">
         <div class="btn-group d-flex mb-2">
           <router-link
-            :to="hackerNewsRouteTop"
-            class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('top')"
+            :to="hackerNewsTopPostsRoute"
+            class="btn btn-group-sm w-100 btn-secondary"
           >{{ $I18n.trans('hackernews.top') }}</router-link>
           <router-link
-            :to="hackerNewsRouteBest"
-            class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('best')"
+            :to="hackerNewsBestPostsRoute"
+            class="btn btn-group-sm w-100 btn-secondary"
           >{{ $I18n.trans('hackernews.best') }}</router-link>
           <router-link
-            :to="hackerNewsRouteBookmarks"
-            class="btn btn-group-sm w-100"
-            v-bind:class="activeSubmenu('bookmarks')"
+            :to="hackerNewsBookmarkedPostsRoute"
+            class="btn btn-group-sm w-100 btn-secondary"
           >{{ $I18n.trans('hackernews.bookmarks') }} <span class="badge badge-light">{{ numberOfBookmarks }}</span></router-link>
         </div>
       </div>
@@ -25,7 +22,11 @@
 </template>
 
 <script>
-import {HackerNewsRoute} from "../../router";
+import {
+  HackerNewsTopPostsRoute,
+  HackerNewsBestPostsRoute,
+  HackerNewsBookmarkedPostsRoute,
+} from "../../router";
 
 export default {
   name: "Navigation",
@@ -36,16 +37,23 @@ export default {
 
   data() {
     return {
-      hackerNewsRouteTop: Object.assign({}, HackerNewsRoute, { params: { type: 'top' }}),
-      hackerNewsRouteBest: Object.assign({}, HackerNewsRoute, { params: { type: 'best' }}),
-      hackerNewsRouteBookmarks: Object.assign({}, HackerNewsRoute, { params: { type: 'bookmarks' }}),
+      hackerNewsTopPostsRoute: HackerNewsTopPostsRoute,
+      hackerNewsBestPostsRoute: HackerNewsBestPostsRoute,
+      hackerNewsBookmarkedPostsRoute: HackerNewsBookmarkedPostsRoute,
     };
-  },
-
-  methods: {
-    activeSubmenu(typeParam) {
-      return this.$route.params.type === typeParam ? 'btn-primary' : 'btn-secondary';
-    },
   },
 }
 </script>
+
+<style scoped>
+  .router-link-exact-active {
+    color: #fff;
+    background-color: #3490dc;
+    border-color: #3490dc;
+  }
+  .router-link-exact-active:focus, .router-link-exact-active:hover {
+    color: #fff;
+    background-color: #227dc7;
+    border-color: #2176bd;
+  }
+</style>
