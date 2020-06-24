@@ -75,7 +75,7 @@ export const HackerNewsBookmarkedPostsRoute = {
   props: { type: 'bookmarks' },
 }
 export const HackerNewsPostRoute = {
-  path: '/:id',
+  path: ':id',
   name: 'HackerNewsPost',
   component: HackerNewsPost,
   props: true,

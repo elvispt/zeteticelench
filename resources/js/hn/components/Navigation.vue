@@ -5,15 +5,15 @@
         <div class="btn-group d-flex mb-2">
           <router-link
             :to="hackerNewsTopPostsRoute"
-            class="btn btn-group-sm w-100 btn-secondary"
+            class="btn btn-group-sm w-100 inner-nav btn-secondary"
           >{{ $I18n.trans('hackernews.top') }}</router-link>
           <router-link
             :to="hackerNewsBestPostsRoute"
-            class="btn btn-group-sm w-100 btn-secondary"
+            class="btn btn-group-sm w-100 inner-nav btn-secondary"
           >{{ $I18n.trans('hackernews.best') }}</router-link>
           <router-link
             :to="hackerNewsBookmarkedPostsRoute"
-            class="btn btn-group-sm w-100 btn-secondary"
+            class="btn btn-group-sm w-100 inner-nav btn-secondary"
           >{{ $I18n.trans('hackernews.bookmarks') }} <span class="badge badge-light">{{ numberOfBookmarks }}</span></router-link>
         </div>
       </div>
@@ -44,16 +44,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-  .router-link-exact-active {
-    color: #fff;
-    background-color: #3490dc;
-    border-color: #3490dc;
-  }
-  .router-link-exact-active:focus, .router-link-exact-active:hover {
-    color: #fff;
-    background-color: #227dc7;
-    border-color: #2176bd;
-  }
-</style>
