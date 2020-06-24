@@ -1,6 +1,5 @@
 <template>
   <div id="users-create">
-    <navigation></navigation>
     <div class="row">
       <div class="col-12 mt-3 no-gutter-xs">
         <el-form ref="refCreateUserForm" :model="user" :rules="rules">
@@ -27,16 +26,11 @@
 
 <script>
 import axios from "axios";
-import Navigation from "../components/Navigation";
 import _get from "lodash.get";
 import {UsersRoute} from "../../router";
 
 export default {
   name: "UsersCreate",
-
-  components: {
-    Navigation,
-  },
 
   data() {
     return {
@@ -118,7 +112,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

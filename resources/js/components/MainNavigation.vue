@@ -33,7 +33,6 @@
           <li class="nav-item">
             <router-link
               class="nav-link text-right text-sm-left"
-              exact
               :to="usersRoute"
             >{{ $I18n.trans('users.users') }}</router-link>
           </li>

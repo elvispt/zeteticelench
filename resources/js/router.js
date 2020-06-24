@@ -1,17 +1,18 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Dashboard from "./dashboard/views/Dashboard";
 import Authenticate from "./views/Authenticate";
+import NotFound from "./views/NotFound";
+import Dashboard from "./dashboard/views/Dashboard";
 import Notes from "./notes/views/Notes";
 import NotesCreate from "./notes/views/NotesCreate";
 import NotesShow from "./notes/views/NotesShow";
 import NotesUpdate from "./notes/views/NotesUpdate";
-import NotFound from "./views/NotFound";
 import HackerNews from "./hn/views/HackerNews";
+import HackerNewsList from "./hn/views/HackerNewsList";
 import HackerNewsPost from "./hn/views/HackerNewsPost";
 import Users from "./users/views/Users";
+import UsersList from "./users/views/UsersList";
 import UsersCreate from "./users/views/UsersCreate";
-import HackerNewsList from "./hn/views/HackerNewsList";
 
 Vue.use(Router);
 
@@ -93,15 +94,23 @@ export const HackerNewsRoute = {
 //endregion
 
 // region user management routes definitions
-export const UsersRoute = {
-  path: '/users',
-  name: 'Users',
-  component: Users,
+export const UsersListRoute = {
+  path: '',
+  name: 'UsersList',
+  component: UsersList,
 };
 export const UsersCreateRoute = {
-  path: '/users/new',
+  path: 'new',
   name: 'UsersCreate',
   component: UsersCreate,
+};
+export const UsersRoute = {
+  path: '/users',
+  component: Users,
+  children: [
+    UsersListRoute,
+    UsersCreateRoute,
+  ],
 };
 //endregion
 
@@ -122,7 +131,6 @@ const CatchAllRoute = {
 export const router = new Router({
   routes: [
     AuthenticateRoute,
-
     DashboardRoute,
 
     NotesRoute,
@@ -131,9 +139,7 @@ export const router = new Router({
     NotesUpdateRoute,
 
     HackerNewsRoute,
-
     UsersRoute,
-    UsersCreateRoute,
 
     // These routes must be set last, since routes run based on order of definition
     NotFoundRoute,
