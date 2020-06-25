@@ -1,7 +1,5 @@
 <template>
   <div class="note">
-    <navigation></navigation>
-
     <div class="row justify-content-center" v-loading="loading">
       <div class="col-12 no-gutter-xs">
         <div class="mt-3 " v-if="!note.id">
@@ -44,7 +42,6 @@
 import axios from "axios";
 import _get from "lodash.get";
 import "highlight.js/styles/darkula.css";
-import Navigation from "../components/Navigation";
 import {
   NotesRoute,
   NotesUpdateRoute,
@@ -53,10 +50,6 @@ import {
 
 export default {
   name: "NotesShow",
-
-  components: {
-    Navigation,
-  },
 
   props: ["id"],
 

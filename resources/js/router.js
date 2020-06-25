@@ -4,6 +4,7 @@ import Authenticate from "./views/Authenticate";
 import NotFound from "./views/NotFound";
 import Dashboard from "./dashboard/views/Dashboard";
 import Notes from "./notes/views/Notes";
+import NotesListing from "./notes/views/NotesListing";
 import NotesCreate from "./notes/views/NotesCreate";
 import NotesShow from "./notes/views/NotesShow";
 import NotesUpdate from "./notes/views/NotesUpdate";
@@ -31,27 +32,37 @@ export const DashboardRoute = {
 };
 
 //region Notes routes definition
-export const NotesRoute = {
-  path: '/notes',
+export const NotesListRoute = {
+  path: '',
   name: 'Notes',
-  component: Notes,
+  component: NotesListing,
 };
 export const NotesCreateRoute = {
-  path: '/notes/new',
+  path: 'new',
   name: 'NotesCreate',
   component: NotesCreate,
 };
 export const NotesShowRoute = {
-  path: '/notes/:id',
+  path: ':id',
   name: 'NotesShow',
   component: NotesShow,
   props: true,
 };
 export const NotesUpdateRoute = {
-  path: '/notes/edit/:id',
+  path: 'edit/:id',
   name: 'NotesUpdate',
   component: NotesUpdate,
   props: true,
+};
+export const NotesRoute = {
+  path: '/notes',
+  component: Notes,
+  children: [
+    NotesListRoute,
+    NotesCreateRoute,
+    NotesShowRoute,
+    NotesUpdateRoute,
+  ],
 };
 //endregion
 
@@ -132,15 +143,9 @@ export const router = new Router({
   routes: [
     AuthenticateRoute,
     DashboardRoute,
-
     NotesRoute,
-    NotesCreateRoute,
-    NotesShowRoute,
-    NotesUpdateRoute,
-
     HackerNewsRoute,
     UsersRoute,
-
     // These routes must be set last, since routes run based on order of definition
     NotFoundRoute,
     CatchAllRoute,
