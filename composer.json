@@ -21,7 +21,6 @@
         "laravel/tinker": "^2.1",
         "laravel/ui": "^2.0",
         "league/commonmark": "^1.4",
-        "rezozero/commonmark-ext-footnotes": "^1.0",
         "spatie/commonmark-highlighter": "^2.1",
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-db-snapshots": "^1.6",
