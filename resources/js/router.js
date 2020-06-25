@@ -1,15 +1,18 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Dashboard from "./dashboard/views/Dashboard";
 import Authenticate from "./views/Authenticate";
+import NotFound from "./views/NotFound";
+import Dashboard from "./dashboard/views/Dashboard";
 import Notes from "./notes/views/Notes";
+import NotesListing from "./notes/views/NotesListing";
 import NotesCreate from "./notes/views/NotesCreate";
 import NotesShow from "./notes/views/NotesShow";
 import NotesUpdate from "./notes/views/NotesUpdate";
-import NotFound from "./views/NotFound";
 import HackerNews from "./hn/views/HackerNews";
+import HackerNewsList from "./hn/views/HackerNewsList";
 import HackerNewsPost from "./hn/views/HackerNewsPost";
 import Users from "./users/views/Users";
+import UsersList from "./users/views/UsersList";
 import UsersCreate from "./users/views/UsersCreate";
 
 Vue.use(Router);
@@ -29,55 +32,96 @@ export const DashboardRoute = {
 };
 
 //region Notes routes definition
-export const NotesRoute = {
-  path: '/notes',
+export const NotesListRoute = {
+  path: '',
   name: 'Notes',
-  component: Notes,
+  component: NotesListing,
 };
 export const NotesCreateRoute = {
-  path: '/notes/new',
+  path: 'new',
   name: 'NotesCreate',
   component: NotesCreate,
 };
 export const NotesShowRoute = {
-  path: '/notes/:id',
+  path: ':id',
   name: 'NotesShow',
   component: NotesShow,
   props: true,
 };
 export const NotesUpdateRoute = {
-  path: '/notes/edit/:id',
+  path: 'edit/:id',
   name: 'NotesUpdate',
   component: NotesUpdate,
   props: true,
 };
+export const NotesRoute = {
+  path: '/notes',
+  component: Notes,
+  children: [
+    NotesListRoute,
+    NotesCreateRoute,
+    NotesShowRoute,
+    NotesUpdateRoute,
+  ],
+};
 //endregion
 
 //region hacker news routes definitions
-export const HackerNewsRoute = {
-  path: '/hn/:type',
-  name: 'HackerNews',
-  component: HackerNews,
-  props: true,
-};
+export const HackerNewsTopPostsRoute = {
+  path: '',
+  alias: 'top',
+  name: 'HackerNewsTopPostsRoute',
+  component: HackerNewsList,
+  props: { type: 'top' },
+}
+export const HackerNewsBestPostsRoute = {
+  path: 'best',
+  name: 'HackerNewsBestPostsRoute',
+  component: HackerNewsList,
+  props: { type: 'best' },
+}
+export const HackerNewsBookmarkedPostsRoute = {
+  path: 'bookmarks',
+  name: 'HackerNewsBookmarkedPostsRoute',
+  component: HackerNewsList,
+  props: { type: 'bookmarks' },
+}
 export const HackerNewsPostRoute = {
-  path: '/hn/post/:id',
+  path: ':id',
   name: 'HackerNewsPost',
   component: HackerNewsPost,
   props: true,
 };
+export const HackerNewsRoute = {
+  path: '/hn',
+  component: HackerNews,
+  children: [
+    HackerNewsTopPostsRoute,
+    HackerNewsBestPostsRoute,
+    HackerNewsBookmarkedPostsRoute,
+    HackerNewsPostRoute,
+  ],
+};
 //endregion
 
 // region user management routes definitions
-export const UsersRoute = {
-  path: '/users',
-  name: 'Users',
-  component: Users,
+export const UsersListRoute = {
+  path: '',
+  name: 'UsersList',
+  component: UsersList,
 };
 export const UsersCreateRoute = {
-  path: '/users/new',
+  path: 'new',
   name: 'UsersCreate',
   component: UsersCreate,
+};
+export const UsersRoute = {
+  path: '/users',
+  component: Users,
+  children: [
+    UsersListRoute,
+    UsersCreateRoute,
+  ],
 };
 //endregion
 
@@ -98,20 +142,10 @@ const CatchAllRoute = {
 export const router = new Router({
   routes: [
     AuthenticateRoute,
-
     DashboardRoute,
-
     NotesRoute,
-    NotesCreateRoute,
-    NotesShowRoute,
-    NotesUpdateRoute,
-
     HackerNewsRoute,
-    HackerNewsPostRoute,
-
     UsersRoute,
-    UsersCreateRoute,
-
     // These routes must be set last, since routes run based on order of definition
     NotFoundRoute,
     CatchAllRoute,

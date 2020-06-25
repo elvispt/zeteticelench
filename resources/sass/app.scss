@@ -36,3 +36,14 @@
     padding-right: 0;
   }
 }
+.inner-nav.router-link-exact-active {
+  color: #fff;
+  background-color: #3490dc;
+  border-color: #3490dc;
+
+  &:focus, &:hover {
+    color: #fff;
+    background-color: #227dc7;
+    border-color: #2176bd;
+  }
+}
