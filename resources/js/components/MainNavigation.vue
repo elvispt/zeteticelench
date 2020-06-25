@@ -18,7 +18,6 @@
           <li class="nav-item">
             <router-link
               class="nav-link text-right text-sm-left"
-              exact
               :to="notesRoute"
             >{{ $I18n.trans('notes.notes') }}</router-link>
           </li>
