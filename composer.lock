@@ -2934,16 +2934,16 @@
         },
         {
             "name": "rezozero/commonmark-ext-footnotes",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rezozero/commonmark-ext-footnotes.git",
-                "reference": "b1372b435a4e73541afc240f3f150f4b14baa089"
+                "reference": "e487a4e6cd8df367ef1ac3fe707bb19c42a050b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rezozero/commonmark-ext-footnotes/zipball/b1372b435a4e73541afc240f3f150f4b14baa089",
-                "reference": "b1372b435a4e73541afc240f3f150f4b14baa089",
+                "url": "https://api.github.com/repos/rezozero/commonmark-ext-footnotes/zipball/e487a4e6cd8df367ef1ac3fe707bb19c42a050b2",
+                "reference": "e487a4e6cd8df367ef1ac3fe707bb19c42a050b2",
                 "shasum": ""
             },
             "require": {
@@ -2981,7 +2981,8 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2020-05-23T16:25:29+00:00"
+            "abandoned": "league/commonmark",
+            "time": "2020-06-24T08:11:12+00:00"
         },
         {
             "name": "riimu/kit-phpencoder",
