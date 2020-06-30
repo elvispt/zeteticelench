@@ -1,5 +1,6 @@
 import Vue from "vue";
 import { router, AuthenticateRoute } from './router';
+import store from './store';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import "./filters";
@@ -19,7 +20,7 @@ import axios from "axios";
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-// You only need to register components that are injected into a Blade template
+// You only need to register components here that are injected into a Blade template
 Vue.component('main-navigation', MainNavigation);
 
 /**
@@ -50,6 +51,7 @@ axios.interceptors.response.use(
 );
 
 const app = new Vue({
+  store,
   router,
   el: '#app'
 });

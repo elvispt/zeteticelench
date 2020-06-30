@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import axios from "axios";
 import _get from "lodash.get";
 import { TextareaCharInserter } from "../mixins/textareaCharInserter";
@@ -110,6 +111,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['addNote']),
     insertCodeBlockBackTicks() {
       const textToInsert = "```";
       if (!this.inputEl) {
@@ -177,14 +179,11 @@ export default {
       }
 
       try {
-        const response = await axios.post('/api/notecreate', {
+        const id = await this.addNote({
           body: this.note.body,
           tags: this.selectedTags,
         });
-
-        const id = _get(response, 'data.data.id');
-        const success = _get(response, 'data.data.success');
-        if (id && success) {
+        if (id) {
           this.note.body = '';
           this.selectedTags = [];
           this.$message({
