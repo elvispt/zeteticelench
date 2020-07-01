@@ -35,6 +35,12 @@
               :to="usersRoute"
             >{{ $I18n.trans('users.users') }}</router-link>
           </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link text-right text-sm-left"
+              :to="expensesRoute"
+            >{{ $I18n.trans('expenses.expenses') }}</router-link>
+          </li>
         </ul>
 
         <!-- Right Side Of Navbar -->
@@ -60,6 +66,7 @@ import {
   HackerNewsRoute,
   NotesRoute,
   UsersRoute,
+  ExpensesRoute,
 } from "../router";
 
 export default {
@@ -71,6 +78,7 @@ export default {
       dashboardRoute: DashboardRoute,
       hackerNewsRoute: HackerNewsRoute,
       usersRoute: UsersRoute,
+      expensesRoute: ExpensesRoute,
       showMenu: true,
       menuCollapsed: true,
       appRoutes: [],

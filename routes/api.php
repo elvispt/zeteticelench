@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\HackerNewsController;
 use App\Http\Controllers\Api\InspireController;
 use App\Http\Controllers\Api\NextHolidaysController;
@@ -61,4 +62,11 @@ Route::middleware('auth:sanctum')
             ->name('usersUpdate');
         Route::delete('users/destroy', [UsersController::class, 'destroy'])
             ->name('usersDestroy');
+
+        // expenses
+        Route::get('expenses', [ExpenseController::class, 'index'])
+            ->name('expenses');
+        Route::post('expenses/create', [ExpenseController::class, 'store'])
+            ->name('expensesCreate');
+
     });

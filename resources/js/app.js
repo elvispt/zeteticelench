@@ -3,11 +3,33 @@ import { router, AuthenticateRoute } from './router';
 import store from './store';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale/lang/en';
 import "./filters";
 import I18n from "./vendor/I18n";
 import { rtdbPlugin } from 'vuefire';
 import MainNavigation from "./components/MainNavigation";
 import axios from "axios";
+import numeral from 'numeral';
+import 'numeral/locales/pt-pt';
+
+numeral.locale('pt-pt');
+
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.withCredentials = true;
+// redirect automatically when requests lose authorization
+axios.interceptors.response.use(
+  null,
+  (err) => {
+    if (err.response) {
+      if (err.response.status === 401 || err.response.status === 419) {
+        app.$router.push(AuthenticateRoute);
+      }
+      return Promise.reject(err);
+    } else {
+      console.error(`Unknown error: ${err}`);
+    }
+  }
+);
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,26 +51,9 @@ Vue.component('main-navigation', MainNavigation);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale });
 Vue.use(rtdbPlugin);
 Vue.prototype.$I18n = new I18n;
-
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.withCredentials = true;
-// redirect automatically when requests lose authorization
-axios.interceptors.response.use(
-  null,
-  (err) => {
-    if (err.response) {
-      if (err.response.status === 401 || err.response.status === 419) {
-        app.$router.push(AuthenticateRoute);
-      }
-      return Promise.reject(err);
-    } else {
-      console.error(`Unknown error: ${err}`);
-    }
-  }
-);
 
 const app = new Vue({
   store,

@@ -20,6 +20,7 @@
         "lodash.debounce": "^4.0.8",
         "lodash.get": "^4.4.2",
         "moment": "^2.25.3",
+        "numeral": "^2.0.6",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.26.5",
         "sass-loader": "^7.3.1",

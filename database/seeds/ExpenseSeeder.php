@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Movement;
+use App\Models\Expense;
 use Illuminate\Database\Seeder;
 
-class MovementsTableSeeder extends Seeder
+class ExpenseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,6 @@ class MovementsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Movement::class, 10)->create();
+        factory(Expense::class, 15)->create();
     }
 }
