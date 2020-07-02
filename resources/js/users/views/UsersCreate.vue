@@ -15,7 +15,7 @@
           <el-form-item>
             <el-button
               type="primary"
-              @click="createUser('refCreateUserForm')"
+              @click="submitForm('refCreateUserForm')"
             >{{ $I18n.trans('users.create') }}</el-button>
           </el-form-item>
         </el-form>
@@ -25,9 +25,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import _get from "lodash.get";
-import {UsersRoute} from "../../router";
+import { UsersRoute } from "../../router";
+import { mapActions } from "vuex";
 
 export default {
   name: "UsersCreate",
@@ -79,30 +78,26 @@ export default {
   },
 
   methods: {
-    submitForm(formRef) {
-      this.$refs[formRef].validate((valid) => {
-        if (valid) {
-          this.createUser();
-          return true;
-        } else {
-          return false;
-        }
+    ...mapActions(['addUser']),
+    async submitForm(formRef) {
+      const isValid = await this.validateForm(formRef);
+      if (isValid) {
+        this.addUser(this.user)
+          .then(success => this.notifyActionResult(success));
+      }
+    },
+    async validateForm(formRef) {
+      return new Promise((resolve, reject) => {
+          this.$refs[formRef].validate((valid) => {
+            if (valid) {
+              resolve(true);
+            }
+            reject(false);
+          });
       });
     },
-    async createUser() {
-      let response;
-
-      try {
-        response = await axios.post('/api/users/create', this.user);
-      } catch (err) {
-        console.error(err);
-      }
-      this.notifyActionSuccess(response)
-    },
-    notifyActionSuccess(response, successMessageKey = 'users.user_create', failureMessageKey = 'users.failed_to_create') {
-      const status = _get(response, 'status');
-      const success = _get(response, 'data.data.success', false);
-      if (status === 200 && success) {
+    notifyActionResult(success, successMessageKey = 'users.user_create', failureMessageKey = 'users.failed_to_create') {
+      if (success) {
         this.$message.success(this.$I18n.trans(successMessageKey));
         this.$router.push(UsersRoute);
       } else {
