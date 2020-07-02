@@ -1,8 +1,5 @@
 <template>
   <div id="hacker-news-post">
-    <navigation
-      :number-of-bookmarks="numberOfBookmarks"
-    ></navigation>
     <div class="row">
       <div class="col-12 no-gutter-xs">
         <div v-loading="loading">

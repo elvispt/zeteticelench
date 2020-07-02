@@ -1,6 +1,17 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 6.0.0 <2020-07-02>
+- Now using Vuex on Notes, and Users modules
+[#556](https://github.com/elvispt/zeteticelench/issues/556),
+[#560](https://github.com/elvispt/zeteticelench/issues/560).
+- Added a basic expenses tracker
+[#559](https://github.com/elvispt/zeteticelench/issues/559).
+- Grouped routes using Vue.js nested routes functionality
+[#550](https://github.com/elvispt/zeteticelench/issues/550).
+- Fixed issue with some Main Navigation items not highlighting. Simplified
+how menu items are highlighted using Vue.js routes functionality.
+
 ### 5.0.2 <2020-06-23>
 - Fix issue with login where Vue.js does not detect that the inputs were not
 being populated when using autocomplete, with a password manager like the

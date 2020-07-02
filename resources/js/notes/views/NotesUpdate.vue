@@ -1,7 +1,5 @@
 <template>
   <div id="notes-update">
-    <navigation></navigation>
-
     <div class="row justify-content-center">
       <div class="col-sm no-gutter-xs">
         <div class="card shadow" v-loading="loading">
@@ -90,16 +88,11 @@
 <script>
 import axios from "axios";
 import _get from "lodash.get";
-import Navigation from "../components/Navigation";
 import { TextareaCharInserter } from "../mixins/textareaCharInserter";
 import {NotesShowRoute} from "../../router";
 
 export default {
   name: "NotesUpdate",
-
-  components: {
-    Navigation,
-  },
 
   mixins: [TextareaCharInserter],
 

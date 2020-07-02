@@ -5,13 +5,11 @@
         <div class="btn-group d-flex mb-2">
           <router-link
             :to="notesRoute"
-            class="btn btn-group-sm w-100"
-            :class="activeSubmenu('Notes')"
+            class="btn btn-group-sm w-100 inner-nav btn-secondary"
           >{{ $I18n.trans('notes.notes') }}</router-link>
           <router-link
             :to="notesCreateRoute"
-            class="btn btn-group-sm w-100"
-            :class="activeSubmenu('NotesCreate')"
+            class="btn btn-group-sm w-100 inner-nav btn-secondary"
           >{{ $I18n.trans('notes.new_note') }}</router-link>
         </div>
       </div>
@@ -34,12 +32,6 @@ export default {
       notesRoute: NotesRoute,
       notesCreateRoute: NotesCreateRoute,
     };
-  },
-
-  methods: {
-    activeSubmenu(routeName) {
-      return this.$route.name === routeName ? 'btn-primary' : 'btn-secondary';
-    }
   },
 }
 </script>

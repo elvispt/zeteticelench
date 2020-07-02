@@ -2,7 +2,7 @@
   <div id="notes-list">
     <ul class="list-group list-group-flush" v-loading="loading">
       <el-alert
-        v-if="!notes.length"
+        v-if="!notesList.length"
         :title="$I18n.trans('notes.alert_failed_to_find_records')"
         type="info"
         center
@@ -10,7 +10,7 @@
         :close-text="$I18n.trans('notes.alert_close_text')"
       ></el-alert>
 
-      <li v-for="note in notes" class="list-group-item list-group-item-action p-2 p-sm-3">
+      <li v-for="note in notesList" class="list-group-item list-group-item-action p-2 p-sm-3">
         <router-link
           :to="{name: notesShowRoute.name, params: { id: note.id }}"
           class="text-secondary">
@@ -33,45 +33,34 @@
 </template>
 
 <script>
-import axios from "axios";
-import _get from "lodash.get";
-import {NotesShowRoute} from "../../router";
+import { mapGetters, mapActions } from 'vuex';
+import { NotesShowRoute } from "../../router";
 
 export default {
   name: "NotesList",
-
-  props: ["searchQuery"],
 
   data() {
     return {
       notesShowRoute: NotesShowRoute,
       loading: true,
-      notes: [],
     };
   },
 
-  created() {
-    this.fetchNotes(this.searchQuery)
-      .then((result) => { this.loading = false });
-  },
-
-  watch: {
-    searchQuery() {
-      this.loading = true;
-      this.fetchNotes(this.searchQuery)
-        .then((result) => { this.loading = false });
-    }
-  },
+  computed: mapGetters(['notesList']),
 
   methods: {
-    async fetchNotes(searchQuery) {
-      const response = await axios.get(`/api/notes?query=${searchQuery}`);
-      this.notes = _get(response, 'data.data', []);
-      return true;
-    },
+    ...mapActions(['fetchNotesList', 'updateSearchQuery']),
     close() {
-      this.$emit("inputData", '');
+      this.updateSearchQuery('');
+      this.loading = true;
+      this.fetchNotesList()
+        .then((result) => { this.loading = false });
     },
+  },
+
+  created() {
+    this.fetchNotesList()
+      .then((result) => { this.loading = false });
   },
 }
 </script>

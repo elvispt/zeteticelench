@@ -20,14 +20,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import debounce from "lodash.debounce";
 
 export default {
   name: "AlgoliaSearch",
 
-  data() {
-    return {
-      searchQuery: '',
+  computed: {
+    searchQuery: {
+      get() {
+        return this.$store.state.notes.searchQuery;
+      },
+      set(value) {
+        this.$store.commit('setSearchQuery', value);
+      },
     }
   },
 
@@ -40,8 +46,10 @@ export default {
   },
 
   methods: {
+    ...mapActions(['fetchNotesList']),
     submit: debounce(function() {
-      this.$emit("inputData", this.searchQuery)
+      this.fetchNotesList(this.searchQuery);
+      //this.$emit("inputData", this.searchQuery)
     }, 400),
     clearSearch() {
       this.searchQuery = '';
