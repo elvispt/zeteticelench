@@ -14,6 +14,7 @@ import HackerNewsPost from "./hn/views/HackerNewsPost";
 import Users from "./users/views/Users";
 import UsersList from "./users/views/UsersList";
 import UsersCreate from "./users/views/UsersCreate";
+import Expenses from "./expenses/views/Expenses";
 
 Vue.use(Router);
 
@@ -104,7 +105,7 @@ export const HackerNewsRoute = {
 };
 //endregion
 
-// region user management routes definitions
+//region user management routes definitions
 export const UsersListRoute = {
   path: '',
   name: 'UsersList',
@@ -122,6 +123,14 @@ export const UsersRoute = {
     UsersListRoute,
     UsersCreateRoute,
   ],
+};
+//endregion
+
+//region expenses routes definitions
+export const ExpensesRoute = {
+  path: '/expenses',
+  name: 'Expenses',
+  component: Expenses,
 };
 //endregion
 
@@ -146,6 +155,7 @@ export const router = new Router({
     NotesRoute,
     HackerNewsRoute,
     UsersRoute,
+    ExpensesRoute,
     // These routes must be set last, since routes run based on order of definition
     NotFoundRoute,
     CatchAllRoute,

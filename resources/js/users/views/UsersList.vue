@@ -4,7 +4,7 @@
       <div class="col-12 mt-3 no-gutter-xs">
         <el-table
           v-loading="loading"
-          :data="users"
+          :data="usersList"
           style="width: 100%"
           :row-class-name="highlightCurrentUser"
           :empty-text="$I18n.trans('users.failed_to_obtain_user_list')"
@@ -20,11 +20,6 @@
           <el-table-column
             prop="email"
             :label="$I18n.trans('users.email')"
-          ></el-table-column>
-          <el-table-column
-            prop="createdAt"
-            :label="$I18n.trans('users.created_at')"
-            :formatter="formatCreatedAt"
           ></el-table-column>
           <el-table-column
             prop="updatedAt"
@@ -90,8 +85,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import _get from "lodash.get";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Users",
@@ -99,9 +93,7 @@ export default {
   data() {
     return {
       loading: true,
-      users: [],
       userToEdit: {},
-      currentUserId: null,
       dialogVisible: false,
       dialogFormRules: {
         name: [
@@ -121,21 +113,15 @@ export default {
     };
   },
 
+  computed: mapGetters(['usersList', 'currentUserId']),
+
   methods: {
-    async fetchUsers() {
-      const response = await axios.get('/api/users');
-      this.users = _get(response, 'data.data.users', []);
-      this.currentUserId = _get(response, 'data.data.currentUserId', []);
-      this.loading = false;
-    },
+    ...mapActions(['fetchUsers', 'updateUser', 'destroyUser']),
     highlightCurrentUser({ row, rowIndex }) {
       return row.id === this.currentUserId ? 'table-success' : null;
     },
     formatDate(value) {
       return this.$options.filters.diffForHumans(value);
-    },
-    formatCreatedAt(row, column) {
-      return this.formatDate(row.createdAt);
     },
     formatUpdatedAt(row, column) {
       return this.formatDate(row.updatedAt);
@@ -152,37 +138,30 @@ export default {
       };
       this.dialogVisible = true;
     },
-    editDialogSubmit(formRef) {
-      this.$refs[formRef].validate((valid) => {
-        if (valid) {
-          this.updateUser();
-          return true;
-        } else {
-          return false;
-        }
-      });
-    },
-    async updateUser() {
-      let response;
-      try {
-        response = await axios.put('/api/users/update', {
+    async editDialogSubmit(formRef) {
+      const isValid = this.validateDialogSubmit(formRef);
+      if (isValid) {
+        const success = await this.updateUser({
           id: this.userToEdit.id,
           name: this.userToEdit.name,
         });
-      } catch (err) {
-        console.error(err);
-        this.$message.error(this.$I18n.trans('users.failed_to_update'));
-        return;
+        this.notifyActionSuccess(success);
       }
-      this.notifyActionSuccess(response);
     },
-    notifyActionSuccess(response, successMessageKey = 'users.user_updated', failureMessageKey = 'users.failed_to_update') {
-      const status = _get(response, 'status');
-      const success = _get(response, 'data.data.success', false);
-      if (status === 200 && success) {
+    async validateDialogSubmit(formRef) {
+      return new Promise((resolve, reject) => {
+        this.$refs[formRef].validate((valid) => {
+          return valid ? resolve(true) : reject(false);
+        });
+      });
+    },
+    notifyActionSuccess(success, successMessageKey = 'users.user_updated', failureMessageKey = 'users.failed_to_update') {
+      if (success) {
         this.$message.success(this.$I18n.trans(successMessageKey));
-        const user = this.users.find(user => user.id === this.userToEdit.id);
-        user.name = this.userToEdit.name.trim();
+        const user = this.usersList.find(user => user.id === this.userToEdit.id);
+        if (user) {
+          user.name = this.userToEdit.name.trim();
+        }
         this.dialogVisible = false;
       } else {
         this.$message.error(this.$I18n.trans(failureMessageKey));
@@ -192,25 +171,14 @@ export default {
       let userConfirmsDeleteRequest = await this.askUserToConfirmDelete();
 
       if (userConfirmsDeleteRequest) {
-        let response;
-        try {
-          response = await axios.delete('/api/users/destroy', {
-            data: { id: this.userToEdit.id }
-          });
-          console.log(response);
-        } catch (err) {
-          console.error(err);
-          this.$message.error(this.$I18n.trans('users.failed_to_delete'));
-          return;
-        }
-        this.notifyActionSuccess(response, 'users.delete_success', 'users.failed_to_delete');
-        this.fetchUsers();
+        const success = await this.destroyUser(this.userToEdit.id);
+        this.notifyActionSuccess(success, 'users.delete_success', 'users.failed_to_delete');
       }
     },
     async askUserToConfirmDelete() {
-      let confirm;
+      let isConfirmed;
       try {
-        confirm = await this.$confirm(
+        isConfirmed = await this.$confirm(
           this.$I18n.trans('users.confirm_delete_request', { name: this.userToEdit.name }),
           this.$I18n.trans('common.please_confirm'),
           {
@@ -219,14 +187,15 @@ export default {
             type: 'warning',
           }) === 'confirm';
       } catch (err) {
-        confirm = false;
+        isConfirmed = false;
       }
-      return confirm;
+      return isConfirmed;
     },
   },
 
   created() {
-    this.fetchUsers();
+    this.fetchUsers()
+      .then(res => this.loading = false);
   },
 }
 </script>
