@@ -5551,16 +5551,16 @@
         },
         {
             "name": "thepinecode/i18n",
-            "version": "v0.9.1",
+            "version": "v0.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thepinecode/i18n.git",
-                "reference": "3cbda6720667ed958d437cdff516550645befdc5"
+                "reference": "68028876f0b57f4fb844d70dd9b2d78bc872f9de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thepinecode/i18n/zipball/3cbda6720667ed958d437cdff516550645befdc5",
-                "reference": "3cbda6720667ed958d437cdff516550645befdc5",
+                "url": "https://api.github.com/repos/thepinecode/i18n/zipball/68028876f0b57f4fb844d70dd9b2d78bc872f9de",
+                "reference": "68028876f0b57f4fb844d70dd9b2d78bc872f9de",
                 "shasum": ""
             },
             "require": {
@@ -5598,7 +5598,7 @@
                 }
             ],
             "description": "Push your translations to the front-end.",
-            "time": "2020-06-10T05:58:47+00:00"
+            "time": "2020-07-04T19:52:53+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
