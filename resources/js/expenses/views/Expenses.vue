@@ -26,7 +26,7 @@
             <el-table-column
               prop="amount"
               align="right"
-              width="80"
+              width="100"
               :label="$I18n.trans('expenses.amount')"
               :formatter="formatCurr"
               fixed="right"

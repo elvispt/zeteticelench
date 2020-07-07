@@ -15,7 +15,9 @@
       <el-form-item :label="$I18n.trans('expenses.amount')" prop="amount">
         <el-input
           type="number"
-          v-model.number="expense.amount"
+          inputmode="decimal"
+          decimal="true"
+          v-model.decimal="expense.amount"
           clearable
           min="0"
           step="0.01"
@@ -64,7 +66,8 @@ export default {
             trigger: 'change',
           },
           {
-            type: 'number',
+            type: 'regexp',
+            pattern: '/^\\d*\\.?\\d*$/',
             message: this.$I18n.trans('expenses.please_set_valid_amount'),
             trigger: 'change',
           },
@@ -75,10 +78,11 @@ export default {
 
   methods: {
     ...mapActions(['addExpense']),
-    onSubmit(ref) {
-      this.$refs[ref].validate((valid) => {
+    async onSubmit(ref) {
+      this.$refs[ref].validate(async (valid) => {
         if (valid) {
-          this.createExpense();
+          await this.createExpense();
+          this.resetForm(ref);
           return true;
         } else {
           return false;
@@ -97,7 +101,10 @@ export default {
         const message = this.$I18n.trans('expenses.fail_expense_added');
         notification = this.$notify.error(message);
       }
-    }
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
   },
 }
 </script>
