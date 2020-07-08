@@ -68,6 +68,7 @@ import {
   UsersRoute,
   ExpensesRoute,
 } from "../router";
+import { clearLocalUser } from "../helpers/user";
 
 export default {
   name: "MainNavigation",
@@ -90,6 +91,8 @@ export default {
       // send to spa auth page
       axios.post('/logout', {})
         .then(() => {
+          clearLocalUser();
+          this.showMenu = false;
           this.$router.push(AuthenticateRoute);
           this.showMenu = false;
         });

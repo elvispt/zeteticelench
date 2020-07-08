@@ -62,6 +62,8 @@ Route::middleware('auth:sanctum')
             ->name('usersUpdate');
         Route::delete('users/destroy', [UsersController::class, 'destroy'])
             ->name('usersDestroy');
+        Route::get('users/currentUser', [UsersController::class, 'currentUser'])
+            ->name('currentUser');
 
         // expenses
         Route::get('expenses', [ExpenseController::class, 'index'])

@@ -15,6 +15,7 @@ import Users from "./users/views/Users";
 import UsersList from "./users/views/UsersList";
 import UsersCreate from "./users/views/UsersCreate";
 import Expenses from "./expenses/views/Expenses";
+import { isUserAuthenticated } from "./helpers/user";
 
 Vue.use(Router);
 
@@ -23,6 +24,9 @@ export const AuthenticateRoute = {
   path: '/authenticate',
   name: 'Authenticate',
   component: Authenticate,
+  meta: {
+    requiresAuth: false,
+  },
 };
 
 export const DashboardRoute = {
@@ -30,6 +34,9 @@ export const DashboardRoute = {
   alias: '/',
   name: 'Dashboard',
   component: Dashboard,
+  meta: {
+    requiresAuth: true,
+  },
 };
 
 //region Notes routes definition
@@ -37,23 +44,35 @@ export const NotesListRoute = {
   path: '',
   name: 'Notes',
   component: NotesListing,
+  meta: {
+    requiresAuth: true,
+  },
 };
 export const NotesCreateRoute = {
   path: 'new',
   name: 'NotesCreate',
   component: NotesCreate,
+  meta: {
+    requiresAuth: true,
+  },
 };
 export const NotesShowRoute = {
   path: ':id',
   name: 'NotesShow',
   component: NotesShow,
   props: true,
+  meta: {
+    requiresAuth: true,
+  },
 };
 export const NotesUpdateRoute = {
   path: 'edit/:id',
   name: 'NotesUpdate',
   component: NotesUpdate,
   props: true,
+  meta: {
+    requiresAuth: true,
+  },
 };
 export const NotesRoute = {
   path: '/notes',
@@ -74,24 +93,36 @@ export const HackerNewsTopPostsRoute = {
   name: 'HackerNewsTopPostsRoute',
   component: HackerNewsList,
   props: { type: 'top' },
+  meta: {
+    requiresAuth: true,
+  },
 }
 export const HackerNewsBestPostsRoute = {
   path: 'best',
   name: 'HackerNewsBestPostsRoute',
   component: HackerNewsList,
   props: { type: 'best' },
+  meta: {
+    requiresAuth: true,
+  },
 }
 export const HackerNewsBookmarkedPostsRoute = {
   path: 'bookmarks',
   name: 'HackerNewsBookmarkedPostsRoute',
   component: HackerNewsList,
   props: { type: 'bookmarks' },
+  meta: {
+    requiresAuth: true,
+  },
 }
 export const HackerNewsPostRoute = {
   path: ':id',
   name: 'HackerNewsPost',
   component: HackerNewsPost,
   props: true,
+  meta: {
+    requiresAuth: true,
+  },
 };
 export const HackerNewsRoute = {
   path: '/hn',
@@ -110,11 +141,17 @@ export const UsersListRoute = {
   path: '',
   name: 'UsersList',
   component: UsersList,
+  meta: {
+    requiresAuth: true,
+  },
 };
 export const UsersCreateRoute = {
   path: 'new',
   name: 'UsersCreate',
   component: UsersCreate,
+  meta: {
+    requiresAuth: true,
+  },
 };
 export const UsersRoute = {
   path: '/users',
@@ -131,6 +168,9 @@ export const ExpensesRoute = {
   path: '/expenses',
   name: 'Expenses',
   component: Expenses,
+  meta: {
+    requiresAuth: true,
+  },
 };
 //endregion
 
@@ -140,10 +180,16 @@ export const NotFoundRoute = {
   name: 'NotFound',
   component: NotFound,
   props: true,
+  meta: {
+    requiresAuth: true,
+  },
 }
 const CatchAllRoute = {
   path: '*',
-  redirect: '/404'
+  redirect: '/404',
+  meta: {
+    requiresAuth: true,
+  },
 }
 //endregion
 
@@ -160,4 +206,22 @@ export const router = new Router({
     NotFoundRoute,
     CatchAllRoute,
   ],
+});
+
+router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (!requiresAuth) {
+    next();
+    return;
+  }
+
+  const isAuthenticated = await isUserAuthenticated();
+  if (isAuthenticated) {
+    if (to.name === AuthenticateRoute.name) {
+      next(DashboardRoute);
+    }
+    next();
+    return;
+  }
+  next(AuthenticateRoute);
 });
