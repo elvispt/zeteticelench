@@ -111,4 +111,14 @@ class UsersController extends Controller
             "success" => $success,
         ]);
     }
+
+    /**
+     * Returns info about the currently logged in user
+     *
+     * @return JsonResponse
+     */
+    public function currentUser(): JsonResponse
+    {
+        return ApiResponse::response(Auth::user());
+    }
 }
