@@ -15,31 +15,11 @@
       >
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
+          <li v-for="menuOpt in menuOptions" class="nav-item">
             <router-link
               class="nav-link text-right text-sm-left"
-              :to="notesRoute"
-            >{{ $I18n.trans('notes.notes') }}</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link
-              class="nav-link text-right text-sm-left"
-              :to="hackerNewsRoute"
-            >{{ $I18n.trans('hackernews.hackernews') }}</router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link
-              class="nav-link text-right text-sm-left"
-              :to="usersRoute"
-            >{{ $I18n.trans('users.users') }}</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              class="nav-link text-right text-sm-left"
-              :to="expensesRoute"
-            >{{ $I18n.trans('expenses.expenses') }}</router-link>
+              :to="menuOpt.route"
+            >{{ menuOpt.text }}</router-link>
           </li>
         </ul>
 
@@ -75,11 +55,13 @@ export default {
 
   data() {
     return {
-      notesRoute: NotesRoute,
       dashboardRoute: DashboardRoute,
-      hackerNewsRoute: HackerNewsRoute,
-      usersRoute: UsersRoute,
-      expensesRoute: ExpensesRoute,
+      menuOptions: [
+        { route: NotesRoute, text: this.$I18n.trans('notes.notes') },
+        { route: HackerNewsRoute, text: this.$I18n.trans('hackernews.hackernews') },
+        { route: ExpensesRoute, text: this.$I18n.trans('expenses.expenses') },
+        { route: UsersRoute, text: this.$I18n.trans('users.users') },
+      ],
       showMenu: true,
       menuCollapsed: true,
       appRoutes: [],
