@@ -1,6 +1,13 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 6.0.1 <2020-07-09>
+- Show the numeric keypad when the amount field is selected on mobile browsers
+[#563](https://github.com/elvispt/zeteticelench/issues/563).
+- Use Vue-Router guards to check on user's authentication status.
+- Fixed issue with add expense fields showing errors after user successfully
+submits an expense.
+
 ### 6.0.0 <2020-07-02>
 - Now using Vuex on Notes, and Users modules
 [#556](https://github.com/elvispt/zeteticelench/issues/556),
