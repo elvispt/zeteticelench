@@ -1,12 +1,12 @@
 <template>
   <div id="view-authenticate" class="pt-4">
     <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md-8 no-gutter-xs">
         <div class="card shadow">
           <div class="card-header">{{ $I18n.trans('auth.login') }}</div>
 
           <div class="card-body">
-            <form method="POST" @submit="attemptLogin($event)" :model="user">
+            <form method="POST" @submit="attemptLogin($event)" :model="userForm">
               <div class="form-group row">
                 <label
                   for="email"
@@ -17,7 +17,7 @@
                   <input id="email"
                          inputmode="email"
                          type="email"
-                         v-model="user.email"
+                         v-model="userForm.email"
                          class="form-control"
                          name="email"
                          autocomplete="email"
@@ -37,7 +37,7 @@
                     id="password"
                     name="password"
                     type="password"
-                    v-model="user.password"
+                    v-model="userForm.password"
                     class="form-control"
                     @change="passwordChanged"
                     autocomplete="current-password"
@@ -70,7 +70,7 @@
                   <button
                     type="submit"
                     class="btn btn-primary"
-                    :disabled="!user.email && !user.password"
+                    :disabled="!userForm.email && !userForm.password"
                   >{{ $I18n.trans('auth.login') }}</button>
                 </div>
               </div>
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import axios from "axios";
 import _get from "lodash.get";
 import { DashboardRoute } from "../router";
@@ -92,7 +93,7 @@ export default {
 
   data() {
     return {
-      user: {
+      userForm: {
         email: '',
         password: '',
       },
@@ -102,6 +103,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(['authenticate']),
     /**
      * Due to issue with autofill (from browser's password manager),
      * we have to poll changes to the password field since vue.js does
@@ -116,7 +118,7 @@ export default {
       }, 500);
     },
     passwordChanged() {
-      this.user.password = this.$refs.pwf.value;
+      this.userForm.password = this.$refs.pwf.value;
     },
 
     async attemptLogin(event) {
@@ -124,28 +126,22 @@ export default {
 
       await axios.post('/logout');
       await axios.get('/sanctum/csrf-cookie');
-      await this.login();
+      const response = await this.authenticate({
+        email: this.userForm.email,
+        password: this.userForm.password,
+      });
+      this.checkLoginResponse(response);
     },
-    async login() {
+    checkLoginResponse(response) {
       const loginFailedStatusCode = 422;
       const loginSuccessStatusCode = 302;
-      const config = {
-        validateStatus: status => {
-          return (status >= 200 && status < 300)
-            || status === loginFailedStatusCode
-            || status === loginSuccessStatusCode;
-        }
-      };
-
-      const response = await axios.post('/login', this.user, config);
       const status = response.status;
 
       if (status === loginFailedStatusCode) {
         this.showsErrors(_get(response, 'data.errors'));
       } else if (status === loginSuccessStatusCode || status === 204) {
         clearInterval(this.pollingPasswordFieldInterval);
-        this.$message.success('Login successful');
-        await this.$router.push(DashboardRoute);
+        this.$router.push(DashboardRoute);
       }
     },
     showsErrors(errors) {
