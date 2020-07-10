@@ -34,10 +34,14 @@ const actions = {
   async updateUser({commit}, user) {
     let success = false;
     try {
-      const response = await axios.put('/api/users/update', {
+      const updateData = {
         id: user.id,
         name: user.name,
-      });
+      };
+      if (user.password) {
+        updateData.password = user.password;
+      }
+      const response = await axios.put('/api/users/update', updateData);
       success = _get(response, 'data.data.success', false);
       if (success) {
         commit('updateUser', user);

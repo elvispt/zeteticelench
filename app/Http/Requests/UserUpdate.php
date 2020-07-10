@@ -21,6 +21,11 @@ class UserUpdate extends BaseFormRequest
                 'string',
                 'max:255',
             ],
+            'password' => [
+                'nullable',
+                'min:12',
+                'max:100',
+            ],
         ];
     }
 }
