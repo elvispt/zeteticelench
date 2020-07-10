@@ -56,6 +56,10 @@ class UsersController extends Controller
             ->where('id', $validated->get('id'))
             ->first();
         $user->name = $validated->get('name');
+        if ($validated->has('password')) {
+            $password = $validated->get('password');
+            $user->password = Hash::make($password);
+        }
         $success = $user->save();
 
         return ApiResponse::response([
