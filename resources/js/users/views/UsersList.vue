@@ -176,14 +176,14 @@ export default {
     },
     notifyActionSuccess(success, successMessageKey = 'users.user_updated', failureMessageKey = 'users.failed_to_update') {
       if (success) {
-        this.$message.success(this.$I18n.trans(successMessageKey));
+        this.$notify.success(this.$I18n.trans(successMessageKey));
         const user = this.usersList.find(user => user.id === this.userToEdit.id);
         if (user) {
           user.name = this.userToEdit.name.trim();
         }
         this.dialogVisible = false;
       } else {
-        this.$message.error(this.$I18n.trans(failureMessageKey));
+        this.$notify.error(this.$I18n.trans(failureMessageKey));
       }
     },
     async deleteUser() {

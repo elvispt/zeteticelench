@@ -21,6 +21,7 @@ return [
     'name_cannot_be_empty' => "Name cannot be empty",
     'failed_to_update' => "Could not update user. Please try again later.",
     'user_updated'=> "User was updated",
+    'created_success' => "User was created",
     'confirm_delete_request' => "Are you sure you want to delete :name?",
     'failed_to_delete' => "Failed to delete user.",
     'delete_success' => "User was deleted.",

@@ -193,11 +193,7 @@ export default {
         });
         if (_get(response, 'data.data.success')) {
           this.selectedTags = [];
-          this.$message({
-            type: 'success',
-            message: this.$I18n.trans('notes.confirmation_success_note_updated'),
-            center: true,
-          });
+          this.$notify.success(this.$I18n.trans('notes.confirmation_success_note_updated'));
           setTimeout(() => this.$router.push(Object.assign({}, NotesShowRoute, {params: { id: this.note.id }})), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to update note."});

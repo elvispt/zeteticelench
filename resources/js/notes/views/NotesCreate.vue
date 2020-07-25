@@ -186,11 +186,7 @@ export default {
         if (id) {
           this.note.body = '';
           this.selectedTags = [];
-          this.$message({
-            type: 'success',
-            message: this.$I18n.trans('notes.confirmation_success_note_create'),
-            center: true,
-          });
+          this.$notify.success(this.$I18n.trans('notes.confirmation_success_note_create'));
           setTimeout(() => this.$router.push(Object.assign({}, NotesShowRoute, {params: { id }})), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to create the note."});
