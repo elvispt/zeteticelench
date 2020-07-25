@@ -9,7 +9,6 @@
 
       <div class="col-sm-6 no-gutter-xs">
         <weather></weather>
-        <next-holidays></next-holidays>
       </div>
 
     </div>
@@ -20,7 +19,6 @@
 import Weather from "../components/Weather";
 import SystemInfo from "../components/SystemInfo";
 import Inspire from "../components/Inspire";
-import NextHolidays from "../components/NextHolidays";
 
 export default {
   name: "Dashboard",
@@ -28,7 +26,6 @@ export default {
   components: {
     Weather,
     SystemInfo,
-    NextHolidays,
     Inspire,
   },
 
