@@ -13,31 +13,7 @@
         </div>
         <div class="divider align-items-stretch mx-2"></div>
         <div class="align-self-center">
-          <div class="d-flex">
-            <div class="align-items-stretch align-self-center">Temps:</div>
-            <div class="d-flex flex-column ml-1">
-              <div title="Feels like">{{ weather.tempFeelsLike }} &#8451;</div>
-              <div title="Temperature"><small>{{ weather.temp }} &#8451;</small></div>
-            </div>
-          </div>
-        </div>
-        <div class="divider align-items-stretch mx-2"></div>
-        <div class="align-self-center">
-          <div class="d-flex">
-            <div class="flex-column">
-              <div>Humidade</div>
-              <div class="text-center">{{ weather.humidity }}%</div>
-            </div>
-          </div>
-        </div>
-        <div class="divider align-items-stretch mx-2"></div>
-        <div class="align-self-center">
-          <div class="d-flex">
-            <div class="flex-column ml-1">
-              <div title="Sunrise">{{ weather.sunrise | localTimeFromUnixTimestamp}}</div>
-              <div title="Sunset">{{ weather.sunset | localTimeFromUnixTimestamp }}</div>
-            </div>
-          </div>
+          {{ weather.temp }} &#8451;
         </div>
       </div>
     </div>
@@ -56,11 +32,7 @@ export default {
       loading: true,
       weather: {
         icon: '',
-        tempFeelsLike: '',
-        humidity: '',
         description: '',
-        sunrise: '',
-        sunset: '',
       },
     };
   },
@@ -88,12 +60,8 @@ export default {
 
       const iconCode = _get(stored, 'data.weather[0].icon');
       this.weather.icon = `http://openweathermap.org/img/wn/${iconCode}.png`;
-      this.weather.tempFeelsLike = _get(stored, 'data.main.feels_like');
       this.weather.temp = _get(stored, 'data.main.temp');
       this.weather.description = _get(stored, 'data.weather[0].description');
-      this.weather.humidity = _get(stored, 'data.main.humidity');
-      this.weather.sunrise = _get(stored, 'data.sys.sunrise');
-      this.weather.sunset = _get(stored, 'data.sys.sunset');
 
       setTimeout(() => this.loading = false, 500);
     },
