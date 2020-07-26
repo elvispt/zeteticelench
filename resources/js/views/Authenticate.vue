@@ -124,7 +124,6 @@ export default {
     async attemptLogin(event) {
       event.preventDefault();
 
-      await axios.post('/logout');
       await axios.get('/sanctum/csrf-cookie');
       const response = await this.authenticate({
         email: this.userForm.email,
