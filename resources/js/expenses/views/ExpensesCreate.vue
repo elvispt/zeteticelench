@@ -1,43 +1,47 @@
 <template>
-  <div class="add-expense">
-    <el-form
-      :inline="true"
-      :model="expense"
-      :rules="rules"
-      ref="refExpenseForm"
-    >
-      <el-form-item :label="$I18n.trans('expenses.what')" prop="description">
-        <el-input
-          v-model="expense.description"
-          clearable
-        ></el-input>
-      </el-form-item>
-      <el-form-item :label="$I18n.trans('expenses.amount')" prop="amount">
-        <el-input
-          type="number"
-          inputmode="decimal"
-          decimal="true"
-          v-model.decimal="expense.amount"
-          clearable
-          min="0"
-          step="0.01"
-        ></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          @click="onSubmit('refExpenseForm')"
-        >{{ $I18n.trans('common.add') }}</el-button>
-      </el-form-item>
-    </el-form>
+  <div class="expenses-add">
+    <div class="row">
+      <div class="col-12 mt-3 no-gutter-xs">
+        <el-form
+          :model="expense"
+          :rules="rules"
+          ref="refExpenseForm"
+        >
+          <el-form-item :label="$I18n.trans('expenses.what')" prop="description">
+            <el-input
+              v-model="expense.description"
+              clearable
+            ></el-input>
+          </el-form-item>
+          <el-form-item :label="$I18n.trans('expenses.amount')" prop="amount">
+            <el-input
+              type="number"
+              inputmode="decimal"
+              decimal="true"
+              v-model.decimal="expense.amount"
+              clearable
+              min="0"
+              step="0.01"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              @click="onSubmit('refExpenseForm')"
+            >{{ $I18n.trans('common.add') }}</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import {ExpensesRoute} from "../../router";
 
 export default {
-  name: "ExpenseAdd",
+  name: "ExpensesCreate",
 
   data() {
     return {
@@ -83,6 +87,7 @@ export default {
         if (valid) {
           await this.createExpense();
           this.resetForm(ref);
+          await this.$router.push(ExpensesRoute);
           return true;
         } else {
           return false;
