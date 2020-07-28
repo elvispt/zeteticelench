@@ -13,4 +13,5 @@ return [
     'please_set_valid_amount' => "Please set a valid amount",
     'amount_is_required' => "Amount is required",
     'min_2_max_255' => "Must be between 2 and 255 chars",
+    'new_expense' => "New expense",
 ];
