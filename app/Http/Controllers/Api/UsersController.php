@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCreate;
 use App\Http\Requests\UserDestroy;
 use App\Http\Requests\UserUpdate;
+use App\Http\Resources\UserResource;
 use App\Http\Responses\ApiResponse;
-use App\Http\Responses\Users\UserResponse;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,27 +20,14 @@ class UsersController extends Controller
     /**
      * Shows the list of users
      *
-     * @return JsonResponse
+     * @return JsonResource
      */
-    public function index(): JsonResponse
+    public function index(): JsonResource
     {
-        $users = User::all()->map(static function (User $user) {
-            $userResponse = new UserResponse();
-            $userResponse->id = $user->id;
-            $userResponse->name = $user->name;
-            $userResponse->email = $user->email;
-            $userResponse->createdAt = $user->created_at
-                ->format('Y-m-d H:i:s');
-            $userResponse->updatedAt = $user->updated_at
-                ->format('Y-m-d H:i:s');
-
-            return $userResponse;
-        });
-
-        return ApiResponse::response((object) [
-            'users' => $users,
-            'currentUserId' => Auth::id(),
-        ]);
+        return UserResource::collection(User::all())
+            ->additional([
+                'currentUserId' => Auth::id(),
+            ]);
     }
 
     /**
@@ -119,10 +107,10 @@ class UsersController extends Controller
     /**
      * Returns info about the currently logged in user
      *
-     * @return JsonResponse
+     * @return JsonResource
      */
-    public function currentUser(): JsonResponse
+    public function currentUser(): JsonResource
     {
-        return ApiResponse::response(Auth::user());
+        return new UserResource(Auth::user());
     }
 }

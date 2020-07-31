@@ -138,7 +138,7 @@ export default {
     formatDate(value) {
       return this.$options.filters.diffForHumans(value);
     },
-    formatUpdatedAt(row, column) {
+    formatUpdatedAt(row) {
       return this.formatDate(row.updatedAt);
     },
     closeDialog(formRef) {
