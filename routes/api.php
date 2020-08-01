@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\HackerNewsController;
 use App\Http\Controllers\Api\InspireController;
-use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\NotesController;
 use App\Http\Controllers\Api\SystemInfoController;
 use App\Http\Controllers\Api\UsersController;
@@ -27,8 +26,6 @@ Route::middleware('auth:sanctum')
             ->name('apiInspire');
         Route::get('system-info', [SystemInfoController::class, 'index'])
             ->name('apiSystemInfo');
-        Route::get('next-holidays', [NextHolidaysController::class, 'index'])
-            ->name('apiNextHolidays');
 
         // notes
         Route::get('notes', [NotesController::class, 'index'])
