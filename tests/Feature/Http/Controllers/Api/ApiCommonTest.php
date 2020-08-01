@@ -18,11 +18,6 @@ class ApiCommonTest extends TestCase
         ;
 
         $this
-            ->get(route('apiNextHolidays'))
-            ->assertStatus(302)
-        ;
-
-        $this
             ->get(route('apiSystemInfo'))
             ->assertStatus(302)
         ;
@@ -36,15 +31,6 @@ class ApiCommonTest extends TestCase
         $this
             ->actingAs($user)
             ->get(route('apiInspire'))
-            ->assertStatus(200)
-            ->assertJsonStructure([
-                'data',
-            ])
-        ;
-
-        $this
-            ->actingAs($user)
-            ->get(route('apiNextHolidays'))
             ->assertStatus(200)
             ->assertJsonStructure([
                 'data',

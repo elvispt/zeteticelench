@@ -35,10 +35,8 @@ class UsersControllerTest extends TestCase
             ->get(route('users'))
             ->assertStatus(200)
             ->assertJsonStructure([
-                'data' => [
-                    'users',
-                    'currentUserId',
-                ],
+                'data',
+                'currentUserId',
             ])
         ;
     }
