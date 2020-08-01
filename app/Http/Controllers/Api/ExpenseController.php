@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExpenseCreate;
+use App\Http\Resources\ExpenseResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Expense;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
@@ -18,9 +20,9 @@ class ExpenseController extends Controller
      *
      * @param Request $request
      *
-     * @return JsonResponse
+     * @return JsonResource
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResource
     {
         $userId = $request->user()->id;
         $expenses = (new Expense())
@@ -28,8 +30,7 @@ class ExpenseController extends Controller
             ->orderBy('updated_at', 'DESC')
             ->get()
         ;
-
-        return ApiResponse::response($expenses);
+        return ExpenseResource::collection($expenses);
     }
 
     /**

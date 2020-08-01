@@ -16,7 +16,7 @@
               :label="$I18n.trans('expenses.what')"
             ></el-table-column>
             <el-table-column
-              prop="updated_at"
+              prop="updatedAt"
               :formatter="formatDate"
               min-width="220"
               :label="$I18n.trans('expenses.when')"
