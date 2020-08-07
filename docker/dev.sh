@@ -10,13 +10,13 @@ separator() {
 separator
 info "Setting container to development mode"
 info " - Install Xdebug"
-info " - Disabled Opcache"
+info " - Disable Opcache"
 
 pecl install xdebug-2.8.0
 docker-php-ext-enable xdebug
 mv /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini.BAK
 service apache2 reload
 
-info " - Xdebug enabled"
+info " - Xdebug installed and enabled"
 info " - Opcache disabled"
 separator
