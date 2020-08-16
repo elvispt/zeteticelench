@@ -12,9 +12,9 @@ const getters = {
 const actions = {
   async fetchExpenses({commit}) {
     const response = await axios.get(`/api/expenses`);
-    const notes = _get(response, 'data.data', []);
+    const expenses = _get(response, 'data.data', []);
 
-    commit('setExpenses', notes);
+    commit('setExpenses', expenses);
     return true;
   },
   async addExpense({commit}, expense) {

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property string $description
  * @property float $amount
+ * @property \Illuminate\Support\Carbon|null $transaction_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
@@ -27,6 +28,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Expense extends Model
 {
+
+    protected $dates = [
+        'transaction_date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -14,13 +14,15 @@ class ExpenseResource extends JsonResource
      */
     public function toArray($request)
     {
+        $dateTimeFormat = config('api.output_date_time_format');
         return [
             'id' => $this->id,
             'userId' => $this->user_id,
             'description' => $this->description,
             'amount' => $this->amount,
-            'createdAt' => $this->created_at->format('Y-m-d H:i:s'),
-            'updatedAt' => $this->updated_at->format('Y-m-d H:i:s'),
+            'transactionDate' => $this->transaction_date->format($dateTimeFormat),
+            'createdAt' => $this->created_at->format($dateTimeFormat),
+            'updatedAt' => $this->updated_at->format($dateTimeFormat),
         ];
     }
 }

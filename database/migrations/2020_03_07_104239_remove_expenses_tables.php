@@ -15,9 +15,10 @@ class RemoveExpensesTables extends Migration
     public function up()
     {
         Schema::disableForeignKeyConstraints();
-        Schema::drop('accounts');
-        if (config('database.default') === 'sqlite') {
-            DB::raw(
+        Schema::dropIfExists('accounts');
+        if (Schema::hasColumn('tags', 'type')) {
+            if (config('database.default') === 'sqlite') {
+                DB::raw(
 <<<EOT
 create table tags_dg_tmp
 (
@@ -39,14 +40,16 @@ alter table tags_dg_tmp rename to tags;
 create unique index tags_tag_unique
 	on tags (tag);
 EOT
-            );
-        } else {
-            DB::statement(
-                "ALTER TABLE `tags` DROP `type`;"
-            );
+                );
+            } else {
+                DB::statement(
+                    "ALTER TABLE `tags` DROP `type`;"
+                );
+                
+            }
         }
-        Schema::drop('movement_tag');
-        Schema::drop('movements');
+        Schema::dropIfExists('movement_tag');
+        Schema::dropIfExists('movements');
         Schema::enableForeignKeyConstraints();
     }
 
