@@ -18,11 +18,20 @@
               type="number"
               inputmode="decimal"
               decimal="true"
-              v-model.decimal="expense.amount"
+              v-model.number="expense.amount"
               clearable
               min="0"
               step="0.01"
             ></el-input>
+          </el-form-item>
+          <el-form-item :label="$I18n.trans('expenses.at')" prop="transactionDate">
+            <el-date-picker
+              v-model="expense.transactionDate"
+              type="datetime"
+              format="d MMM yyyy @ HH:mm"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              :picker-options="datetimePickerOptions"
+            ></el-date-picker>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -48,6 +57,19 @@ export default {
       expense: {
         description: null,
         amount: null,
+        transactionDate: new Date(),
+      },
+      datetimePickerOptions: {
+        shortcuts: [
+          {
+            text: this.$I18n.trans('expenses.yesterday'),
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 86400000);
+              picker.$emit('pick', date);
+            }
+          },
+        ],
       },
       rules: {
         description: [
@@ -74,6 +96,12 @@ export default {
             pattern: '/^\\d*\\.?\\d*$/',
             message: this.$I18n.trans('expenses.please_set_valid_amount'),
             trigger: 'change',
+          },
+        ],
+        transactionDate: [
+          {
+            required: true,
+            message: this.$I18n.trans('expenses.expense_date_required'),
           },
         ],
       },

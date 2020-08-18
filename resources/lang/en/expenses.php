@@ -14,4 +14,7 @@ return [
     'amount_is_required' => "Amount is required",
     'min_2_max_255' => "Must be between 2 and 255 chars",
     'new_expense' => "New expense",
+    'yesterday' => "Yesterday",
+    'at' => "At",
+    'expense_date_required' => "Expense date/time is required",
 ];

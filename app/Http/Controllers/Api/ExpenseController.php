@@ -27,7 +27,7 @@ class ExpenseController extends Controller
         $userId = $request->user()->id;
         $expenses = (new Expense())
             ->where('user_id', $userId)
-            ->orderBy('updated_at', 'DESC')
+            ->orderBy('transaction_date', 'DESC')
             ->get()
         ;
         return ExpenseResource::collection($expenses);
@@ -48,12 +48,13 @@ class ExpenseController extends Controller
         $expense->user_id = $userId;
         $expense->description = $validated->get('description');
         $expense->amount = $validated->get('amount');
+        $expense->transaction_date = $validated->get('transactionDate');
 
         $success = $expense->save();
 
         return ApiResponse::response((object) [
             'success' => $success,
-            'expense' => $expense,
+            'expense' => new ExpenseResource($expense),
         ]);
     }
 

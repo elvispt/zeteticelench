@@ -79,6 +79,9 @@ export default {
       return numeral(Number(cellValue)).format('$ 0,0[.]00');
     },
     formatDate(row, col, cellValue, index) {
+      if (!cellValue) {
+        return;
+      }
       const objDate = moment(cellValue);
       const date = objDate.format('YYYY-MM-DD');
       const diff = objDate.fromNow();

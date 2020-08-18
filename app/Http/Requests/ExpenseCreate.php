@@ -23,6 +23,10 @@ class ExpenseCreate extends BaseFormRequest
                 'numeric',
                 'between:0,999999',
             ],
+            'transactionDate' => [
+                'required',
+                'date_format:Y-m-d H:i:s',
+            ],
         ];
     }
 }
