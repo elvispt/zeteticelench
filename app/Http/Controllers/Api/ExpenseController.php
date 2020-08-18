@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExpenseCreate;
+use App\Http\Requests\ExpenseUpdate;
 use App\Http\Resources\ExpenseResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Expense;
@@ -66,7 +67,7 @@ class ExpenseController extends Controller
      */
     public function show(Expense $expense)
     {
-        //
+        return new ExpenseResource($expense);
     }
 
     /**
@@ -77,9 +78,19 @@ class ExpenseController extends Controller
      *
      * @return Response
      */
-    public function update(Request $request, Expense $expense)
+    public function update(ExpenseUpdate $request, Expense $expense)
     {
-        //
+        $validated = new Collection($request->validated());
+        $expense->description = $validated->get('description');
+        $expense->amount = $validated->get('amount');
+        $expense->transaction_date = $validated->get('transactionDate');
+
+        $success = $expense->save();
+
+        return ApiResponse::response((object) [
+            'success' => $success,
+            'expense' => new ExpenseResource($expense),
+        ]);
     }
 
     /**

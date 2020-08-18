@@ -65,7 +65,12 @@ Route::middleware('auth:sanctum')
         // expenses
         Route::get('expenses', [ExpenseController::class, 'index'])
             ->name('expenses');
+        Route::get('expenses/{expense}', [ExpenseController::class, 'show'])
+            ->name('expensesShow');
         Route::post('expenses/create', [ExpenseController::class, 'store'])
             ->name('expensesCreate');
-
+        Route::put('expenses/update/{expense}', [ExpenseController::class, 'update'])
+            ->name('expensesUpdate');
+        Route::put('expenses/destroy/{expense}', [ExpenseController::class, 'destroy'])
+            ->name('expensesDestroy');
     });

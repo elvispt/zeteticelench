@@ -14,7 +14,13 @@
               prop="description"
               min-width="250"
               :label="$I18n.trans('expenses.what')"
-            ></el-table-column>
+            >
+              <template slot-scope="scope">
+                <router-link
+                  :to="{name: expensesUpdateRoute.name, params: { id: scope.row.id }}"
+                >{{ scope.row.description }}</router-link>
+              </template>
+            </el-table-column>
             <el-table-column
               prop="transactionDate"
               :formatter="formatDate"
@@ -40,6 +46,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import numeral from 'numeral';
 import moment from 'moment';
+import { ExpensesUpdateRoute } from '../../router';
 
 export default {
   name: "ExpensesList",
@@ -47,6 +54,7 @@ export default {
   data() {
     return {
       loading: true,
+      expensesUpdateRoute: ExpensesUpdateRoute,
     };
   },
 

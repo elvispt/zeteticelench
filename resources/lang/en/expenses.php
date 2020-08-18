@@ -9,6 +9,7 @@ return [
     'failed_to_obtain_expenses' => "Could not load expenses.",
     'fail_expense_added' => "Failed to add expense",
     'success_expense_added' => "Expense added",
+    'success_expense_updated' => "Expense updated",
     'expense_description_required' => "A description is required",
     'please_set_valid_amount' => "Please set a valid amount",
     'amount_is_required' => "Amount is required",

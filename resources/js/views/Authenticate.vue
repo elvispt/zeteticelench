@@ -132,15 +132,14 @@ export default {
       this.checkLoginResponse(response);
     },
     checkLoginResponse(response) {
-      const loginFailedStatusCode = 422;
-      const loginSuccessStatusCode = 302;
+      const loginSuccessStatusCode = 204;
       const status = response.status;
 
-      if (status === loginFailedStatusCode) {
-        this.showsErrors(_get(response, 'data.errors'));
-      } else if (status === loginSuccessStatusCode || status === 204) {
+      if (status === loginSuccessStatusCode) {
         clearInterval(this.pollingPasswordFieldInterval);
         this.$router.push(DashboardRoute);
+      } else {
+        this.showsErrors(_get(response, 'data.errors'));
       }
     },
     showsErrors(errors) {
