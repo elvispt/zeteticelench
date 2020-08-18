@@ -20,14 +20,17 @@ const actions = {
     return true;
   },
   async fetchExpense({commit}, id) {
-    const response = await axios.get(`/api/expenses/${id}`);
+    let response;
+    try {
+      response = await axios.get(`/api/expenses/${id}`);
+    } catch (err) {
+      return false;
+    }
     const expense = _get(response, 'data.data');
-
     if (expense) {
       commit('setCurrentExpense', expense);
-      return true;
     }
-    return false;
+    return !!expense;
   },
   async addExpense({commit}, expense) {
     const response = await axios.post('api/expenses/create', expense);
@@ -37,6 +40,12 @@ const actions = {
   },
   async updateExpense({commit}, expense) {
     const response = await axios.put(`api/expenses/update/${expense.id}`, expense);
+    const data = _get(response, 'data.data');
+
+    return _get(data, 'success', false);
+  },
+  async destroyExpense({commit}, expense) {
+    const response = await axios.delete(`api/expenses/destroy/${expense.id}`);
     const data = _get(response, 'data.data');
 
     return _get(data, 'success', false);

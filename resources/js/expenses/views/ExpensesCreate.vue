@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { mapActions } from 'vuex';
 import {ExpensesRoute} from "../../router";
 
@@ -57,7 +58,7 @@ export default {
       expense: {
         description: null,
         amount: null,
-        transactionDate: new Date(),
+        transactionDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       },
       datetimePickerOptions: {
         shortcuts: [

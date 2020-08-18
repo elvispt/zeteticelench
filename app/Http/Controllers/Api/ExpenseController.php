@@ -101,6 +101,10 @@ class ExpenseController extends Controller
      */
     public function destroy(Expense $expense)
     {
-        //
+        $success = $expense->delete();
+
+        return ApiResponse::response((object) [
+            'success' => $success,
+        ]);
     }
 }

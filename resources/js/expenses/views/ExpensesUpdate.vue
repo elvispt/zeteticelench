@@ -1,5 +1,5 @@
 <template>
-  <div class="expenses-add">
+  <div class="expenses-update" v-loading="loading">
     <div class="row">
       <div class="col-12 mt-3 no-gutter-xs">
         <el-form
@@ -40,6 +40,7 @@
             >{{ $I18n.trans('common.cancel') }}</el-button>
             <el-button
               type="danger"
+              @click="deleteExpense"
             >{{ $I18n.trans('common.delete') }}</el-button>
             <el-button
               type="primary"
@@ -68,6 +69,7 @@ export default {
 
   data() {
     return {
+      loading: true,
       rules: {
         description: [
           {
@@ -118,7 +120,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(['updateExpense', 'fetchExpense', 'clearCurrentExpense']),
+    ...mapActions([
+      'updateExpense',
+      'destroyExpense',
+      'fetchExpense',
+      'clearCurrentExpense',
+    ]),
     async onSubmit(ref) {
       this.$refs[ref].validate(async (valid) => {
         if (valid) {
@@ -138,26 +145,43 @@ export default {
         description: this.expense.description,
         transactionDate: this.expense.transactionDate,
       });
-      let notification;
       if (success) {
         const message = this.$I18n.trans('expenses.success_expense_updated');
-        notification = this.$notify.success(message);
+        this.$notify.success(message);
       } else {
         const message = this.$I18n.trans('expenses.fail_expense_updated');
-        notification = this.$notify.error(message);
+        this.$notify.error(message);
+      }
+    },
+    async deleteExpense() {
+      const success = await this.destroyExpense({id: this.expense.id});
+      if (success) {
+        const message = this.$I18n.trans('expenses.success_expense_destroyed');
+        this.$notify.warning(message);
+        this.goBackToListing();
+      } else {
+        const message = this.$I18n.trans('expenses.fail_expense_destroyed');
+        this.$notify.error(message);
       }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
     async goBackToListing(formName) {
-      this.resetForm(formName);
+      if (formName) {
+        this.resetForm(formName);
+      }
       await this.$router.push(ExpensesRoute);
     },
   },
 
   async mounted() {
-    await this.fetchExpense(this.id);
+    const success = await this.fetchExpense(this.id);
+
+    if (!success) {
+      this.goBackToListing();
+    }
+    this.loading = false;
   },
 }
 </script>

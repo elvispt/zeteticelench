@@ -10,6 +10,8 @@ return [
     'fail_expense_added' => "Failed to add expense",
     'success_expense_added' => "Expense added",
     'success_expense_updated' => "Expense updated",
+    'success_expense_destroyed' => "Expense deleted",
+    'fail_expense_destroyed' => "Expense could not be deleted",
     'expense_description_required' => "A description is required",
     'please_set_valid_amount' => "Please set a valid amount",
     'amount_is_required' => "Amount is required",

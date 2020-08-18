@@ -71,6 +71,6 @@ Route::middleware('auth:sanctum')
             ->name('expensesCreate');
         Route::put('expenses/update/{expense}', [ExpenseController::class, 'update'])
             ->name('expensesUpdate');
-        Route::put('expenses/destroy/{expense}', [ExpenseController::class, 'destroy'])
+        Route::delete('expenses/destroy/{expense}', [ExpenseController::class, 'destroy'])
             ->name('expensesDestroy');
     });
