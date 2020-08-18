@@ -14,9 +14,15 @@
               prop="description"
               min-width="250"
               :label="$I18n.trans('expenses.what')"
-            ></el-table-column>
+            >
+              <template slot-scope="scope">
+                <router-link
+                  :to="{name: expensesUpdateRoute.name, params: { id: scope.row.id }}"
+                >{{ scope.row.description }}</router-link>
+              </template>
+            </el-table-column>
             <el-table-column
-              prop="updatedAt"
+              prop="transactionDate"
               :formatter="formatDate"
               min-width="220"
               :label="$I18n.trans('expenses.when')"
@@ -40,6 +46,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import numeral from 'numeral';
 import moment from 'moment';
+import { ExpensesUpdateRoute } from '../../router';
 
 export default {
   name: "ExpensesList",
@@ -47,6 +54,7 @@ export default {
   data() {
     return {
       loading: true,
+      expensesUpdateRoute: ExpensesUpdateRoute,
     };
   },
 
@@ -79,6 +87,9 @@ export default {
       return numeral(Number(cellValue)).format('$ 0,0[.]00');
     },
     formatDate(row, col, cellValue, index) {
+      if (!cellValue) {
+        return;
+      }
       const objDate = moment(cellValue);
       const date = objDate.format('YYYY-MM-DD');
       const diff = objDate.fromNow();

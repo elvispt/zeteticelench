@@ -1,6 +1,6 @@
 import Vue from "vue";
 import store from './store';
-import { router } from './router';
+import {AuthenticateRoute, router} from './router';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/en';
@@ -16,6 +16,20 @@ numeral.locale('pt-pt');
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.withCredentials = true;
+// redirect automatically when requests lose authorization
+axios.interceptors.response.use(
+  null,
+  (err) => {
+    if (err.response) {
+      if (err.response.status === 401 || err.response.status === 419) {
+        app.$router.push(AuthenticateRoute);
+      }
+      return Promise.reject(err);
+    } else {
+      console.error(`Unknown error: ${err}`);
+    }
+  }
+);
 
 /**
  * The following block of code may be used to automatically register your

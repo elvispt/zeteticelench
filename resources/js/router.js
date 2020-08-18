@@ -17,6 +17,7 @@ import UsersCreate from "./users/views/UsersCreate";
 import Expenses from "./expenses/views/Expenses";
 import ExpensesList from "./expenses/views/ExpensesList";
 import ExpensesCreate from "./expenses/views/ExpensesCreate";
+import ExpensesUpdate from "./expenses/views/ExpensesUpdate";
 import { isUserAuthenticated } from "./helpers/user";
 
 Vue.use(Router);
@@ -182,12 +183,22 @@ export const ExpensesCreateRoute = {
     requiresAuth: true,
   },
 };
+export const ExpensesUpdateRoute = {
+  path: 'edit/:id',
+  name: 'ExpensesUpdate',
+  component: ExpensesUpdate,
+  props: true,
+  meta: {
+    requiresAuth: true,
+  },
+};
 export const ExpensesRoute = {
   path: '/expenses',
   component: Expenses,
   children: [
     ExpensesListRoute,
     ExpensesCreateRoute,
+    ExpensesUpdateRoute,
   ],
 };
 //endregion

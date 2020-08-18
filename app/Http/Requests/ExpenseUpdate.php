@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class ExpenseCreate extends BaseFormRequest
+class ExpenseUpdate extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.

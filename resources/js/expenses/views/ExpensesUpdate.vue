@@ -1,5 +1,5 @@
 <template>
-  <div class="expenses-add">
+  <div class="expenses-update" v-loading="loading">
     <div class="row">
       <div class="col-12 mt-3 no-gutter-xs">
         <el-form
@@ -33,12 +33,21 @@
               :picker-options="datetimePickerOptions"
             ></el-date-picker>
           </el-form-item>
+          <div class="text-right">
           <el-form-item>
+            <el-button
+              @click="goBackToListing('refExpenseForm')"
+            >{{ $I18n.trans('common.cancel') }}</el-button>
+            <el-button
+              type="danger"
+              @click="deleteExpense"
+            >{{ $I18n.trans('common.delete') }}</el-button>
             <el-button
               type="primary"
               @click="onSubmit('refExpenseForm')"
-            >{{ $I18n.trans('common.add') }}</el-button>
+            >{{ $I18n.trans('common.update') }}</el-button>
           </el-form-item>
+          </div>
         </el-form>
       </div>
     </div>
@@ -46,32 +55,21 @@
 </template>
 
 <script>
-import moment from 'moment';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import {ExpensesRoute} from "../../router";
 
 export default {
-  name: "ExpensesCreate",
+  name: "ExpensesUpdate",
+
+  props: ["id"],
+
+  computed: {
+    ...mapGetters(['expense']),
+  },
 
   data() {
     return {
-      expense: {
-        description: null,
-        amount: null,
-        transactionDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-      },
-      datetimePickerOptions: {
-        shortcuts: [
-          {
-            text: this.$I18n.trans('expenses.yesterday'),
-            onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 86400000);
-              picker.$emit('pick', date);
-            }
-          },
-        ],
-      },
+      loading: true,
       rules: {
         description: [
           {
@@ -106,39 +104,84 @@ export default {
           },
         ],
       },
+      datetimePickerOptions: {
+        shortcuts: [
+          {
+            text: this.$I18n.trans('expenses.yesterday'),
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 86400000);
+              picker.$emit('pick', date);
+            }
+          },
+        ],
+      },
     };
   },
 
   methods: {
-    ...mapActions(['addExpense']),
+    ...mapActions([
+      'updateExpense',
+      'destroyExpense',
+      'fetchExpense',
+      'clearCurrentExpense',
+    ]),
     async onSubmit(ref) {
       this.$refs[ref].validate(async (valid) => {
         if (valid) {
-          await this.createExpense();
+          await this.updtExp();
           this.resetForm(ref);
-          await this.$router.push(ExpensesRoute);
+          this.goBackToListing();
           return true;
         } else {
           return false;
         }
       });
     },
-    async createExpense() {
-      const success = await this.addExpense(this.expense);
-      let notification;
+    async updtExp() {
+      const success = await this.updateExpense({
+        id: this.expense.id,
+        amount: this.expense.amount,
+        description: this.expense.description,
+        transactionDate: this.expense.transactionDate,
+      });
       if (success) {
-        const message = this.$I18n.trans('expenses.success_expense_added');
-        notification = this.$notify.success(message);
-        this.expense.description = '';
-        this.expense.amount = '';
+        const message = this.$I18n.trans('expenses.success_expense_updated');
+        this.$notify.success(message);
       } else {
-        const message = this.$I18n.trans('expenses.fail_expense_added');
-        notification = this.$notify.error(message);
+        const message = this.$I18n.trans('expenses.fail_expense_updated');
+        this.$notify.error(message);
+      }
+    },
+    async deleteExpense() {
+      const success = await this.destroyExpense({id: this.expense.id});
+      if (success) {
+        const message = this.$I18n.trans('expenses.success_expense_destroyed');
+        this.$notify.warning(message);
+        this.goBackToListing();
+      } else {
+        const message = this.$I18n.trans('expenses.fail_expense_destroyed');
+        this.$notify.error(message);
       }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
+    async goBackToListing(formName) {
+      if (formName) {
+        this.resetForm(formName);
+      }
+      await this.$router.push(ExpensesRoute);
+    },
+  },
+
+  async mounted() {
+    const success = await this.fetchExpense(this.id);
+
+    if (!success) {
+      this.goBackToListing();
+    }
+    this.loading = false;
   },
 }
 </script>
@@ -155,5 +198,4 @@ export default {
 >>> input[type=number] {
   -moz-appearance: textfield;
 }
-
 </style>
