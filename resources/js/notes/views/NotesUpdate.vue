@@ -193,11 +193,7 @@ export default {
         });
         if (_get(response, 'data.data.success')) {
           this.selectedTags = [];
-          this.$message({
-            type: 'success',
-            message: this.$I18n.trans('notes.confirmation_success_note_updated'),
-            center: true,
-          });
+          this.$notify.success(this.$I18n.trans('notes.confirmation_success_note_updated'));
           setTimeout(() => this.$router.push(Object.assign({}, NotesShowRoute, {params: { id: this.note.id }})), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to update note."});
@@ -239,9 +235,9 @@ export default {
     vertical-align: middle;
     width: 120px;
   }
-  #note-update >>> .el-checkbox-button--small .el-checkbox-button__inner {
+  #note-update >>> .el-checkbox-button {
     border-radius: 4px;
-    border: 1px solid #DCDFE6;
+    margin-right: 0 !important;
   }
   #note-update >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
     border-color: #409EFF;

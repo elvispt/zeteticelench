@@ -23,7 +23,7 @@ const actions = {
   async addNote({commit}, note) {
     const response = await axios.post('/api/notecreate', {
       body: note.body,
-      tags: note.selectedTags,
+      tags: note.tags,
     });
 
     const id = _get(response, 'data.data.id');

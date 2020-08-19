@@ -96,12 +96,12 @@ export default {
           });
       });
     },
-    notifyActionResult(success, successMessageKey = 'users.user_create', failureMessageKey = 'users.failed_to_create') {
+    notifyActionResult(success, successMessageKey = 'users.created_success', failureMessageKey = 'users.failed_to_create') {
       if (success) {
-        this.$message.success(this.$I18n.trans(successMessageKey));
+        this.$notify.success(this.$I18n.trans(successMessageKey));
         this.$router.push(UsersRoute);
       } else {
-        this.$message.error(this.$I18n.trans(failureMessageKey));
+        this.$notify.error(this.$I18n.trans(failureMessageKey));
       }
     },
   },

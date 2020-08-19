@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExpenseCreate;
+use App\Http\Requests\ExpenseUpdate;
+use App\Http\Resources\ExpenseResource;
 use App\Http\Responses\ApiResponse;
 use App\Models\Expense;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
@@ -18,18 +21,17 @@ class ExpenseController extends Controller
      *
      * @param Request $request
      *
-     * @return JsonResponse
+     * @return JsonResource
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): JsonResource
     {
         $userId = $request->user()->id;
         $expenses = (new Expense())
             ->where('user_id', $userId)
-            ->orderBy('updated_at', 'DESC')
+            ->orderBy('transaction_date', 'DESC')
             ->get()
         ;
-
-        return ApiResponse::response($expenses);
+        return ExpenseResource::collection($expenses);
     }
 
     /**
@@ -47,12 +49,13 @@ class ExpenseController extends Controller
         $expense->user_id = $userId;
         $expense->description = $validated->get('description');
         $expense->amount = $validated->get('amount');
+        $expense->transaction_date = $validated->get('transactionDate');
 
         $success = $expense->save();
 
         return ApiResponse::response((object) [
             'success' => $success,
-            'expense' => $expense,
+            'expense' => new ExpenseResource($expense),
         ]);
     }
 
@@ -64,7 +67,7 @@ class ExpenseController extends Controller
      */
     public function show(Expense $expense)
     {
-        //
+        return new ExpenseResource($expense);
     }
 
     /**
@@ -75,9 +78,19 @@ class ExpenseController extends Controller
      *
      * @return Response
      */
-    public function update(Request $request, Expense $expense)
+    public function update(ExpenseUpdate $request, Expense $expense)
     {
-        //
+        $validated = new Collection($request->validated());
+        $expense->description = $validated->get('description');
+        $expense->amount = $validated->get('amount');
+        $expense->transaction_date = $validated->get('transactionDate');
+
+        $success = $expense->save();
+
+        return ApiResponse::response((object) [
+            'success' => $success,
+            'expense' => new ExpenseResource($expense),
+        ]);
     }
 
     /**
@@ -88,6 +101,10 @@ class ExpenseController extends Controller
      */
     public function destroy(Expense $expense)
     {
-        //
+        $success = $expense->delete();
+
+        return ApiResponse::response((object) [
+            'success' => $success,
+        ]);
     }
 }

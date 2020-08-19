@@ -27,27 +27,28 @@ export const bookmarkPost = {
       this.notifyUserOfBookmarkStatusChange(success, addBookmark, post);
     },
     notifyUserOfBookmarkStatusChange(success, addedBookmark, post) {
-      let messageOptions = {
+      let notificationOptions = {
         message: this.$I18n.trans('hackernews.add_failure'),
         type: 'error',
       };
       if (success) {
         if (addedBookmark) {
-          messageOptions = {
+          notificationOptions = {
             message: this.$I18n.trans('hackernews.added_to_bookmarks', { title: post.title }),
             type: 'success',
           };
         } else {
-          messageOptions = {
+          notificationOptions = {
             message: this.$I18n.trans('hackernews.remove_from_bookmarks', { title: post.title }),
             type: 'warning',
           };
         }
       }
+
       if (this.notification && !this.notification.closed) {
         this.notification.close();
       }
-      this.notification = this.$message(messageOptions);
+      this.notification = this.$notify(notificationOptions);
       setTimeout(() => post.status.saving = false, 400);
     },
   },

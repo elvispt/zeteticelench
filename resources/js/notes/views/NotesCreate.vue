@@ -186,11 +186,7 @@ export default {
         if (id) {
           this.note.body = '';
           this.selectedTags = [];
-          this.$message({
-            type: 'success',
-            message: this.$I18n.trans('notes.confirmation_success_note_create'),
-            center: true,
-          });
+          this.$notify.success(this.$I18n.trans('notes.confirmation_success_note_create'));
           setTimeout(() => this.$router.push(Object.assign({}, NotesShowRoute, {params: { id }})), 400);
         } else {
           this.errors.push({ field: 'na', text: "Failed to create the note."});
@@ -229,11 +225,11 @@ export default {
     vertical-align: middle;
     width: 120px;
   }
-  #note-create >>> .el-checkbox-button--small .el-checkbox-button__inner {
+  #notes-create >>> .el-checkbox-button {
     border-radius: 4px;
-    border: 1px solid #DCDFE6;
+    margin-right: 0 !important;
   }
-  #note-create >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  #notes-create >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
     border-color: #409EFF;
   }
 </style>

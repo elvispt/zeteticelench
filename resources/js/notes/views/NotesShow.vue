@@ -109,27 +109,15 @@ export default {
         this.deleteNote(noteId)
           .then(result => {
             if (result) {
-              this.$message({
-                type: 'success',
-                message: confirmationDeleteSuccess,
-                center: true,
-              });
+              this.$notify.success(confirmationDeleteSuccess);
               setTimeout(() => this.$router.push(NotesRoute), 400);
             }
           })
           .catch(err => {
-            this.$message({
-              type: 'warning',
-              message: this.$I18n.trans('notes.failed_delete', { id: noteId }),
-              center: true,
-            });
+            this.$notify.warning(this.$I18n.trans('notes.failed_delete', { id: noteId }));
           })
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: this.$I18n.trans('notes.delete_canceled', { id: noteId }),
-          center: true,
-        });
+        this.$notify.info(this.$I18n.trans('notes.delete_canceled', { id: noteId }));
       });
     },
     async deleteNote(noteId) {

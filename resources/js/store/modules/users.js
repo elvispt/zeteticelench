@@ -14,8 +14,8 @@ const getters = {
 const actions = {
   async fetchUsers({commit}) {
     const response = await axios.get('/api/users');
-    const users = _get(response, 'data.data.users', []);
-    const currentUserId = _get(response, 'data.data.currentUserId');
+    const users = _get(response, 'data.data', []);
+    const currentUserId = _get(response, 'data.currentUserId');
 
     commit('setUsersList', users);
     commit('setCurrentUserId', currentUserId);
@@ -25,19 +25,19 @@ const actions = {
     const response = await axios.post('/api/users/create', user);
     const data = _get(response, 'data.data');
 
-    const newUser = _get(data, 'user');
-    if (newUser) {
-      commit('newUser', newUser);
-    }
     return _get(data, 'success', false);
   },
   async updateUser({commit}, user) {
     let success = false;
     try {
-      const response = await axios.put('/api/users/update', {
+      const updateData = {
         id: user.id,
         name: user.name,
-      });
+      };
+      if (user.password) {
+        updateData.password = user.password;
+      }
+      const response = await axios.put('/api/users/update', updateData);
       success = _get(response, 'data.data.success', false);
       if (success) {
         commit('updateUser', user);
@@ -68,7 +68,6 @@ const actions = {
 
 const mutations = {
   setUsersList: (state, users) => state.users = users,
-  newUser: (state, user) => state.user.push(user),
   updateUser: (state, user) => {
     const userToEdit = state.users.filter(usr => usr.id === user.id);
     userToEdit.name = user.name;

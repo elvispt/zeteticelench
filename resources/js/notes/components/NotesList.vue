@@ -10,7 +10,7 @@
         :close-text="$I18n.trans('notes.alert_close_text')"
       ></el-alert>
 
-      <li v-for="note in notesList" class="list-group-item list-group-item-action p-2 p-sm-3">
+      <li v-for="note in notesList" class="list-group-item list-group-item-action p-2 p-sm-3" :key="note.id">
         <router-link
           :to="{name: notesShowRoute.name, params: { id: note.id }}"
           class="text-secondary">

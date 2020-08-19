@@ -61,6 +61,13 @@
             :placeholder="$I18n.trans('users.name_cannot_be_empty')"
           ></el-input>
         </el-form-item>
+        <el-form-item :label="$I18n.trans('users.password')" prop="password">
+          <el-input
+            type="password"
+            autocomplete="off"
+            v-model="userToEdit.password"
+          ></el-input>
+        </el-form-item>
         <el-form-item :label="$I18n.trans('users.email')">
           <el-input type="email" :value="userToEdit.email" disabled></el-input>
         </el-form-item>
@@ -109,6 +116,14 @@ export default {
             trigger: 'blur',
           },
         ],
+        password: [
+          {
+            min: 12,
+            max: 100,
+            message: this.$I18n.trans('users.please_set_valid_password'),
+            trigger: 'blur',
+          },
+        ]
       },
     };
   },
@@ -123,7 +138,7 @@ export default {
     formatDate(value) {
       return this.$options.filters.diffForHumans(value);
     },
-    formatUpdatedAt(row, column) {
+    formatUpdatedAt(row) {
       return this.formatDate(row.updatedAt);
     },
     closeDialog(formRef) {
@@ -139,12 +154,16 @@ export default {
       this.dialogVisible = true;
     },
     async editDialogSubmit(formRef) {
-      const isValid = this.validateDialogSubmit(formRef);
+      const isValid = await this.validateDialogSubmit(formRef);
       if (isValid) {
-        const success = await this.updateUser({
+        const updateData = {
           id: this.userToEdit.id,
           name: this.userToEdit.name,
-        });
+        };
+        if (this.userToEdit.password) {
+          updateData.password = this.userToEdit.password;
+        }
+        const success = await this.updateUser(updateData);
         this.notifyActionSuccess(success);
       }
     },
@@ -157,14 +176,14 @@ export default {
     },
     notifyActionSuccess(success, successMessageKey = 'users.user_updated', failureMessageKey = 'users.failed_to_update') {
       if (success) {
-        this.$message.success(this.$I18n.trans(successMessageKey));
+        this.$notify.success(this.$I18n.trans(successMessageKey));
         const user = this.usersList.find(user => user.id === this.userToEdit.id);
         if (user) {
           user.name = this.userToEdit.name.trim();
         }
         this.dialogVisible = false;
       } else {
-        this.$message.error(this.$I18n.trans(failureMessageKey));
+        this.$notify.error(this.$I18n.trans(failureMessageKey));
       }
     },
     async deleteUser() {

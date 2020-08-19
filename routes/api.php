@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\HackerNewsController;
 use App\Http\Controllers\Api\InspireController;
-use App\Http\Controllers\Api\NextHolidaysController;
 use App\Http\Controllers\Api\NotesController;
 use App\Http\Controllers\Api\SystemInfoController;
 use App\Http\Controllers\Api\UsersController;
@@ -27,8 +26,6 @@ Route::middleware('auth:sanctum')
             ->name('apiInspire');
         Route::get('system-info', [SystemInfoController::class, 'index'])
             ->name('apiSystemInfo');
-        Route::get('next-holidays', [NextHolidaysController::class, 'index'])
-            ->name('apiNextHolidays');
 
         // notes
         Route::get('notes', [NotesController::class, 'index'])
@@ -68,7 +65,12 @@ Route::middleware('auth:sanctum')
         // expenses
         Route::get('expenses', [ExpenseController::class, 'index'])
             ->name('expenses');
+        Route::get('expenses/{expense}', [ExpenseController::class, 'show'])
+            ->name('expensesShow');
         Route::post('expenses/create', [ExpenseController::class, 'store'])
             ->name('expensesCreate');
-
+        Route::put('expenses/update/{expense}', [ExpenseController::class, 'update'])
+            ->name('expensesUpdate');
+        Route::delete('expenses/destroy/{expense}', [ExpenseController::class, 'destroy'])
+            ->name('expensesDestroy');
     });

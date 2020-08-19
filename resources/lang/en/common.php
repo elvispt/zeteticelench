@@ -8,4 +8,5 @@ return [
     'update' => "Update",
     'confirm' => "Confirm",
     'please_confirm' => "Please confirm",
+    'delete' => "Delete",
 ];
