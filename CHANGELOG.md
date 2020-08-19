@@ -1,6 +1,24 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 6.1.0 <2020-08-19>
+- Now able to edit and delete expenses
+[#610](https://github.com/elvispt/zeteticelench/pull/610).
+- Can now change user's password
+[#569](https://github.com/elvispt/zeteticelench/pull/569).
+- Now using mostly Element.io $notify instead of $message when informing the
+user of a success/failure of an action
+[#572](https://github.com/elvispt/zeteticelench/issues/572).
+- Removed Next Holidays feature
+[#584](https://github.com/elvispt/zeteticelench/issues/584).
+- Simplified weather widget.
+- Fixed issue with tag styling on notes
+[#573](https://github.com/elvispt/zeteticelench/issues/573).
+- Fixed issue where a tag could not be added when creating a note
+[#571](https://github.com/elvispt/zeteticelench/issues/571).
+- Fixed issue with login where it would fail requiring the user to refresh
+the page.
+
 ### 6.0.1 <2020-07-09>
 - Show the numeric keypad when the amount field is selected on mobile browsers
 [#563](https://github.com/elvispt/zeteticelench/issues/563).
