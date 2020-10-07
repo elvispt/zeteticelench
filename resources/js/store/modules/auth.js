@@ -18,7 +18,12 @@ export default {
   actions: {
     async authenticate({commit, dispatch}, credentials) {
       const successStatusCode = 204;
-      const response = await axios.post('/login', credentials);
+      let response;
+      try {
+        response = await axios.post('/login', credentials);
+      } catch (err) {
+        response = err.response;
+      }
       if (response.status === successStatusCode) {
         await dispatch('fetchCurrentUser');
       }
