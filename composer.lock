@@ -1462,16 +1462,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v8.4.0",
+            "version": "v8.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "1241ecf4e876b8fcb8311160b471e6915bc1ab66"
+                "reference": "b8b8a35cc3ac82cbc07dfa83955492d2ef6e237b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/1241ecf4e876b8fcb8311160b471e6915bc1ab66",
-                "reference": "1241ecf4e876b8fcb8311160b471e6915bc1ab66",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/b8b8a35cc3ac82cbc07dfa83955492d2ef6e237b",
+                "reference": "b8b8a35cc3ac82cbc07dfa83955492d2ef6e237b",
                 "shasum": ""
             },
             "require": {
@@ -1482,10 +1482,9 @@
                 "illuminate/pagination": "^6.0|^7.0|^8.0",
                 "illuminate/queue": "^6.0|^7.0|^8.0",
                 "illuminate/support": "^6.0|^7.0|^8.0",
-                "php": "^7.2"
+                "php": "^7.2|^8.0"
             },
             "require-dev": {
-                "algolia/algoliasearch-client-php": "^2.2",
                 "mockery/mockery": "^1.0",
                 "phpunit/phpunit": "^8.0|^9.3"
             },
@@ -1524,7 +1523,7 @@
                 "laravel",
                 "search"
             ],
-            "time": "2020-10-20T18:44:35+00:00"
+            "time": "2020-12-22T17:29:20+00:00"
         },
         {
             "name": "laravel/telescope",
