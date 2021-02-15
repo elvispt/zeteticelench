@@ -3091,16 +3091,16 @@
         },
         {
             "name": "scrivo/highlight.php",
-            "version": "v9.18.1.4",
+            "version": "v9.18.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scrivo/highlight.php.git",
-                "reference": "ee8007a215a27cb9c078e0328fb5de901d74ef9b"
+                "reference": "44a3d4136edb5ad8551590bf90f437db80b2d466"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scrivo/highlight.php/zipball/ee8007a215a27cb9c078e0328fb5de901d74ef9b",
-                "reference": "ee8007a215a27cb9c078e0328fb5de901d74ef9b",
+                "url": "https://api.github.com/repos/scrivo/highlight.php/zipball/44a3d4136edb5ad8551590bf90f437db80b2d466",
+                "reference": "44a3d4136edb5ad8551590bf90f437db80b2d466",
                 "shasum": ""
             },
             "require": {
@@ -3113,9 +3113,6 @@
                 "sabberworm/php-css-parser": "^8.3",
                 "symfony/finder": "^2.8|^3.4",
                 "symfony/var-dumper": "^2.8|^3.4"
-            },
-            "suggest": {
-                "ext-dom": "Needed to make use of the features in the utilities namespace"
             },
             "type": "library",
             "autoload": {
@@ -3162,31 +3159,31 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-01T04:06:53+00:00"
+            "time": "2020-12-22T19:20:29+00:00"
         },
         {
             "name": "spatie/commonmark-highlighter",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/commonmark-highlighter.git",
-                "reference": "c36ea12432e6ce65df299e3f5ed31a0e880d0060"
+                "reference": "4090c552b983d58a76a7063519fe7aa977bdcf1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/commonmark-highlighter/zipball/c36ea12432e6ce65df299e3f5ed31a0e880d0060",
-                "reference": "c36ea12432e6ce65df299e3f5ed31a0e880d0060",
+                "url": "https://api.github.com/repos/spatie/commonmark-highlighter/zipball/4090c552b983d58a76a7063519fe7aa977bdcf1e",
+                "reference": "4090c552b983d58a76a7063519fe7aa977bdcf1e",
                 "shasum": ""
             },
             "require": {
-                "league/commonmark": "^1.0",
-                "php": "^7.2",
-                "scrivo/highlight.php": "^9.15.6.1"
+                "league/commonmark": "^1.5",
+                "php": "^7.2|^8.0",
+                "scrivo/highlight.php": "^9.18.1.4"
             },
             "require-dev": {
                 "larapack/dd": "^1.0",
-                "phpunit/phpunit": "^8.0",
-                "spatie/phpunit-snapshot-assertions": "^2.0"
+                "phpunit/phpunit": "^8.5|^9.4",
+                "spatie/phpunit-snapshot-assertions": "^2.0|^4.0"
             },
             "type": "library",
             "autoload": {
@@ -3212,7 +3209,7 @@
                 "commonmark-highlighter",
                 "spatie"
             ],
-            "time": "2019-11-21T15:49:51+00:00"
+            "time": "2020-11-11T21:55:01+00:00"
         },
         {
             "name": "spatie/db-dumper",
