@@ -5716,24 +5716,24 @@
         },
         {
             "name": "thepinecode/i18n",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/thepinecode/i18n.git",
-                "reference": "a4ee4b9a7fa1a83140bbf79ecf6eadcfb240dc83"
+                "url": "https://github.com/conedevelopment/i18n.git",
+                "reference": "c13b5c651276480d2b9c13eee70c30cbc71528e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thepinecode/i18n/zipball/a4ee4b9a7fa1a83140bbf79ecf6eadcfb240dc83",
-                "reference": "a4ee4b9a7fa1a83140bbf79ecf6eadcfb240dc83",
+                "url": "https://api.github.com/repos/conedevelopment/i18n/zipball/c13b5c651276480d2b9c13eee70c30cbc71528e4",
+                "reference": "c13b5c651276480d2b9c13eee70c30cbc71528e4",
                 "shasum": ""
             },
             "require": {
                 "laravel/framework": "^6.0 || ^7.0 || ^8.0",
-                "php": "^7.2.5"
+                "php": "^7.2.5 || ^8.0"
             },
             "require-dev": {
-                "laravel/laravel": "dev-master",
+                "laravel/laravel": "8.x-dev",
                 "phpunit/phpunit": "^9.0"
             },
             "type": "project",
@@ -5764,7 +5764,7 @@
             ],
             "description": "Push your translations to the front-end.",
             "abandoned": "conedevelopment/i18n",
-            "time": "2020-09-16T06:30:02+00:00"
+            "time": "2020-12-29T15:11:59+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
