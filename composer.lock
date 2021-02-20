@@ -3213,24 +3213,24 @@
         },
         {
             "name": "spatie/db-dumper",
-            "version": "2.17.0",
+            "version": "2.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/db-dumper.git",
-                "reference": "d23bcb566443e862a8dbb6dbd5e8da03aaf98e2a"
+                "reference": "54150d138dfe5b8043c2a7c6c27a8b41a9e8f418"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/d23bcb566443e862a8dbb6dbd5e8da03aaf98e2a",
-                "reference": "d23bcb566443e862a8dbb6dbd5e8da03aaf98e2a",
+                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/54150d138dfe5b8043c2a7c6c27a8b41a9e8f418",
+                "reference": "54150d138dfe5b8043c2a7c6c27a8b41a9e8f418",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2",
+                "php": "^7.2|^8.0",
                 "symfony/process": "^4.2|^5.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.0|^8.0"
+                "phpunit/phpunit": "^7.0|^8.0|^9.0"
             },
             "type": "library",
             "autoload": {
@@ -3265,7 +3265,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-10T14:52:52+00:00"
+            "time": "2021-01-27T09:26:50+00:00"
         },
         {
             "name": "spatie/dropbox-api",
@@ -3378,27 +3378,27 @@
         },
         {
             "name": "spatie/laravel-db-snapshots",
-            "version": "1.7.0",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-db-snapshots.git",
-                "reference": "6ed50e4f706486402c3756d13f376cda72ca3c95"
+                "reference": "a5ff59eed46283567bc43aa8fd0e81ddc0cf4b9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-db-snapshots/zipball/6ed50e4f706486402c3756d13f376cda72ca3c95",
-                "reference": "6ed50e4f706486402c3756d13f376cda72ca3c95",
+                "url": "https://api.github.com/repos/spatie/laravel-db-snapshots/zipball/a5ff59eed46283567bc43aa8fd0e81ddc0cf4b9a",
+                "reference": "a5ff59eed46283567bc43aa8fd0e81ddc0cf4b9a",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "^6.0|^7.0|^8.0",
                 "league/flysystem": "^1.0.41",
-                "php": "^7.4",
+                "php": "^7.4|^8.0",
                 "spatie/db-dumper": "^2.11",
                 "spatie/temporary-directory": "^1.1"
             },
             "require-dev": {
-                "mockery/mockery": "^1.3|^1.3.1",
+                "mockery/mockery": "^1.4",
                 "orchestra/testbench": "^4.0|^5.0|^6.0",
                 "phpunit/phpunit": "^9.1|^9.3"
             },
@@ -3439,7 +3439,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-09-08T15:06:20+00:00"
+            "time": "2020-12-02T15:32:41+00:00"
         },
         {
             "name": "spatie/laravel-view-models",
@@ -3508,23 +3508,23 @@
         },
         {
             "name": "spatie/temporary-directory",
-            "version": "1.2.4",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/temporary-directory.git",
-                "reference": "8efe8e61e0ca943d84341f10e51ef3a9606af932"
+                "reference": "f517729b3793bca58f847c5fd383ec16f03ffec6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/temporary-directory/zipball/8efe8e61e0ca943d84341f10e51ef3a9606af932",
-                "reference": "8efe8e61e0ca943d84341f10e51ef3a9606af932",
+                "url": "https://api.github.com/repos/spatie/temporary-directory/zipball/f517729b3793bca58f847c5fd383ec16f03ffec6",
+                "reference": "f517729b3793bca58f847c5fd383ec16f03ffec6",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2"
+                "php": "^7.2|^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.0"
+                "phpunit/phpunit": "^8.0|^9.0"
             },
             "type": "library",
             "autoload": {
@@ -3547,10 +3547,11 @@
             "description": "Easily create, use and destroy temporary directories",
             "homepage": "https://github.com/spatie/temporary-directory",
             "keywords": [
+                "php",
                 "spatie",
                 "temporary-directory"
             ],
-            "time": "2020-09-07T20:41:15+00:00"
+            "time": "2020-11-09T15:54:21+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
