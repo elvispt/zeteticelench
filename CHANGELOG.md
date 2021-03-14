@@ -1,6 +1,20 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 6.2.0 <2021-03-14>
+- Fixed issue with CI with github runner failing all tests.
+  - [#669](https://github.com/elvispt/zeteticelench/pull/669).
+  - Composer now shows the installation logs.
+  - Github actions now uses shivammathur/setup-php@2.9.0 be able to set up a
+    specific php version on github runner.
+  - Updated Composer to v2 (2.0.9). This version now downloads packages in
+    parallel making installations much faster.
+  - Show dev dependencies installation in log
+  - Specify GitHub-hosted runners to ubuntu-18.04
+- Fixed issue with login errors messages not appearing when the user was
+  entering incorrect credentials, the error messages would not appear
+  [#669](https://github.com/elvispt/zeteticelench/pull/669).
+
 ### 6.1.0 <2020-08-19>
 - Now able to edit and delete expenses
 [#610](https://github.com/elvispt/zeteticelench/pull/610).
