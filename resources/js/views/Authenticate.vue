@@ -2,7 +2,7 @@
   <div id="view-authenticate" class="pt-4">
     <div class="row justify-content-center">
       <div class="col-md-8 no-gutter-xs">
-        <div class="card shadow">
+        <div class="card shadow" v-loading="loading">
           <div class="card-header">{{ $I18n.trans('auth.login') }}</div>
 
           <div class="card-body">
@@ -93,6 +93,7 @@ export default {
 
   data() {
     return {
+      loading: false,
       userForm: {
         email: '',
         password: '',
@@ -122,6 +123,7 @@ export default {
     },
 
     async attemptLogin(event) {
+      this.loading = true;
       event.preventDefault();
 
       await axios.get('/sanctum/csrf-cookie');
@@ -141,6 +143,7 @@ export default {
       } else {
         this.showsErrors(_get(response, 'data.errors'));
       }
+      setTimeout(() => this.loading = false, 200);
     },
     showsErrors(errors) {
       let message = '';

@@ -30,8 +30,8 @@ RUN apt-get update \
     && echo "opcache.revalidate_freq=0" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
     && echo "opcache.save_comments=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
     && echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/zzz_custom.ini \
-    && echo "### INSTALL COMPOSER (1.9.1) ###" \
-    && php -r "copy('https://raw.githubusercontent.com/composer/getcomposer.org/6e5e46fc7cab0015d5961f54bb39be1f4b330093/web/installer', 'composer-setup.php');" \
+    && echo "### INSTALL COMPOSER (2.0.9) ###" \
+    && php -r "copy('https://raw.githubusercontent.com/composer/getcomposer.org/fa8ea54c9ba4dc3b13111fb4707f9c3b2d4681f6/web/installer', 'composer-setup.php');" \
     && php composer-setup.php \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
