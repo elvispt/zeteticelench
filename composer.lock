@@ -78,16 +78,16 @@
         },
         {
             "name": "algolia/scout-extended",
-            "version": "v1.13.0",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/scout-extended.git",
-                "reference": "946b0f35cdef4132041233fc8a77f22356d8cda1"
+                "reference": "f1da27101b4c88166f9d66d5110b46e1dacb8f1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/946b0f35cdef4132041233fc8a77f22356d8cda1",
-                "reference": "946b0f35cdef4132041233fc8a77f22356d8cda1",
+                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/f1da27101b4c88166f9d66d5110b46e1dacb8f1c",
+                "reference": "f1da27101b4c88166f9d66d5110b46e1dacb8f1c",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "scout",
                 "search"
             ],
-            "time": "2021-01-22T12:40:46+00:00"
+            "time": "2021-03-17T15:52:17+00:00"
         },
         {
             "name": "asm89/stack-cors",
