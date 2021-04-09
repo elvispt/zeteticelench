@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
-            "version": "2.7.3",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/algoliasearch-client-php.git",
-                "reference": "142a382e4649db0cb64d9eb8893872f1a4ba8dd3"
+                "reference": "d9781147ae433f5bdbfd902497d748d60e70d693"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/142a382e4649db0cb64d9eb8893872f1a4ba8dd3",
-                "reference": "142a382e4649db0cb64d9eb8893872f1a4ba8dd3",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/d9781147ae433f5bdbfd902497d748d60e70d693",
+                "reference": "d9781147ae433f5bdbfd902497d748d60e70d693",
                 "shasum": ""
             },
             "require": {
@@ -74,20 +74,20 @@
                 "php",
                 "search"
             ],
-            "time": "2020-12-22T11:27:03+00:00"
+            "time": "2021-04-07T16:50:58+00:00"
         },
         {
             "name": "algolia/scout-extended",
-            "version": "v1.15.0",
+            "version": "v1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/scout-extended.git",
-                "reference": "f1da27101b4c88166f9d66d5110b46e1dacb8f1c"
+                "reference": "1154a57e8049e7d07d51571599ee5aedd106b945"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/f1da27101b4c88166f9d66d5110b46e1dacb8f1c",
-                "reference": "f1da27101b4c88166f9d66d5110b46e1dacb8f1c",
+                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/1154a57e8049e7d07d51571599ee5aedd106b945",
+                "reference": "1154a57e8049e7d07d51571599ee5aedd106b945",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "scout",
                 "search"
             ],
-            "time": "2021-03-17T15:52:17+00:00"
+            "time": "2021-04-08T15:17:35+00:00"
         },
         {
             "name": "asm89/stack-cors",
