@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/algoliasearch-client-php.git",
-                "reference": "02e947f18375518313dd5fb6b2b1ee368d6823ea"
+                "reference": "17083be5fec3876b8548169c178a1735d8e16530"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/02e947f18375518313dd5fb6b2b1ee368d6823ea",
-                "reference": "02e947f18375518313dd5fb6b2b1ee368d6823ea",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/17083be5fec3876b8548169c178a1735d8e16530",
+                "reference": "17083be5fec3876b8548169c178a1735d8e16530",
                 "shasum": ""
             },
             "require": {
@@ -74,20 +74,20 @@
                 "php",
                 "search"
             ],
-            "time": "2021-04-14T07:43:43+00:00"
+            "time": "2021-04-23T13:29:26+00:00"
         },
         {
             "name": "algolia/scout-extended",
-            "version": "v1.17.0",
+            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/scout-extended.git",
-                "reference": "fe2b9bfa0fe6dd669d2a530f22fabbd512ff32cc"
+                "reference": "f0434c48ff667dbcffe98796f4438f049bbc987b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/fe2b9bfa0fe6dd669d2a530f22fabbd512ff32cc",
-                "reference": "fe2b9bfa0fe6dd669d2a530f22fabbd512ff32cc",
+                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/f0434c48ff667dbcffe98796f4438f049bbc987b",
+                "reference": "f0434c48ff667dbcffe98796f4438f049bbc987b",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "illuminate/database": "^6.0|^7.0|^8.0",
                 "illuminate/filesystem": "^6.0|^7.0|^8.0",
                 "illuminate/support": "^6.0|^7.0|^8.0",
-                "laravel/scout": "^8.0",
+                "laravel/scout": "^8.0|^9.0",
                 "php": "^7.3|^8.0",
                 "riimu/kit-phpencoder": "^2.4"
             },
@@ -151,7 +151,7 @@
                 "scout",
                 "search"
             ],
-            "time": "2021-04-14T15:50:45+00:00"
+            "time": "2021-04-30T13:16:19+00:00"
         },
         {
             "name": "asm89/stack-cors",
