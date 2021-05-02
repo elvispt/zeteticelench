@@ -4519,16 +4519,16 @@
         },
         {
             "name": "symfony/mime",
-            "version": "v5.2.6",
+            "version": "v5.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "1b2092244374cbe48ae733673f2ca0818b37197b"
+                "reference": "7af452bf51c46f18da00feb32e1ad36db9426515"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/1b2092244374cbe48ae733673f2ca0818b37197b",
-                "reference": "1b2092244374cbe48ae733673f2ca0818b37197b",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/7af452bf51c46f18da00feb32e1ad36db9426515",
+                "reference": "7af452bf51c46f18da00feb32e1ad36db9426515",
                 "shasum": ""
             },
             "require": {
@@ -4595,7 +4595,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-03-12T13:18:39+00:00"
+            "time": "2021-04-29T20:47:09+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -6795,16 +6795,16 @@
         },
         {
             "name": "facade/flare-client-php",
-            "version": "1.5.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/flare-client-php.git",
-                "reference": "9dd6f2b56486d939c4467b3f35475d44af57cf17"
+                "reference": "69742118c037f34ee1ef86dc605be4a105d9e984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/9dd6f2b56486d939c4467b3f35475d44af57cf17",
-                "reference": "9dd6f2b56486d939c4467b3f35475d44af57cf17",
+                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/69742118c037f34ee1ef86dc605be4a105d9e984",
+                "reference": "69742118c037f34ee1ef86dc605be4a105d9e984",
                 "shasum": ""
             },
             "require": {
@@ -6852,26 +6852,26 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-31T07:32:54+00:00"
+            "time": "2021-04-30T11:11:50+00:00"
         },
         {
             "name": "facade/ignition",
-            "version": "2.7.0",
+            "version": "2.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "bdc8b0b32c888f6edc838ca641358322b3d9506d"
+                "reference": "87fb348dab0ae1a7c206c3e902a5a44ba541742f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/bdc8b0b32c888f6edc838ca641358322b3d9506d",
-                "reference": "bdc8b0b32c888f6edc838ca641358322b3d9506d",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/87fb348dab0ae1a7c206c3e902a5a44ba541742f",
+                "reference": "87fb348dab0ae1a7c206c3e902a5a44ba541742f",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "facade/flare-client-php": "^1.3.7",
+                "facade/flare-client-php": "^1.6",
                 "facade/ignition-contracts": "^1.0.2",
                 "filp/whoops": "^2.4",
                 "illuminate/support": "^7.0|^8.0",
@@ -6923,7 +6923,7 @@
                 "laravel",
                 "page"
             ],
-            "time": "2021-03-30T15:55:38+00:00"
+            "time": "2021-04-29T13:55:26+00:00"
         },
         {
             "name": "facade/ignition-contracts",
