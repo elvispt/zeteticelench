@@ -1,6 +1,10 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 6.3.0 <2021-03-24>
+- Update phpunit schema config to a non-deprecated version.
+- Dependency updates.
+
 ### 6.2.0 <2021-03-14>
 - Fixed issue with CI with github runner failing all tests.
   - [#669](https://github.com/elvispt/zeteticelench/pull/669).
