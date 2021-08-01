@@ -1,7 +1,17 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
-### 6.3.0 <2021-03-24>
+### 6.4.0 <2021-08-01>
+- Removed expenses feature since it was not being used.
+  - [#795](https://github.com/elvispt/zeteticelench/pull/795).
+- Fixed issue with tags selector on edit note view.
+  - [#794](https://github.com/elvispt/zeteticelench/pull/794).
+- Global update to php and js dependencies.
+  - Some of the js packages were updated according to npm recommendations
+due to security issues.
+  - [#796](https://github.com/elvispt/zeteticelench/pull/796).
+
+### 6.3.0 <2021-07-24>
 - Update phpunit schema config to a non-deprecated version.
 - Dependency updates.
 
