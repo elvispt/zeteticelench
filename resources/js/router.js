@@ -14,10 +14,6 @@ import HackerNewsPost from "./hn/views/HackerNewsPost";
 import Users from "./users/views/Users";
 import UsersList from "./users/views/UsersList";
 import UsersCreate from "./users/views/UsersCreate";
-import Expenses from "./expenses/views/Expenses";
-import ExpensesList from "./expenses/views/ExpensesList";
-import ExpensesCreate from "./expenses/views/ExpensesCreate";
-import ExpensesUpdate from "./expenses/views/ExpensesUpdate";
 import { isUserAuthenticated } from "./helpers/user";
 
 Vue.use(Router);
@@ -166,43 +162,6 @@ export const UsersRoute = {
 };
 //endregion
 
-//region expenses routes definitions
-export const ExpensesListRoute = {
-  path: '',
-  name: 'ExpensesList',
-  component: ExpensesList,
-  meta: {
-    requiresAuth: true,
-  },
-};
-export const ExpensesCreateRoute = {
-  path: 'new',
-  name: 'ExpensesCreate',
-  component: ExpensesCreate,
-  meta: {
-    requiresAuth: true,
-  },
-};
-export const ExpensesUpdateRoute = {
-  path: 'edit/:id',
-  name: 'ExpensesUpdate',
-  component: ExpensesUpdate,
-  props: true,
-  meta: {
-    requiresAuth: true,
-  },
-};
-export const ExpensesRoute = {
-  path: '/expenses',
-  component: Expenses,
-  children: [
-    ExpensesListRoute,
-    ExpensesCreateRoute,
-    ExpensesUpdateRoute,
-  ],
-};
-//endregion
-
 //region 404 routes definitions
 export const NotFoundRoute = {
   path: '/404',
@@ -230,7 +189,6 @@ export const router = new Router({
     NotesRoute,
     HackerNewsRoute,
     UsersRoute,
-    ExpensesRoute,
     // These routes must be set last, since routes run based on order of definition
     NotFoundRoute,
     CatchAllRoute,
