@@ -41,7 +41,7 @@
 <script>
 import axios from "axios";
 import _get from "lodash.get";
-import "highlight.js/styles/darkula.css";
+import 'highlight.js/styles/darcula.css';
 import {
   NotesRoute,
   NotesUpdateRoute,

@@ -42,7 +42,7 @@
             </div>
 
             <div class="mt-3 ml-3">
-              <p>Tags:</p>
+              <p>{{ $I18n.trans('notes.tags') }}:</p>
               <el-checkbox-group v-model="selectedTags" size="small" class="d-inline-block">
                 <el-checkbox-button
                   class="mr-1"
@@ -235,11 +235,11 @@ export default {
     vertical-align: middle;
     width: 120px;
   }
-  #note-update >>> .el-checkbox-button {
+  #notes-update >>> .el-checkbox-button {
     border-radius: 4px;
     margin-right: 0 !important;
   }
-  #note-update >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
+  #notes-update >>> .el-checkbox-button.is-checked .el-checkbox-button__inner {
     border-color: #409EFF;
   }
 </style>
