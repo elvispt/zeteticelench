@@ -46,7 +46,6 @@ import {
   HackerNewsRoute,
   NotesRoute,
   UsersRoute,
-  ExpensesRoute,
 } from "../router";
 import { clearLocalUser } from "../helpers/user";
 
@@ -59,7 +58,6 @@ export default {
       menuOptions: [
         { route: NotesRoute, text: this.$I18n.trans('notes.notes') },
         { route: HackerNewsRoute, text: this.$I18n.trans('hackernews.hackernews') },
-        { route: ExpensesRoute, text: this.$I18n.trans('expenses.expenses') },
         { route: UsersRoute, text: this.$I18n.trans('users.users') },
       ],
       showMenu: true,
