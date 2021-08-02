@@ -13,7 +13,7 @@ class MakeUserCommandTest extends TestCase
 
     public function testCreateUser()
     {
-        factory(User::class, 1)
+        User::factory()
             ->create([
                 'created_at' => Carbon::now()->addWeeks(-10),
             ]);
