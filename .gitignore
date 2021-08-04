@@ -4,11 +4,15 @@
 /storage/*.key
 /vendor
 .env
+.env.backup
 .phpunit.result.cache
+docker-compose.override.yml
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+/.idea
+/.vscode
 
 # Created by https://www.gitignore.io/api/linux,windows,laravel,phpstorm,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=linux,windows,laravel,phpstorm,visualstudiocode
