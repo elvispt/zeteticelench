@@ -21,7 +21,7 @@ class HackerNewsControllerTest extends TestCase
 
     public function testBookmarksList()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -44,7 +44,7 @@ class HackerNewsControllerTest extends TestCase
 
     public function testAddBookmark()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
 
         $id = 23551983;
@@ -75,9 +75,9 @@ class HackerNewsControllerTest extends TestCase
 
     public function testDestroyBookmark()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        $item = factory(HackerNewsItemsBookmark::class)
+        $item = HackerNewsItemsBookmark::factory()
             ->create();
 
         $this

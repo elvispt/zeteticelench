@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Libraries\CommonMark\TableExtension;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
@@ -46,11 +47,11 @@ use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
  */
 class Note extends Model
 {
-    public const WITH_SYNTAX_HIGHLIGHTING = 1;
-
     use SoftDeletes;
-
     use Searchable;
+    use HasFactory;
+
+    public const WITH_SYNTAX_HIGHLIGHTING = 1;
 
     public function tags()
     {

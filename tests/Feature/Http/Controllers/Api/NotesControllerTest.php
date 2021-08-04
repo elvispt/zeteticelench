@@ -23,10 +23,10 @@ class NotesControllerTest extends TestCase
 
     public function testListNotes()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-
-        factory(Note::class, 10)
+        Note::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -41,7 +41,7 @@ class NotesControllerTest extends TestCase
 
     public function testShowNoteFailsWithNonExistingNoteId()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -53,12 +53,14 @@ class NotesControllerTest extends TestCase
 
     public function testShowNote()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(Note::class, 10)
+        Note::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
+
         $id = (new Note())
             ->select('id')
             ->inRandomOrder()
@@ -76,12 +78,14 @@ class NotesControllerTest extends TestCase
 
     public function testUpdateNoteFailsWithNoNoteDataSent()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(Note::class, 10)
+        Note::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
+
         $id = (new Note())
             ->select('id')
             ->inRandomOrder()
@@ -98,12 +102,14 @@ class NotesControllerTest extends TestCase
 
     public function testUpdateNoteFailsWithInvalidNoteId()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(Note::class, 10)
+        Note::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
+
         $title = 'new title ' . Str::random();
         $body = 'new body text, new body text, new body text ' . Str::random();
         $this
@@ -121,12 +127,14 @@ class NotesControllerTest extends TestCase
 
     public function testUpdateNoteWithRequiredData()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(Note::class, 10)
+        Note::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
+
         $id = (new Note())
             ->select('id')
             ->inRandomOrder()
@@ -157,12 +165,14 @@ class NotesControllerTest extends TestCase
 
     public function testUpdateNoteWithAllNoteData()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(Note::class, 10)
+        Note::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
+
         $id = (new Note())
             ->select('id')
             ->inRandomOrder()
@@ -170,7 +180,9 @@ class NotesControllerTest extends TestCase
             ->pluck('id')
             ->first();
 
-        $tags = factory(Tag::class, 50)
+
+        $tags = Tag::factory()
+            ->count(50)
             ->create([
                 'user_id' => $user->id,
             ])
@@ -210,8 +222,9 @@ class NotesControllerTest extends TestCase
 
     public function testAddNoteFailsWithNoNoteDataSent()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
+
         $this
             ->actingAs($user)
             ->post(route('apiNoteAdd'))
@@ -221,7 +234,7 @@ class NotesControllerTest extends TestCase
 
     public function testAddNoteWithRequiredData()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
 
         $body = 'new body text, new body text, new body text ' . Str::random();
@@ -244,10 +257,15 @@ class NotesControllerTest extends TestCase
 
     public function testAddNoteWithAllNoteData()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-
-        $tags = factory(Tag::class, 50)
+        Note::factory()
+            ->count(10)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+        $tags = Tag::factory()
+            ->count(50)
             ->create([
                 'user_id' => $user->id,
             ])
@@ -273,7 +291,8 @@ class NotesControllerTest extends TestCase
             ->select('id')
             ->orderBy('id', 'DESC')
             ->first()
-            ->pluck('id');
+            ->id
+        ;
         $this->assertDatabaseHas('notes', [
             'body' => $body,
         ]);
@@ -287,9 +306,10 @@ class NotesControllerTest extends TestCase
 
     public function testDestroyNoteFailsWithInvalidNoteId()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(Note::class, 10)
+        Note::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -303,9 +323,10 @@ class NotesControllerTest extends TestCase
 
     public function testDestroyNote()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(Note::class, 10)
+        Note::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -335,10 +356,10 @@ class NotesControllerTest extends TestCase
 
     public function testTagListingWithTagsOnDatabase()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-
-        factory(Tag::class, 20)
+        Tag::factory()
+            ->count(10)
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -353,7 +374,7 @@ class NotesControllerTest extends TestCase
 
     public function testTagListingWithNoTagsOnDatabase()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -366,7 +387,7 @@ class NotesControllerTest extends TestCase
 
     public function testTagAddFailsWithNoData()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
@@ -378,8 +399,9 @@ class NotesControllerTest extends TestCase
 
     public function testTagAdd()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
+
         $tag = "TagName";
         $finalTagName = Str::lower($tag);
         $data = ['tag' => $tag];
@@ -398,13 +420,15 @@ class NotesControllerTest extends TestCase
 
     public function testTagAddFailWithExistingTag()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        $tag = factory(Tag::class, 3)
+        $tag = Tag::factory()
+            ->count(3)
             ->create()
             ->random(1)
             ->first()
             ->tag;
+
         $data = ['tag' => $tag];
 
         $this
