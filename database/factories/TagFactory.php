@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Faker\Generator as Faker;
 
 class TagFactory extends Factory
 {

@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\HackerNewsItemsBookmark;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Faker\Generator as Faker;
 
 class HackerNewsItemsBookmarkFactory extends Factory
 {

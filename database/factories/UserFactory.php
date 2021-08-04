@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use Faker\Generator as Faker;
 
 
 class UserFactory extends Factory
@@ -28,6 +27,8 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'updated_at' => $this->faker->dateTimeThisMonth(),
+            'created_at' => $this->faker->dateTimeThisMonth('-1 Month'),
             'password' => \Illuminate\Support\Facades\Hash::make('123'),
             'remember_token' => Str::random(10),
         ];

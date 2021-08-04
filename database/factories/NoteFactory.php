@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Note;
 use App\Models\User;
-use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class NoteFactory extends Factory
@@ -90,7 +89,7 @@ EOT;
         return [
             'user_id' => $this->faker->randomElement($usersIdList),
             'body' => $this->faker->randomElement([$body, $code]),
-            'deleted_at' => $this->faker->randomElement([null, $this->faker->dateTimeThisMonth()]),
+            'deleted_at' => $this->faker->optional(0.8)->randomElement([null, $this->faker->dateTimeThisMonth()]),
             'created_at' => $this->faker->dateTimeThisDecade('-2 Years'),
             'updated_at' => $this->faker->dateTimeThisYear('-2 Months'),
         ];
