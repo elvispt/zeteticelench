@@ -1,6 +1,13 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+
+### 7.0.0 <2021-08-05>
+- Upgraded to Laravel 8.x [#797](https://github.com/elvispt/zeteticelench/pull/797).
+- Set App timezone to "Europe/Lisbon" [#799](https://github.com/elvispt/zeteticelench/pull/799).
+- Removed unnecessary SpaController. Now using helper Route::view [#798](https://github.com/elvispt/zeteticelench/pull/798).
+- Docker container now uses Node v16 (from v10) [#805](https://github.com/elvispt/zeteticelench/pull/805).
+
 ### 6.4.0 <2021-08-01>
 - Removed expenses feature since it was not being used.
   - [#795](https://github.com/elvispt/zeteticelench/pull/795).
