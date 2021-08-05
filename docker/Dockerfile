@@ -36,7 +36,7 @@ RUN apt-get update \
     && php -r "unlink('composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer \
     && echo "### INSTALL nodejs ###" \
-    && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs \
     && echo "### ACTIVATE APACHE mod_rewrite ###" \
     && a2enmod rewrite \

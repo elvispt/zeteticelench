@@ -24,9 +24,11 @@ class UsersControllerTest extends TestCase
 
     public function testShowUserListing()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(User::class, 10)
+
+        User::factory()
+            ->count(10)
             ->create();
 
         $this
@@ -42,9 +44,11 @@ class UsersControllerTest extends TestCase
 
     public function testUserUpdateFailsWithNoUserDataSent()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(User::class, 10)
+
+        User::factory()
+            ->count(10)
             ->create();
 
         $this
@@ -56,10 +60,13 @@ class UsersControllerTest extends TestCase
 
     public function testUserUpdateFailsWithInvalidUserId()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(User::class, 10)
+
+        User::factory()
+            ->count(10)
             ->create();
+
         $userId = 2148972168794;
         $name = $this->faker->name;
         $this
@@ -77,10 +84,13 @@ class UsersControllerTest extends TestCase
 
     public function testUserUpdateWithRequiredData()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(User::class, 10)
+
+        User::factory()
+            ->count(10)
             ->create();
+
         $id = (new User())
             ->select('id')
             ->inRandomOrder()
@@ -113,8 +123,9 @@ class UsersControllerTest extends TestCase
 
     public function testAddUserFailsWithNoUserDataSent()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
+
         $data = [];
         $this
             ->actingAs($user)
@@ -125,7 +136,7 @@ class UsersControllerTest extends TestCase
 
     public function testAddUserWithRequiredData()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
 
         $name = $this->faker->name;
@@ -155,8 +166,9 @@ class UsersControllerTest extends TestCase
 
     public function testDestroyUserFailsWithInvalidUserId()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
+
         $id = 99999865321;
         $this
             ->actingAs($user)
@@ -167,9 +179,11 @@ class UsersControllerTest extends TestCase
 
     public function testDestroyUser()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(User::class, 20)
+
+        User::factory()
+            ->count(20)
             ->create();
 
         $id = (new User())
@@ -196,9 +210,11 @@ class UsersControllerTest extends TestCase
 
     public function testDestroyUserIncludingNotes()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
-        factory(User::class, 20)
+
+        User::factory()
+            ->count(20)
             ->create();
 
         $id = (new User())
@@ -207,22 +223,22 @@ class UsersControllerTest extends TestCase
             ->first()
             ->id
         ;
-        $tagIds = factory(Tag::class, 20)
+        $tagIds = Tag::factory()
+            ->count(20)
             ->create()
             ->random(mt_rand(2, 7))
             ->pluck('id')
             ->toArray()
         ;
 
-        factory(Note::class, 20)
+        Note::factory()
+            ->count(20)
             ->create();
-        factory(Note::class, 7)
-            ->create([
-                'user_id' => $id,
-            ])
-            ->each(function (Note $note) use ($tagIds) {
-                $note->tags()->sync($tagIds);
-            });
+
+        Note::factory()
+            ->count(20)
+            ->has(Tag::factory()->count(5))
+            ->create();
 
         $this
             ->actingAs($user)

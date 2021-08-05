@@ -42,12 +42,11 @@ class StaleTagsCommandTest extends TestCase
      */
     protected function createTestTags()
     {
-        factory(User::class, 3)
+        User::factory()
+            ->count(3)
+            ->has(Tag::factory()->count(2))
             ->create([
                 'created_at' => Carbon::now()->addWeeks(-10),
-            ])
-            ->each(function (User $user) {
-                $user->tags()->saveMany(factory(Tag::class, 2)->make());
-            });
+            ]);
     }
 }

@@ -11,10 +11,9 @@
 |
 */
 
-use App\Http\Controllers\SpaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [SpaController::class, 'index']);
+Route::view('/', 'app');
 
 Auth::routes(['register' => false]);

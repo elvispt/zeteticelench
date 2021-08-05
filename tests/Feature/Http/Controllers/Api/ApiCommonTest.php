@@ -25,7 +25,7 @@ class ApiCommonTest extends TestCase
 
     public function testMakeCommonApiRequests()
     {
-        $user = factory(User::class)
+        $user = User::factory()
             ->create();
 
         $this
