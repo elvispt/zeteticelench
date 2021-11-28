@@ -7842,16 +7842,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.12.5",
+            "version": "v1.12.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "d1c31b2c3d226e70e0071e074da69e4801f0f47b"
+                "reference": "10e0494c9befcca039d5626c7f4f91caa45d6394"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/d1c31b2c3d226e70e0071e074da69e4801f0f47b",
-                "reference": "d1c31b2c3d226e70e0071e074da69e4801f0f47b",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/10e0494c9befcca039d5626c7f4f91caa45d6394",
+                "reference": "10e0494c9befcca039d5626c7f4f91caa45d6394",
                 "shasum": ""
             },
             "require": {
@@ -7898,7 +7898,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2021-11-16T16:55:18+00:00"
+            "time": "2021-11-26T17:38:07+00:00"
         },
         {
             "name": "mockery/mockery",
