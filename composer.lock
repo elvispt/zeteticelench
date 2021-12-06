@@ -3931,25 +3931,25 @@
         },
         {
             "name": "spatie/laravel-view-models",
-            "version": "1.3.2",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-view-models.git",
-                "reference": "b36db218acd395df3a10ac9e717c1e930e9b5b58"
+                "reference": "7037fbef87982acb089b7cb6b1c157b211e350f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-view-models/zipball/b36db218acd395df3a10ac9e717c1e930e9b5b58",
-                "reference": "b36db218acd395df3a10ac9e717c1e930e9b5b58",
+                "url": "https://api.github.com/repos/spatie/laravel-view-models/zipball/7037fbef87982acb089b7cb6b1c157b211e350f3",
+                "reference": "7037fbef87982acb089b7cb6b1c157b211e350f3",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^7.0|^8.0",
+                "illuminate/support": "^8.0",
                 "php": "^7.3|^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
-                "orchestra/testbench": "^5.0|^6.0"
+                "orchestra/testbench": "^6.23"
             },
             "type": "library",
             "extra": {
@@ -3984,7 +3984,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-view-models/issues",
-                "source": "https://github.com/spatie/laravel-view-models/tree/1.3.2"
+                "source": "https://github.com/spatie/laravel-view-models/tree/1.4.0"
             },
             "funding": [
                 {
@@ -3996,7 +3996,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-30T15:27:50+00:00"
+            "time": "2021-12-06T09:13:38+00:00"
         },
         {
             "name": "spatie/temporary-directory",
