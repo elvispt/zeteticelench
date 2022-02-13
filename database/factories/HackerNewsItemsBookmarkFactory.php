@@ -26,11 +26,16 @@ class HackerNewsItemsBookmarkFactory extends Factory
                        ->pluck('id')
                        ->toArray();
 
+        $createdAt = $this->faker->dateTimeThisDecade('-2 Years');
+
         return [
             'hacker_news_item_id' => $this->faker->randomNumber(),
             'user_id' => $this->faker->randomElement($usersIdList),
-            'created_at' => $this->faker->dateTimeThisDecade('-2 Years'),
-            'updated_at' => $this->faker->dateTimeThisYear('-2 Months'),
+            'created_at' => $createdAt,
+            'updated_at' => $this->faker->randomElement([
+                $createdAt,
+                $this->faker->dateTimeThisYear(),
+            ]),
         ];
     }
 }

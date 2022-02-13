@@ -86,12 +86,20 @@ EOT;
         $code .= "\r\n\r\n";
         $code .= $this->faker->realText(100);
 
+        $createdAt = $this->faker->dateTimeThisDecade('-2 Years');
+
         return [
             'user_id' => $this->faker->randomElement($usersIdList),
             'body' => $this->faker->randomElement([$body, $code]),
-            'deleted_at' => $this->faker->optional(0.8)->randomElement([null, $this->faker->dateTimeThisMonth()]),
-            'created_at' => $this->faker->dateTimeThisDecade('-2 Years'),
-            'updated_at' => $this->faker->dateTimeThisYear('-2 Months'),
+            'deleted_at' => $this->faker->optional(0.8)->randomElement([
+                null,
+                $this->faker->dateTimeThisMonth(),
+            ]),
+            'created_at' => $createdAt,
+            'updated_at' => $this->faker->randomElement([
+                $createdAt,
+                $this->faker->dateTimeThisYear(),
+            ]),
         ];
     }
 }
