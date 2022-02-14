@@ -3851,25 +3851,24 @@
         },
         {
             "name": "spatie/laravel-view-models",
-            "version": "1.4.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-view-models.git",
-                "reference": "7037fbef87982acb089b7cb6b1c157b211e350f3"
+                "reference": "0db1dd88df19450fb97989ed43a54e4b207a42ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-view-models/zipball/7037fbef87982acb089b7cb6b1c157b211e350f3",
-                "reference": "7037fbef87982acb089b7cb6b1c157b211e350f3",
+                "url": "https://api.github.com/repos/spatie/laravel-view-models/zipball/0db1dd88df19450fb97989ed43a54e4b207a42ed",
+                "reference": "0db1dd88df19450fb97989ed43a54e4b207a42ed",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^8.0",
+                "illuminate/support": "^8.0|^9.0",
                 "php": "^7.3|^8.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "orchestra/testbench": "^6.23"
+                "orchestra/testbench": "^6.23|^7.0"
             },
             "type": "library",
             "extra": {
@@ -3904,7 +3903,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-view-models/issues",
-                "source": "https://github.com/spatie/laravel-view-models/tree/1.4.0"
+                "source": "https://github.com/spatie/laravel-view-models/tree/1.5.1"
             },
             "funding": [
                 {
@@ -3916,7 +3915,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-06T09:13:38+00:00"
+            "time": "2022-01-13T06:49:58+00:00"
         },
         {
             "name": "spatie/temporary-directory",
