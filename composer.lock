@@ -3865,16 +3865,16 @@
         },
         {
             "name": "spatie/laravel-view-models",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-view-models.git",
-                "reference": "0db1dd88df19450fb97989ed43a54e4b207a42ed"
+                "reference": "a84700af22321402cb8c353a4e3972d07ce37ce0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-view-models/zipball/0db1dd88df19450fb97989ed43a54e4b207a42ed",
-                "reference": "0db1dd88df19450fb97989ed43a54e4b207a42ed",
+                "url": "https://api.github.com/repos/spatie/laravel-view-models/zipball/a84700af22321402cb8c353a4e3972d07ce37ce0",
+                "reference": "a84700af22321402cb8c353a4e3972d07ce37ce0",
                 "shasum": ""
             },
             "require": {
@@ -3917,7 +3917,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-view-models/issues",
-                "source": "https://github.com/spatie/laravel-view-models/tree/1.5.1"
+                "source": "https://github.com/spatie/laravel-view-models/tree/1.5.2"
             },
             "funding": [
                 {
@@ -3929,7 +3929,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-13T06:49:58+00:00"
+            "time": "2022-02-23T07:43:40+00:00"
         },
         {
             "name": "spatie/temporary-directory",
