@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 ADD vhost.conf /var/www/vhost.conf
 ADD dev.sh /root/dev.sh
 RUN apt-get update \
