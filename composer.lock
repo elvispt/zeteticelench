@@ -82,16 +82,16 @@
         },
         {
             "name": "algolia/scout-extended",
-            "version": "v2.0.3",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/scout-extended.git",
-                "reference": "9cc09e5603d993f115a7f006ba15412caca927e6"
+                "reference": "625276ab9ff5b11a22942a5d41063186bcbfaeec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/9cc09e5603d993f115a7f006ba15412caca927e6",
-                "reference": "9cc09e5603d993f115a7f006ba15412caca927e6",
+                "url": "https://api.github.com/repos/algolia/scout-extended/zipball/625276ab9ff5b11a22942a5d41063186bcbfaeec",
+                "reference": "625276ab9ff5b11a22942a5d41063186bcbfaeec",
                 "shasum": ""
             },
             "require": {
@@ -157,9 +157,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algolia/scout-extended/issues",
-                "source": "https://github.com/algolia/scout-extended/tree/v2.0.3"
+                "source": "https://github.com/algolia/scout-extended/tree/v2.0.4"
             },
-            "time": "2022-06-16T09:32:56+00:00"
+            "time": "2022-06-20T14:29:19+00:00"
         },
         {
             "name": "brick/math",
