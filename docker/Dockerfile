@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 ADD vhost.conf /var/www/vhost.conf
 ADD dev.sh /root/dev.sh
 RUN apt-get update \
@@ -38,6 +38,7 @@ RUN apt-get update \
     && echo "### INSTALL nodejs ###" \
     && curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs \
+    && npm config set cache /tmp --location=global \
     && echo "### ACTIVATE APACHE mod_rewrite ###" \
     && a2enmod rewrite \
     && echo "### ADD VHOST CONFIGURATION ###" \

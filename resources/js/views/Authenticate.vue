@@ -141,7 +141,7 @@ export default {
         clearInterval(this.pollingPasswordFieldInterval);
         this.$router.push(DashboardRoute);
       } else {
-        this.showsErrors(_get(response, 'data.errors'));
+        this.showsErrors(_get(response, 'data.errors', {}));
       }
       setTimeout(() => this.loading = false, 200);
     },

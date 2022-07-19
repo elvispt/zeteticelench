@@ -17,13 +17,17 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::factory()
-                    ->create([
-                        'name' => "Seeded User",
-                        'email' => 'dev@dev.dev',
-                        'updated_at' => Date::now(),
-                        'created_at' => Date::now(),
-                    ]);
+        $user = User::whereEmail('dev@dev.dev')->first();
+
+        if ($user === null) {
+            $user = User::factory()
+                ->create([
+                    'name' => "Seeded User",
+                    'email' => 'dev@dev.dev',
+                    'updated_at' => Date::now(),
+                    'created_at' => Date::now(),
+                ]);
+        }
 
         Note::factory()
             ->count(10)

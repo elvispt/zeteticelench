@@ -1,6 +1,11 @@
 All notable changes will be added here.
 -------------------------------------------------------------------------------
 
+### 8.0.0 <2022-07-19>
+- Now using PHP8.1 [#1043](https://github.com/elvispt/zeteticelench/pull/1043).
+- Fixed issue with login process [#1040](https://github.com/elvispt/zeteticelench/pull/1040).
+- Fixed issue with tests failing [#949](https://github.com/elvispt/zeteticelench/pull/949).
+- Many dependency updates.
 
 ### 7.0.0 <2021-08-05>
 - Upgraded to Laravel 8.x [#797](https://github.com/elvispt/zeteticelench/pull/797).
