@@ -16,7 +16,7 @@
         "element-ui": "^2.15.3",
         "firebase": "^9.9.4",
         "highlight.js": "^10.7.3",
-        "laravel-mix": "^4.1.4",
+        "laravel-mix": "^6.0.49",
         "lodash.debounce": "^4.0.8",
         "lodash.get": "^4.4.2",
         "moment": "^2.29.4",
