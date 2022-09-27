@@ -21,7 +21,7 @@
         "lodash.get": "^4.4.2",
         "moment": "^2.29.4",
         "numeral": "^2.0.6",
-        "resolve-url-loader": "^2.3.1",
+        "resolve-url-loader": "^5.0.0",
         "sass": "^1.37.0",
         "sass-loader": "^7.3.1",
         "vue": "^2.6.14",
