@@ -66,7 +66,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [elvispt/zeteticelench](https://github.com/elvispt/zeteticelench)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|52<br/>Tools used|12/14/23 <br/>Report generated|
+|53<br/>Tools used|01/05/24 <br/>Report generated|
 |------|------|
 </div>
 
@@ -296,7 +296,7 @@ Full tech stack [here](/techstack.md)
 </table>
 
 
-## <img src='https://img.stackshare.io/group.svg' /> Open source packages (27)</h2>
+## <img src='https://img.stackshare.io/group.svg' /> Open source packages (28)</h2>
 
 ## <img width='24' height='24' src='https://img.stackshare.io/package_manager/1778/default_90cb8b66e85ae5b95928b10bb076ab6a27c7e151.png'/> Packagist (16)
 
@@ -320,12 +320,13 @@ Full tech stack [here](/techstack.md)
 |[spatie/flysystem-dropbox](https://packagist.org/spatie/flysystem-dropbox)|v1.2.3|06/21/22|dependabot[bot] |N/A|N/A|
 
 
-## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (11)
+## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (12)
 
 |NAME|VERSION|LAST UPDATED|LAST UPDATED BY|LICENSE|VULNERABILITIES|
 |:------|:------|:------|:------|:------|:------|
 |[cross-env](https://www.npmjs.com/cross-env)|v5.2.1|05/05/20|Elvis Pestana |MIT|N/A|
 |[element-ui](https://www.npmjs.com/element-ui)|v2.15.9|07/16/22|dependabot[bot] |MIT|N/A|
+|[laravel-mix](https://www.npmjs.com/laravel-mix)|v6.0.49|09/27/22|dependabot[bot] |MIT|N/A|
 |[lodash.debounce](https://www.npmjs.com/lodash.debounce)|v4.0.8|04/17/20|Elvis Pestana |MIT|N/A|
 |[lodash.get](https://www.npmjs.com/lodash.get)|v4.4.2|04/17/20|Elvis Pestana |MIT|N/A|
 |[moment](https://www.npmjs.com/moment)|v2.29.4|07/16/22|dependabot[bot] |MIT|N/A|
