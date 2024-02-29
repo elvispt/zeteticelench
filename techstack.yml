@@ -1,11 +1,12 @@
 repo_name: elvispt/zeteticelench
 report_id: d7bf269c925c0cd3af6fe5755eb9a029
+version: 0.1
 repo_type: Public
-timestamp: '2023-11-10T08:57:26+00:00'
-requested_by: dependabot[bot]
+timestamp: '2024-02-29T18:32:47+00:00'
+requested_by: stack-file[bot]
 provider: github
 branch: develop
-detected_tools_count: 31
+detected_tools_count: 53
 tools:
 - name: JavaScript
   description: Lightweight, interpreted, object-oriented language with first-class
@@ -16,7 +17,8 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1209/javascript.jpeg
-  detection_source: public/vendor/telescope/app.js
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/public/js/vendor.js
+  detection_source: public/js/vendor.js
 - name: PHP
   description: A popular general-purpose scripting language that is especially suited
     to web development
@@ -26,6 +28,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/991/hwUcGZ41_400x400.jpg
+  detection_source_url: https://github.com/elvispt/zeteticelench
   detection_source: Repo Metadata
 - name: Bootstrap
   description: Simple and flexible HTML, CSS, and JS for popular UI components and
@@ -38,7 +41,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Front-End Frameworks
   image_url: https://img.stackshare.io/service/1101/C9QJ7V3X.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2021-08-01 11:51:11.000000000 Z
@@ -52,6 +55,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Microframeworks (Backend)
   image_url: https://img.stackshare.io/service/2350/638632.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.json
   detection_source: composer.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2021-08-04 18:28:59.000000000 Z
@@ -64,10 +68,23 @@ tools:
   category: Languages & Frameworks
   sub_category: Frameworks (Full Stack)
   image_url: https://img.stackshare.io/service/992/AcA2LnWL_400x400.jpg
-  detection_source_url: composer.lock
-  detection_source: docker/docker-compose.yml
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2022-06-21 08:24:32.000000000 Z
+- name: Sass
+  description: Syntactically Awesome Style Sheets
+  website_url: http://sass-lang.com/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: CSS Pre-processors / Extensions
+  image_url: https://img.stackshare.io/service/1171/jCR2zNJV.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package.json
+  detection_source: package.json
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2019-04-22 14:03:39.000000000 Z
 - name: Vue.js
   description: A progressive framework for building user interfaces
   website_url: http://vuejs.org/
@@ -78,7 +95,7 @@ tools:
   category: Libraries
   sub_category: Javascript MVC Frameworks
   image_url: https://img.stackshare.io/service/3837/paeckCWC.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2019-04-22 14:03:39.000000000 Z
@@ -91,9 +108,22 @@ tools:
   category: Libraries
   sub_category: State Management Library
   image_url: https://img.stackshare.io/service/6705/6128107.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2021-08-01 11:51:11.000000000 Z
+- name: Cloud DB for Mysql
+  description: Easily setup and manage the MySQL database service
+  website_url: https://www.ncloud.com/product/database/cloudDbMysql
+  open_source: false
+  hosted_saas: true
+  category: Data Stores
+  sub_category: SQL Database as a Service
+  image_url: https://img.stackshare.io/service/21275/default_078eb0ae2b56280a937ed073a3ba4332291f9ba8.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/docker/docker-compose.yml
+  detection_source: docker/docker-compose.yml
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2020-06-08 09:07:46.000000000 Z
 - name: Firebase
   description: The Realtime App Platform
   website_url: https://firebase.google.com/
@@ -102,9 +132,34 @@ tools:
   category: Application Hosting
   sub_category: Realtime Backend / API
   image_url: https://img.stackshare.io/service/116/cZLxNFZS.jpg
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package.json
   detection_source: package.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2022-09-05 09:52:20.000000000 Z
+- name: MySQL
+  description: The world's most popular open source database
+  website_url: http://www.mysql.com
+  open_source: true
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Databases
+  image_url: https://img.stackshare.io/service/1025/logo-mysql-170x170.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/docker/docker-compose.yml
+  detection_source: docker/docker-compose.yml
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2019-05-13 21:21:57.000000000 Z
+- name: pgvector
+  description: Open-source vector similarity search for Postgres
+  website_url: https://github.com/pgvector/pgvector/
+  open_source: false
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Database Tools
+  image_url: https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/public/robots.txt
+  detection_source: public/robots.txt
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2019-04-22 14:03:39.000000000 Z
 - name: Docker
   description: Enterprise Container Platform for High-Velocity Innovation.
   website_url: https://www.docker.com/
@@ -114,6 +169,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Virtual Machine Platforms & Containers
   image_url: https://img.stackshare.io/service/586/n4u37v9t_400x400.png
+  detection_source_url: https://github.com/elvispt/zeteticelench
   detection_source: Repo Metadata
 - name: Git
   description: Fast, scalable, distributed revision control system
@@ -123,6 +179,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/elvispt/zeteticelench
   detection_source: Repo Metadata
 - name: GitHub Actions
   description: Automate your workflow from idea to production
@@ -132,6 +189,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Continuous Integration
   image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/.github/workflows/laravel.yml
   detection_source: ".github/workflows/laravel.yml"
   last_updated_by: Elvis Pestana
   last_updated_on: 2021-02-07 13:49:47.000000000 Z
@@ -145,7 +203,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Testing Frameworks
   image_url: https://img.stackshare.io/service/1616/1_WsEnddd5Y4EgEHsT054kUQ.jpeg
-  detection_source_url: composer.lock
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
   detection_source: composer.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2019-04-22 14:03:39.000000000 Z
@@ -157,6 +215,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Testing Frameworks
   image_url: https://img.stackshare.io/service/3502/6b9dfb07681dee602dbdf75d9393f07c_400x400.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/docker/Dockerfile
   detection_source: docker/Dockerfile
   last_updated_by: Elvis Pestana
   last_updated_on: 2019-04-22 14:03:39.000000000 Z
@@ -168,6 +227,7 @@ tools:
   category: Build, Test, Deploy
   sub_category: Text Editor
   image_url: https://img.stackshare.io/service/6888/c17e7d9688d86bd9f9506ec1fbd6d200_400x400.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2021-08-01 11:51:11.000000000 Z
@@ -179,7 +239,32 @@ tools:
   category: Build, Test, Deploy
   sub_category: Front End Package Manager
   image_url: https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package.json
   detection_source: package.json
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2019-04-22 14:03:39.000000000 Z
+- name: phpMyAdmin
+  description: A free software, for MySQL and MariaDB
+  website_url: https://www.phpmyadmin.net/
+  open_source: false
+  hosted_saas: false
+  category: Monitoring
+  sub_category: Performance Monitoring
+  image_url: https://img.stackshare.io/service/2102/3pl3dljQ_400x400.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/docker/docker-compose.yml
+  detection_source: docker/docker-compose.yml
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2019-05-13 21:21:57.000000000 Z
+- name: LangChain
+  description: Build AI apps with LLMs through composability
+  website_url: https://github.com/hwchase17/langchain
+  open_source: true
+  hosted_saas: false
+  category: Communications
+  sub_category: Large Language Model Tools
+  image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/public/robots.txt
+  detection_source: public/robots.txt
   last_updated_by: Elvis Pestana
   last_updated_on: 2019-04-22 14:03:39.000000000 Z
 - name: Moment.js
@@ -193,7 +278,7 @@ tools:
   category: Libraries
   sub_category: Javascript Utilities & Libraries
   image_url: https://img.stackshare.io/service/3643/Xrtdc94q_400x400.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2022-07-16 13:17:51.000000000 Z
@@ -206,6 +291,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png
+  detection_source_url: https://github.com/elvispt/zeteticelench
   detection_source: Repo Metadata
 - name: axios
   description: Promise based HTTP client for the browser and node.js
@@ -217,7 +303,7 @@ tools:
   category: Libraries
   sub_category: Javascript Utilities & Libraries
   image_url: https://img.stackshare.io/no-img-open-source.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2021-02-07 14:38:26.000000000 Z
@@ -227,9 +313,220 @@ tools:
   open_source: false
   hosted_saas: false
   image_url: https://img.stackshare.io/service/7945/h7umz7fz_normal.jpg
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package.json
   detection_source: package.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2022-09-27 07:26:40.000000000 Z
+- name: barryvdh/laravel-ide-helper
+  description: Laravel IDE Helper
+  package_url: https://packagist.org/barryvdh/laravel-ide-helper
+  version: 2.13.0
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-06-21 08:24:32.000000000 Z
+- name: beyondcode/laravel-dump-server
+  description: Symfony Var-Dump Server for Laravel
+  package_url: https://packagist.org/beyondcode/laravel-dump-server
+  version: 1.9.0
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-06-21 08:24:32.000000000 Z
+- name: doctrine/dbal
+  description: Powerful PHP database abstraction layer
+  package_url: https://packagist.org/doctrine/dbal
+  version: 3.7.1
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2021-08-05 10:58:38.000000000 Z
+- name: facade/ignition
+  description: A beautiful error page for Laravel applications
+  package_url: https://packagist.org/facade/ignition
+  version: 2.17.7
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2021-08-04 18:28:59.000000000 Z
+- name: fideloper/proxy
+  description: Set trusted proxies for Laravel
+  package_url: https://packagist.org/fideloper/proxy
+  version: 4.4.2
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2021-08-04 18:28:59.000000000 Z
+- name: guzzlehttp/guzzle
+  description: Guzzle is a PHP HTTP client library
+  package_url: https://packagist.org/guzzlehttp/guzzle
+  version: 7.8.0
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2021-08-04 18:28:59.000000000 Z
+- name: laravel/framework
+  description: The Laravel Framework
+  package_url: https://packagist.org/laravel/framework
+  version: 8.83.27
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-06-21 08:24:32.000000000 Z
+- name: laravel/scout
+  description: Laravel Scout provides a driver based solution to searching your Eloquent
+    models
+  package_url: https://packagist.org/laravel/scout
+  version: 9.8.1
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-06-21 08:24:32.000000000 Z
+- name: laravel/telescope
+  description: An elegant debug assistant for the Laravel framework
+  package_url: https://packagist.org/laravel/telescope
+  version: 4.16.4
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-06-21 08:24:32.000000000 Z
+- name: laravel/tinker
+  description: Powerful REPL for the Laravel framework
+  package_url: https://packagist.org/laravel/tinker
+  version: 2.8.2
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-06-21 08:24:32.000000000 Z
+- name: laravel/ui
+  description: Laravel UI utilities and presets
+  package_url: https://packagist.org/laravel/ui
+  version: 3.4.6
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-06-21 08:24:32.000000000 Z
+- name: league/commonmark
+  description: Highly-extensible PHP Markdown parser which fully supports the CommonMark
+    spec and GitHub-Flavored Markdown
+  package_url: https://packagist.org/league/commonmark
+  version: 1.6.7
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2020-04-24 13:43:48.000000000 Z
+- name: mockery/mockery
+  description: Mockery is a simple yet flexible PHP mock object framework
+  package_url: https://packagist.org/mockery/mockery
+  version: 1.6.6
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2021-08-04 18:28:59.000000000 Z
+- name: nunomaduro/collision
+  description: Cli error handling for console/command-line PHP applications
+  package_url: https://packagist.org/nunomaduro/collision
+  version: 5.11.0
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot-preview[bot]
+  last_updated_on: 2020-08-28 06:52:03.000000000 Z
+- name: phpunit/phpunit
+  description: The PHP Unit Testing framework
+  package_url: https://packagist.org/phpunit/phpunit
+  version: 9.5.27
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: Elvis Pestana
+  last_updated_on: 2021-08-04 18:28:59.000000000 Z
+- name: spatie/flysystem-dropbox
+  description: Flysystem Adapter for the Dropbox v2 API
+  package_url: https://packagist.org/spatie/flysystem-dropbox
+  version: 1.2.3
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/package/packagist/image.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/composer.lock
+  detection_source: composer.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-06-21 08:24:32.000000000 Z
 - name: cross-env
   description: Run scripts that set and use environment variables across platforms
   package_url: https://www.npmjs.com/cross-env
@@ -240,7 +537,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15828/default_14fd11531839d935f920b6d55bd6f3528c890ad7.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2020-05-05 12:10:55.000000000 Z
@@ -254,10 +551,24 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16240/default_5dfc1810d0882ab844578a326bb8bf19e45e7227.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2022-07-16 13:17:51.000000000 Z
+- name: laravel-mix
+  description: Laravel Mix is an elegant wrapper around Webpack for the 80% use case
+  package_url: https://www.npmjs.com/laravel-mix
+  version: 6.0.49
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/17350/default_33c3173e7d0e91f7cea0eab9883ca83b157bd4a5.png
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
+  detection_source: package.json
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2022-09-27 07:26:40.000000000 Z
 - name: lodash.debounce
   description: The lodash method `_.debounce` exported as a module
   package_url: https://www.npmjs.com/lodash.debounce
@@ -268,7 +579,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16481/default_73c88a18b684e01cbdbf945631a40a44aff5a777.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2020-04-17 13:55:20.000000000 Z
@@ -282,7 +593,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16377/default_b5c8f3c8e46d368f74a982d06d7f13291fe651ea.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2020-04-17 13:55:20.000000000 Z
@@ -296,7 +607,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15847/default_4479dbac220be99e50e724b2df6cf415241d71fd.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2022-07-16 13:17:51.000000000 Z
@@ -310,7 +621,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16703/default_e3c0987b80983280e46e6e1723fcfcff50fa4824.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2020-07-01 16:41:35.000000000 Z
@@ -324,24 +635,10 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/16468/default_73c88a18b684e01cbdbf945631a40a44aff5a777.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2022-09-27 08:34:36.000000000 Z
-- name: sass
-  description: A pure JavaScript implementation of Sass
-  package_url: https://www.npmjs.com/sass
-  version: 1.52.3
-  license: MIT
-  open_source: true
-  hosted_saas: false
-  category: Libraries
-  sub_category: npm Packages
-  image_url: https://img.stackshare.io/package/16057/default_5fd43aeff4d6a935abc13737de01a0355210499d.png
-  detection_source_url: package-lock.json
-  detection_source: package.json
-  last_updated_by: Elvis Pestana
-  last_updated_on: 2021-08-01 11:51:11.000000000 Z
 - name: sass-loader
   description: Sass loader for webpack
   package_url: https://www.npmjs.com/sass-loader
@@ -352,7 +649,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15842/default_b71c906aeda030a5e2f1fe40bf12a93be52404ab.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: dependabot[bot]
   last_updated_on: 2022-09-27 08:34:36.000000000 Z
@@ -366,7 +663,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15844/default_b71c906aeda030a5e2f1fe40bf12a93be52404ab.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2019-04-22 14:03:39.000000000 Z
@@ -380,7 +677,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15969/default_261820f5687b4c88a3e8f95c71b5e8dccd34c1d7.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2021-08-01 11:51:11.000000000 Z
@@ -394,7 +691,7 @@ tools:
   category: Libraries
   sub_category: npm Packages
   image_url: https://img.stackshare.io/package/15850/default_0b10af8ca19c215f781dc07442e75bdc831089d0.png
-  detection_source_url: package-lock.json
+  detection_source_url: https://github.com/elvispt/zeteticelench/blob/develop/package-lock.json
   detection_source: package.json
   last_updated_by: Elvis Pestana
   last_updated_on: 2021-08-01 11:51:11.000000000 Z
