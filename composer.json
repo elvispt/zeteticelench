@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.7",
-        "beyondcode/laravel-dump-server": "^1.4",
+        "beyondcode/laravel-dump-server": "^2.0",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.15",
         "laravel/sail": "^1.8",
